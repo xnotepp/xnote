@@ -13,10 +13,12 @@
 
 	<script type='application/x-javascript' src='chrome://xnote/content/xnote-overlay.js'/>
 	<script type='application/x-javascript' src='chrome://xnote/content/xnote-classe.js'/>
-	<script type='application/x-javascript' src='chrome://messenger/content/messageWindow.js'/>
+    <!-- Not useful anymore with Tb 2.0 (even generates errors) -->
+    <!--
+    <script type='application/x-javascript' src='chrome://messenger/content/messageWindow.js'/>
 	<script type='application/x-javascript' src='chrome://messenger/content/msgHdrViewOverlay.js'/>
 	<script type='application/x-javascript' src='chrome://messenger/content/msgMail3PaneWindow.js'/>
-
+    -->
 <!-- ajoute un bouton à la barre d'outils -->
 	<toolbox id='mail-toolbox'>
 		<toolbarpalette id='MailToolbarPalette'>
