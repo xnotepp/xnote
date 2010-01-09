@@ -1,22 +1,66 @@
-// encoding='UTF-8'
+// encoding ='UTF-8'
 
 /**
-	# Fichier : xnote-overlay.xul
-	# Auteur : Hugo Smadja
-	# Description : fonctions associées à lo'verlay du fichier xnote-overlay.xul
+	# File : xnote-overlay.xul
+	# Author : Hugo Smadja, Pierre-Andre Galmes
+	# Description : functions associated to the "xnote-overlay.xul" overlay file.
 */
 
-	// variables d'environnement concernant les chemins d'accès aux fichiers
-var CR='';
-var CRLen=0;
-var separateur='/';
-	// variables pour l'utilisation des fonctions de XNote à partir du menu contextuel
+/* TODO
+ *
+ * - Create a "constant.js" - move the default name and color for the label.
+ *
+ * - import/export procedure:
+ *  - a specific procedure should be used to import notes from a PC to another.
+ *  - on export, all messages should be zipped.
+ *  - on import, all messages should be unzipped.
+ *  - on import, the label XNote should be applied to all messages with notes.
+ *
+ */
+
+/* 
+ * Tag management principles and thoughts
+
+ - When XNote is used, if the XNote label doesn't exists, it is created.
+ - When XNote is used, if the XNote label exists, it is not redifined and its
+   color is kept.
+ 
+ - When should labels be applied?
+    - When a new post-it is saved.
+    - When XNote notes are imported from a PC to another PC (cf TODO: import
+      procedure).
+
+ - When should the XNote label related to a message be removed?
+    - When the message is empty (no text in it).
+    - When the message is removed.
+
+ - What should happened when XNote is removed?
+  - Remove the XNote tag ? No
+  - Remove the XNote labels associated to messages? No
+
+
+*/
+
+// CONSTANT - Default Name and Color
+const XNOTE_TAG_NAME = "XNote";
+const XNOTE_TAG_COLOR = "#FFCC00";
+
+// Global variables related to the files path.
+var CR ='';
+var CRLen =0;
+var separateur = '/';
+
+// Global variables related to the XNote Contextual Menu.
 var noteApresCliqueDroit;
 var currentIndex;
-	//variable stockant l'instance de la fenêtre (post-it).
+
+// variable stockant l'instance de la fenêtre (post-it).
+// Global variables containing the window instance (post-it).
 var w;
-	/*permet de savoir si le post-it a été ouvert à la demande de l'utilisateur ou
-	  automatiquement lors de la sélection d'un mail afain de donner ou non le focus au post-it*/
+
+/* permet de savoir si le post-it a été ouvert à la demande de l'utilisateur ou
+   automatiquement lors de la sélection d'un mail afain de donner ou non le focus au post-it
+*/
 var gEvenement;
 
 /** 
@@ -29,24 +73,45 @@ var gEvenement;
  */
 function initialise(evenement)
 {
-	//~ dump('\n->initialise');
+
+    // Test if the tag XNote already exists.
+    // If not, create it
+    //
+    // Note: it is maybe not the best place to put this code.
+    // Try to find a place where to launch it only one time when thunderbird is
+    // started.
+
+    // Get the tag service.
+    var tagService = Components.classes["@mozilla.org/messenger/tagservice;1"]
+        .getService(Components.interfaces.nsIMsgTagService);
+
+    // Test if the XNote Tag already exists, if not, create it
+    if( tagService.getKeyForTag( XNOTE_TAG_NAME ) == '' )
+    {
+        // window.alert( "NOT FOUND XNOTE_TAG_NAME" );
+        tagService.addTag( XNOTE_TAG_NAME, XNOTE_TAG_COLOR, '');
+    }       
+
+
+	// dump('\n->initialise');
+
 	fermerNote();
-	var note=new Note(getFichierNote());
+	var note = new Note(getFichierNote());
 	
-	surligner(note.contenu);
+	surligner( note.contenu );
 
 	var bundle = document.getElementById('string-bundle');
 	
 	
-	//~ dump('\nevenement='+evenement);
+	//~ dump('\nevenement = '+evenement);
 	if (evenement)
 	{
 		//~ dump('\nevenement=true');
-		gEvenement=evenement;
+		gEvenement = evenement;
 	}
-	if (note.contenu!='' || gEvenement=='clicBouton')
+	if (note.contenu != '' || gEvenement=='clicBouton')
 	{
-		w=window.openDialog
+		w = window.openDialog
 			(
 				'chrome://xnote/content/xnote-window.xul',
 				'XNote',
@@ -54,7 +119,7 @@ function initialise(evenement)
 				note, gEvenement
 			);
 	}
-	gEvenement='';
+	gEvenement = '';
 	//~ dump('\n<-initialise');
 }
 
@@ -83,7 +148,7 @@ function context_ajouterNote()
  */
 function context_modifierNote()
 {
-	gEvenement='clicBouton';	//spécifie que le post-it va être affiché par l'utilisateur
+	gEvenement = 'clicBouton';	//spécifie que le post-it va être affiché par l'utilisateur
 	var view = GetDBView();
 	if (view.selection.currentIndex==currentIndex)	
 	{		//si on clic droit sur le mail courant (celui sélectionné)
@@ -91,7 +156,7 @@ function context_modifierNote()
 	}
 	else	
 	{
-		view.selection.currentIndex=currentIndex;
+		view.selection.currentIndex = currentIndex;
 		view.selectionChanged();
 	}
 }
@@ -115,7 +180,7 @@ function context_supprimerNote()
  */
 function fermerNote()
 {
-	if (w!=null && w.document)
+	if (w != null && w.document)
 	{
 		w.close();
 	}
@@ -126,44 +191,42 @@ function fermerNote()
  * Applique au mail sélectionné l'étiquette associée aux notes
  * (choix possible de cette étiquette dans les préférences)
  */
-function surligner(contenu)
+function surligner( contenu )
 {
-	//~ dump('\n->surligner');
+	// dump('\n->surligner');
+
+    // alert( "Etiquette courante" );
+
+
+
+   
+    
+
 	var uri = getMessageURI();
-	var header = messenger.msgHdrFromURI(uri);
-	var etiquetteCourante = header.label;
+	var header = messenger.msgHdrFromURI( uri );
 
-	var etiquette=4;
-	var remplacer=false;
-	var pref =	Components.classes['@mozilla.org/preferences-service;1']
-				.getService(Components.interfaces.nsIPrefService);
-	try
-	{
-		etiquette 	= pref.getIntPref('xnote.etiquette');
-	}
-	catch(e) {}
-	try
-	{
-		remplacer 	= pref.getBoolPref('xnote.remplacer');
-	}
-	catch(e) {}
+    
+    var tagService = Components.classes["@mozilla.org/messenger/tagservice;1"]
+        .getService(Components.interfaces.nsIMsgTagService);
 
-	if (contenu!='')
-	{		//si la note n'est pas vide
-		if (etiquetteCourante==0 || remplacer)
-			/*et si le mail sélectionné n'a pas d'étiquette
-				ou que
-			  dans les préférences, il soit décidé que les mails ayant déjà
-			  une étiquette prennent l'étiquette associées aux notes*/
-			goDoCommand('cmd_label'+etiquette);	//on applique l'étiquette associée aux notes
+    var key = tagService.getKeyForTag( XNOTE_TAG_NAME ); 
+
+
+    // If the note isn't empty,
+	if( contenu != '' )
+	{	
+        // Add the XNote Tag.
+        ToggleMessageTag(key, true);
+
 	}
+    // If the note is empty,
 	else
-	{		//si la note est vide
-		if (etiquetteCourante==etiquette)
-			//et si le mail sélectionné n'a pas d'autre étiquette que celle associée aux notes
-			goDoCommand('cmd_label0');	//on supprime l'étiquette du mail
+	{	
+        // Remove the XNote Tag.
+        ToggleMessageTag(key, false);
 	}
 	//~ dump('\n<-surligner');
+
 }
 
 /** 
@@ -178,7 +241,7 @@ function cliqueMail(e)
 	//~ dump('\n->cliqueMail');
 	if (e.button==2)
 	{
-		noteApresCliqueDroit=new Note(getFichierNote());
+		noteApresCliqueDroit = new Note(getFichierNote());
 		var leFichierExiste = noteApresCliqueDroit.fichier.exists();
 		document.getElementById('context-ajout').setAttribute('disabled', leFichierExiste);
 		document.getElementById('context-modif').setAttribute('disabled', !leFichierExiste);
@@ -191,8 +254,8 @@ function cliqueMail(e)
 
 			var tree = GetThreadTree();
 			tree.treeBoxObject.getCellAt(e.clientX, e.clientY, row, col, childElt);
-			currentIndex=row.value;
-			//~ dump('\nrow.value='+row.value);
+			currentIndex = row.value;
+			//~ dump('\nrow.value = '+row.value);
 		}
 	}
 	//~ dump('\n<-cliqueMail');
@@ -261,9 +324,9 @@ function getMessageID()
  */
 function getMessageURI()
 {
-	var messageArray={};
-	messageArray=GetSelectedMessages();
-	var bouton=document.getElementById('button-xnote');
+	var messageArray = {};
+	messageArray = GetSelectedMessages();
+	var bouton = document.getElementById('button-xnote');
 	if (messageArray && messageArray.length==1)
 	{
 		if (bouton)
@@ -335,7 +398,7 @@ function premierLancement()
 					var child = toolbar.firstChild;
 					while(child)
 					{
-						if(!boutonXNotePresent && child.id=="spring1151595229388")
+						if( !boutonXNotePresent && child.id == "spring1151595229388" )
 						{
 							newSet += "button-xnote,";
 							boutonXNotePresent = true;

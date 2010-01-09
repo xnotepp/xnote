@@ -5,24 +5,29 @@
 
   <Description about='urn:mozilla:install-manifest'>
     <em:id>xnote@starxpert.fr</em:id>
-    <em:version>1.0.2</em:version>
+    <em:version>2.0.0</em:version>
 	<em:type>2</em:type> <!-- 2 correspond au type 'extension' -->
 	<em:locale>locale/fr-FR/</em:locale> 
-	<em:optionsURL>chrome://xnote/content/preferences.xul</em:optionsURL>
+    <!--
+    <em:optionsURL>chrome://xnote/content/preferences.xul</em:optionsURL>
+    -->
     <!-- l'application cible de votre extension,
          avec les versions minimums et maximums supportées. -->
     <em:targetApplication>
       <Description>
 			<!-- id de Thunderbird -->
         <em:id>{3550f703-e582-4d05-9a08-453d09bdfdc6}</em:id>
-        <em:minVersion>1.5</em:minVersion>
-        <em:maxVersion>1.5.0.*</em:maxVersion>
+        <em:minVersion>2.0</em:minVersion>
+        <em:maxVersion>2.0.0.*</em:maxVersion>
       </Description>
     </em:targetApplication>
 	
     <!-- Méta-données visibles -->
     <em:name>XNote</em:name>
-    <em:description>Création et assciation de notes aux mails sous forme de Post-It</em:description>
+    <em:description>Add Post-It to your mails</em:description>
+    <!--
+    <em:description>Création et association de notes aux mails sous forme de Post-It</em:description>
+    -->
     <em:creator>Hugo Smadja</em:creator>
     <em:contributor>Pierre-André Galmes</em:contributor>
     <em:contributor>Björn Milcke</em:contributor>

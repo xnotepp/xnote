@@ -102,7 +102,7 @@ function note_sauver()
     // like alški which are not preserved when saving a note ...    
     //
 	// stream.write(this.contenu, this.contenu.length);
-    contentencode = encodeURIComponent(this.contenu);
+    var contentencode = encodeURIComponent(this.contenu);
     stream.write(contentencode, contentencode.length);
 
 	stream.close();
