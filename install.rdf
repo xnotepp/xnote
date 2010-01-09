@@ -5,7 +5,7 @@
 
   <Description about='urn:mozilla:install-manifest'>
     <em:id>xnote@starxpert.fr</em:id>
-    <em:version>1.0.1</em:version>
+    <em:version>1.0.2</em:version>
 	<em:type>2</em:type> <!-- 2 correspond au type 'extension' -->
 	<em:locale>locale/fr-FR/</em:locale> 
 	<em:optionsURL>chrome://xnote/content/preferences.xul</em:optionsURL>
@@ -26,7 +26,11 @@
     <em:creator>Hugo Smadja</em:creator>
     <em:contributor>Pierre-André Galmes</em:contributor>
     <em:contributor>Björn Milcke</em:contributor>
+    <em:contributor>Julien Buratto</em:contributor>
 
     <em:homepageURL>http://www.starxpert.fr/</em:homepageURL>
+    <!-- 
+    <em:updateURL>http://starxpert.fr/outils/XNote/update.rdf</em:updateURL>
+    -->
   </Description>
 </RDF>

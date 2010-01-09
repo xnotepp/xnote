@@ -1,0 +1,8 @@
+<!-- encoding='UTF-8' -->
+
+<!ENTITY xnote "XNote">
+<!ENTITY preferences "Impostazioni">
+
+<!ENTITY etiquette.label "Etichetta per le note:">
+<!ENTITY remplacer.label "Sostituisci etichetta già esistente">
+

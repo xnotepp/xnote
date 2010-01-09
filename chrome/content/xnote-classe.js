@@ -61,7 +61,15 @@ function note_charger()
 		this.y = fileScriptableIO.read(4);
 		this.largeur = fileScriptableIO.read(4);
 		this.hauteur = fileScriptableIO.read(4);
-		this.contenu = fileScriptableIO.read(this.fichier.fileSize-16);
+        // Changed because of this:
+        // Just one comment - seems like xnote doesnt allow non-latin characters. 
+        // I am from Latvia (Letonnie in French I believe) and we have characters
+        // like alški which are not preserved when saving a note ...    
+        //
+		// this.contenu = fileScriptableIO.read(this.fichier.fileSize-16);
+        this.contenu = decodeURIComponent( 
+            fileScriptableIO.read( this.fichier.fileSize-16 ));
+
 		fileScriptableIO.close();
 		stream.close();
 		this.contenu=this.contenu.replace(/<BR>/g,'\n');
@@ -88,7 +96,15 @@ function note_sauver()
 	stream.write(this.y, 4);
 	stream.write(this.largeur, 4);
 	stream.write(this.hauteur, 4);
-	stream.write(this.contenu, this.contenu.length);
+    // Changed because of this:
+    // Just one comment - seems like xnote doesnt allow non-latin characters. 
+    // I am from Latvia (Letonnie in French I believe) and we have characters
+    // like alški which are not preserved when saving a note ...    
+    //
+	// stream.write(this.contenu, this.contenu.length);
+    contentencode = encodeURIComponent(this.contenu);
+    stream.write(contentencode, contentencode.length);
+
 	stream.close();
 	this.modification=false;
 	//~ dump('\n<-note_sauver');
