@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+	# Fichier : xnote-window.xul
+	# Auteur : Hugo Smadja
+	# Description : décrit les objets qui compose une XNote
+-->
+
+<!DOCTYPE window SYSTEM 'chrome://xnote/locale/xnote-window.dtd'>
+
+<?xml-stylesheet href='chrome://xnote/skin/xnote-window.css' type='text/css'?>
+
+<window
+	xmlns='http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul'
+	id='xnote-window'
+	hidechrome='true'
+	title='&xnote;'
+	onkeypress="if (event.keyCode==27) close();"
+	onload='onLoad();'
+	onunload='sauvegarderNote();'
+	minwidth='58'
+	minheight='88'>
+
+	<script type='application/x-javascript' src='chrome://xnote/content/xnote-window.js'></script>
+	<script type='application/x-javascript' src='chrome://xnote/content/xnote-classe.js'></script>
+	<script type='application/x-javascript' src='chrome://messenger/content/msgHdrViewOverlay.js'/>
+	
+	<box id='note' orient='vertical' flex='1'>
+		<box id='barre'>
+			<titlebar flex='1' onmouseup='modifierNote();'>
+				<label id='titre' value='&xnote;'/>
+			</titlebar>
+			<image
+				id='bouton-fermer'
+				tooltiptext='&close;'
+				class='custombutton-smaller'
+				onclick='if (event.button==0) { sauvegarderNote(); close(); }'/>
+		</box>
+		<textbox
+			id='texte'
+			class='boite-de-texte'
+			multiline='true'
+			flex='1'
+			oninput='modifierNote();'
+			onblur=''/>
+		<box id='barre-bottom'>
+			<image
+				id='bouton-suppr'
+				class='custombutton-smaller'
+				tooltiptext='&suppr;'
+				onclick='if (event.button==0) { supprimerNote(); close(); }'>
+			</image>
+
+			<spacer flex='1'/>
+			<textbox
+				id='redim'
+				class='boite-de-texte'
+				onmousedown='startRedimensionnement(event);'
+				readonly='true'
+				context='false'/>
+		</box>
+	</box>
+</window>

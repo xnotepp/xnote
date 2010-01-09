@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+	# Fichier : xnote-overlay.xul
+	# Auteur : Hugo Smadja
+	# Description : Complète l'interface de Thunderbird
+-->
+<?xml-stylesheet href='chrome://xnote/skin/xnote-overlay.css' type='text/css'?>
+
+<!DOCTYPE overlay SYSTEM 'chrome://xnote/locale/xnote-overlay.dtd'>
+
+<overlay id='toolbox-completed'
+	xmlns='http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul'>
+
+	<script type='application/x-javascript' src='chrome://xnote/content/xnote-overlay.js'/>
+	<script type='application/x-javascript' src='chrome://xnote/content/xnote-classe.js'/>
+	<script type='application/x-javascript' src='chrome://messenger/content/messageWindow.js'/>
+	<script type='application/x-javascript' src='chrome://messenger/content/msgHdrViewOverlay.js'/>
+	<script type='application/x-javascript' src='chrome://messenger/content/msgMail3PaneWindow.js'/>
+
+<!-- ajoute un bouton à la barre d'outils -->
+	<toolbox id='mail-toolbox'>
+		<toolbarpalette id='MailToolbarPalette'>
+			<toolbarbutton
+				id='button-xnote'
+				class='toolbarbutton-1 chromeclass-toolbar-additional'
+				label='&xnote.label;'
+				oncommand="initialise('clicBouton');">
+			</toolbarbutton>
+		</toolbarpalette>
+	</toolbox>
+
+	<stringbundleset id='stringbundleset'>
+		<stringbundle id='string-bundle' src='chrome://xnote/locale/xnote-overlay.properties'/>
+	</stringbundleset>
+	
+<!-- ajoute une entrée au menu contextuel de la liste des mails -->
+ 	<popup id='threadPaneContext'>
+		<menu id='threadPaneContext-xNote' label='&xnote.label;' accesskey='&xnote.key;'
+			image='chrome://xnote/skin/xnote_context.png' class='menuitem-iconic'>
+			<menupopup>
+ 				<menuitem id='context-ajout' label='&ajout.label;' key='&ajout.key;'
+					oncommand='context_ajouterNote();'>
+				</menuitem>
+				<menuitem id='context-modif' label='&modif.label;' key='&modif.key;'
+					oncommand='context_modifierNote();'>
+				</menuitem>
+				<menuitem id='context-suppr' label='&suppr.label;' key='&suppr.key;'
+					oncommand="goDoCommand('cmd_label0'); context_supprimerNote();">
+					<observes element='context-modif' attribute='disabled'/>
+				</menuitem>
+			</menupopup>
+		</menu>
+		<menuseparator/>
+	</popup>
+</overlay>

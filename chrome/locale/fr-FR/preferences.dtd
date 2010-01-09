@@ -1,0 +1,8 @@
+<!-- encoding='UTF-8' -->
+
+<!ENTITY xnote "XNote">
+<!ENTITY preferences "Préférences">
+
+<!ENTITY etiquette.label "Etiquette associée aux notes :">
+<!ENTITY remplacer.label "Remplacer l'étiquette d'un mail annoté comportant déjà une étiquette">
+

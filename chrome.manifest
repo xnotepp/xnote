@@ -1,0 +1,10 @@
+content     xnote    											chrome/content/
+
+overlay		chrome://messenger/content/messenger.xul			chrome://xnote/content/xnote-overlay.xul
+overlay		chrome://browser/content/browser.xul				chrome://xnote/content/xnote-overlay.xul
+
+skin		xnote   				classic	   					chrome/skin/
+
+locale		xnote					fr-FR						chrome/locale/fr-FR/
+locale		xnote					en-US						chrome/locale/en-US/
+locale		xnote					de-DE						chrome/locale/de-DE/

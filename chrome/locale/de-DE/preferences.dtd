@@ -1,0 +1,8 @@
+<!-- encoding='UTF-8' -->
+
+<!ENTITY xnote "XNote">
+<!ENTITY preferences "Einstellungen">
+
+<!ENTITY etiquette.label "Mit der Notiz verknüpftes Etikett:">
+<!ENTITY remplacer.label "Etikett einer bereits etikettierten Nachricht ersetzen">
+

@@ -1,0 +1,69 @@
+<?xml version='1.0'?> 
+
+<?xml-stylesheet href='chrome://communicator/skin/' type='text/css'?>
+<?xml-stylesheet href='chrome://messenger/skin/prefPanels.css' type='text/css'?>
+<?xml-stylesheet href='chrome://communicator/skin/pref/pref.css' type='text/css'?>
+
+<!DOCTYPE dialog SYSTEM 'chrome://xnote/locale/preferences.dtd'>
+
+<prefwindow xmlns='http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul'
+			title='&preferences;'
+			id='xnote-preferences'
+			persist='screenX screenY'>
+
+	<prefpane id='xnote-pane' label='&xnote; &preferences;' orient='vertical'>
+		<preferences>
+			<preference id='xnote.etiquette' name='xnote.etiquette' type='int'/>
+			<preference id='xnote.remplacer' name='xnote.remplacer' type='bool'/>
+			<preference id='mailnews.labels.description.1' name='mailnews.labels.description.1' type='wstring'/>
+			<preference id='mailnews.labels.color.1' name='mailnews.labels.color.1' type='string'/>
+			<preference id='mailnews.labels.description.2' name='mailnews.labels.description.2' type='wstring'/>
+			<preference id='mailnews.labels.color.2' name='mailnews.labels.color.2' type='string'/>
+			<preference id='mailnews.labels.description.3' name='mailnews.labels.description.3' type='wstring'/>
+			<preference id='mailnews.labels.color.3' name='mailnews.labels.color.3' type='string'/>
+			<preference id='mailnews.labels.description.4' name='mailnews.labels.description.4' type='wstring'/>
+			<preference id='mailnews.labels.color.4' name='mailnews.labels.color.4' type='string'/>
+			<preference id='mailnews.labels.description.5' name='mailnews.labels.description.5' type='wstring'/>
+			<preference id='mailnews.labels.color.5' name='mailnews.labels.color.5' type='string'/>
+		</preferences>
+
+		<hbox align='center'>
+			<label value='&etiquette.label;' control='etiquette'/>
+		</hbox>
+		<radiogroup id='etiquette' preference='xnote.etiquette'>
+			<hbox align='center'>
+				<radio value='1' label='1'/>
+					<textbox id='description-etiquette' preference='mailnews.labels.description.1' />
+					<colorpicker id='couleur-etiquette' class='small-margin' type='button'
+						palettename='standard' preference='mailnews.labels.color.1'/>
+			</hbox>
+			<hbox align='center'>
+				<radio value='2' label='2'/>
+				<textbox id='description-etiquette' preference='mailnews.labels.description.2' />
+				<colorpicker id='couleur-etiquette' class='small-margin' type='button'
+					palettename='standard' preference='mailnews.labels.color.2'/>
+			</hbox>
+			<hbox align='center'>
+				<radio value='3' label='3'/>
+				<textbox id='description-etiquette' preference='mailnews.labels.description.3' />
+				<colorpicker id='couleur-etiquette' class='small-margin' type='button'
+					palettename='standard' preference='mailnews.labels.color.3'/>
+			</hbox>
+			<hbox align='center'>
+				<radio value='4' label='4' selected='true'/>
+				<textbox id='description-etiquette' preference='mailnews.labels.description.4' />
+				<colorpicker id='couleur-etiquette' class='small-margin' type='button'
+					palettename='standard' preference='mailnews.labels.color.4'/>
+			</hbox>
+			<hbox align='center'>
+				<radio value='5' label='5'/>
+				<textbox id='description-etiquette' preference='mailnews.labels.description.5' />
+				<colorpicker id='couleur-etiquette' class='small-margin' type='button'
+					palettename='standard' preference='mailnews.labels.color.5'/>
+			</hbox>
+		</radiogroup>
+		<hbox align='center'>
+			<checkbox label='&remplacer.label;' id='remplacer' checked='true' value='true' preference='xnote.remplacer'/>
+		</hbox>
+	</prefpane>
+</prefwindow> 

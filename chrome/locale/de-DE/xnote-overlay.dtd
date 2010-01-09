@@ -1,0 +1,11 @@
+<!-- encoding="UTF-8" -->
+
+<!ENTITY xnote.label "XNote">
+<!ENTITY xnote.key "X">
+
+<!ENTITY ajout.label "Notiz einfügen">
+<!ENTITY ajout.key "E">
+<!ENTITY modif.label "Notiz bearbeiten">
+<!ENTITY modif.key "B">
+<!ENTITY suppr.label "Notiz löschen">
+<!ENTITY suppr.key "L">
