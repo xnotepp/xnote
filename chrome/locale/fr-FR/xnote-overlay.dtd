@@ -9,3 +9,5 @@
 <!ENTITY modif.key "M">
 <!ENTITY suppr.label "Supprimer la note">
 <!ENTITY suppr.key "S">
+
+<!ENTITY header.label "Cliquer pour trier par note">

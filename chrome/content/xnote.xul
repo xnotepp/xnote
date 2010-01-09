@@ -14,7 +14,9 @@
 	id="xnote-window"
 	hidechrome="true"
 	title="&xnote;">
+	<script type='application/x-javascript' src='chrome://xnote/content/xnote-dateformat.js'></script>	
 	<script type="application/x-javascript" src="chrome://xnote/content/xnote.js"/>
+	
 	<script type="application/x-javascript" src="chrome://messenger/content/msgMail3PaneWindow.js"/>
 	<script type="application/x-javascript" src="chrome://messenger/content/msgHdrViewOverlay.js"/>
 
@@ -30,7 +32,7 @@
 				flex="1"
 				onmousedown="startDeplacement(event);"
 				readonly="true"
-				context="false"/>
+				context="false"/>				
 			<!-- <label
 				id="titre"
 				value="&xnote;"

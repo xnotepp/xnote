@@ -1,0 +1,8 @@
+<!-- encoding='UTF-8' -->
+
+<!ENTITY xnote "XNote">
+<!ENTITY preferences "Voorkeuren">
+
+<!ENTITY etiquette.label "Label voor notities:">
+<!ENTITY remplacer.label "Vervang label van gelabelde mail">
+

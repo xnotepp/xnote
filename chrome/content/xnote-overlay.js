@@ -50,6 +50,10 @@ var CR ='';
 var CRLen =0;
 var separateur = '/';
 
+// Var whether Tags should be used
+// defaults to true/1 set in defaults.js but can be changed in about:config
+var useTag;
+
 // Global variables related to the XNote Contextual Menu.
 var noteApresCliqueDroit;
 var currentIndex;
@@ -80,19 +84,28 @@ function initialise(evenement)
     // Note: it is maybe not the best place to put this code.
     // Try to find a place where to launch it only one time when thunderbird is
     // started.
+	
+	//Initialise prefs
+  	var prefs = Components.classes["@mozilla.org/preferences-service;1"].
+                getService(Components.interfaces.nsIPrefBranch);	  
+	
+	//take preference for whether tags should be used 
+	useTag = prefs.getBoolPref("xnote.usetag");
+	  
+	if(useTag == 1)
+	{
+	    // Get the tag service.
+	    var tagService = Components.classes["@mozilla.org/messenger/tagservice;1"]
+	        .getService(Components.interfaces.nsIMsgTagService);
+	
+	    // Test if the XNote Tag already exists, if not, create it
+	    if( tagService.getKeyForTag( XNOTE_TAG_NAME ) == '' )
+	    {
+	        // window.alert( "NOT FOUND XNOTE_TAG_NAME" );
+	        tagService.addTag( XNOTE_TAG_NAME, XNOTE_TAG_COLOR, '');
+	    }       
 
-    // Get the tag service.
-    var tagService = Components.classes["@mozilla.org/messenger/tagservice;1"]
-        .getService(Components.interfaces.nsIMsgTagService);
-
-    // Test if the XNote Tag already exists, if not, create it
-    if( tagService.getKeyForTag( XNOTE_TAG_NAME ) == '' )
-    {
-        // window.alert( "NOT FOUND XNOTE_TAG_NAME" );
-        tagService.addTag( XNOTE_TAG_NAME, XNOTE_TAG_COLOR, '');
-    }       
-
-
+	}
 	// dump('\n->initialise');
 
 	fermerNote();
@@ -130,6 +143,9 @@ function initialise(evenement)
  * FONCTION
  * La création et la modification de note utilise la même fonction. C'est pourquoi
  * cette fonction appelle la fonction context_modifierNote.
+ */
+/**
+ * Creation and modification of notes uses the same function, that is context_modifierNote() 
  */
 function context_ajouterNote()
 {
@@ -205,28 +221,30 @@ function surligner( contenu )
 	var uri = getMessageURI();
 	var header = messenger.msgHdrFromURI( uri );
 
-    
-    var tagService = Components.classes["@mozilla.org/messenger/tagservice;1"]
+	//whether to use tags or not
+	if(useTag == 1)
+	{    
+    	var tagService = Components.classes["@mozilla.org/messenger/tagservice;1"]
         .getService(Components.interfaces.nsIMsgTagService);
 
-    var key = tagService.getKeyForTag( XNOTE_TAG_NAME ); 
+    	var key = tagService.getKeyForTag( XNOTE_TAG_NAME ); 
 
 
-    // If the note isn't empty,
-	if( contenu != '' )
-	{	
-        // Add the XNote Tag.
-        ToggleMessageTag(key, true);
-
+	    // If the note isn't empty,
+		if( contenu != '' )
+		{	
+	        // Add the XNote Tag.
+	        ToggleMessageTag(key, true);
+	
+		}
+	    // If the note is empty,
+		else
+		{	
+	        // Remove the XNote Tag.
+	        ToggleMessageTag(key, false);
+		}
+		//~ dump('\n<-surligner');
 	}
-    // If the note is empty,
-	else
-	{	
-        // Remove the XNote Tag.
-        ToggleMessageTag(key, false);
-	}
-	//~ dump('\n<-surligner');
-
 }
 
 /** 
@@ -303,6 +321,10 @@ function getCheminDossierNote()
 /**
  * récupère le message-id du mail sélectionné.
  */
+/**
+ * get message id from selected message
+ * 
+ */
 function getMessageID()
 {
 	var uri = getMessageURI();
@@ -321,6 +343,9 @@ function getMessageID()
 /**
  * récupère le(s) uri(s) du(es) mail(s) sélectionné(s). et désactive le bouton XNote
  * de la barre d'outils si 0 et plusieurs mails sont sélectionnés.
+ */
+/**
+ * get uris from selected mails, disable Xnote button if no mails are selected
  */
 function getMessageURI()
 {
@@ -425,6 +450,10 @@ function premierLancement()
  * A chaque démarrage de l'extension, on associe des évènements à la sélection de mails, de dossiers
  * ou au click droit sur la liste des mails. Ainsi, si un mail est sélectionné, il sera possible d'afficher
  * la note qui lui est associée.
+ */
+/**
+ * At each boot of the extension, associate events such as selection of mails, dossiers?, or right click on mails to stuff. On selection show note
+ * 
  */
 function onLoad(e)
 {

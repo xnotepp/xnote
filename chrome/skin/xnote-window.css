@@ -83,7 +83,13 @@ list-style-image : url(close.png);
 	margin: 0;
 	font-weight: bold;
 }
-
+#mdate
+{
+	font-size: 8pt;
+	padding: 0 2px 0px 2px;
+	margin: 0;
+	font-weight: normal;
+}
 #texte
 {
 	font-size: 10pt;

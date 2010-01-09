@@ -12,6 +12,10 @@ const HAUTEUR=164;
 const X=(window.screen.width-LARGEUR)/2;
 const Y=(window.screen.height-HAUTEUR)/2;
 
+
+
+
+
 /**
  * Constructeur de la classe Note. On contruit une Note à partir d'un descripteur de
  * fichier passé en argument. Si le fichier n'existe pas, la note est initialisée avec
@@ -38,6 +42,9 @@ function Note(file)
 /**
  * C'est ici que l'on initialise la Note.
  */
+/**it's here where we initialise the note
+ * 
+ */
 function note_charger()
 {
 	//~ dump('\n->note_charger');
@@ -48,6 +55,7 @@ function note_charger()
 		this.largeur = LARGEUR;
 		this.hauteur = HAUTEUR;
 		this.contenu = '';
+		this.modDate = '';
 		//~ dump('\n<-note_charger');
 		return false;
 	}
@@ -61,6 +69,7 @@ function note_charger()
 		this.y = fileScriptableIO.read(4);
 		this.largeur = fileScriptableIO.read(4);
 		this.hauteur = fileScriptableIO.read(4);
+		this.modDate = fileScriptableIO.read(32);
         // Changed because of this:
         // Just one comment - seems like xnote doesnt allow non-latin characters. 
         // I am from Latvia (Letonnie in French I believe) and we have characters
@@ -68,7 +77,7 @@ function note_charger()
         //
 		// this.contenu = fileScriptableIO.read(this.fichier.fileSize-16);
         this.contenu = decodeURIComponent( 
-            fileScriptableIO.read( this.fichier.fileSize-16 ));
+            fileScriptableIO.read( this.fichier.fileSize-48 ));
 
 		fileScriptableIO.close();
 		stream.close();
@@ -96,6 +105,8 @@ function note_sauver()
 	stream.write(this.y, 4);
 	stream.write(this.largeur, 4);
 	stream.write(this.hauteur, 4);
+	stream.write(this.modificationDate, 32);
+
     // Changed because of this:
     // Just one comment - seems like xnote doesnt allow non-latin characters. 
     // I am from Latvia (Letonnie in French I believe) and we have characters

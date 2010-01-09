@@ -11,6 +11,7 @@ var xAvantDeplacement, yAvantDeplacement;
 	// variables nécessaires au redimensionnement du post-it
 var largeurAvantDeplacement, hauteurAvantDeplacement;
 
+
 /** 
  * APPELANT
  * type	: évènement load de l'élément XUL <window>
@@ -32,7 +33,15 @@ function onLoad()
 	catch(e) {}*/
 	var texte=self.document.getElementById('texte');
 	texte.value=self.arguments[0].contenu;
-
+	
+	
+	//set date in the titlebar
+	var modificationdate=self.document.getElementById("mdate");
+	
+	modificationdate.value=self.arguments[0].modDate;
+	
+	
+		
 	self.setTimeout('window.resizeTo(window.arguments[0].largeur,window.arguments[0].hauteur);');
 	//~ self.setTimeout("document.getElementById('xnote-window').style.setProperty('visibility','visible','')");
 	//~ self.setTimeout("document.getElementById('xnote-window').setAttribute('background-color', 'black')");
@@ -69,6 +78,11 @@ function surligner()
  */
 function sauvegarderNote()
 {
+		//Initialise prefs
+  	var prefs = Components.classes["@mozilla.org/preferences-service;1"].
+                getService(Components.interfaces.nsIPrefBranch);
+	var dateformat= prefs.getCharPref("xnote.dateformat");
+		var date1 = date.format(dateformat);
 	//~ dump('\n->sauvegarderNote');
 	var note=window.arguments[0];
 	if (note.modification)
@@ -80,6 +94,7 @@ function sauvegarderNote()
 			note.y=window.screenY;
 			note.largeur=window.document.width;
 			note.hauteur=window.document.height;
+			note.modificationDate=date1;
 			note.sauver();
 		}
 		else

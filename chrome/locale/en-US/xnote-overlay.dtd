@@ -9,3 +9,5 @@
 <!ENTITY modif.key "M">
 <!ENTITY suppr.label "Delete note">
 <!ENTITY suppr.key "D">
+
+<!ENTITY header.label "Click to sort by notes">

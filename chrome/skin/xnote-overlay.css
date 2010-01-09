@@ -33,3 +33,10 @@ toolbar[iconsize='small'] #button-xnote:hover {
 toolbar[iconsize='small'] #button-xnote[disabled='true'] {
 	-moz-image-region: rect(32px 16px 48px 0px);
 }
+
+.noteColumnHeader {
+	list-style-image: url('chrome://xnote/skin/xnote_context_gray.jpg');
+	
+	
+}
+

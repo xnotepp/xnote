@@ -23,12 +23,16 @@ var fichierNote = null;
 var w = null;
 var evenementSource;
 var currentMessageURI;
+
+
+var modDate=null;
 /**
  * Affiche la fenêtre de post-it
  */
 function afficherNote()
 {
 	//~ dump("\nafficherNote("+x+","+y+")");
+	
 	w=window.openDialog
 		(
 			"chrome://xnote/content/xnote.xul",
@@ -73,6 +77,8 @@ function initUI()
 	texte.value=contenu;
 	
 	texte.focus();
+	
+
 	if (evenementSource!='clicBouton')
 		w.setTimeout("window.opener.focus();");
 	w.setTimeout("modifierNote(false);");
@@ -91,8 +97,10 @@ function initialise(evenement)
 		w.close();
 	}
 	initFichierNote();
+	
 	if (fichierNote.exists())
 	{
+		
 		lireNote();
 		document.getElementById('context-suppr').setAttribute("disabled", false);
 	}
@@ -135,7 +143,9 @@ function lireNote()
 			y=fileScriptableIO.read(4);
 			width=fileScriptableIO.read(4);
 			height=fileScriptableIO.read(4);
-			contenu = fileScriptableIO.read(fichierNote.fileSize-16);
+			modDate=fileScriptableIO.read(32);
+
+			contenu = fileScriptableIO.read(fichierNote.fileSize-48);
 		fileScriptableIO.close();
 	stream.close();
 	contenu=contenu.replace(/<BR>/g,"\n");
@@ -146,6 +156,12 @@ function lireNote()
  */
 function sauverNote()
 {
+		//Initialise prefs
+  	var prefs = Components.classes["@mozilla.org/preferences-service;1"].
+                getService(Components.interfaces.nsIPrefBranch);
+		//take preference for whether tags should be used 
+	var dateformat= prefs.getCharPref("xnote.dateformat");
+	var date1 = date.format(dateformat);
 	//~ dump("\nmodification="+modification);
 	if (!modification)
 		return;
@@ -162,6 +178,7 @@ function sauverNote()
 	stream.write(window.screenY,4);
 	stream.write(window.document.width,4);
 	stream.write(window.document.height,4);
+	stream.write(date1, 32);
 	stream.write(contenu, contenu.length);
 	stream.close();
 	modifierNote(false);
@@ -210,6 +227,7 @@ function initFichierNote()
 	//~ dump("\n"+getCheminDossierNote()+"\n"+messageID);
 	fichierNote.initWithPath(getCheminDossierNote()+getMessageID()+".xnote");
 	//~ dump("\n"+getCheminDossierNote()+messageID+".xnote");
+
 }
 
 /**

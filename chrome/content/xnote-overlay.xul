@@ -6,13 +6,17 @@
 -->
 <?xml-stylesheet href='chrome://xnote/skin/xnote-overlay.css' type='text/css'?>
 
+
 <!DOCTYPE overlay SYSTEM 'chrome://xnote/locale/xnote-overlay.dtd'>
 
 <overlay id='toolbox-completed'
 	xmlns='http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul'>
-
+	<script type='application/x-javascript' src='chrome://xnote/content/xnote-dateformat.js'></script>	
+	<script type='application/x-javascript' src='chrome://xnote/content/xnote-classe.js'/>	
 	<script type='application/x-javascript' src='chrome://xnote/content/xnote-overlay.js'/>
-	<script type='application/x-javascript' src='chrome://xnote/content/xnote-classe.js'/>
+	
+	<script type='application/x-javascript' src='chrome://xnote/content/xnote-columnnote.js'/>
+		
     <!-- Not useful anymore with Tb 2.0 (even generates errors) -->
     <!--
     <script type='application/x-javascript' src='chrome://messenger/content/messageWindow.js'/>
@@ -54,4 +58,13 @@
 		</menu>
 		<menuseparator/>
 	</popup>
+	
+	<tree id="threadTree">
+ <treecols id="threadCols">
+  <splitter class="tree-splitter" />
+  <treecol id="colNote" persist="hidden ordinal" label="Notes"
+           currentView="unthreaded" fixed="true"
+           class="treecol-image noteColumnHeader" tooltiptext="&header.label;" />
+ </treecols>
+</tree>
 </overlay>
