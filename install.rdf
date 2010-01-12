@@ -5,7 +5,7 @@
 
   <Description about='urn:mozilla:install-manifest'>
     <em:id>xnote@starxpert.fr</em:id>
-    <em:version>2.1.0</em:version>
+    <em:version>2.1.0-lf</em:version>
 	<em:type>2</em:type> <!-- 2 correspond au type 'extension' -->
 	<em:locale>locale/fr-FR/</em:locale> 
     <!--
@@ -17,8 +17,8 @@
       <Description>
 			<!-- id de Thunderbird -->
         <em:id>{3550f703-e582-4d05-9a08-453d09bdfdc6}</em:id>
-        <em:minVersion>2.0</em:minVersion>
-        <em:maxVersion>2.0.0.*</em:maxVersion>
+        <em:minVersion>3.0</em:minVersion>
+        <em:maxVersion>3.0.*</em:maxVersion>
       </Description>
     </em:targetApplication>
 	
@@ -33,6 +33,7 @@
     <em:contributor>Maarten van Vliet</em:contributor>    
     <em:contributor>Björn Milcke</em:contributor>
     <em:contributor>Julien Buratto</em:contributor>
+    <em:contributor>Lorenz Froihofer</em:contributor>
 
     <em:homepageURL>http://www.starxpert.fr/</em:homepageURL>
     <!-- 

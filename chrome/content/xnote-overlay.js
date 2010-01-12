@@ -165,15 +165,14 @@ function context_ajouterNote()
 function context_modifierNote()
 {
 	gEvenement = 'clicBouton';	//spécifie que le post-it va être affiché par l'utilisateur
-	var view = GetDBView();
-	if (view.selection.currentIndex==currentIndex)	
+	if (gDBView.selection.currentIndex==currentIndex)	
 	{		//si on clic droit sur le mail courant (celui sélectionné)
 		initialise();
 	}
 	else	
 	{
-		view.selection.currentIndex = currentIndex;
-		view.selectionChanged();
+		gDBView.selection.currentIndex = currentIndex;
+		gDBView.selectionChanged();
 	}
 }
 
@@ -212,14 +211,6 @@ function surligner( contenu )
 	// dump('\n->surligner');
 
     // alert( "Etiquette courante" );
-
-
-
-   
-    
-
-	var uri = getMessageURI();
-	var header = messenger.msgHdrFromURI( uri );
 
 	//whether to use tags or not
 	if(useTag == 1)
@@ -327,17 +318,9 @@ function getCheminDossierNote()
  */
 function getMessageID()
 {
-	var uri = getMessageURI();
-	if (uri!=null)
-	{
-		var header = messenger.msgHdrFromURI(uri);
-		var messageID = header.messageId;
-		return messageID;
-	}
-	else
-	{
-		return null;
-	}
+	var message = gFolderDisplay.selectedMessage;
+	if (message != null) return message.messageId;
+	return null;
 }
 
 /**
@@ -350,20 +333,20 @@ function getMessageID()
 function getMessageURI()
 {
 	var messageArray = {};
-	messageArray = GetSelectedMessages();
+	messageArray = gFolderDisplay.selectedMessages;
 	var bouton = document.getElementById('button-xnote');
 	if (messageArray && messageArray.length==1)
 	{
 		if (bouton)
 			bouton.setAttribute('disabled', false);
-		document.getElementById('threadPaneContext-xNote').setAttribute('disabled', false);
+		document.getElementById('mailContext-xNote').setAttribute('disabled', false);
 		return messageArray[0];
 	}
 	else
 	{
 		if (bouton)
 			bouton.setAttribute('disabled', true);
-		document.getElementById('threadPaneContext-xNote').setAttribute('disabled', true);
+		document.getElementById('mailContext-xNote').setAttribute('disabled', true);
 		fermerNote();
 		return null;
 	}

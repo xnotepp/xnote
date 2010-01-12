@@ -40,9 +40,10 @@
 	</stringbundleset>
 	
 <!-- ajoute une entrée au menu contextuel de la liste des mails -->
- 	<popup id='threadPaneContext'>
-		<menu id='threadPaneContext-xNote' label='&xnote.label;' accesskey='&xnote.key;'
-			image='chrome://xnote/skin/xnote_context.png' class='menuitem-iconic'>
+ 	<popup id='mailContext'>
+		<menu id='mailContext-xNote' label='&xnote.label;' accesskey='&xnote.key;'
+                  image='chrome://xnote/skin/xnote_context.png' class='menuitem-iconic'
+                  insertbefore="mailContext-openInBrowser">
 			<menupopup>
  				<menuitem id='context-ajout' label='&ajout.label;' key='&ajout.key;'
 					oncommand='context_ajouterNote();'>
