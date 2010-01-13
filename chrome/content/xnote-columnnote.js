@@ -9,15 +9,15 @@ function hasNote(messageID)
 	initEnv();
 	var fichierNote =	Components.classes['@mozilla.org/file/local;1']
 						.createInstance(Components.interfaces.nsILocalFile);
-	//~ dump('\n'+getCheminDossierNote()+'\n'+messageID);
-	fichierNote.initWithPath(getCheminDossierNote()+msgid+'.xnote');
+	//~ dump('\n'+getNoteStoragePath()+'\n'+messageID);
+	fichierNote.initWithPath(getNoteStoragePath()+msgid+'.xnote');
 	
 	if(fichierNote.exists()){
 		return true;
 	}else{
 		return false;
 	}
-	//~ dump('\n'+getCheminDossierNote()+messageID+'.xnote');
+	//~ dump('\n'+getNoteStoragePath()+messageID+'.xnote');
 }
 
 

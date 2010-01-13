@@ -2,7 +2,7 @@
 
 /**
 	# File : xnote-overlay.xul
-	# Author : Hugo Smadja, Pierre-Andre Galmes
+	# Author : Hugo Smadja, Pierre-Andre Galmes, Lorenz Froihofer
 	# Description : functions associated to the "xnote-overlay.xul" overlay file.
 */
 
@@ -41,6 +41,8 @@
 
 */
 
+Components.utils.import("resource://gre/modules/errUtils.js");
+
 // CONSTANT - Default Name and Color
 const XNOTE_TAG_NAME = "XNote";
 const XNOTE_TAG_COLOR = "#FFCC00";
@@ -55,7 +57,7 @@ var separateur = '/';
 var useTag;
 
 // Global variables related to the XNote Contextual Menu.
-var noteApresCliqueDroit;
+var noteForRightMouseClick;
 var currentIndex;
 
 // variable stockant l'instance de la fenêtre (post-it).
@@ -68,112 +70,113 @@ var w;
 var gEvenement;
 
 /** 
- * APPELANT XUL
- * type	: évènement load de l'élément XUL <toolbarbutton>
+ * CALLER XUL
+ * type	: event load element XUL <toolbarbutton>
  * id	: button-xnote
- * FONCTION
- * exécutée au chargement du post-it avant qu'elle ne soit affichée à l'écran. 
- * C'est ici, que l'on peut modifier le style de la fenêtre dynamiquement
+ * FUNCTION
+ * Executed to load the note before it is displayed on the screen.
+ * Here we can change the style of the window dynamically
  */
-function initialise(evenement)
-{
+function initialise(evenement) {
 
-    // Test if the tag XNote already exists.
-    // If not, create it
-    //
-    // Note: it is maybe not the best place to put this code.
-    // Try to find a place where to launch it only one time when thunderbird is
-    // started.
+  // Test if the tag XNote already exists.
+  // If not, create it
+  //
+  // Note: it is maybe not the best place to put this code.
+  // Try to find a place where to launch it only one time when thunderbird is
+  // started.
 	
-	//Initialise prefs
-  	var prefs = Components.classes["@mozilla.org/preferences-service;1"].
-                getService(Components.interfaces.nsIPrefBranch);	  
+  //Initialise prefs
+  var prefs = Components.classes["@mozilla.org/preferences-service;1"].
+  getService(Components.interfaces.nsIPrefBranch);
 	
-	//take preference for whether tags should be used 
-	useTag = prefs.getBoolPref("xnote.usetag");
+  //take preference for whether tags should be used
+  useTag = prefs.getBoolPref("xnote.usetag");
 	  
-	if(useTag == 1)
-	{
-	    // Get the tag service.
-	    var tagService = Components.classes["@mozilla.org/messenger/tagservice;1"]
-	        .getService(Components.interfaces.nsIMsgTagService);
+  if(useTag == 1)
+  {
+    // Get the tag service.
+    var tagService = Components.classes["@mozilla.org/messenger/tagservice;1"]
+                             .getService(Components.interfaces.nsIMsgTagService);
 	
-	    // Test if the XNote Tag already exists, if not, create it
-	    if( tagService.getKeyForTag( XNOTE_TAG_NAME ) == '' )
-	    {
-	        // window.alert( "NOT FOUND XNOTE_TAG_NAME" );
-	        tagService.addTag( XNOTE_TAG_NAME, XNOTE_TAG_COLOR, '');
-	    }       
+    // Test if the XNote Tag already exists, if not, create it
+    if( tagService.getKeyForTag( XNOTE_TAG_NAME ) == '' )
+    {
+      // window.alert( "NOT FOUND XNOTE_TAG_NAME" );
+      tagService.addTag( XNOTE_TAG_NAME, XNOTE_TAG_COLOR, '');
+    }
 
-	}
-	// dump('\n->initialise');
+  }
+  // dump('\n->initialise');
 
-	fermerNote();
-	var note = new Note(getFichierNote());
-	
-	surligner( note.contenu );
+  //Closes the note (if any) of the old (deselected) message.
+  closeNote();
 
-	var bundle = document.getElementById('string-bundle');
+  //Initialize note for the newly selected message
+  var note = new Note(getNotesFile());
+	
+  updateTag( note.text );
+
+  var bundle = document.getElementById('string-bundle');
 	
 	
-	//~ dump('\nevenement = '+evenement);
-	if (evenement)
-	{
-		//~ dump('\nevenement=true');
-		gEvenement = evenement;
-	}
-	if (note.contenu != '' || gEvenement=='clicBouton')
-	{
-		w = window.openDialog
-			(
-				'chrome://xnote/content/xnote-window.xul',
-				'XNote',
-				'chrome=yes,dependent=yes,resizable=yes,modal=no,left='+note.x+',top='+note.y+',width='+note.largeur+',height='+note.hauteur,
-				note, gEvenement
-			);
-	}
-	gEvenement = '';
-	//~ dump('\n<-initialise');
+  //~ dump('\nevenement = '+evenement);
+  if (evenement)
+  {
+    //~ dump('\nevenement=true');
+    gEvenement = evenement;
+  }
+  if (note.text != '' || gEvenement=='clicBouton')
+  {
+    w = window.openDialog
+    (
+      'chrome://xnote/content/xnote-window.xul',
+      'XNote',
+      'chrome=yes,dependent=yes,resizable=yes,modal=no,left='+note.x+',top='+note.y+',width='+note.width+',height='+note.height,
+      note, gEvenement
+      );
+  }
+  gEvenement = '';
+//~ dump('\n<-initialise');
 }
 
 /** 
- * APPELANT XUL
- * type	: évènement command de l'élément XUL <menuitem>
- * id	: context-ajout
- * FONCTION
- * La création et la modification de note utilise la même fonction. C'est pourquoi
- * cette fonction appelle la fonction context_modifierNote.
- */
-/**
+ * CALLER XUL
+ * Type: event command element XUL <menuitem>
+ * Id: context-addition
+ * FUNCTION
  * Creation and modification of notes uses the same function, that is context_modifierNote() 
  */
-function context_ajouterNote()
+function context_createNote()
 {
-	context_modifierNote();
+  context_modifyNote();
 }
 
 /** 
- * APPELANT XUL
- * type	: évènement command de l'élément XUL <menuitem>
- * id	: context-modif
- * FONCTION
- * Le problème du clic droit sur un autre mail que celui sélectionné est qu'après que le
- * menu contextuel a disparu, le mail sélectionné avant le clic droit est à nouveau sélectionné.
- * Ainsi, la création de la note ne se fera pas sur le bon mail. Pour éviter cela, à la sortie 
- * du menu contextuel, le mail sur lequel un clic droit a été effectué est sélectionné.
+ * CALLER XUL
+ * Type: event command element XUL <menuitem>
+ * Id: context-modif
+ * FUNCTION
+ * There is an issue when right clicking on another email than currently selected.
+ * After the menu has disappeared, the mail selected before right clicking is again selected.
+ * Thus, the creation of the notes will not be on the correct mail. To avoid this, we
+ * currently do not enable the XNote context menu if the right click is not on
+ * the currently selected message.
  */
-function context_modifierNote()
+function context_modifyNote()
 {
-	gEvenement = 'clicBouton';	//spécifie que le post-it va être affiché par l'utilisateur
-	if (gDBView.selection.currentIndex==currentIndex)	
-	{		//si on clic droit sur le mail courant (celui sélectionné)
-		initialise();
-	}
-	else	
-	{
-		gDBView.selection.currentIndex = currentIndex;
-		gDBView.selectionChanged();
-	}
+  gEvenement = 'clicBouton';	//specifies that the post-it will be posted by the user
+  if (gDBView.selection.currentIndex==currentIndex) {
+  	//if you right click on the mail stream (one selected)
+    initialise();
+  }
+  else {
+    //This should not be reached as the XNote context menu is
+    //disabled if the right mouse click is not on the currently selected message
+    //See messageListClicked
+//    gDBView.selection.currentIndex = currentIndex;
+//    gDBView.selectionChanged();
+  }
 }
 
 /** 
@@ -183,279 +186,264 @@ function context_modifierNote()
  * FONCTION
  * Supprime la note associé au mail cliqué droit.
  */
-function context_supprimerNote()
-{
-	noteApresCliqueDroit.supprimer();
-	setTimeout("initialise('')");
+function context_deleteNote() {
+  noteForRightMouseClick.deleteNote();
+  setTimeout("initialise('')");
 }
 
 /** 
  * FONCTION
  * Si le post-it est affiché, on le ferme
  */
-function fermerNote()
+function closeNote()
 {
-	if (w != null && w.document)
-	{
-		w.close();
-	}
+  if (w != null && w.document)
+  {
+    w.close();
+  }
 }
 
 /** 
- * FONCTION
- * Applique au mail sélectionné l'étiquette associée aux notes
- * (choix possible de cette étiquette dans les préférences)
+ * FUNCTION
+ * Applies the XNote tag to the selected message.
+ * (Choice of tag in the preferences.)
  */
-function surligner( contenu )
+function updateTag( noteText )
 {
-	// dump('\n->surligner');
+  // dump('\n->updateTag');
 
-    // alert( "Etiquette courante" );
+  // alert( "Etiquette courante" );
 
-	//whether to use tags or not
-	if(useTag == 1)
-	{    
-    	var tagService = Components.classes["@mozilla.org/messenger/tagservice;1"]
-        .getService(Components.interfaces.nsIMsgTagService);
+  //whether to use tags or not
+  if(useTag == 1)
+  {
+    var tagService = Components.classes["@mozilla.org/messenger/tagservice;1"]
+    .getService(Components.interfaces.nsIMsgTagService);
 
-    	var key = tagService.getKeyForTag( XNOTE_TAG_NAME ); 
+    var key = tagService.getKeyForTag( XNOTE_TAG_NAME );
 
 
-	    // If the note isn't empty,
-		if( contenu != '' )
-		{	
-	        // Add the XNote Tag.
-	        ToggleMessageTag(key, true);
+    // If the note isn't empty,
+    if( noteText != '' )
+    {
+      // Add the XNote Tag.
+      ToggleMessageTag(key, true);
 	
-		}
-	    // If the note is empty,
-		else
-		{	
-	        // Remove the XNote Tag.
-	        ToggleMessageTag(key, false);
-		}
-		//~ dump('\n<-surligner');
-	}
+    }
+    // If the note is empty,
+    else
+    {
+      // Remove the XNote Tag.
+      ToggleMessageTag(key, false);
+    }
+  //~ dump('\n<-updateTag');
+  }
 }
 
-/** 
- * FONCTION
- * lors du clique droit : - Instancie un objet note à partir du mail sur lequel est effectué le clic droit
- * 						  - si la note instanciée est dans un fichier du disque, alors on grise la fontion
-							d'ajout de note du menu contextuel, sinon, on grise les fonctions de modification
-							et de suppression
+/* FUNCTION
+ * For right click in message pane:
+ *   - Instantiates an object notes for the message on which was clicked
+ *   - Functions that are not currently possible are greyed out in the context
+ *     menu, e.g., modify or delete a note for a message not containing a note.
  */
-function cliqueMail(e)
-{
-	//~ dump('\n->cliqueMail');
-	if (e.button==2)
-	{
-		noteApresCliqueDroit = new Note(getFichierNote());
-		var leFichierExiste = noteApresCliqueDroit.fichier.exists();
-		document.getElementById('context-ajout').setAttribute('disabled', leFichierExiste);
-		document.getElementById('context-modif').setAttribute('disabled', !leFichierExiste);
-		var t = e.originalTarget;
-		if (t.localName == 'treechildren')
-		{
-			var row = new Object;
-			var col = new Object;
-			var childElt = new Object;
+function messageListClicked(e) {
+  //~ dump('\n->messageListClicked');
+  if (e.button==2)
+  {
+    noteForRightMouseClick = new Note(getNotesFile());
+    var noteFileExists = noteForRightMouseClick.notesFile.exists();
+    document.getElementById('context-ajout').setAttribute('disabled', noteFileExists);
+    document.getElementById('context-modif').setAttribute('disabled', !noteFileExists);
+    var t = e.originalTarget;
+    if (t.localName == 'treechildren')
+    {
+      var row = new Object;
+      var col = new Object;
+      var childElt = new Object;
 
-			var tree = GetThreadTree();
-			tree.treeBoxObject.getCellAt(e.clientX, e.clientY, row, col, childElt);
-			currentIndex = row.value;
-			//~ dump('\nrow.value = '+row.value);
-		}
-	}
-	//~ dump('\n<-cliqueMail');
+      var tree = GetThreadTree();
+      tree.treeBoxObject.getCellAt(e.clientX, e.clientY, row, col, childElt);
+      currentIndex = row.value;
+      document.getElementById('mailContext-xNote').setAttribute('disabled', currentIndex != gDBView.selection.currentIndex)
+    //~ dump('\nrow.value = '+row.value);
+    }
+  }
+//~ dump('\n<-messageListClicked');
 }
 
 /**
- * initialise les variables d'environnement liées au système d'exploitation
+ * Initializes the environment variables related to the operating system.
  */
 function initEnv()
 {
-	if (navigator.platform.toLowerCase().indexOf('win') != -1)
-	{
-		CR = '\r';
-		CRLen = CR.length;
-		separateur= '\\';
-	}
+  if (navigator.platform.toLowerCase().indexOf('win') != -1)
+  {
+    CR = '\r';
+    CRLen = CR.length;
+    separateur= '\\';
+  }
 }
 
 /*
- * Récupère le fichier de note associée au mail sélectionné. Si le mail possède une note alors le fichier existe
- * et la fonction renvoie un descripteur de ce fichier. Sinon, elle renvoie null.
+ * Get the notes file associated with the selected mail. If the mail has a note when the file exists
+ * And the function returns a handle to this file. Otherwise, it returns null.
  */
-function getFichierNote()
-{
-	initEnv();
-	var fichierNote =	Components.classes['@mozilla.org/file/local;1']
-						.createInstance(Components.interfaces.nsILocalFile);
-	//~ dump('\n'+getCheminDossierNote()+'\n'+messageID);
-	fichierNote.initWithPath(getCheminDossierNote()+getMessageID()+'.xnote');
-	return fichierNote;
-	//~ dump('\n'+getCheminDossierNote()+messageID+'.xnote');
+function getNotesFile() {
+  initEnv();
+  var notesFile =	Components.classes['@mozilla.org/file/local;1']
+                         .createInstance(Components.interfaces.nsILocalFile);
+  //~ dump('\n'+getNoteStoragePath()+'\n'+messageID);
+  notesFile.initWithPath(getNoteStoragePath()+getMessageID()+'.xnote');
+  return notesFile;
+//~ dump('\n'+getNoteStoragePath()+messageID+'.xnote');
 }
 
 /**
- * Récupère le chemin d'accès du dossier où sont stockées les notes
+ * Retrieves the path of the directory that stores notes
  */
-function getCheminDossierNote()
-{
-	var serviceDossier = 	Components.classes['@mozilla.org/file/directory_service;1']
-							.getService(Components.interfaces.nsIProperties);
-	var dossierProfile = serviceDossier.get('ProfD', Components.interfaces.nsIFile);
-	return dossierProfile.path + separateur + 'XNote' + separateur;
+function getNoteStoragePath() {
+  var serviceDossier = 	Components.classes['@mozilla.org/file/directory_service;1']
+                          .getService(Components.interfaces.nsIProperties);
+  var dossierProfile = serviceDossier.get('ProfD', Components.interfaces.nsIFile);
+  return dossierProfile.path + separateur + 'XNote' + separateur;
 }
 
 /**
- * récupère le message-id du mail sélectionné.
+ * Get message id from selected message
  */
-/**
- * get message id from selected message
- * 
- */
-function getMessageID()
-{
-	var message = gFolderDisplay.selectedMessage;
-	if (message != null) return message.messageId;
-	return null;
+function getMessageID() {
+  var message = gFolderDisplay.selectedMessage;
+  if (message != null) return message.messageId;
+  return null;
 }
 
 /**
- * récupère le(s) uri(s) du(es) mail(s) sélectionné(s). et désactive le bouton XNote
- * de la barre d'outils si 0 et plusieurs mails sont sélectionnés.
+ * Enable XNote button for a single selected message.
+ * Disable Xnote button if no or several mails are selected.
  */
-/**
- * get uris from selected mails, disable Xnote button if no mails are selected
- */
-function getMessageURI()
-{
-	var messageArray = {};
-	messageArray = gFolderDisplay.selectedMessages;
-	var bouton = document.getElementById('button-xnote');
-	if (messageArray && messageArray.length==1)
-	{
-		if (bouton)
-			bouton.setAttribute('disabled', false);
-		document.getElementById('mailContext-xNote').setAttribute('disabled', false);
-		return messageArray[0];
-	}
-	else
-	{
-		if (bouton)
-			bouton.setAttribute('disabled', true);
-		document.getElementById('mailContext-xNote').setAttribute('disabled', true);
-		fermerNote();
-		return null;
-	}
+function updateXNoteButton() {
+  var messageArray = {};
+  messageArray = gFolderDisplay.selectedMessages;
+  var xnoteButton = document.getElementById('button-xnote');
+  if (messageArray && messageArray.length==1) {
+    if (xnoteButton) {
+      xnoteButton.setAttribute('disabled', false);
+    }
+    document.getElementById('mailContext-xNote').setAttribute('disabled', false);
+  }
+  else {
+    if (xnoteButton) {
+      xnoteButton.setAttribute('disabled', true);
+    }
+    document.getElementById('mailContext-xNote').setAttribute('disabled', true);
+    closeNote();
+  }
 }
 
 /**
- * Cette fontion, exécutée au premier démarrage de après l'installation de l'extension, ajoute
- * l'icône XNote à la fin de la barre d'outils.
+ * This function is executed at the first boot after installing the extension.
+ * It adds the XNote icon at the end of the toolbar.
  */
-function premierLancement()
-{
-	var bundle = document.getElementById('string-bundle');
-	var pref = Components.classes['@mozilla.org/preferences-service;1']
-				.getService(Components.interfaces.nsIPrefBranch);
-	var version  = bundle.getString('version');	 			
-	var ajoutBouton = false;
-	try
-	{
-		var num = pref.getCharPref('xnote.version');
-		if(num!=version)
-		{
-			pref.setCharPref('xnote.version', version);
-			ajoutBouton = true;
-		}   
-	}
-	catch(e)
-	{
-		pref.setCharPref('xnote.version', version);
-		ajoutBouton = true;
-	}
+function firstBoot() {
+  var bundle = document.getElementById('string-bundle');
+  var pref = Components.classes['@mozilla.org/preferences-service;1']
+                         .getService(Components.interfaces.nsIPrefBranch);
+  var version  = bundle.getString('version');
+  var ajoutBouton = false;
+  try
+  {
+    var num = pref.getCharPref('xnote.version');
+    if(num!=version)
+    {
+      pref.setCharPref('xnote.version', version);
+      ajoutBouton = true;
+    }
+  }
+  catch(e)
+  {
+    pref.setCharPref('xnote.version', version);
+    ajoutBouton = true;
+  }
 	
-	if(ajoutBouton)
-	{
-		var toolbox = document.getElementById("mail-toolbox");
-    	var toolboxDocument = toolbox.ownerDocument;
+  if(ajoutBouton)
+  {
+    var toolbox = document.getElementById("mail-toolbox");
+    var toolboxDocument = toolbox.ownerDocument;
     
-    	var boutonXNotePresent = false;
-		for (var i = 0; i < toolbox.childNodes.length; ++i)
-		{
-    	    var toolbar = toolbox.childNodes[i];
-    	    if (toolbar.localName == "toolbar" && toolbar.getAttribute("customizable")=="true")
-			{
-    			if(toolbar.currentSet.indexOf("button-xnote")>-1)
-					boutonXNotePresent = true;	
-    	    }
-    	}
+    var boutonXNotePresent = false;
+    for (var i = 0; i < toolbox.childNodes.length; ++i)
+    {
+      var toolbar = toolbox.childNodes[i];
+      if (toolbar.localName == "toolbar" && toolbar.getAttribute("customizable")=="true")
+      {
+        if(toolbar.currentSet.indexOf("button-xnote")>-1)
+          boutonXNotePresent = true;
+      }
+    }
 		
-		if(!boutonXNotePresent)
-		{
-			for (var i = 0; i < toolbox.childNodes.length; ++i)
-			{
-				toolbar = toolbox.childNodes[i];
-				if (toolbar.localName == "toolbar" &&  toolbar.getAttribute("customizable")=="true" && toolbar.id=="mail-bar") 
-				{
+    if(!boutonXNotePresent)
+    {
+      for (var i = 0; i < toolbox.childNodes.length; ++i)
+      {
+        toolbar = toolbox.childNodes[i];
+        if (toolbar.localName == "toolbar" &&  toolbar.getAttribute("customizable")=="true" && toolbar.id=="mail-bar")
+        {
 							
-					var newSet = "";
-					var child = toolbar.firstChild;
-					while(child)
-					{
-						if( !boutonXNotePresent && child.id == "spring1151595229388" )
-						{
-							newSet += "button-xnote,";
-							boutonXNotePresent = true;
-						}
+          var newSet = "";
+          var child = toolbar.firstChild;
+          while(child)
+          {
+            if( !boutonXNotePresent && child.id == "spring1151595229388" )
+            {
+              newSet += "button-xnote,";
+              boutonXNotePresent = true;
+            }
 
-						newSet += child.id+",";
-						child = child.nextSibling;
-					}
+            newSet += child.id+",";
+            child = child.nextSibling;
+          }
 
-					newSet = newSet.substring(0, newSet.length-1);
-					toolbar.currentSet = newSet;
+          newSet = newSet.substring(0, newSet.length-1);
+          toolbar.currentSet = newSet;
 
-					toolbar.setAttribute("currentset", newSet);
-					toolboxDocument.persist(toolbar.id, "currentset");
-					MailToolboxCustomizeDone(true);
-					break; 
-				}
-			}
-    	}
-	}
+          toolbar.setAttribute("currentset", newSet);
+          toolboxDocument.persist(toolbar.id, "currentset");
+          MailToolboxCustomizeDone(true);
+          break;
+        }
+      }
+    }
+  }
 }
 
 /**
- * A chaque démarrage de l'extension, on associe des évènements à la sélection de mails, de dossiers
- * ou au click droit sur la liste des mails. Ainsi, si un mail est sélectionné, il sera possible d'afficher
- * la note qui lui est associée.
+ * At each boot of the extension, associate events such as selection of mails,
+ * files, or right click on the list of messages. On selection show the associated
+ * note.
  */
-/**
- * At each boot of the extension, associate events such as selection of mails, dossiers?, or right click on mails to stuff. On selection show note
- * 
- */
-function onLoad(e)
-{
-	if (String(EnsureSubjectValue).search('extensionDejaChargee')==-1)
-	{
-		var oldEnsureSubjectValue=EnsureSubjectValue;
-		EnsureSubjectValue=function(){var extensionDejaChargee ; oldEnsureSubjectValue(); setTimeout("initialise('')");};
-	}
-	try
-	{
-		var tree = document.getElementById('folderTree');
-		tree.addEventListener('select', fermerNote, false);
-		var tree = document.getElementById('threadTree');
-		tree.addEventListener('click', cliqueMail, false);
-		var tree = document.getElementById('threadTree');
-		tree.addEventListener('select', getMessageURI, false);
-	}
-	catch(e){}
-	premierLancement();
+function onLoad(e) {
+  if (String(EnsureSubjectValue).search('extensionDejaChargee')==-1)
+  {
+    var oldEnsureSubjectValue=EnsureSubjectValue;
+    EnsureSubjectValue=function(){
+      var extensionDejaChargee ;
+      oldEnsureSubjectValue();
+      setTimeout("initialise('')");
+    };
+  }
+  try
+  {
+    var tree = document.getElementById('folderTree');
+    tree.addEventListener('select', closeNote, false);
+    tree = document.getElementById('threadTree');
+    tree.addEventListener('click', messageListClicked, false);
+    tree = document.getElementById('threadTree');
+    tree.addEventListener('select', updateXNoteButton, false);
+  }
+  catch(e){
+    logException(e,false);
+  }
+  firstBoot();
 }
 
 addEventListener('load', onLoad, true);

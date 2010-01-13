@@ -16,7 +16,7 @@
 	title='&xnote;'
 	onkeypress="if (event.keyCode==27) close();"
 	onload='onLoad();'
-	onunload='sauvegarderNote();'
+	onunload='saveNote();'
 	minwidth='58'
 	minheight='88'>
 <script type='application/x-javascript' src='chrome://xnote/content/xnote-dateformat.js'></script>	
@@ -27,7 +27,7 @@
 	
 	<box id='note' orient='vertical' flex='1'>
 		<box id='barre'>
-			<titlebar flex='1' onmouseup='modifierNote();'>
+			<titlebar flex='1' onmouseup='noteModified();'>
 				<label id='titre' value='&xnote;'/>
 				<label id='mdate' class="boite-de-texte" readonly="true"/>
 			</titlebar>
@@ -36,21 +36,21 @@
 				id='bouton-fermer'
 				tooltiptext='&close;'
 				class='custombutton-smaller'
-				onclick='if (event.button==0) { sauvegarderNote(); close(); }'/>
+				onclick='if (event.button==0) { saveNote(); close(); }'/>
 		</box>
 		<textbox
 			id='texte'
 			class='boite-de-texte'
 			multiline='true'
 			flex='1'
-			oninput='modifierNote();'
+			oninput='noteModified();'
 			onblur=''/>
 		<box id='barre-bottom'>
 			<image
 				id='bouton-suppr'
 				class='custombutton-smaller'
 				tooltiptext='&suppr;'
-				onclick='if (event.button==0) { supprimerNote(); close(); }'>
+				onclick='if (event.button==0) { deleteNote(); close(); }'>
 			</image>
 
 			<spacer flex='1'/>

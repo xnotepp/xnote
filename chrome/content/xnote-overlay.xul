@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!--
 	# Fichier : xnote-overlay.xul
-	# Auteur : Hugo Smadja
+	# Auteur : Hugo Smadja, Lorenz Froihofer
 	# Description : Complète l'interface de Thunderbird
 -->
 <?xml-stylesheet href='chrome://xnote/skin/xnote-overlay.css' type='text/css'?>
@@ -46,13 +46,13 @@
                   insertbefore="mailContext-openInBrowser">
 			<menupopup>
  				<menuitem id='context-ajout' label='&ajout.label;' key='&ajout.key;'
-					oncommand='context_ajouterNote();'>
+					oncommand='context_createNote();'>
 				</menuitem>
 				<menuitem id='context-modif' label='&modif.label;' key='&modif.key;'
-					oncommand='context_modifierNote();'>
+					oncommand='context_modifyNote();'>
 				</menuitem>
 				<menuitem id='context-suppr' label='&suppr.label;' key='&suppr.key;'
-					oncommand="goDoCommand('cmd_label0'); context_supprimerNote();">
+					oncommand="goDoCommand('cmd_label0'); context_deleteNote();">
 					<observes element='context-modif' attribute='disabled'/>
 				</menuitem>
 			</menupopup>
