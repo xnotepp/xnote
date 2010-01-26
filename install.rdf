@@ -4,10 +4,10 @@
      xmlns:em='http://www.mozilla.org/2004/em-rdf#'>
 
   <Description about='urn:mozilla:install-manifest'>
-    <em:id>xnote@starxpert.fr</em:id>
-    <em:version>2.1.0-lf</em:version>
-	<em:type>2</em:type> <!-- 2 correspond au type 'extension' -->
-	<em:locale>locale/fr-FR/</em:locale> 
+    <em:id>xnote@froihofer.net</em:id>
+    <em:version>2.1.1b2</em:version>
+    <em:type>2</em:type> <!-- 2 correspond au type 'extension' -->
+    <em:locale>locale/en-US/</em:locale> 
     <!--
     <em:optionsURL>chrome://xnote/content/preferences.xul</em:optionsURL>
     -->
@@ -15,7 +15,7 @@
          avec les versions minimums et maximums supportées. -->
     <em:targetApplication>
       <Description>
-			<!-- id de Thunderbird -->
+        <!-- id de Thunderbird -->
         <em:id>{3550f703-e582-4d05-9a08-453d09bdfdc6}</em:id>
         <em:minVersion>3.0</em:minVersion>
         <em:maxVersion>3.0.*</em:maxVersion>
@@ -35,7 +35,7 @@
     <em:contributor>Julien Buratto</em:contributor>
     <em:contributor>Lorenz Froihofer</em:contributor>
 
-    <em:homepageURL>http://www.starxpert.fr/</em:homepageURL>
+    <em:homepageURL>http://www.froihofer.net/xnote/</em:homepageURL>
     <!-- 
     <em:updateURL>http://starxpert.fr/outils/XNote/update.rdf</em:updateURL>
     -->
