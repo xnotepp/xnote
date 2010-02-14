@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!--
-	# Fichier : xnote-overlay.xul
+	# File : xnote-overlay.xul
 	# Auteur : Hugo Smadja, Lorenz Froihofer
 	# Description : Complète l'interface de Thunderbird
 -->
@@ -61,11 +61,11 @@
 	</popup>
 	
 	<tree id="threadTree">
- <treecols id="threadCols">
-  <splitter class="tree-splitter" />
-  <treecol id="colNote" persist="hidden ordinal" label="Notes"
+    <treecols id="threadCols">
+      <splitter class="tree-splitter" />
+      <treecol id="colNote" persist="hidden ordinal" label="Notes"
            currentView="unthreaded" fixed="true"
            class="treecol-image noteColumnHeader" tooltiptext="&header.label;" />
- </treecols>
-</tree>
+    </treecols>
+  </tree>
 </overlay>

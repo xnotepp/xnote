@@ -19,8 +19,8 @@
 	onunload='saveNote();'
 	minwidth='58'
 	minheight='88'>
-<script type='application/x-javascript' src='chrome://xnote/content/xnote-dateformat.js'></script>	
-<script type='application/x-javascript' src='chrome://xnote/content/xnote-classe.js'></script>
+  <script type='application/x-javascript' src='chrome://xnote/content/xnote-dateformat.js'></script>
+  <script type='application/x-javascript' src='chrome://xnote/content/xnote-classe.js'></script>
 	<script type='application/x-javascript' src='chrome://xnote/content/xnote-window.js'></script>
 	
 	<script type='application/x-javascript' src='chrome://messenger/content/msgHdrViewOverlay.js'/>

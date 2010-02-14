@@ -1,7 +1,7 @@
 // encoding ='UTF-8'
 
 /**
-	# File : xnote-overlay.xul
+	# File : xnote-overlay.js
 	# Author : Hugo Smadja, Pierre-Andre Galmes, Lorenz Froihofer
 	# Description : functions associated to the "xnote-overlay.xul" overlay file.
 */
@@ -46,6 +46,7 @@ Components.utils.import("resource://gre/modules/errUtils.js");
 // CONSTANT - Default Name and Color
 const XNOTE_TAG_NAME = "XNote";
 const XNOTE_TAG_COLOR = "#FFCC00";
+const XNOTE_VERSION = "2.2.0pre1";
 
 // Global variables related to the files path.
 var CR ='';
@@ -171,11 +172,11 @@ function context_modifyNote()
     initialise();
   }
   else {
-    //This should not be reached as the XNote context menu is
-    //disabled if the right mouse click is not on the currently selected message
-    //See messageListClicked
-//    gDBView.selection.currentIndex = currentIndex;
-//    gDBView.selectionChanged();
+    gDBView.selection.select(currentIndex);
+    gDBView.selectionChanged();
+    // The following prevents the previous message selection from
+    // being restored during closing of the context menu.
+    gRightMouseButtonSavedSelection.realSelection.select(currentIndex);
   }
 }
 
@@ -248,25 +249,22 @@ function updateTag( noteText )
  */
 function messageListClicked(e) {
   //~ dump('\n->messageListClicked');
-  if (e.button==2)
-  {
+  if (e.button==2) {
     noteForRightMouseClick = new Note(getNotesFile());
     var noteFileExists = noteForRightMouseClick.notesFile.exists();
     document.getElementById('context-ajout').setAttribute('disabled', noteFileExists);
     document.getElementById('context-modif').setAttribute('disabled', !noteFileExists);
-    var t = e.originalTarget;
-    if (t.localName == 'treechildren')
-    {
-      var row = new Object;
-      var col = new Object;
-      var childElt = new Object;
+  }
+  var t = e.originalTarget;
+  if (t.localName == 'treechildren') {
+    var row = new Object;
+    var col = new Object;
+    var childElt = new Object;
 
-      var tree = GetThreadTree();
-      tree.treeBoxObject.getCellAt(e.clientX, e.clientY, row, col, childElt);
-      currentIndex = row.value;
-      document.getElementById('mailContext-xNote').setAttribute('disabled', currentIndex != gDBView.selection.currentIndex)
-    //~ dump('\nrow.value = '+row.value);
-    }
+    var tree = GetThreadTree();
+    tree.treeBoxObject.getCellAt(e.clientX, e.clientY, row, col, childElt);
+    currentIndex = row.value;
+  //~ dump('\nrow.value = '+row.value);
   }
 //~ dump('\n<-messageListClicked');
 }
@@ -345,28 +343,22 @@ function updateXNoteButton() {
  * It adds the XNote icon at the end of the toolbar.
  */
 function firstBoot() {
-  var bundle = document.getElementById('string-bundle');
   var pref = Components.classes['@mozilla.org/preferences-service;1']
                          .getService(Components.interfaces.nsIPrefBranch);
-  var version  = bundle.getString('version');
-  var ajoutBouton = false;
-  try
-  {
+  var addButton = false;
+  try {
     var num = pref.getCharPref('xnote.version');
-    if(num!=version)
-    {
-      pref.setCharPref('xnote.version', version);
-      ajoutBouton = true;
+    if(num!=XNOTE_VERSION) {
+      pref.setCharPref('xnote.version', XNOTE_VERSION);
+      addButton = true;
     }
   }
-  catch(e)
-  {
-    pref.setCharPref('xnote.version', version);
-    ajoutBouton = true;
+  catch(e) {
+    pref.setCharPref('xnote.version', XNOTE_VERSION);
+    addButton = true;
   }
 	
-  if(ajoutBouton)
-  {
+  if(addButton) {
     var toolbox = document.getElementById("mail-toolbox");
     var toolboxDocument = toolbox.ownerDocument;
     
@@ -381,20 +373,15 @@ function firstBoot() {
       }
     }
 		
-    if(!boutonXNotePresent)
-    {
-      for (var i = 0; i < toolbox.childNodes.length; ++i)
-      {
+    if(!boutonXNotePresent)   {
+      for (var i = 0; i < toolbox.childNodes.length; ++i) {
         toolbar = toolbox.childNodes[i];
-        if (toolbar.localName == "toolbar" &&  toolbar.getAttribute("customizable")=="true" && toolbar.id=="mail-bar")
-        {
+        if (toolbar.localName == "toolbar" &&  toolbar.getAttribute("customizable")=="true" && toolbar.id=="mail-bar")  {
 							
           var newSet = "";
           var child = toolbar.firstChild;
-          while(child)
-          {
-            if( !boutonXNotePresent && child.id == "spring1151595229388" )
-            {
+          while(child) {
+            if( !boutonXNotePresent && child.id == "spring1151595229388" ) {
               newSet += "button-xnote,";
               boutonXNotePresent = true;
             }
