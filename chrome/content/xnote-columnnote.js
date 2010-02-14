@@ -36,7 +36,7 @@ var columnHandler = {
   getRowProperties:    function(row, props){},
   getImageSrc:         function(row, col) {
     var key = gDBView.getKeyAt(row);
-    var hdr = gDBView.db.GetMsgHdrForKey(key);
+    var hdr = gDBView.getFolderForViewIndex(row).GetMessageHeader(key);
     if(hasNote(hdr.messageId)){
       return "chrome://xnote/skin/xnote_context.png";
     }
