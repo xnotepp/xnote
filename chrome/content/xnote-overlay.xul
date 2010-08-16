@@ -30,7 +30,7 @@
 				id='button-xnote'
 				class='toolbarbutton-1 chromeclass-toolbar-additional'
 				label='&xnote.label;'
-				oncommand="initialise('clicBouton');">
+				oncommand="net.froihofer.xnote.Overlay.initialise('clicBouton');">
 			</toolbarbutton>
 		</toolbarpalette>
 	</toolbox>
@@ -46,15 +46,20 @@
                   insertbefore="mailContext-openInBrowser">
 			<menupopup>
  				<menuitem id='context-ajout' label='&ajout.label;' key='&ajout.key;'
-					oncommand='context_createNote();'>
+					oncommand='net.froihofer.xnote.Overlay.context_createNote();'>
 				</menuitem>
 				<menuitem id='context-modif' label='&modif.label;' key='&modif.key;'
-					oncommand='context_modifyNote();'>
+					oncommand='net.froihofer.xnote.Overlay.context_modifyNote();'>
 				</menuitem>
 				<menuitem id='context-suppr' label='&suppr.label;' key='&suppr.key;'
-					oncommand="goDoCommand('cmd_label0'); context_deleteNote();">
+					oncommand="goDoCommand('cmd_label0'); net.froihofer.xnote.Overlay.context_deleteNote();">
 					<observes element='context-modif' attribute='disabled'/>
 				</menuitem>
+        <menuseparator />
+        <menuitem id="context-reset-note-window" label="&resetNoteWindow.label;"
+          oncommand="net.froihofer.xnote.Overlay.context_resetNoteWindow();">
+          <observes element='context-modif' attribute='disabled'/>
+        </menuitem>
 			</menupopup>
 		</menu>
 		<menuseparator/>

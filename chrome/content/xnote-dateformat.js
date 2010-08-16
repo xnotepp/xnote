@@ -2,7 +2,13 @@
 /* Date/Time Format v0.2; MIT-style license
 By Steven Levithan <http://stevenlevithan.com> */
 
-Date.prototype.format = function(mask) {
+if (!net) var net = {};
+if (!net.froihofer) net.froihofer={};
+if (!net.froihofer.xnote) net.froihofer.xnote={};
+
+net.froihofer.xnote.Date = new Date();
+
+net.froihofer.xnote.Date.format = function(mask) {
 	var d = this; // Needed for the replace() closure
 	
 	// If preferred, zeroise() can be moved out of the format() method for performance and reuse purposes
@@ -46,6 +52,4 @@ Date.prototype.format = function(mask) {
 		}
 	});
 };
-
-var date = new Date();
  

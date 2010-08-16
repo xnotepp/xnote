@@ -10,4 +10,6 @@
 <!ENTITY suppr.label "Delete note">
 <!ENTITY suppr.key "D">
 
+<!ENTITY resetNoteWindow.label "Reset note window">
+
 <!ENTITY header.label "Click to sort by notes">

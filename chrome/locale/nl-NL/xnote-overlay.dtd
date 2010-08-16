@@ -10,4 +10,6 @@
 <!ENTITY suppr.label "Verwijder notitie">
 <!ENTITY suppr.key "D">
 
+<!ENTITY resetNoteWindow.label "Reset note window">
+
 <!ENTITY header.label "Klik om te sorteren op notities">

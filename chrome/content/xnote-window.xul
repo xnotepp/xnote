@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!--
-	# Fichier : xnote-window.xul
-	# Auteur : Hugo Smadja
+	# File : xnote-window.xul
+	# Authors : Hugo Smadja, Lorenz Froihofer
 	# Description : décrit les objets qui compose une XNote
 -->
 
@@ -15,8 +15,6 @@
 	hidechrome='true'
 	title='&xnote;'
 	onkeypress="if (event.keyCode==27) close();"
-	onload='onLoad();'
-	onunload='saveNote();'
 	minwidth='58'
 	minheight='88'>
   <script type='application/x-javascript' src='chrome://xnote/content/xnote-dateformat.js'></script>
@@ -27,7 +25,7 @@
 	
 	<box id='note' orient='vertical' flex='1'>
 		<box id='barre'>
-			<titlebar flex='1' onmouseup='noteModified();'>
+			<titlebar flex='1' onmouseup='net.froihofer.xnote.Window.noteModified();'>
 				<label id='titre' value='&xnote;'/>
 				<label id='mdate' class="boite-de-texte" readonly="true"/>
 			</titlebar>
@@ -36,28 +34,28 @@
 				id='bouton-fermer'
 				tooltiptext='&close;'
 				class='custombutton-smaller'
-				onclick='if (event.button==0) { saveNote(); close(); }'/>
+				onclick='if (event.button==0) { net.froihofer.xnote.Window.saveNote(); close(); }'/>
 		</box>
 		<textbox
 			id='texte'
 			class='boite-de-texte'
 			multiline='true'
 			flex='1'
-			oninput='noteModified();'
+			oninput='net.froihofer.xnote.Window.noteModified();'
 			onblur=''/>
 		<box id='barre-bottom'>
 			<image
 				id='bouton-suppr'
 				class='custombutton-smaller'
 				tooltiptext='&suppr;'
-				onclick='if (event.button==0) { deleteNote(); close(); }'>
+				onclick='if (event.button==0) { net.froihofer.xnote.Window.deleteNote(); close(); }'>
 			</image>
 
 			<spacer flex='1'/>
 			<textbox
 				id='redim'
 				class='boite-de-texte'
-				onmousedown='startRedimensionnement(event);'
+				onmousedown='net.froihofer.xnote.Window.startRedimensionnement(event);'
 				readonly='true'
 				context='false'/>
 		</box>

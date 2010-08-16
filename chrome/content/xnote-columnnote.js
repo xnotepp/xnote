@@ -1,67 +1,79 @@
-
-/*
- * Get the notes file associated with the selected mail. Returns a handle to the
- * notes file if the message has a note, i.e., the corresponding file exists.
- * Returns null otherwise.
- */
-function hasNote(messageID) {
-  var msgid=messageID;
-  initEnv();
-  var notesFile =	Components.classes['@mozilla.org/file/local;1']
-                        .createInstance(Components.interfaces.nsILocalFile);
-  //~ dump('\nhasNote: '+getNoteStoragePath()+'\n'+messageID);
-  notesFile.initWithPath(getNoteStoragePath()+msgid+'.xnote');
-	
-  if(notesFile.exists()){
-    return true;
-  }else{
-    return false;
-  }
-//~ dump('\n'+getNoteStoragePath()+messageID+'.xnote');
-}
+if (!net) var net = {};
+if (!net.froihofer) net.froihofer={};
+if (!net.froihofer.xnote) net.froihofer.xnote={};
 
 
-var columnHandler = {
-  getCellText:         function(row, col) {
-    return null;
-  },
-  getSortStringForRow: function(hdr) {  
-    return hasNote(hdr.messageId);
-  },
-  isString:            function() {
-    return true;
-  },
+net.froihofer.xnote.ColumnNote = function() {
 
-  getCellProperties:   function(row, col, props){},
-  getRowProperties:    function(row, props){},
-  getImageSrc:         function(row, col) {
-    var key = gDBView.getKeyAt(row);
-    var hdr = gDBView.getFolderForViewIndex(row).GetMessageHeader(key);
-    if(hasNote(hdr.messageId)){
-      return "chrome://xnote/skin/xnote_context.png";
-    }
-    else {
+  var pub = function(){};
+
+  //Variables
+  pub.columnHandler = {
+    getCellText:         function(row, col) {
       return null;
+    },
+    getSortStringForRow: function(hdr) {
+      return pub.hasNote(hdr.messageId);
+    },
+    isString:            function() {
+      return true;
+    },
+
+    getCellProperties:   function(row, col, props){},
+    getRowProperties:    function(row, props){},
+    getImageSrc:         function(row, col) {
+      var key = gDBView.getKeyAt(row);
+      var hdr = gDBView.getFolderForViewIndex(row).GetMessageHeader(key);
+      if(pub.hasNote(hdr.messageId)){
+        return "chrome://xnote/skin/xnote_context.png";
+      }
+      else {
+        return null;
+      }
+    },
+    getSortLongForRow:   function(hdr) {
+      return pub.hasNote(hdr.messageId);
     }
-  },
-  getSortLongForRow:   function(hdr) {
-    return hasNote(hdr.messageId);
   }
-}
 
-window.addEventListener("load", doOnceLoaded, false);
-
-function doOnceLoaded() {
-  var ObserverService = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);
-  ObserverService.addObserver(CreateDbObserver, "MsgCreateDBView", false);
-}
-
-var CreateDbObserver = {
-  // Components.interfaces.nsIObserver
-  observe: function(aMsgFolder, aTopic, aData) {  
-    addCustomColumnHandler();
+  pub.CreateDbObserver = {
+    // Components.interfaces.nsIObserver
+    observe: function(aMsgFolder, aTopic, aData) {
+      pub.addCustomColumnHandler();
+    }
   }
-}
-function addCustomColumnHandler() {
-  gDBView.addColumnHandler("colNote", columnHandler);
-}
+
+  /*
+   * Get the notes file associated with the selected mail. Returns a handle to the
+   * notes file if the message has a note, i.e., the corresponding file exists.
+   * Returns null otherwise.
+   */
+  pub.hasNote = function (messageID) {
+    var msgid=messageID;
+    net.froihofer.xnote.Overlay.initEnv();
+    var notesFile =	Components.classes['@mozilla.org/file/local;1']
+                          .createInstance(Components.interfaces.nsILocalFile);
+    //~ dump('\nhasNote: '+net.froihofer.xnote.Overlay.getNoteStoragePath()+'\n'+messageID);
+    notesFile.initWithPath(net.froihofer.xnote.Overlay.getNoteStoragePath()+msgid+'.xnote');
+
+    if(notesFile.exists()){
+      return true;
+    }else{
+      return false;
+    }
+  //~ dump('\n'+net.froihofer.xnote.Overlay.getNoteStoragePath()+messageID+'.xnote');
+  }
+
+  pub.doOnceLoaded = function () {
+    var ObserverService = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);
+    ObserverService.addObserver(pub.CreateDbObserver, "MsgCreateDBView", false);
+  }
+
+  pub.addCustomColumnHandler = function () {
+    gDBView.addColumnHandler("colNote", net.froihofer.xnote.ColumnNote.columnHandler);
+  }
+
+  return pub;
+}();
+
+window.addEventListener("load", net.froihofer.xnote.ColumnNote.doOnceLoaded, false);

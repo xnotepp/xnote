@@ -10,4 +10,6 @@
 <!ENTITY suppr.label "Notiz löschen">
 <!ENTITY suppr.key "L">
 
+<!ENTITY resetNoteWindow.label "Notizanzeige rücksetzen">
+
 <!ENTITY header.label "Click to sort by notes">
