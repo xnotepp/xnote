@@ -51,7 +51,7 @@ net.froihofer.xnote.Overlay = function() {
   // CONSTANT - Default Name and Color
   const XNOTE_TAG_NAME = "XNote";
   const XNOTE_TAG_COLOR = "#FFCC00";
-  const XNOTE_VERSION = "2.2.0pre2";
+  const XNOTE_VERSION = "2.2.0";
 
   var pub = function(){};
 
