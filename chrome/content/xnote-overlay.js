@@ -51,14 +51,17 @@ net.froihofer.xnote.Overlay = function() {
   // CONSTANT - Default Name and Color
   const XNOTE_TAG_NAME = "XNote";
   const XNOTE_TAG_COLOR = "#FFCC00";
-  const XNOTE_VERSION = "2.2.0";
+  const XNOTE_VERSION = "2.2.1";
 
   var pub = function(){};
 
   // Global variables related to the files path.
   var CR ='';
   var CRLen =0;
-  var separateur = '/';
+  var dirSeparator = '/';
+
+  // Path to storage directory of the notes.
+  var storagePath;
 
   // Var whether Tags should be used
   // defaults to true/1 set in defaults.js but can be changed in about:config
@@ -281,11 +284,11 @@ net.froihofer.xnote.Overlay = function() {
   /**
    * Initializes the environment variables related to the operating system.
    */
-  pub.initEnv = function () {
+  this.initEnv = function () {
     if (navigator.platform.toLowerCase().indexOf('win') != -1) {
       CR = '\r';
       CRLen = CR.length;
-      separateur= '\\';
+      dirSeparator= '\\';
     }
   }
 
@@ -295,7 +298,6 @@ net.froihofer.xnote.Overlay = function() {
    * Returns a handle to the notes file or null if no file exists.
    */
   pub.getNotesFile = function () {
-    pub.initEnv();
     var notesFile =	Components.classes['@mozilla.org/file/local;1']
                            .createInstance(Components.interfaces.nsILocalFile);
     //~ dump('\n'+pub.getNoteStoragePath()+'\n'+messageID);
@@ -304,14 +306,42 @@ net.froihofer.xnote.Overlay = function() {
     //~ dump('\n'+pub.getNoteStoragePath()+messageID+'.xnote');
   }
 
+  this.updateStoragePath = function() {
+    var directoryService = 	Components.classes['@mozilla.org/file/directory_service;1']
+                            .getService(Components.interfaces.nsIProperties);
+    var profileDir = directoryService.get('ProfD', Components.interfaces.nsIFile);
+    var defaultPath = profileDir.path + dirSeparator + 'XNote' + dirSeparator;
+    try {
+      var prefs = Components.classes['@mozilla.org/preferences-service;1']
+                             .getService(Components.interfaces.nsIPrefService)
+                             .getBranch("xnote.")
+      var pathPref = prefs.getCharPref('storage_path');
+      if (pathPref && pathPref.trim() != "") {
+        if (pathPref.lastIndexOf(dirSeparator) != pathPref.length -1) {
+          pathPref += dirSeparator;
+        }
+        if (pathPref.indexOf("[ProfD]") == 0) {
+          storagePath = profileDir.path + dirSeparator + pathPref.substring(7);
+        }
+        else {
+          storagePath = pathPref;
+        }
+      }
+      else {
+        storagePath = defaultPath;
+      }
+    }
+    catch (e) {
+      storagePath = defaultPath;
+    }
+    ~ dump("\nxnote: storagePath="+storagePath);
+  }
+
   /**
    * Retrieves the path of the directory that stores notes
    */
-  pub.getNoteStoragePath = function () {
-    var serviceDossier = 	Components.classes['@mozilla.org/file/directory_service;1']
-                            .getService(Components.interfaces.nsIProperties);
-    var dossierProfile = serviceDossier.get('ProfD', Components.interfaces.nsIFile);
-    return dossierProfile.path + separateur + 'XNote' + separateur;
+  pub.getNoteStoragePath = function() {
+    return storagePath;
   }
 
   /**
@@ -370,17 +400,17 @@ net.froihofer.xnote.Overlay = function() {
       var toolbox = document.getElementById("mail-toolbox");
       var toolboxDocument = toolbox.ownerDocument;
 
-      var boutonXNotePresent = false;
+      var xnoteButtonPresent = false;
       for (var i = 0; i < toolbox.childNodes.length; ++i) {
         var toolbar = toolbox.childNodes[i];
         if (toolbar.localName == "toolbar" && toolbar.getAttribute("customizable")=="true")
         {
           if(toolbar.currentSet.indexOf("button-xnote")>-1)
-            boutonXNotePresent = true;
+            xnoteButtonPresent = true;
         }
       }
 
-      if(!boutonXNotePresent)   {
+      if(!xnoteButtonPresent) {
         for (var i = 0; i < toolbox.childNodes.length; ++i) {
           toolbar = toolbox.childNodes[i];
           if (toolbar.localName == "toolbar" &&  toolbar.getAttribute("customizable")=="true" && toolbar.id=="mail-bar")  {
@@ -388,9 +418,9 @@ net.froihofer.xnote.Overlay = function() {
             var newSet = "";
             var child = toolbar.firstChild;
             while(child) {
-              if( !boutonXNotePresent && child.id == "spring1151595229388" ) {
+              if( !xnoteButtonPresent && child.id == "spring1151595229388" ) {
                 newSet += "button-xnote,";
-                boutonXNotePresent = true;
+                xnoteButtonPresent = true;
               }
 
               newSet += child.id+",";
@@ -410,12 +440,32 @@ net.froihofer.xnote.Overlay = function() {
     }
   }
 
+  var prefObserver = {
+    observe : function(subject, topic, data) {
+//      ~ dump("\nxnote pref observer called, topic="+topic+", data="+data);
+      if (topic != "nsPref:changed") {
+       return;
+      }
+
+      switch(data) {
+       case "xnote.storage_path":
+         updateStoragePath();
+         break;
+      }
+    }
+  }
+
   /**
    * At each boot of the extension, associate events such as selection of mails,
    * files, or right click on the list of messages. On selection show the associated
    * note.
    */
   pub.onLoad = function (e) {
+    initEnv();
+    updateStoragePath();
+    var prefs = Components.classes['@mozilla.org/preferences-service;1']
+                           .getService(Components.interfaces.nsIPrefBranch2)
+    prefs.addObserver("xnote.", prefObserver, false);
     if (String(EnsureSubjectValue).search('extensionDejaChargee')==-1) {
       var oldEnsureSubjectValue=EnsureSubjectValue;
       EnsureSubjectValue=function(){

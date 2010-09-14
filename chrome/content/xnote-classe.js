@@ -1,8 +1,8 @@
 // encoding='UTF-8'
 
 /**
-	# Fichier : xnote-classe.xul
-	# Auteur : Hugo Smadja, Lorenz Froihofer
+	# File : xnote-classe.xul
+	# Author : Hugo Smadja, Lorenz Froihofer
 	# Description : classe Note permettant d'instancier des notes.
 */
 
