@@ -124,7 +124,7 @@ net.froihofer.xnote.Overlay = function() {
     pub.closeNote();
 
     //Initialize note for the newly selected message
-    note = new net.froihofer.xnote.Note(pub.getNotesFile());
+    note = new net.froihofer.xnote.Note(pub.getNotesFile(pub.getMessageID()));
     pub.updateTag( note.text );
 
     var bundle = document.getElementById('string-bundle');
@@ -261,7 +261,7 @@ net.froihofer.xnote.Overlay = function() {
   pub.messageListClicked = function (e) {
     //~ dump('\n->messageListClicked');
     if (e.button==2) {
-      var notesFile = pub.getNotesFile();
+      var notesFile = pub.getNotesFile(pub.getMessageID());
       noteForRightMouseClick = new net.froihofer.xnote.Note(notesFile);
       var noteFileExists = notesFile.exists();
       document.getElementById('context-ajout').setAttribute('disabled', noteFileExists);
@@ -293,15 +293,15 @@ net.froihofer.xnote.Overlay = function() {
   }
 
   /**
-   * Get the notes file associated with the selected mail.
-   * A notes file exists, if the mail has a note.
-   * Returns a handle to the notes file or null if no file exists.
+   * Returns a handle to the notes file for the provided message ID. Note
+   * that a physical file might not exist on the file system, if the message
+   * has no note.
    */
-  pub.getNotesFile = function () {
+  pub.getNotesFile = function (messageId) {
     var notesFile =	Components.classes['@mozilla.org/file/local;1']
                            .createInstance(Components.interfaces.nsILocalFile);
     //~ dump('\n'+pub.getNoteStoragePath()+'\n'+messageID);
-    notesFile.initWithPath(pub.getNoteStoragePath()+pub.getMessageID()+'.xnote');
+    notesFile.initWithPath(pub.getNoteStoragePath()+escape(messageId).replace(/\//g,"%2F")+'.xnote');
     return notesFile;
     //~ dump('\n'+pub.getNoteStoragePath()+messageID+'.xnote');
   }
@@ -334,7 +334,7 @@ net.froihofer.xnote.Overlay = function() {
     catch (e) {
       storagePath = defaultPath;
     }
-    ~ dump("\nxnote: storagePath="+storagePath);
+//    ~ dump("\nxnote: storagePath="+storagePath);
   }
 
   /**

@@ -49,10 +49,8 @@ net.froihofer.xnote.ColumnNote = function() {
    * Returns null otherwise.
    */
   pub.hasNote = function (messageID) {
-    var notesFile =	Components.classes['@mozilla.org/file/local;1']
-                          .createInstance(Components.interfaces.nsILocalFile);
     //~ dump('\nhasNote: '+net.froihofer.xnote.Overlay.getNoteStoragePath()+'\n'+messageID);
-    notesFile.initWithPath(net.froihofer.xnote.Overlay.getNoteStoragePath()+messageID+'.xnote');
+    var notesFile =	net.froihofer.xnote.Overlay.getNotesFile(messageID);
 
     if(notesFile.exists()){
       return true;
