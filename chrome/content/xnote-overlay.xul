@@ -17,19 +17,14 @@
 	
 	<script type='application/x-javascript' src='chrome://xnote/content/xnote-columnnote.js'/>
 		
-    <!-- Not useful anymore with Tb 2.0 (even generates errors) -->
-    <!--
-    <script type='application/x-javascript' src='chrome://messenger/content/messageWindow.js'/>
-	<script type='application/x-javascript' src='chrome://messenger/content/msgHdrViewOverlay.js'/>
-	<script type='application/x-javascript' src='chrome://messenger/content/msgMail3PaneWindow.js'/>
-    -->
 <!-- ajoute un bouton à la barre d'outils -->
 	<toolbox id='mail-toolbox'>
 		<toolbarpalette id='MailToolbarPalette'>
 			<toolbarbutton
 				id='button-xnote'
 				class='toolbarbutton-1 chromeclass-toolbar-additional'
-				label='&xnote.label;'
+                                label='&xnote.label;'
+                                disabled='true'
 				oncommand="net.froihofer.xnote.Overlay.initialise('clicBouton');">
 			</toolbarbutton>
 		</toolbarpalette>
@@ -43,7 +38,7 @@
  	<popup id='mailContext'>
 		<menu id='mailContext-xNote' label='&xnote.label;' accesskey='&xnote.key;'
                   image='chrome://xnote/skin/xnote_context.png' class='menuitem-iconic'
-                  insertbefore="mailContext-openInBrowser">
+                  insertbefore="mailContext-openInBrowser,mailContext-openNewWindow">
 			<menupopup>
  				<menuitem id='context-ajout' label='&ajout.label;' key='&ajout.key;'
 					oncommand='net.froihofer.xnote.Overlay.context_createNote();'>
@@ -53,16 +48,18 @@
 				</menuitem>
 				<menuitem id='context-suppr' label='&suppr.label;' key='&suppr.key;'
 					oncommand="goDoCommand('cmd_label0'); net.froihofer.xnote.Overlay.context_deleteNote();">
-					<observes element='context-modif' attribute='disabled'/>
+					<observes element='context-modif' attribute='hidden'/>
 				</menuitem>
-        <menuseparator />
+        <menuseparator>
+          <observes element='context-modif' attribute='hidden' />
+        </menuseparator>
         <menuitem id="context-reset-note-window" label="&resetNoteWindow.label;"
           oncommand="net.froihofer.xnote.Overlay.context_resetNoteWindow();">
-          <observes element='context-modif' attribute='disabled'/>
+          <observes element='context-modif' attribute='hidden'/>
         </menuitem>
 			</menupopup>
 		</menu>
-		<menuseparator/>
+		<menuseparator id="mailContext-sep-xNote" insertbefore="mailContext-openInBrowser,mailContext-openNewWindow"/>
 	</popup>
 	
 	<tree id="threadTree">

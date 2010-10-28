@@ -187,7 +187,7 @@ net.froihofer.xnote.Window = function() {
     if (e.attrName != "screenX" && e.attrName != "screenY" && e.attrName != "sizemode") return;
 
     //~dump("modified: "+e.attrName+", node="+e.relatedNode.nodeName+", node.ownerElement="+e.relatedNode.ownerElement+"\n");
-    //~for (var i in e.relatedNode.ownerElement) dump(i+"\n");
+    //for (var i in e.relatedNode.ownerElement) ~dump(i+"\n");
     //~dump("\n");
     window.moveTo(opener.screenX + note.x, opener.screenY + note.y)
   }

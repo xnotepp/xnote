@@ -51,9 +51,15 @@ net.froihofer.xnote.Overlay = function() {
   // CONSTANT - Default Name and Color
   const XNOTE_TAG_NAME = "XNote";
   const XNOTE_TAG_COLOR = "#FFCC00";
-  const XNOTE_VERSION = "2.2.1";
+  const XNOTE_VERSION = "2.2.2";
+
+  const THUNDERBIRD_ID = "{3550f703-e582-4d05-9a08-453d09bdfdc6}";
+  const SEAMONKEY_ID = "{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}";
 
   var pub = function(){};
+
+  //Used to distinguish between Thunderbird and Seamonkey
+  var runningThunderbird;
 
   // Global variables related to the files path.
   var CR ='';
@@ -179,7 +185,10 @@ net.froihofer.xnote.Overlay = function() {
       gDBView.selectionChanged();
       // The following prevents the previous message selection from
       // being restored during closing of the context menu.
-      gRightMouseButtonSavedSelection.realSelection.select(currentIndex);
+      // Variable not present in SeaMonkey --> check to prevent errors.
+      if (runningThunderbird) {
+        gRightMouseButtonSavedSelection.realSelection.select(currentIndex);
+      }
     }
   }
 
@@ -264,8 +273,8 @@ net.froihofer.xnote.Overlay = function() {
       var notesFile = pub.getNotesFile(pub.getMessageID());
       noteForRightMouseClick = new net.froihofer.xnote.Note(notesFile);
       var noteFileExists = notesFile.exists();
-      document.getElementById('context-ajout').setAttribute('disabled', noteFileExists);
-      document.getElementById('context-modif').setAttribute('disabled', !noteFileExists);
+      document.getElementById('context-ajout').setAttribute('hidden', noteFileExists);
+      document.getElementById('context-modif').setAttribute('hidden', !noteFileExists);
     }
     var t = e.originalTarget;
     if (t.localName == 'treechildren') {
@@ -282,13 +291,23 @@ net.froihofer.xnote.Overlay = function() {
   }
 
   /**
-   * Initializes the environment variables related to the operating system.
+   * Initializes environment-dependent variables, e.g. OS-specific path
+   * separators.
    */
   this.initEnv = function () {
     if (navigator.platform.toLowerCase().indexOf('win') != -1) {
       CR = '\r';
       CRLen = CR.length;
       dirSeparator= '\\';
+    }
+
+    var appInfo = Components.classes["@mozilla.org/xre/app-info;1"]  
+                            .getService(Components.interfaces.nsIXULAppInfo);  
+    if(appInfo.ID == THUNDERBIRD_ID) {
+      runningThunderbird = true;
+    }
+    else {
+      runningThunderbird = false;
     }
   }
 
@@ -355,7 +374,7 @@ net.froihofer.xnote.Overlay = function() {
 
   /**
    * Enable XNote button for a single selected message.
-   * Disable Xnote button if no or several mails are selected.
+   * Disable XNote button if no or several mails are selected.
    */
   pub.updateXNoteButton = function () {
     var messageArray = {};
@@ -384,14 +403,14 @@ net.froihofer.xnote.Overlay = function() {
     var pref = Components.classes['@mozilla.org/preferences-service;1']
                            .getService(Components.interfaces.nsIPrefBranch);
     var addButton = false;
-    try {
+    if (pref.prefHasUserValue("xnote.version")) {
       var num = pref.getCharPref('xnote.version');
       if(num!=XNOTE_VERSION) {
         pref.setCharPref('xnote.version', XNOTE_VERSION);
         addButton = true;
       }
     }
-    catch(e) {
+    else {
       pref.setCharPref('xnote.version', XNOTE_VERSION);
       addButton = true;
     }
@@ -401,41 +420,47 @@ net.froihofer.xnote.Overlay = function() {
       var toolboxDocument = toolbox.ownerDocument;
 
       var xnoteButtonPresent = false;
-      for (var i = 0; i < toolbox.childNodes.length; ++i) {
-        var toolbar = toolbox.childNodes[i];
-        if (toolbar.localName == "toolbar" && toolbar.getAttribute("customizable")=="true")
-        {
-          if(toolbar.currentSet.indexOf("button-xnote")>-1)
-            xnoteButtonPresent = true;
+      var toolbars = document.evaluate(".//.[local-name()='toolbar' and @customizable='true']", toolbox, null, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null);
+      var toolbar = toolbars.iterateNext();
+      while(toolbar && !xnoteButtonPresent) {
+        //~dump("\n\nChecking toolbar '"+toolbar.id+"', currentSet="+toolbar.currentSet);
+        if(toolbar.currentSet.indexOf("button-xnote")>-1) {
+          xnoteButtonPresent = true;
+          //~dump("\nFound XNote button.");
         }
+        toolbar = toolbars.iterateNext();
       }
 
-      if(!xnoteButtonPresent) {
-        for (var i = 0; i < toolbox.childNodes.length; ++i) {
-          toolbar = toolbox.childNodes[i];
-          if (toolbar.localName == "toolbar" &&  toolbar.getAttribute("customizable")=="true" && toolbar.id=="mail-bar")  {
-
-            var newSet = "";
-            var child = toolbar.firstChild;
-            while(child) {
-              if( !xnoteButtonPresent && child.id == "spring1151595229388" ) {
-                newSet += "button-xnote,";
-                xnoteButtonPresent = true;
-              }
-
-              newSet += child.id+",";
-              child = child.nextSibling;
-            }
-
-            newSet = newSet.substring(0, newSet.length-1);
-            toolbar.currentSet = newSet;
-
-            toolbar.setAttribute("currentset", newSet);
-            toolboxDocument.persist(toolbar.id, "currentset");
-            MailToolboxCustomizeDone(true);
-            break;
-          }
+      if(!xnoteButtonPresent) try {
+        var toolbar = document.getElementById("mail-bar3");
+        if (!runningThunderbird) {
+          toolbar = document.getElementById("msgToolbar");
         }
+        var buttons = toolbar.currentSet.split(",");
+        var newSet = "";
+        for (var i = 0; i<buttons.length; i++) {
+          if( !xnoteButtonPresent && buttons[i] == "spring" ) {
+            newSet += "button-xnote,";
+            xnoteButtonPresent = true;
+          }
+          newSet += buttons[i]+",";
+        }
+        if (xnoteButtonPresent) {
+          newSet = newSet.substring(0, newSet.length-1);
+        }
+        else {
+          newSet = toolbar.currentSet + ",button-xnote";
+        }
+        toolbar.currentSet = newSet;
+
+        toolbar.setAttribute("currentset", newSet);
+        toolboxDocument.persist(toolbar.id, "currentset");
+      }
+      catch (e) {
+        var consoleService = Components.classes["@mozilla.org/consoleservice;1"]
+                        .getService(Components.interfaces.nsIConsoleService);
+        consoleService.logStringMessage("Could not add XNote button: "+e);
+        ~dump("\nCould not add XNote button: "+e+"\n"+e.stack);
       }
     }
   }
@@ -477,6 +502,7 @@ net.froihofer.xnote.Overlay = function() {
     try {
       var tree = document.getElementById('folderTree');
       tree.addEventListener('select', pub.closeNote, false);
+      tree.addEventListener('select', pub.updateXNoteButton, false);
       tree = document.getElementById('threadTree');
       tree.addEventListener('click', pub.messageListClicked, false);
       tree = document.getElementById('threadTree');
