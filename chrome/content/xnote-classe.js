@@ -21,9 +21,13 @@ net.froihofer.xnote.Note = function (file) {
   //result
   var pub = function(){};
 
+  var xnotePrefs = Components.classes['@mozilla.org/preferences-service;1']
+                             .getService(Components.interfaces.nsIPrefService)
+                             .getBranch("xnote.");
+                             
   // Default values for a note window
-  pub.DEFAULT_XNOTE_WIDTH=250;
-  pub.DEFAULT_XNOTE_HEIGHT=200;
+  pub.DEFAULT_XNOTE_WIDTH=xnotePrefs.getIntPref("width");
+  pub.DEFAULT_XNOTE_HEIGHT=xnotePrefs.getIntPref("height");
   pub.DEFAULT_X=(window.outerWidth-pub.DEFAULT_XNOTE_WIDTH)/2;
   pub.DEFAULT_Y=(window.outerHeight-pub.DEFAULT_XNOTE_HEIGHT)/2;
 

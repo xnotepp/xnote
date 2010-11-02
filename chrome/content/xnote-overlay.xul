@@ -11,8 +11,8 @@
 
 <overlay id='toolbox-completed'
 	xmlns='http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul'>
-	<script type='application/x-javascript' src='chrome://xnote/content/xnote-dateformat.js'></script>	
-	<script type='application/x-javascript' src='chrome://xnote/content/xnote-classe.js'/>	
+	<script type='application/x-javascript' src='chrome://xnote/content/xnote-dateformat.js' />
+	<script type='application/x-javascript' src='chrome://xnote/content/xnote-classe.js'/>
 	<script type='application/x-javascript' src='chrome://xnote/content/xnote-overlay.js'/>
 	
 	<script type='application/x-javascript' src='chrome://xnote/content/xnote-columnnote.js'/>

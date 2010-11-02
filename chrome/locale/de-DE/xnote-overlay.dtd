@@ -1,4 +1,4 @@
-<!-- encoding="UTF-8" -->
+<?xml version="1.0" encoding="UTF-8"?>
 
 <!ENTITY xnote.label "XNote">
 <!ENTITY xnote.key "X">
@@ -10,6 +10,6 @@
 <!ENTITY suppr.label "Notiz löschen">
 <!ENTITY suppr.key "L">
 
-<!ENTITY resetNoteWindow.label "Notizanzeige rücksetzen">
+<!ENTITY resetNoteWindow.label "Notizfenster rücksetzen">
 
 <!ENTITY header.label "Click to sort by notes">

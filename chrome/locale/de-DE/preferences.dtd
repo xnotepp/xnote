@@ -1,7 +1,13 @@
-<!-- encoding='UTF-8' -->
+<?xml version="1.0" encoding="UTF-8"?>
 
 <!ENTITY xnote "XNote">
 <!ENTITY preferences "Einstellungen">
+<!ENTITY btn.browse "Durchsuchen...">
+<!ENTITY Window.defaults "Fenster Standardwerte">
+<!ENTITY Width "Breite">
+<!ENTITY Height "Höhe">
+<!ENTITY storage.path "Speicherpfad">
+<!ENTITY use.tag "Verwende Schlagwort-Kennzeichnung">
 
 <!ENTITY etiquette.label "Mit der Notiz verknüpftes Etikett:">
 <!ENTITY remplacer.label "Etikett einer bereits etikettierten Nachricht ersetzen">

@@ -1,8 +1,14 @@
-<!-- encoding='UTF-8' -->
+<?xml version="1.0" encoding="UTF-8"?>
 
 <!ENTITY xnote "XNote">
 <!ENTITY preferences "Impostazioni">
+<!ENTITY btn.browse "Browse...">
+<!ENTITY Window.defaults "Window defaults">
+<!ENTITY Width "Width">
+<!ENTITY Height "Height">
+<!ENTITY storage.path "Storage path">
+<!ENTITY use.tag "Use message tagging">
 
 <!ENTITY etiquette.label "Etichetta per le note:">
-<!ENTITY remplacer.label "Sostituisci etichetta già esistente">
+<!ENTITY remplacer.label "Sostituisci etichetta giÃ  esistente">
 

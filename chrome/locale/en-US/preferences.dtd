@@ -2,6 +2,12 @@
 
 <!ENTITY xnote "XNote">
 <!ENTITY preferences "Preferences">
+<!ENTITY btn.browse "Browse...">
+<!ENTITY Window.defaults "Window defaults">
+<!ENTITY Width "Width">
+<!ENTITY Height "Height">
+<!ENTITY storage.path "Storage path">
+<!ENTITY use.tag "Use message tagging">
 
 <!ENTITY etiquette.label "Label for notes:">
 <!ENTITY remplacer.label "Replace label of already labeled mail">

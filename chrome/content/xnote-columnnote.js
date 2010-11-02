@@ -49,7 +49,6 @@ net.froihofer.xnote.ColumnNote = function() {
    * Returns null otherwise.
    */
   pub.hasNote = function (messageID) {
-    //~ dump('\nhasNote: '+net.froihofer.xnote.Overlay.getNoteStoragePath()+'\n'+messageID);
     var notesFile =	net.froihofer.xnote.Overlay.getNotesFile(messageID);
 
     if(notesFile.exists()){
@@ -57,7 +56,6 @@ net.froihofer.xnote.ColumnNote = function() {
     }else{
       return false;
     }
-  //~ dump('\n'+net.froihofer.xnote.Overlay.getNoteStoragePath()+messageID+'.xnote');
   }
 
   pub.doOnceLoaded = function () {

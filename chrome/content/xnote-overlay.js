@@ -6,25 +6,8 @@
 	# Description : functions associated to the "xnote-overlay.xul" overlay file.
 */
 
-/* TODO
- *
- * - Create a "constant.js" - move the default name and color for the label.
- *
- * - import/export procedure:
- *  - a specific procedure should be used to import notes from a PC to another.
- *  - on export, all messages should be zipped.
- *  - on import, all messages should be unzipped.
- *  - on import, the label XNote should be applied to all messages with notes.
- *
- */
-
 /* 
- * Tag management principles and thoughts
-
- - When XNote is used, if the XNote label doesn't exists, it is created.
- - When XNote is used, if the XNote label exists, it is not redifined and its
-   color is kept.
- 
+ Tag management principles and thoughts
  - When should labels be applied?
     - When a new post-it is saved.
     - When XNote notes are imported from a PC to another PC (cf TODO: import
@@ -37,9 +20,8 @@
  - What should happened when XNote is removed?
   - Remove the XNote tag ? No
   - Remove the XNote labels associated to messages? No
-
-
 */
+
 if (!net) var net = {};
 if (!net.froihofer) net.froihofer={};
 if (!net.froihofer.xnote) net.froihofer.xnote={};
@@ -48,11 +30,14 @@ Components.utils.import("resource://gre/modules/errUtils.js");
 
 
 net.froihofer.xnote.Overlay = function() {
+  //Current XNote version
+  const XNOTE_VERSION = "2.2.3a1";
+
   // CONSTANT - Default Name and Color
   const XNOTE_TAG_NAME = "XNote";
   const XNOTE_TAG_COLOR = "#FFCC00";
-  const XNOTE_VERSION = "2.2.2";
 
+  //Application IDs of applications we support
   const THUNDERBIRD_ID = "{3550f703-e582-4d05-9a08-453d09bdfdc6}";
   const SEAMONKEY_ID = "{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}";
 
@@ -66,8 +51,10 @@ net.froihofer.xnote.Overlay = function() {
   var CRLen =0;
   var dirSeparator = '/';
 
-  // Path to storage directory of the notes.
-  var storagePath;
+  /**
+   * Path to storage directory of the notes.
+   */
+  var storageDir;
 
   // Var whether Tags should be used
   // defaults to true/1 set in defaults.js but can be changed in about:config
@@ -88,6 +75,9 @@ net.froihofer.xnote.Overlay = function() {
   */
   var gEvenement;
 
+  //XNote prefs
+  var xnotePrefs;
+
   /**
    * CALLER XUL
    * type	: event load element XUL <toolbarbutton>
@@ -97,35 +87,7 @@ net.froihofer.xnote.Overlay = function() {
    * Here we can change the style of the window dynamically
    */
   pub.initialise = function (event) {
-
-    // Test if the tag XNote already exists.
-    // If not, create it
-    //
-    // Note: Maybe this is not the best place to put this code.
-    // Try to find a place where to launch it only one time when thunderbird is
-    // started.
-
-    //Initialise prefs
-    var prefs = Components.classes["@mozilla.org/preferences-service;1"].
-    getService(Components.interfaces.nsIPrefBranch);
-
-    //take preference for whether tags should be used
-    useTag = prefs.getBoolPref("xnote.usetag");
-
-    if(useTag == 1) {
-      // Get the tag service.
-      var tagService = Components.classes["@mozilla.org/messenger/tagservice;1"]
-                               .getService(Components.interfaces.nsIMsgTagService);
-
-      // Test if the XNote Tag already exists, if not, create it
-      if( tagService.getKeyForTag( XNOTE_TAG_NAME ) == '' ) {
-        // window.alert( "NOT FOUND XNOTE_TAG_NAME" );
-        tagService.addTag( XNOTE_TAG_NAME, XNOTE_TAG_COLOR, '');
-      }
-
-    }
     //~ dump('\n->initialise');
-
     //Closes the note (if any) of the old (deselected) message.
     pub.closeNote();
 
@@ -193,11 +155,11 @@ net.froihofer.xnote.Overlay = function() {
   }
 
   /**
-   * APPELANT XUL
-   * type	: évènement command de l'élément XUL <menuitem>
-   * id	: context-suppr
-   * FONCTION
-   * Supprime la note associé au mail cliqué droit.
+   * CALLER XUL
+   * Type: event command element XUL <menuitem>
+   * Id: context-suppr
+   * FUNCTION
+   * Delete the note associated with the selected e-mail.
    */
   pub.context_deleteNote = function () {
     noteForRightMouseClick.deleteNote();
@@ -238,9 +200,7 @@ net.froihofer.xnote.Overlay = function() {
    */
   pub.updateTag = function ( noteText ) {
     // dump('\n->updateTag');
-
-    //whether to use tags or not
-    if(useTag == 1) {
+    if(useTag) {
       var tagService = Components.classes["@mozilla.org/messenger/tagservice;1"]
                          .getService(Components.interfaces.nsIMsgTagService);
 
@@ -317,50 +277,67 @@ net.froihofer.xnote.Overlay = function() {
    * has no note.
    */
   pub.getNotesFile = function (messageId) {
-    var notesFile =	Components.classes['@mozilla.org/file/local;1']
-                           .createInstance(Components.interfaces.nsILocalFile);
-    //~ dump('\n'+pub.getNoteStoragePath()+'\n'+messageID);
-    notesFile.initWithPath(pub.getNoteStoragePath()+escape(messageId).replace(/\//g,"%2F")+'.xnote');
+    //~ dump('\n'+pub.getNoteStorageDir().path+'\n'+messageID);
+    var notesFile = pub.getNoteStorageDir().clone();
+    notesFile.append(escape(messageId).replace(/\//g,"%2F")+'.xnote');
     return notesFile;
-    //~ dump('\n'+pub.getNoteStoragePath()+messageID+'.xnote');
+    //~ dump('\n'+pub.getNoteStorageDir()+messageID+'.xnote');
   }
 
   this.updateStoragePath = function() {
     var directoryService = 	Components.classes['@mozilla.org/file/directory_service;1']
                             .getService(Components.interfaces.nsIProperties);
     var profileDir = directoryService.get('ProfD', Components.interfaces.nsIFile);
-    var defaultPath = profileDir.path + dirSeparator + 'XNote' + dirSeparator;
+    var defaultDir = profileDir.clone()
+    defaultDir.append('XNote');
     try {
-      var prefs = Components.classes['@mozilla.org/preferences-service;1']
-                             .getService(Components.interfaces.nsIPrefService)
-                             .getBranch("xnote.")
-      var pathPref = prefs.getCharPref('storage_path');
-      if (pathPref && pathPref.trim() != "") {
-        if (pathPref.lastIndexOf(dirSeparator) != pathPref.length -1) {
-          pathPref += dirSeparator;
-        }
-        if (pathPref.indexOf("[ProfD]") == 0) {
-          storagePath = profileDir.path + dirSeparator + pathPref.substring(7);
+      var storagePath = xnotePrefs.getCharPref('storage_path').trim();
+      if (storagePath != "") {
+        if (storagePath.indexOf("[ProfD]") == 0) {
+          storageDir = Components.classes["@mozilla.org/file/local;1"]
+                     .createInstance(Components.interfaces.nsILocalFile);
+          storageDir.initWithPath(profileDir.path);
+          storageDir.appendRelativePath(storagePath.substring(7));
         }
         else {
-          storagePath = pathPref;
+          storageDir = Components.classes["@mozilla.org/file/local;1"]
+                     .createInstance(Components.interfaces.nsILocalFile);
+          storageDir.initWithPath(storagePath);
         }
       }
       else {
-        storagePath = defaultPath;
+        storageDir = defaultDir;
       }
     }
     catch (e) {
-      storagePath = defaultPath;
+//      ~dump("\nCould not get storage path:"+e+"\n"+e.stack+"\n...applying default storage path.");
+      xnotePrefs.clearUserPref("storage_path");
+      storageDir = defaultDir;
     }
-//    ~ dump("\nxnote: storagePath="+storagePath);
+//    ~ dump("\nxnote: storagePath="+storageDir.path);
+  }
+
+  this.checkXNoteTag = function() {
+    //Check preference for whether tags should be used
+    useTag = xnotePrefs.getBoolPref("usetag");
+    if(useTag) {
+      // Get the tag service.
+      var tagService = Components.classes["@mozilla.org/messenger/tagservice;1"]
+                               .getService(Components.interfaces.nsIMsgTagService);
+
+      // Test if the XNote Tag already exists, if not, create it
+      if( tagService.getKeyForTag( XNOTE_TAG_NAME ) == '' ) {
+        // ~dump( "NOT FOUND XNOTE_TAG_NAME" );
+        tagService.addTag( XNOTE_TAG_NAME, XNOTE_TAG_COLOR, '');
+      }
+    }
   }
 
   /**
-   * Retrieves the path of the directory that stores notes
+   * Returns the directory that stores the notes.
    */
-  pub.getNoteStoragePath = function() {
-    return storagePath;
+  pub.getNoteStorageDir = function() {
+    return storageDir;
   }
 
   /**
@@ -432,7 +409,7 @@ net.froihofer.xnote.Overlay = function() {
       }
 
       if(!xnoteButtonPresent) try {
-        var toolbar = document.getElementById("mail-bar3");
+        toolbar = document.getElementById("mail-bar3");
         if (!runningThunderbird) {
           toolbar = document.getElementById("msgToolbar");
         }
@@ -467,15 +444,18 @@ net.froihofer.xnote.Overlay = function() {
 
   var prefObserver = {
     observe : function(subject, topic, data) {
-//      ~ dump("\nxnote pref observer called, topic="+topic+", data="+data);
+      ~ dump("\nxnote pref observer called, topic="+topic+", data="+data);
       if (topic != "nsPref:changed") {
        return;
       }
 
       switch(data) {
-       case "xnote.storage_path":
-         updateStoragePath();
-         break;
+        case "storage_path":
+          updateStoragePath();
+          break;
+        case "usetag":
+          checkXNoteTag();
+          break;
       }
     }
   }
@@ -487,10 +467,14 @@ net.froihofer.xnote.Overlay = function() {
    */
   pub.onLoad = function (e) {
     initEnv();
+    //Init XNote prefs
+    xnotePrefs = Components.classes["@mozilla.org/preferences-service;1"].
+                   getService(Components.interfaces.nsIPrefService).
+                   getBranch("xnote.");
+    xnotePrefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
     updateStoragePath();
-    var prefs = Components.classes['@mozilla.org/preferences-service;1']
-                           .getService(Components.interfaces.nsIPrefBranch2)
-    prefs.addObserver("xnote.", prefObserver, false);
+    checkXNoteTag();
+    xnotePrefs.addObserver("", prefObserver, false);
     if (String(EnsureSubjectValue).search('extensionDejaChargee')==-1) {
       var oldEnsureSubjectValue=EnsureSubjectValue;
       EnsureSubjectValue=function(){
@@ -516,5 +500,11 @@ net.froihofer.xnote.Overlay = function() {
 
   return pub;
 }();
+
+/*function toOpenWindowByType(inType, uri) {
+  var winopts = "chrome,extrachrome,menubar,resizable,scrollbars,status,toolbar";
+  window.open(uri, "_blank", winopts);
+}
+start_venkman();*/
 
 addEventListener('load', net.froihofer.xnote.Overlay.onLoad, true);
