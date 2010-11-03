@@ -49,13 +49,7 @@ net.froihofer.xnote.ColumnNote = function() {
    * Returns null otherwise.
    */
   pub.hasNote = function (messageID) {
-    var notesFile =	net.froihofer.xnote.Overlay.getNotesFile(messageID);
-
-    if(notesFile.exists()){
-      return true;
-    }else{
-      return false;
-    }
+    return net.froihofer.xnote.Note(messageID).exists();
   }
 
   pub.doOnceLoaded = function () {

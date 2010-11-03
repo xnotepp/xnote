@@ -12,3 +12,4 @@ locale		xnote					de-DE						chrome/locale/de-DE/
 locale		xnote					it-IT						chrome/locale/it-IT/
 locale		xnote					nl-NL						chrome/locale/nl-NL/
 
+resource  xnote   chrome/

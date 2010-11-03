@@ -10,29 +10,28 @@ if (!net) var net = {};
 if (!net.froihofer) net.froihofer={};
 if (!net.froihofer.xnote) net.froihofer.xnote={};
 
+Components.utils.import("resource://xnote/modules/storage.js");
+Components.utils.import("resource://xnote/modules/commons.js");
+
 /**
  * Constructor for the class Note using a file descriptor during creation of
  * the note. If the file does not exist, the note is initialized with
  * default values, otherwise it is initialized with the contents of the file.
  */
-net.froihofer.xnote.Note = function (file) {
+net.froihofer.xnote.Note = function (messageId) {
   //~ dump('\n->Note');
 
   //result
   var pub = function(){};
-
-  var xnotePrefs = Components.classes['@mozilla.org/preferences-service;1']
-                             .getService(Components.interfaces.nsIPrefService)
-                             .getBranch("xnote.");
                              
   // Default values for a note window
-  pub.DEFAULT_XNOTE_WIDTH=xnotePrefs.getIntPref("width");
-  pub.DEFAULT_XNOTE_HEIGHT=xnotePrefs.getIntPref("height");
+  pub.DEFAULT_XNOTE_WIDTH=net.froihofer.xnote.Commons.getXNotePrefs().getIntPref("width");
+  pub.DEFAULT_XNOTE_HEIGHT=net.froihofer.xnote.Commons.getXNotePrefs().getIntPref("height");
   pub.DEFAULT_X=(window.outerWidth-pub.DEFAULT_XNOTE_WIDTH)/2;
   pub.DEFAULT_Y=(window.outerHeight-pub.DEFAULT_XNOTE_HEIGHT)/2;
 
   // --- internal variables ------------------------------------------
-  var notesFile = file;
+  var notesFile = net.froihofer.xnote.Storage.getNotesFile(messageId);
 
   //--- properties ----------------------------------------------------
   var modified = false;
@@ -146,6 +145,10 @@ net.froihofer.xnote.Note = function (file) {
 
   pub.toString = function() {
     return ('\n'+this.x+' ; '+this.y+' ; '+this.width+' ; '+this.height+' ; '+this.text+' ; ')
+  }
+
+  pub.exists = function() {
+    return notesFile.exists();
   }
 
   return pub;

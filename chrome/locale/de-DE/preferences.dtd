@@ -7,8 +7,7 @@
 <!ENTITY Width "Breite">
 <!ENTITY Height "Höhe">
 <!ENTITY storage.path "Speicherpfad">
-<!ENTITY use.tag "Verwende Schlagwort-Kennzeichnung">
-
-<!ENTITY etiquette.label "Mit der Notiz verknüpftes Etikett:">
-<!ENTITY remplacer.label "Etikett einer bereits etikettierten Nachricht ersetzen">
-
+<!ENTITY Message.tag "Nachrichtenschlagwort">
+<!ENTITY use.tag "Schlagwort verwenden?">
+<!ENTITY Name "Name">
+<!ENTITY Color "Farbe">

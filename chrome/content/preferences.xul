@@ -7,7 +7,6 @@
 			title='&xnote; &preferences;'
 			id='xnote-preferences'
 			persist='screenX screenY'>
-  <script type='application/x-javascript' src='chrome://xnote/content/xnote-overlay.js'/>
   <script type='application/x-javascript' src='chrome://xnote/content/preferences.js'/>
 
   <prefpane id='xnote-pane' label='&xnote; &preferences;' orient='vertical'>
@@ -16,12 +15,13 @@
       <preference id='pref.height' name='xnote.height' type='int'/>
       <preference id='pref.usetag' name='xnote.usetag' type='bool'/>
       <preference id='pref.storage_path' name='xnote.storage_path' type='string'/>
-      <!-- Could add possibility to change XNote tag color. -->
+      <preference id="pref.tag.name" name="mailnews.tags.xnote.tag" type="string"/>
+      <preference id="pref.tag_color" name="mailnews.tags.xnote.color" type="string" />
     </preferences>
 
     <groupbox>
       <caption label="&Window.defaults;" />
-      <hbox>
+      <hbox align="center">
         <label value='&Width;' control='default.width'/>
         <textbox id="default.width" preference="pref.width" size="5" type="number" label="&Width;"/>
         <label value='&Height;' control='default.height'/>
@@ -29,13 +29,19 @@
       </hbox>
     </groupbox>
     <groupbox>
-      <hbox>
-        <checkbox label='&use.tag;' id='use.tag' preference='pref.usetag'/>
+      <caption label="&Message.tag;" />
+      <checkbox label='&use.tag;' id='use.tag' preference='pref.usetag'/>
+      <hbox align="center">
+        <label id="lbl.tag.color" value="&Name;" control="tb.tag.name"/>
+        <textbox id="tb.tag.name" preference="pref.tag.name" />
+        <label value="&Color;" control="cp.tag.color"/>
+        <colorpicker id="cp.tag.color" type="button"
+			               preference='pref.tag_color'/>
       </hbox>
     </groupbox>
     <groupbox>
       <caption label='&storage.path;' />
-      <hbox>
+      <hbox align="center">
         <textbox id="storage.path" preference="pref.storage_path"
                      readonly="true" size="30"/>
         <button id="btn.browse.storage.path"

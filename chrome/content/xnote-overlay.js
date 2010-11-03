@@ -27,56 +27,39 @@ if (!net.froihofer) net.froihofer={};
 if (!net.froihofer.xnote) net.froihofer.xnote={};
 
 Components.utils.import("resource://gre/modules/errUtils.js");
+Components.utils.import("resource://xnote/modules/storage.js");
+Components.utils.import("resource://xnote/modules/commons.js");
 
 
 net.froihofer.xnote.Overlay = function() {
-  //Current XNote version
-  const XNOTE_VERSION = "2.2.3a1";
-
-  // CONSTANT - Default Name and Color
-  const XNOTE_TAG_NAME = "XNote";
-  const XNOTE_TAG_COLOR = "#FFCC00";
-
-  //Application IDs of applications we support
-  const THUNDERBIRD_ID = "{3550f703-e582-4d05-9a08-453d09bdfdc6}";
-  const SEAMONKEY_ID = "{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}";
-
+  //result
   var pub = function(){};
 
-  //Used to distinguish between Thunderbird and Seamonkey
-  var runningThunderbird;
-
-  // Global variables related to the files path.
-  var CR ='';
-  var CRLen =0;
-  var dirSeparator = '/';
-
   /**
-   * Path to storage directory of the notes.
+   * Var whether Tags should be used
+   * defaults to false set in defaults.js but can be changed in about:config
    */
-  var storageDir;
-
-  // Var whether Tags should be used
-  // defaults to true/1 set in defaults.js but can be changed in about:config
   var useTag;
 
-  // Variables related to the XNote Contextual Menu.
+  // Variables related to the XNote context menu.
   var noteForRightMouseClick;
   var currentIndex;
   
-  //Contains the note for the current message
+  /**
+   * Contains the note for the current message
+   */
   var note;
 
-  // Variable containing the window instance (post-it).
+  /**
+   * Contains the XNote window instance.
+   */
   var xnoteWindow;
 
-  /* permet de savoir si le post-it a été ouvert à la demande de l'utilisateur ou
-     automatiquement lors de la sélection d'un mail afain de donner ou non le focus au post-it
-  */
-  var gEvenement;
-
-  //XNote prefs
-  var xnotePrefs;
+  /**
+   * Indicates whether the post-it has been opened at the request of the user or
+   * automatically when selecting an email.
+   */
+  var initSource;
 
   /**
    * CALLER XUL
@@ -92,25 +75,25 @@ net.froihofer.xnote.Overlay = function() {
     pub.closeNote();
 
     //Initialize note for the newly selected message
-    note = new net.froihofer.xnote.Note(pub.getNotesFile(pub.getMessageID()));
+    note = new net.froihofer.xnote.Note(pub.getMessageID());
     pub.updateTag( note.text );
 
     var bundle = document.getElementById('string-bundle');
 
-    //~ dump('\nevenement = '+evenement);
+    //~ dump('\nevent = '+event);
     if (event) {
-      //~ dump('\nevenement=true');
-      gEvenement = event;
+      //~ dump('\nevent=true');
+      initSource = event;
     }
-    if (note.text != '' || gEvenement=='clicBouton') {
+    if (note.text != '' || initSource=='clicBouton') {
       xnoteWindow = window.openDialog(
         'chrome://xnote/content/xnote-window.xul',
         'XNote',
         'chrome=yes,dependent=yes,resizable=yes,modal=no,left='+(window.screenX + note.x)+',top='+(window.screenY + note.y)+',width='+note.width+',height='+note.height,
-        note, gEvenement
+        note, initSource
         );
     }
-    gEvenement = '';
+    initSource = '';
   //~ dump('\n<-initialise');
   }
 
@@ -137,7 +120,7 @@ net.froihofer.xnote.Overlay = function() {
    * the currently selected message.
    */
   pub.context_modifyNote = function () {
-    gEvenement = 'clicBouton';	//specifies that the post-it will be posted by the user
+    initSource = 'clicBouton';	//specifies that the note is created by the user
     if (gDBView.selection.currentIndex==currentIndex) {
       //if you right click on the mail stream (one selected)
       pub.initialise();
@@ -148,7 +131,7 @@ net.froihofer.xnote.Overlay = function() {
       // The following prevents the previous message selection from
       // being restored during closing of the context menu.
       // Variable not present in SeaMonkey --> check to prevent errors.
-      if (runningThunderbird) {
+      if (net.froihofer.xnote.Commons.isInThunderbird()) {
         gRightMouseButtonSavedSelection.realSelection.select(currentIndex);
       }
     }
@@ -156,7 +139,7 @@ net.froihofer.xnote.Overlay = function() {
 
   /**
    * CALLER XUL
-   * Type: event command element XUL <menuitem>
+   * Type: event command element XUL &lt;menuitem&gt;
    * Id: context-suppr
    * FUNCTION
    * Delete the note associated with the selected e-mail.
@@ -184,8 +167,7 @@ net.froihofer.xnote.Overlay = function() {
   }
 
   /**
-   * FONCTION
-   * Si le post-it est affiché, on le ferme
+   * Closes the XNote window.
    */
   pub.closeNote = function () {
     if (xnoteWindow != null && xnoteWindow.document) {
@@ -200,21 +182,16 @@ net.froihofer.xnote.Overlay = function() {
    */
   pub.updateTag = function ( noteText ) {
     // dump('\n->updateTag');
-    if(useTag) {
-      var tagService = Components.classes["@mozilla.org/messenger/tagservice;1"]
-                         .getService(Components.interfaces.nsIMsgTagService);
-
-      var key = tagService.getKeyForTag( XNOTE_TAG_NAME );
-
+    if(net.froihofer.xnote.Commons.useTag()) {
       // If the note isn't empty,
       if( noteText != '' ) {
         // Add the XNote Tag.
-        ToggleMessageTag(key, true);
+        ToggleMessageTag("xnote", true);
       }
       // If the note is empty,
       else {
         // Remove the XNote Tag.
-        ToggleMessageTag(key, false);
+        ToggleMessageTag("xnote", false);
       }
     //~ dump('\n<-updateTag');
     }
@@ -230,11 +207,10 @@ net.froihofer.xnote.Overlay = function() {
   pub.messageListClicked = function (e) {
     //~ dump('\n->messageListClicked');
     if (e.button==2) {
-      var notesFile = pub.getNotesFile(pub.getMessageID());
-      noteForRightMouseClick = new net.froihofer.xnote.Note(notesFile);
-      var noteFileExists = notesFile.exists();
-      document.getElementById('context-ajout').setAttribute('hidden', noteFileExists);
-      document.getElementById('context-modif').setAttribute('hidden', !noteFileExists);
+      noteForRightMouseClick = new net.froihofer.xnote.Note(pub.getMessageID());
+      var noteExists = noteForRightMouseClick.exists();
+      document.getElementById('context-ajout').setAttribute('hidden', noteExists);
+      document.getElementById('context-modif').setAttribute('hidden', !noteExists);
     }
     var t = e.originalTarget;
     if (t.localName == 'treechildren') {
@@ -248,96 +224,6 @@ net.froihofer.xnote.Overlay = function() {
     //~ dump('\nrow.value = '+row.value);
     }
   //~ dump('\n<-messageListClicked');
-  }
-
-  /**
-   * Initializes environment-dependent variables, e.g. OS-specific path
-   * separators.
-   */
-  this.initEnv = function () {
-    if (navigator.platform.toLowerCase().indexOf('win') != -1) {
-      CR = '\r';
-      CRLen = CR.length;
-      dirSeparator= '\\';
-    }
-
-    var appInfo = Components.classes["@mozilla.org/xre/app-info;1"]  
-                            .getService(Components.interfaces.nsIXULAppInfo);  
-    if(appInfo.ID == THUNDERBIRD_ID) {
-      runningThunderbird = true;
-    }
-    else {
-      runningThunderbird = false;
-    }
-  }
-
-  /**
-   * Returns a handle to the notes file for the provided message ID. Note
-   * that a physical file might not exist on the file system, if the message
-   * has no note.
-   */
-  pub.getNotesFile = function (messageId) {
-    //~ dump('\n'+pub.getNoteStorageDir().path+'\n'+messageID);
-    var notesFile = pub.getNoteStorageDir().clone();
-    notesFile.append(escape(messageId).replace(/\//g,"%2F")+'.xnote');
-    return notesFile;
-    //~ dump('\n'+pub.getNoteStorageDir()+messageID+'.xnote');
-  }
-
-  this.updateStoragePath = function() {
-    var directoryService = 	Components.classes['@mozilla.org/file/directory_service;1']
-                            .getService(Components.interfaces.nsIProperties);
-    var profileDir = directoryService.get('ProfD', Components.interfaces.nsIFile);
-    var defaultDir = profileDir.clone()
-    defaultDir.append('XNote');
-    try {
-      var storagePath = xnotePrefs.getCharPref('storage_path').trim();
-      if (storagePath != "") {
-        if (storagePath.indexOf("[ProfD]") == 0) {
-          storageDir = Components.classes["@mozilla.org/file/local;1"]
-                     .createInstance(Components.interfaces.nsILocalFile);
-          storageDir.initWithPath(profileDir.path);
-          storageDir.appendRelativePath(storagePath.substring(7));
-        }
-        else {
-          storageDir = Components.classes["@mozilla.org/file/local;1"]
-                     .createInstance(Components.interfaces.nsILocalFile);
-          storageDir.initWithPath(storagePath);
-        }
-      }
-      else {
-        storageDir = defaultDir;
-      }
-    }
-    catch (e) {
-//      ~dump("\nCould not get storage path:"+e+"\n"+e.stack+"\n...applying default storage path.");
-      xnotePrefs.clearUserPref("storage_path");
-      storageDir = defaultDir;
-    }
-//    ~ dump("\nxnote: storagePath="+storageDir.path);
-  }
-
-  this.checkXNoteTag = function() {
-    //Check preference for whether tags should be used
-    useTag = xnotePrefs.getBoolPref("usetag");
-    if(useTag) {
-      // Get the tag service.
-      var tagService = Components.classes["@mozilla.org/messenger/tagservice;1"]
-                               .getService(Components.interfaces.nsIMsgTagService);
-
-      // Test if the XNote Tag already exists, if not, create it
-      if( tagService.getKeyForTag( XNOTE_TAG_NAME ) == '' ) {
-        // ~dump( "NOT FOUND XNOTE_TAG_NAME" );
-        tagService.addTag( XNOTE_TAG_NAME, XNOTE_TAG_COLOR, '');
-      }
-    }
-  }
-
-  /**
-   * Returns the directory that stores the notes.
-   */
-  pub.getNoteStorageDir = function() {
-    return storageDir;
   }
 
   /**
@@ -377,18 +263,18 @@ net.froihofer.xnote.Overlay = function() {
    * It adds the XNote icon at the end of the toolbar.
    */
   pub.firstBoot = function () {
-    var pref = Components.classes['@mozilla.org/preferences-service;1']
-                           .getService(Components.interfaces.nsIPrefBranch);
     var addButton = false;
-    if (pref.prefHasUserValue("xnote.version")) {
-      var num = pref.getCharPref('xnote.version');
+    var XNOTE_VERSION = net.froihofer.xnote.Commons.XNOTE_VERSION;
+    var xnotePrefs = net.froihofer.xnote.Commons.getXNotePrefs();
+    if (xnotePrefs.prefHasUserValue("version")) {
+      var num = xnotePrefs.getCharPref('version');
       if(num!=XNOTE_VERSION) {
-        pref.setCharPref('xnote.version', XNOTE_VERSION);
+        xnotePrefs.setCharPref('version', XNOTE_VERSION);
         addButton = true;
       }
     }
     else {
-      pref.setCharPref('xnote.version', XNOTE_VERSION);
+      xnotePrefs.setCharPref('version', XNOTE_VERSION);
       addButton = true;
     }
 
@@ -410,7 +296,7 @@ net.froihofer.xnote.Overlay = function() {
 
       if(!xnoteButtonPresent) try {
         toolbar = document.getElementById("mail-bar3");
-        if (!runningThunderbird) {
+        if (!net.froihofer.xnote.Commons.isInThunderbird()) {
           toolbar = document.getElementById("msgToolbar");
         }
         var buttons = toolbar.currentSet.split(",");
@@ -451,10 +337,10 @@ net.froihofer.xnote.Overlay = function() {
 
       switch(data) {
         case "storage_path":
-          updateStoragePath();
+          net.froihofer.xnote.Storage.updateStoragePath();
           break;
         case "usetag":
-          checkXNoteTag();
+          net.froihofer.xnote.Commons.checkXNoteTag();
           break;
       }
     }
@@ -466,15 +352,10 @@ net.froihofer.xnote.Overlay = function() {
    * note.
    */
   pub.onLoad = function (e) {
-    initEnv();
-    //Init XNote prefs
-    xnotePrefs = Components.classes["@mozilla.org/preferences-service;1"].
-                   getService(Components.interfaces.nsIPrefService).
-                   getBranch("xnote.");
-    xnotePrefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
-    updateStoragePath();
-    checkXNoteTag();
-    xnotePrefs.addObserver("", prefObserver, false);
+    net.froihofer.xnote.Commons.init();
+    net.froihofer.xnote.Storage.updateStoragePath();
+    net.froihofer.xnote.Commons.checkXNoteTag();
+    net.froihofer.xnote.Commons.getXNotePrefs().addObserver("", prefObserver, false);
     if (String(EnsureSubjectValue).search('extensionDejaChargee')==-1) {
       var oldEnsureSubjectValue=EnsureSubjectValue;
       EnsureSubjectValue=function(){

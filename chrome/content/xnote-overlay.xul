@@ -2,7 +2,7 @@
 <!--
 	# File : xnote-overlay.xul
 	# Auteur : Hugo Smadja, Lorenz Froihofer
-	# Description : Complète l'interface de Thunderbird
+	# Description : UI overlay for Thunderbird.
 -->
 <?xml-stylesheet href='chrome://xnote/skin/xnote-overlay.css' type='text/css'?>
 
@@ -17,7 +17,7 @@
 	
 	<script type='application/x-javascript' src='chrome://xnote/content/xnote-columnnote.js'/>
 		
-<!-- ajoute un bouton à la barre d'outils -->
+<!-- Toolbar button -->
 	<toolbox id='mail-toolbox'>
 		<toolbarpalette id='MailToolbarPalette'>
 			<toolbarbutton
@@ -34,7 +34,7 @@
 		<stringbundle id='string-bundle' src='chrome://xnote/locale/xnote-overlay.properties'/>
 	</stringbundleset>
 	
-<!-- ajoute une entrée au menu contextuel de la liste des mails -->
+<!-- Context menu for message list -->
  	<popup id='mailContext'>
 		<menu id='mailContext-xNote' label='&xnote.label;' accesskey='&xnote.key;'
                   image='chrome://xnote/skin/xnote_context.png' class='menuitem-iconic'

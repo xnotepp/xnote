@@ -7,8 +7,7 @@
 <!ENTITY Width "Width">
 <!ENTITY Height "Height">
 <!ENTITY storage.path "Storage path">
-<!ENTITY use.tag "Use message tagging">
-
-<!ENTITY etiquette.label "Label voor notities:">
-<!ENTITY remplacer.label "Vervang label van gelabelde mail">
-
+<!ENTITY Message.tag "Message tag">
+<!ENTITY Name "Name">
+<!ENTITY Color "Color">
+<!ENTITY use.tag "Use tag?">

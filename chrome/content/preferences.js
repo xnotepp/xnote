@@ -1,15 +1,11 @@
-
-
 if (!net) var net = {};
 if (!net.froihofer) net.froihofer={};
 if (!net.froihofer.xnote) net.froihofer.xnote={};
 
-net.froihofer.xnote.Preferences = function() {
-  //Initialise XNote prefs
-  var xnotePrefs = Components.classes["@mozilla.org/preferences-service;1"].
-                   getService(Components.interfaces.nsIPrefService).
-                   getBranch("xnote.");
+Components.utils.import("resource://xnote/modules/commons.js");
+Components.utils.import("resource://xnote/modules/storage.js");
 
+net.froihofer.xnote.Preferences = function() {
   var pub = function(){};
 
   pub.selectStoragePath = function() {
@@ -17,7 +13,7 @@ net.froihofer.xnote.Preferences = function() {
                    .createInstance(Components.interfaces.nsIFilePicker);
     //FIXME: Localize "XNote" below
     fp.init(window, "XNote", fp.modeGetFolder);
-    var currentDir = net.froihofer.xnote.Overlay.getNoteStorageDir();
+    var currentDir = net.froihofer.xnote.Storage.getNoteStorageDir();
     fp.displayDirectory = currentDir;
     var rv = fp.show();
     if (rv == fp.returnOK) {

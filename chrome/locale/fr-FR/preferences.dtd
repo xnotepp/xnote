@@ -7,8 +7,7 @@
 <!ENTITY Width "Width">
 <!ENTITY Height "Height">
 <!ENTITY storage.path "Storage path">
-<!ENTITY use.tag "Use message tagging">
-
-<!ENTITY etiquette.label "Etiquette associée aux notes :">
-<!ENTITY remplacer.label "Remplacer l'étiquette d'un mail annoté comportant déjà une étiquette">
-
+<!ENTITY Message.tag "Message tag">
+<!ENTITY Name "Name">
+<!ENTITY Color "Color">
+<!ENTITY use.tag "Use tag?">
