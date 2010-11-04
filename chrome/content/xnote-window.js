@@ -3,7 +3,7 @@
 /*
 	# File : xnote-window.xul
 	# Authors : Hugo Smadja, Lorenz Froihofer
-	# Description : fonctions associées à la fenêtre du fichier xnote-window.xul
+	# Description : Functions associated with the XNote window (xnote-window.xul).
 */
 
 if (!net) var net = {};
@@ -11,15 +11,16 @@ if (!net.froihofer) net.froihofer={};
 if (!net.froihofer.xnote) net.froihofer.xnote={};
 
 net.froihofer.xnote.Window = function() {
-  // variables nécessaires au déplacement du post-it
+  // Variables for window movement
   var xAvantDeplacement, yAvantDeplacement;
-  // variables nécessaires au redimensionnement du post-it
+  // Variables for window resizing.
   var largeurAvantDeplacement, hauteurAvantDeplacement;
 
+  /** Displayed note. */
   var note;
 
   // result
-  var pub = function(){};
+  var pub = {};
 
   /**
    * APPELANT
@@ -89,7 +90,7 @@ net.froihofer.xnote.Window = function() {
     var date = net.froihofer.xnote.Date;
     var date1 = date.format(dateformat);
     //~ dump('\n->saveNote');
-    if (note.isModified()) {
+    if (note.modified) {
       note.text=document.getElementById('texte').value;
       if (note.text!='') {
         note.x=window.screenX-opener.screenX;
@@ -116,7 +117,7 @@ net.froihofer.xnote.Window = function() {
    */
   pub.noteModified = function () {
     //~ dump('\n->modifierNote');
-    note.setModified(true);
+    note.modified = true;
   //~ dump('\n<-modifierNote');
   }
 

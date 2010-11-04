@@ -1,6 +1,6 @@
 // encoding ='UTF-8'
 
-/**
+/*
 	# File : xnote-overlay.js
 	# Author : Hugo Smadja, Pierre-Andre Galmes, Lorenz Froihofer
 	# Description : functions associated to the "xnote-overlay.xul" overlay file.
@@ -33,26 +33,16 @@ Components.utils.import("resource://xnote/modules/commons.js");
 
 net.froihofer.xnote.Overlay = function() {
   //result
-  var pub = function(){};
-
-  /**
-   * Var whether Tags should be used
-   * defaults to false set in defaults.js but can be changed in about:config
-   */
-  var useTag;
+  var pub = {};
 
   // Variables related to the XNote context menu.
   var noteForRightMouseClick;
   var currentIndex;
   
-  /**
-   * Contains the note for the current message
-   */
+  /** Contains the note for the current message */
   var note;
 
-  /**
-   * Contains the XNote window instance.
-   */
+  /** Contains the XNote window instance. */
   var xnoteWindow;
 
   /**
@@ -131,7 +121,7 @@ net.froihofer.xnote.Overlay = function() {
       // The following prevents the previous message selection from
       // being restored during closing of the context menu.
       // Variable not present in SeaMonkey --> check to prevent errors.
-      if (net.froihofer.xnote.Commons.isInThunderbird()) {
+      if (net.froihofer.xnote.Commons.isInThunderbird) {
         gRightMouseButtonSavedSelection.realSelection.select(currentIndex);
       }
     }
@@ -182,7 +172,7 @@ net.froihofer.xnote.Overlay = function() {
    */
   pub.updateTag = function ( noteText ) {
     // dump('\n->updateTag');
-    if(net.froihofer.xnote.Commons.useTag()) {
+    if(net.froihofer.xnote.Commons.useTag) {
       // If the note isn't empty,
       if( noteText != '' ) {
         // Add the XNote Tag.
@@ -211,6 +201,13 @@ net.froihofer.xnote.Overlay = function() {
       var noteExists = noteForRightMouseClick.exists();
       document.getElementById('context-ajout').setAttribute('hidden', noteExists);
       document.getElementById('context-modif').setAttribute('hidden', !noteExists);
+      var messageArray = gFolderDisplay.selectedMessages;
+      if (messageArray && messageArray.length == 1) {
+        document.getElementById('mailContext-xNote').setAttribute('disabled', false);
+      }
+      else {
+        document.getElementById('mailContext-xNote').setAttribute('disabled', true);
+      }
     }
     var t = e.originalTarget;
     if (t.localName == 'treechildren') {
@@ -240,8 +237,7 @@ net.froihofer.xnote.Overlay = function() {
    * Disable XNote button if no or several mails are selected.
    */
   pub.updateXNoteButton = function () {
-    var messageArray = {};
-    messageArray = gFolderDisplay.selectedMessages;
+    var messageArray = gFolderDisplay.selectedMessages;
     var xnoteButton = document.getElementById('button-xnote');
     if (messageArray && messageArray.length==1) {
       if (xnoteButton) {
@@ -265,7 +261,7 @@ net.froihofer.xnote.Overlay = function() {
   pub.firstBoot = function () {
     var addButton = false;
     var XNOTE_VERSION = net.froihofer.xnote.Commons.XNOTE_VERSION;
-    var xnotePrefs = net.froihofer.xnote.Commons.getXNotePrefs();
+    var xnotePrefs = net.froihofer.xnote.Commons.xnotePrefs;
     if (xnotePrefs.prefHasUserValue("version")) {
       var num = xnotePrefs.getCharPref('version');
       if(num!=XNOTE_VERSION) {
@@ -296,7 +292,7 @@ net.froihofer.xnote.Overlay = function() {
 
       if(!xnoteButtonPresent) try {
         toolbar = document.getElementById("mail-bar3");
-        if (!net.froihofer.xnote.Commons.isInThunderbird()) {
+        if (!net.froihofer.xnote.Commons.isInThunderbird) {
           toolbar = document.getElementById("msgToolbar");
         }
         var buttons = toolbar.currentSet.split(",");
@@ -323,14 +319,14 @@ net.froihofer.xnote.Overlay = function() {
         var consoleService = Components.classes["@mozilla.org/consoleservice;1"]
                         .getService(Components.interfaces.nsIConsoleService);
         consoleService.logStringMessage("Could not add XNote button: "+e);
-        ~dump("\nCould not add XNote button: "+e+"\n"+e.stack);
+        logException(e, false, "Could not add XNote button: ");
       }
     }
   }
 
   var prefObserver = {
     observe : function(subject, topic, data) {
-      ~ dump("\nxnote pref observer called, topic="+topic+", data="+data);
+//      ~ dump("\nxnote pref observer called, topic="+topic+", data="+data);
       if (topic != "nsPref:changed") {
        return;
       }
@@ -355,7 +351,7 @@ net.froihofer.xnote.Overlay = function() {
     net.froihofer.xnote.Commons.init();
     net.froihofer.xnote.Storage.updateStoragePath();
     net.froihofer.xnote.Commons.checkXNoteTag();
-    net.froihofer.xnote.Commons.getXNotePrefs().addObserver("", prefObserver, false);
+    net.froihofer.xnote.Commons.xnotePrefs.addObserver("", prefObserver, false);
     if (String(EnsureSubjectValue).search('extensionDejaChargee')==-1) {
       var oldEnsureSubjectValue=EnsureSubjectValue;
       EnsureSubjectValue=function(){

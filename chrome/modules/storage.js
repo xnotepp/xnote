@@ -7,53 +7,55 @@ var EXPORTED_SYMBOLS = ["net"];
 Components.utils.import("resource://xnote/modules/commons.js");
 
 net.froihofer.xnote.Storage = function() {
-  //result
-  var pub = function() {};
-
   /**
    * Path to storage directory of the notes.
    */
-  var storageDir;
+  var _storageDir;
 
-
-  pub.updateStoragePath = function() {
-    var directoryService = 	Components.classes['@mozilla.org/file/directory_service;1']
-                            .getService(Components.interfaces.nsIProperties);
-    var profileDir = directoryService.get('ProfD', Components.interfaces.nsIFile);
-    var defaultDir = profileDir.clone()
-    defaultDir.append('XNote');
-    try {
-      var storagePath = net.froihofer.xnote.Commons.getXNotePrefs().getCharPref('storage_path').trim();
-      if (storagePath != "") {
-        if (storagePath.indexOf("[ProfD]") == 0) {
-          storageDir = Components.classes["@mozilla.org/file/local;1"]
-                     .createInstance(Components.interfaces.nsILocalFile);
-          storageDir.initWithPath(profileDir.path);
-          storageDir.appendRelativePath(storagePath.substring(7));
+  //result
+  var pub = {
+    updateStoragePath : function() {
+      var directoryService = 	Components.classes['@mozilla.org/file/directory_service;1']
+                              .getService(Components.interfaces.nsIProperties);
+      var profileDir = directoryService.get('ProfD', Components.interfaces.nsIFile);
+      var defaultDir = profileDir.clone()
+      var xnotePrefs = net.froihofer.xnote.Commons.xnotePrefs;
+      defaultDir.append('XNote');
+      if (!xnotePrefs.prefHasUserValue("storage_path")) {
+        _storageDir = defaultDir;
+      }
+      else try {
+        var storagePath = xnotePrefs.getCharPref('storage_path').trim();
+        if (storagePath != "") {
+          if (storagePath.indexOf("[ProfD]") == 0) {
+            _storageDir = Components.classes["@mozilla.org/file/local;1"]
+                       .createInstance(Components.interfaces.nsILocalFile);
+            _storageDir.initWithPath(profileDir.path);
+            _storageDir.appendRelativePath(storagePath.substring(7));
+          }
+          else {
+            _storageDir = Components.classes["@mozilla.org/file/local;1"]
+                       .createInstance(Components.interfaces.nsILocalFile);
+            _storageDir.initWithPath(storagePath);
+          }
         }
         else {
-          storageDir = Components.classes["@mozilla.org/file/local;1"]
-                     .createInstance(Components.interfaces.nsILocalFile);
-          storageDir.initWithPath(storagePath);
+          _storageDir = defaultDir;
         }
       }
-      else {
-        storageDir = defaultDir;
+      catch (e) {
+  //      ~dump("\nCould not get storage path:"+e+"\n"+e.stack+"\n...applying default storage path.");
+        _storageDir = defaultDir;
       }
-    }
-    catch (e) {
-//      ~dump("\nCould not get storage path:"+e+"\n"+e.stack+"\n...applying default storage path.");
-      net.froihofer.xnote.Commons.getXNotePrefs().clearUserPref("storage_path");
-      storageDir = defaultDir;
-    }
-//    ~ dump("\nxnote: storageDir initialized to: "+storageDir.path);
-  }
+      ~ dump("\nxnote: storageDir initialized to: "+_storageDir.path);
+    },
 
-  /**
-   * Returns the directory that stores the notes.
-   */
-  pub.getNoteStorageDir = function() {
-    return storageDir;
+    /**
+     * Returns the directory that stores the notes.
+     */
+    get noteStorageDir() {
+      return _storageDir;
+    }
   }
 
   /**
@@ -63,7 +65,7 @@ net.froihofer.xnote.Storage = function() {
    */
   pub.getNotesFile = function (messageId) {
     //~ dump('\n'+pub.getNoteStorageDir().path+'\n'+messageID);
-    var notesFile = storageDir.clone();
+    var notesFile = _storageDir.clone();
     notesFile.append(escape(messageId).replace(/\//g,"%2F")+'.xnote');
     return notesFile;
     //~ dump('\n'+pub.getNoteStorageDir()+messageID+'.xnote');

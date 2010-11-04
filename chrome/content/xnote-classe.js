@@ -21,31 +21,31 @@ Components.utils.import("resource://xnote/modules/commons.js");
 net.froihofer.xnote.Note = function (messageId) {
   //~ dump('\n->Note');
 
-  //result
-  var pub = function(){};
-                             
-  // Default values for a note window
-  pub.DEFAULT_XNOTE_WIDTH=net.froihofer.xnote.Commons.getXNotePrefs().getIntPref("width");
-  pub.DEFAULT_XNOTE_HEIGHT=net.froihofer.xnote.Commons.getXNotePrefs().getIntPref("height");
-  pub.DEFAULT_X=(window.outerWidth-pub.DEFAULT_XNOTE_WIDTH)/2;
-  pub.DEFAULT_Y=(window.outerHeight-pub.DEFAULT_XNOTE_HEIGHT)/2;
-
   // --- internal variables ------------------------------------------
-  var notesFile = net.froihofer.xnote.Storage.getNotesFile(messageId);
+  var _notesFile = net.froihofer.xnote.Storage.getNotesFile(messageId);
+  var _modified = false;
 
-  //--- properties ----------------------------------------------------
-  var modified = false;
-  pub.isModified = function() {
-    return modified;
+  //result
+  var pub = {                             
+    //--- properties ----------------------------------------------------
+    get modified() {
+      return _modified;
+    },
+    set modified(value) {
+      _modified = value;
+    }
   }
-  pub.setModified = function(value) {
-    modified = value;
-  }
+
+  // Default values for a note window
+  pub.DEFAULT_XNOTE_WIDTH = net.froihofer.xnote.Commons.xnotePrefs.getIntPref("width");
+  pub.DEFAULT_XNOTE_HEIGHT = net.froihofer.xnote.Commons.xnotePrefs.getIntPref("height");
+  pub.DEFAULT_X = (window.outerWidth-pub.DEFAULT_XNOTE_WIDTH)/2;
+  pub.DEFAULT_Y =(window.outerHeight-pub.DEFAULT_XNOTE_HEIGHT)/2;
 
   //--- Intialisation (either from file or defaults) --------------------------
 
   //~ dump('\n<-Note');
-  if (!notesFile || !notesFile.exists()) {
+  if (!_notesFile || !_notesFile.exists()) {
     pub.x = pub.DEFAULT_X;
     pub.y = pub.DEFAULT_Y;
     pub.width = pub.DEFAULT_XNOTE_WIDTH;
@@ -57,7 +57,7 @@ net.froihofer.xnote.Note = function (messageId) {
   else {
     var fileInStream = Components.classes['@mozilla.org/network/file-input-stream;1'].createInstance(Components.interfaces.nsIFileInputStream);
     var fileScriptableIO = Components.classes['@mozilla.org/scriptableinputstream;1'].createInstance(Components.interfaces.nsIScriptableInputStream);
-    fileInStream.init(notesFile, 0x01, 0444, null );
+    fileInStream.init(_notesFile, 0x01, 0444, null );
     fileScriptableIO.init(fileInStream);
     pub.x = parseInt(fileScriptableIO.read(4));
     pub.y = parseInt(fileScriptableIO.read(4));
@@ -69,9 +69,9 @@ net.froihofer.xnote.Note = function (messageId) {
     // I am from Latvia (Letonnie in French I believe) and we have characters
     // like al�ki which are not preserved when saving a note ...
     //
-    // this.text = fileScriptableIO.read(notesFile.fileSize-16);
+    // this.text = fileScriptableIO.read(_notesFile.fileSize-16);
     pub.text = decodeURIComponent(
-    fileScriptableIO.read(notesFile.fileSize-48 ));
+    fileScriptableIO.read(_notesFile.fileSize-48 ));
 
     fileScriptableIO.close();
     fileInStream.close();
@@ -90,15 +90,15 @@ net.froihofer.xnote.Note = function (messageId) {
     //~ dump('\n->saveNote');
 
     if (pub.text=='') {
-      if (notesFile.exists()) {
-        notesFile.remove(false);
+      if (_notesFile.exists()) {
+        _notesFile.remove(false);
       }
       return false;
     }
     pub.text = pub.text.replace(/\n/g,'<BR>');
     
-    var tempFile = notesFile.parent.clone();
-    tempFile.append("~"+notesFile.leafName+".tmp");
+    var tempFile = _notesFile.parent.clone();
+    tempFile.append("~"+_notesFile.leafName+".tmp");
     tempFile.createUnique(tempFile.NORMAL_FILE_TYPE, 0600);
 
     var fileOutStream = Components.classes['@mozilla.org/network/file-output-stream;1'].createInstance(Components.interfaces.nsIFileOutputStream);
@@ -121,8 +121,8 @@ net.froihofer.xnote.Note = function (messageId) {
 
       close();
     }
-    tempFile.moveTo(null, notesFile.leafName);
-    pub.setModified(false);
+    tempFile.moveTo(null, _notesFile.leafName);
+    pub.modified = false;
     //~ dump('\n<-saveNote');
     return true;
   }
@@ -132,8 +132,8 @@ net.froihofer.xnote.Note = function (messageId) {
    */
   pub.deleteNote = function () {
     //~ dump('\n->note_supprimer');
-    if (notesFile.exists()) {
-      notesFile.remove(false);
+    if (_notesFile.exists()) {
+      _notesFile.remove(false);
       //~ dump('\n->note_supprimer');
       return true;
     }
@@ -148,7 +148,7 @@ net.froihofer.xnote.Note = function (messageId) {
   }
 
   pub.exists = function() {
-    return notesFile.exists();
+    return _notesFile.exists();
   }
 
   return pub;

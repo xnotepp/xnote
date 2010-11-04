@@ -6,12 +6,6 @@ if (!net.froihofer.xnote) net.froihofer.xnote={};
 var EXPORTED_SYMBOLS = ["net"];
 
 net.froihofer.xnote.Commons = function() {
-  //result
-  var pub = function() {};
-
-  //Current XNote version
-  pub.XNOTE_VERSION = "2.2.3a1";
-
   // CONSTANT - Default tag name and color
   const XNOTE_TAG_NAME = "XNote";
   const XNOTE_TAG_COLOR = "#FFCC00"
@@ -23,59 +17,68 @@ net.froihofer.xnote.Commons = function() {
   /**
    * Used to distinguish between Thunderbird and Seamonkey
    */
-  var runningThunderbird;
+  var _runningThunderbird;
 
   /**
    * Using tags?
    */
-  var useTag;
+  var _useTag;
 
   //XNote prefs
-  var xnotePrefs;
+  var _xnotePrefs;
 
-  pub.init = function() {
-    var appInfo = Components.classes["@mozilla.org/xre/app-info;1"]
-                            .getService(Components.interfaces.nsIXULAppInfo);
-    if(appInfo.ID == THUNDERBIRD_ID) {
-      runningThunderbird = true;
-    }
-    else {
-      runningThunderbird = false;
-    }
+  //result
+  var pub = {
+    //Current XNote version
+    get XNOTE_VERSION() {
+      return "2.2.3a1";
+    },
 
-    xnotePrefs = Components.classes["@mozilla.org/preferences-service;1"].
-                   getService(Components.interfaces.nsIPrefService).
-                   getBranch("xnote.");
-    xnotePrefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
-  }
+    init : function() {
+      var appInfo = Components.classes["@mozilla.org/xre/app-info;1"]
+                              .getService(Components.interfaces.nsIXULAppInfo);
+      if(appInfo.ID == THUNDERBIRD_ID) {
+        _runningThunderbird = true;
+      }
+      else {
+        _runningThunderbird = false;
+      }
 
-  pub.isInThunderbird = function() {
-    return runningThunderbird;
-  }
+      _xnotePrefs = Components.classes["@mozilla.org/preferences-service;1"].
+                     getService(Components.interfaces.nsIPrefService).
+                     getBranch("xnote.");
+      _xnotePrefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
+    },
 
-  pub.getXNotePrefs = function () {
-    return xnotePrefs;
-  }
+    get isInThunderbird() {
+      return _runningThunderbird;
+    },
 
-  pub.useTag = function() {
-    return useTag;
-  }
+    get xnotePrefs() {
+      return _xnotePrefs;
+    },
 
-  pub.checkXNoteTag = function() {
-    //Check preference for whether tags should be used
-    useTag = xnotePrefs.getBoolPref("usetag");
-    if(useTag) {
-      // Get the tag service.
-      var tagService = Components.classes["@mozilla.org/messenger/tagservice;1"]
-                               .getService(Components.interfaces.nsIMsgTagService);
+    get useTag() {
+      return _useTag;
+    },
 
-      // Test if the XNote Tag already exists, if not, create it
-      if( tagService.getTagForKey( "xnote" ) == '' ) {
-        // ~dump( "NOT FOUND XNOTE_TAG_NAME" );
-        tagService.addTagForKey( "xnote", XNOTE_TAG_NAME, XNOTE_TAG_COLOR, '');
+    checkXNoteTag : function() {
+      //Check preference for whether tags should be used
+      _useTag = _xnotePrefs.getBoolPref("usetag");
+      if(_useTag) {
+        // Get the tag service.
+        var tagService = Components.classes["@mozilla.org/messenger/tagservice;1"]
+                                 .getService(Components.interfaces.nsIMsgTagService);
+
+        // Test if the XNote Tag already exists, if not, create it
+        if( tagService.getTagForKey( "xnote" ) == '' ) {
+          // ~dump( "NOT FOUND XNOTE_TAG_NAME" );
+          tagService.addTagForKey( "xnote", XNOTE_TAG_NAME, XNOTE_TAG_COLOR, '');
+        }
       }
     }
-  }
+
+  };
 
   return pub;
 }();
