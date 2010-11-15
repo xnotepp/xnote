@@ -3,11 +3,11 @@
 <!ENTITY xnote "XNote">
 <!ENTITY preferences "Voorkeuren">
 <!ENTITY btn.browse "Browse...">
-<!ENTITY Window.defaults "Window defaults">
-<!ENTITY Width "Width">
-<!ENTITY Height "Height">
-<!ENTITY storage.path "Storage path">
-<!ENTITY Message.tag "Message tag">
-<!ENTITY Name "Name">
-<!ENTITY Color "Color">
-<!ENTITY use.tag "Use tag?">
+<!ENTITY Window.defaults "Standaard Venster">
+<!ENTITY Width "Breedte">
+<!ENTITY Height "Hoogte">
+<!ENTITY storage.path "Opslaan als">
+<!ENTITY Message.tag "Bericht Label">
+<!ENTITY Name "Naam">
+<!ENTITY Color "Kleur">
+<!ENTITY use.tag "Gebruik Label?">

@@ -2,12 +2,12 @@
 
 <!ENTITY xnote "XNote">
 <!ENTITY preferences "Préférences">
-<!ENTITY btn.browse "Browse...">
-<!ENTITY Window.defaults "Window defaults">
-<!ENTITY Width "Width">
-<!ENTITY Height "Height">
-<!ENTITY storage.path "Storage path">
-<!ENTITY Message.tag "Message tag">
-<!ENTITY Name "Name">
-<!ENTITY Color "Color">
-<!ENTITY use.tag "Use tag?">
+<!ENTITY btn.browse "Parcourir...">
+<!ENTITY Window.defaults "Taille par défaut d'une nouvelle note">
+<!ENTITY Width "Largeur">
+<!ENTITY Height "Hauteur">
+<!ENTITY storage.path "Chemin de stockage des notes">
+<!ENTITY Message.tag "Etiquette de message">
+<!ENTITY Name "Nom">
+<!ENTITY Color "Couleur">
+<!ENTITY use.tag "Utiliser l'étiquette de message ?">

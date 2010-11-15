@@ -22,7 +22,7 @@ net.froihofer.xnote.ColumnNote = function() {
       getImageSrc:         function(row, col) {
         var key = gDBView.getKeyAt(row);
         var hdr = gDBView.getFolderForViewIndex(row).GetMessageHeader(key);
-      if(pub.hasNote(hdr.messageId)){
+        if(pub.hasNote(hdr.messageId)){
           return "chrome://xnote/skin/xnote_context.png";
         }
         else {

@@ -1,0 +1,15 @@
+<!-- encoding="UTF-8" -->
+
+<!ENTITY xnote.label "XNote">
+<!ENTITY xnote.key "X">
+
+<!ENTITY ajout.label "Crear nota">
+<!ENTITY ajout.key "C">
+<!ENTITY modif.label "Modificar nota">
+<!ENTITY modif.key "M">
+<!ENTITY suppr.label "Eliminar nota">
+<!ENTITY suppr.key "R">
+
+<!ENTITY resetNoteWindow.label "Restablecer xanela da nota">
+
+<!ENTITY header.label "Prema para ordenar por nota">

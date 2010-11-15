@@ -5,7 +5,7 @@
 
   <Description about='urn:mozilla:install-manifest'>
     <em:id>xnote@froihofer.net</em:id>
-    <em:version>2.2.3a1</em:version>
+    <em:version>2.2.3</em:version>
     <em:type>2</em:type> <!-- 2 corresponds to type 'extension' -->
     <em:locale>locale/en-US/</em:locale> 
     <em:optionsURL>chrome://xnote/content/preferences.xul</em:optionsURL>
@@ -28,14 +28,17 @@
 	
     <!-- Visible meta-data -->
     <em:name>XNote</em:name>
-    <em:description>Add Post-It to your mails</em:description>
+    <em:description>Add Post-It to your mails.</em:description>
     <em:iconURL>chrome://xnote/skin/icon32.png</em:iconURL>
     <em:creator>Lorenz Froihofer: TB3 port, since Dec. 2009</em:creator>
+    <em:homepageURL>http://www.froihofer.net/xnote/</em:homepageURL>
     <em:contributor>Hugo Smadja: original developer</em:contributor>
     <em:contributor>Pierre-André Galmes: TB2 port, till Apr. 2008</em:contributor>
-    <em:translator>Maarten van Vliet: nl-NL</em:translator>
-    <em:translator>Björn Milcke: de-DE, en-US</em:translator>
-    <em:translator>Julien Buratto: it-IT</em:translator>
-    <em:homepageURL>http://www.froihofer.net/xnote/</em:homepageURL>
+    <em:translator>de: Lorenz Froihofer, Björn Milcke</em:translator>
+    <em:translator>en-US: Lorenz Froihofer, Björn Milcke</em:translator>
+    <em:translator>fr-FR: Armand Sanier</em:translator>
+    <em:translator>gl: Daniel Muñiz Fontoira (trasno.net)</em:translator>
+    <em:translator>it-IT: Julien Buratto</em:translator>
+    <em:translator>nl-NL: Bernhard Deeterink, Maarten van Vliet</em:translator>
   </Description>
 </RDF>

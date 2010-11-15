@@ -144,14 +144,14 @@ net.froihofer.xnote.Overlay = function() {
     if (gDBView.selection.currentIndex==currentIndex) {
       xnoteWindow.resizeTo(noteForRightMouseClick.DEFAULT_XNOTE_WIDTH, noteForRightMouseClick.DEFAULT_XNOTE_HEIGHT);
       xnoteWindow.moveTo(noteForRightMouseClick.DEFAULT_X, noteForRightMouseClick.DEFAULT_Y)
-      note.setModified(true);
+      note.modified = true;
     }
     else {
       noteForRightMouseClick.x = noteForRightMouseClick.DEFAULT_X;
       noteForRightMouseClick.y = noteForRightMouseClick.DEFAULT_Y;
       noteForRightMouseClick.width = noteForRightMouseClick.DEFAULT_XNOTE_WIDTH;
       noteForRightMouseClick.height = noteForRightMouseClick.DEFAULT_XNOTE_HEIGHT;
-      noteForRightMouseClick.setModified(true);
+      noteForRightMouseClick.modified = true;
       noteForRightMouseClick.saveNote();
     }
   }
@@ -332,10 +332,10 @@ net.froihofer.xnote.Overlay = function() {
       }
 
       switch(data) {
-        case "storage_path":
+        case "xnote.storage_path":
           net.froihofer.xnote.Storage.updateStoragePath();
           break;
-        case "usetag":
+        case "xnote.usetag":
           net.froihofer.xnote.Commons.checkXNoteTag();
           break;
       }
@@ -351,7 +351,11 @@ net.froihofer.xnote.Overlay = function() {
     net.froihofer.xnote.Commons.init();
     net.froihofer.xnote.Storage.updateStoragePath();
     net.froihofer.xnote.Commons.checkXNoteTag();
-    net.froihofer.xnote.Commons.xnotePrefs.addObserver("", prefObserver, false);
+    //The following statement does not work in SeaMonkey
+//    net.froihofer.xnote.Commons.xnotePrefs.addObserver("", prefObserver, false);
+    var prefs = Components.classes['@mozilla.org/preferences-service;1']
+                           .getService(Components.interfaces.nsIPrefBranch2)
+    prefs.addObserver("xnote.", prefObserver, false);
     if (String(EnsureSubjectValue).search('extensionDejaChargee')==-1) {
       var oldEnsureSubjectValue=EnsureSubjectValue;
       EnsureSubjectValue=function(){

@@ -6,9 +6,10 @@ overlay		chrome://browser/content/browser.xul				chrome://xnote/content/xnote-ov
 skin		xnote   				classic	   					chrome/skin/
 style       chrome://global/content/customizeToolbar.xul	    chrome://xnote/skin/xnote-overlay.css
 
-locale		xnote					fr-FR						chrome/locale/fr-FR/
+locale		xnote					de						chrome/locale/de/
 locale		xnote					en-US						chrome/locale/en-US/
-locale		xnote					de-DE						chrome/locale/de-DE/
+locale		xnote					fr-FR						chrome/locale/fr-FR/
+locale		xnote					gl						    chrome/locale/gl/
 locale		xnote					it-IT						chrome/locale/it-IT/
 locale		xnote					nl-NL						chrome/locale/nl-NL/
 

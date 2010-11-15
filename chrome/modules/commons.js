@@ -31,7 +31,7 @@ net.froihofer.xnote.Commons = function() {
   var pub = {
     //Current XNote version
     get XNOTE_VERSION() {
-      return "2.2.3a1";
+      return "2.2.3";
     },
 
     init : function() {
@@ -70,11 +70,18 @@ net.froihofer.xnote.Commons = function() {
         var tagService = Components.classes["@mozilla.org/messenger/tagservice;1"]
                                  .getService(Components.interfaces.nsIMsgTagService);
 
+        var addTag = true;
         // Test if the XNote Tag already exists, if not, create it
-        if( tagService.getTagForKey( "xnote" ) == '' ) {
-          // ~dump( "NOT FOUND XNOTE_TAG_NAME" );
-          tagService.addTagForKey( "xnote", XNOTE_TAG_NAME, XNOTE_TAG_COLOR, '');
+        try {
+          if( tagService.getTagForKey( "xnote" ) == '' ) {
+            addTag = false;
+          }
         }
+        catch (e) {
+          //This happens if the tag does not exist.
+          //~dump("\nCould not get tag for key 'xnote': "+e.message+"\n"+e.trace);
+        }
+        if (addTag) tagService.addTagForKey( "xnote", XNOTE_TAG_NAME, XNOTE_TAG_COLOR, '');
       }
     }
 

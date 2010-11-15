@@ -1,0 +1,13 @@
+<!-- encoding='UTF-8' -->
+
+<!ENTITY xnote "XNote">
+<!ENTITY preferences "Preferencias">
+<!ENTITY btn.browse "Examinar...">
+<!ENTITY Window.defaults "Xanela predeterminada">
+<!ENTITY Width "Largura">
+<!ENTITY Height "Altura">
+<!ENTITY storage.path "Camiño de almacenamento">
+<!ENTITY Message.tag "Etiqueta de mensaxe">
+<!ENTITY Name "Nome">
+<!ENTITY Color "Cor">
+<!ENTITY use.tag "Usar etiqueta?">

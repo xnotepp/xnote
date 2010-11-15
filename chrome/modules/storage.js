@@ -47,7 +47,7 @@ net.froihofer.xnote.Storage = function() {
   //      ~dump("\nCould not get storage path:"+e+"\n"+e.stack+"\n...applying default storage path.");
         _storageDir = defaultDir;
       }
-      ~ dump("\nxnote: storageDir initialized to: "+_storageDir.path);
+//      ~ dump("\nxnote: storageDir initialized to: "+_storageDir.path);
     },
 
     /**
