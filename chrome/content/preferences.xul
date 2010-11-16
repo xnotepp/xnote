@@ -13,10 +13,10 @@
     <preferences>
       <preference id='pref.width' name='xnote.width' type='int'/>
       <preference id='pref.height' name='xnote.height' type='int'/>
-      <preference id='pref.usetag' name='xnote.usetag' type='bool'/>
       <preference id='pref.storage_path' name='xnote.storage_path' type='string'/>
       <preference id="pref.tag.name" name="mailnews.tags.xnote.tag" type="string"/>
       <preference id="pref.tag_color" name="mailnews.tags.xnote.color" type="string" />
+      <preference id='pref.usetag' name='xnote.usetag' type='bool'/>
     </preferences>
 
     <groupbox>

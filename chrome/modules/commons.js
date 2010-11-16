@@ -69,19 +69,35 @@ net.froihofer.xnote.Commons = function() {
         // Get the tag service.
         var tagService = Components.classes["@mozilla.org/messenger/tagservice;1"]
                                  .getService(Components.interfaces.nsIMsgTagService);
+        var prefs = Components.classes['@mozilla.org/preferences-service;1']
+                                 .getService(Components.interfaces.nsIPrefBranch2);
 
         var addTag = true;
         // Test if the XNote Tag already exists, if not, create it
         try {
-          if( tagService.getTagForKey( "xnote" ) == '' ) {
+          if (tagService.getTagForKey("xnote").trim() != "") {
             addTag = false;
+            // The following happens if the user enters a name in the
+            // preferences dialog, but does not choose a color.
+            if (!prefs.prefHasUserValue("mailnews.tags.xnote.color")) {
+              prefs.setCharPref("mailnews.tags.xnote.color", XNOTE_TAG_COLOR);
+            }
           }
         }
         catch (e) {
           //This happens if the tag does not exist.
           //~dump("\nCould not get tag for key 'xnote': "+e.message+"\n"+e.trace);
         }
-        if (addTag) tagService.addTagForKey( "xnote", XNOTE_TAG_NAME, XNOTE_TAG_COLOR, '');
+        if (addTag) {
+          var tagName = XNOTE_TAG_NAME;
+          var tagColor = XNOTE_TAG_COLOR;
+          if (prefs.prefHasUserValue("mailnews.tags.xnote.tag")) {
+            tagName = prefs.getCharPref("mailnews.tags.xnote.tag");
+            if (tagName.trim() == "") tagName = XNOTE_TAG_NAME;
+          }
+          if (prefs.prefHasUserValue("mailnews.tags.xnote.color")) tagColor = prefs.getCharPref("mailnews.tags.xnote.color");
+          tagService.addTagForKey( "xnote", tagName, tagColor, '');
+        }
       }
     }
 

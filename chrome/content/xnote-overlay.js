@@ -354,7 +354,7 @@ net.froihofer.xnote.Overlay = function() {
     //The following statement does not work in SeaMonkey
 //    net.froihofer.xnote.Commons.xnotePrefs.addObserver("", prefObserver, false);
     var prefs = Components.classes['@mozilla.org/preferences-service;1']
-                           .getService(Components.interfaces.nsIPrefBranch2)
+                           .getService(Components.interfaces.nsIPrefBranch2);
     prefs.addObserver("xnote.", prefObserver, false);
     if (String(EnsureSubjectValue).search('extensionDejaChargee')==-1) {
       var oldEnsureSubjectValue=EnsureSubjectValue;
