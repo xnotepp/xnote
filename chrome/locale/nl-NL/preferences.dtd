@@ -11,3 +11,6 @@
 <!ENTITY Name "Naam">
 <!ENTITY Color "Kleur">
 <!ENTITY use.tag "Gebruik Label?">
+
+<!ENTITY Behavior "Behavior">
+<!ENTITY show.on.select "Show note on message selection">

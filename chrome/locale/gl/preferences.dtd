@@ -11,3 +11,6 @@
 <!ENTITY Name "Nome">
 <!ENTITY Color "Cor">
 <!ENTITY use.tag "Usar etiqueta?">
+
+<!ENTITY Behavior "Comportamento">
+<!ENTITY show.on.select "Mostrar nota ao selecionar a mensaxe">

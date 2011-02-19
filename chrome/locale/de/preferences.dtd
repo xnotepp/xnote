@@ -11,3 +11,5 @@
 <!ENTITY use.tag "Schlagwort verwenden?">
 <!ENTITY Name "Name">
 <!ENTITY Color "Farbe">
+<!ENTITY Behavior "Verhalten">
+<!ENTITY show.on.select "XNote nach E-Mail Auswahl anzeigen">

@@ -1,4 +1,4 @@
-<!-- encoding='UTF-8' -->
+<?xml version="1.0" encoding="UTF-8"?>
 
 <!ENTITY xnote "XNote">
 <!ENTITY preferences "Preferences">
@@ -11,3 +11,5 @@
 <!ENTITY Name "Name">
 <!ENTITY Color "Color">
 <!ENTITY use.tag "Use tag?">
+<!ENTITY Behavior "Behavior">
+<!ENTITY show.on.select "Show note on message selection">

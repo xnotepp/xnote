@@ -11,3 +11,6 @@
 <!ENTITY Name "Name">
 <!ENTITY Color "Color">
 <!ENTITY use.tag "Use tag?">
+
+<!ENTITY Behavior "Behavior">
+<!ENTITY show.on.select "Show note on message selection">

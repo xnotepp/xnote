@@ -75,7 +75,9 @@ net.froihofer.xnote.Overlay = function() {
       //~ dump('\nevent=true');
       initSource = event;
     }
-    if (note.text != '' || initSource=='clicBouton') {
+    var xnotePrefs = net.froihofer.xnote.Commons.xnotePrefs;
+    if ((xnotePrefs.getBoolPref("show_on_select") && note.text != '')
+        || initSource=='clicBouton') {
       xnoteWindow = window.openDialog(
         'chrome://xnote/content/xnote-window.xul',
         'XNote',
