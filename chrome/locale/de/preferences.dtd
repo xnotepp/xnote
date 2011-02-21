@@ -13,3 +13,4 @@
 <!ENTITY Color "Farbe">
 <!ENTITY Behavior "Verhalten">
 <!ENTITY show.on.select "XNote nach E-Mail Auswahl anzeigen">
+<!ENTITY show.first.x.chars.in.col "Zeige die ersten X Zeichen in der XNote Spalte">

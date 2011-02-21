@@ -2,15 +2,38 @@ if (!net) var net = {};
 if (!net.froihofer) net.froihofer={};
 if (!net.froihofer.xnote) net.froihofer.xnote={};
 
+Components.utils.import("resource://xnote/modules/commons.js");
 
 net.froihofer.xnote.ColumnNote = function() {
 
+  function getHeaderForRow(row) {
+    return gDBView.getFolderForViewIndex(row).
+                   GetMessageHeader(gDBView.getKeyAt(row));
+  }
+
   var pub = {
     columnHandler : {
-      getCellText:         function(row, col) {
+      getCellText: function(row, col) {
+        var xnotePrefs = net.froihofer.xnote.Commons.xnotePrefs;
+        if (xnotePrefs.getIntPref("show_first_x_chars_in_col") > 0) {
+          var xnote = new net.froihofer.xnote.Note(getHeaderForRow(row).messageId);
+          if (xnote.exists()) {
+            return " " + xnote.text.substr(0,xnotePrefs.getIntPref("show_first_x_chars_in_col"));
+          }
+        }
         return null;
       },
       getSortStringForRow: function(hdr) {
+        var xnotePrefs = net.froihofer.xnote.Commons.xnotePrefs;
+        if (xnotePrefs.getIntPref("show_first_x_chars_in_col") > 0) {
+          var xnote = new net.froihofer.xnote.Note(hdr.messageId);
+          if (xnote.exists()) {
+            return " " + xnote.text.substr(0,xnotePrefs.getIntPref("show_first_x_chars_in_col"));
+          }
+          else {
+            return "";
+          }
+        }
         return pub.hasNote(hdr.messageId);
       },
       isString:            function() {
@@ -20,8 +43,7 @@ net.froihofer.xnote.ColumnNote = function() {
       getCellProperties:   function(row, col, props){},
       getRowProperties:    function(row, props){},
       getImageSrc:         function(row, col) {
-        var key = gDBView.getKeyAt(row);
-        var hdr = gDBView.getFolderForViewIndex(row).GetMessageHeader(key);
+        var hdr = getHeaderForRow(row);
         if(pub.hasNote(hdr.messageId)){
           return "chrome://xnote/skin/xnote_context.png";
         }

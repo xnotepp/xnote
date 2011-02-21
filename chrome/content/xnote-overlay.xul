@@ -65,8 +65,8 @@
 	<tree id="threadTree">
     <treecols id="threadCols">
       <splitter class="tree-splitter" />
-      <treecol id="colNote" persist="hidden ordinal" label="&xnote.label;"
-           currentView="unthreaded" fixed="true"
+      <treecol id="colNote" persist="hidden ordinal width" label="&xnote.label;"
+           currentView="unthreaded"
            class="treecol-image noteColumnHeader" tooltiptext="&header.label;" />
     </treecols>
   </tree>

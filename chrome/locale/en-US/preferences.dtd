@@ -13,3 +13,4 @@
 <!ENTITY use.tag "Use tag?">
 <!ENTITY Behavior "Behavior">
 <!ENTITY show.on.select "Show note on message selection">
+<!ENTITY show.first.x.chars.in.col "Show first X characters in XNote column">

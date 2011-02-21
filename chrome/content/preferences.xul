@@ -18,13 +18,14 @@
       <preference id="pref.tag_color" name="mailnews.tags.xnote.color" type="string" />
       <preference id='pref.usetag' name='xnote.usetag' type='bool'/>
       <preference id="pref.show_on_select" name="xnote.show_on_select" type="bool" />
+      <preference id="pref.show_first_x_chars_in_col" name="xnote.show_first_x_chars_in_col" type="int" />
     </preferences>
 
     <groupbox>
       <caption label="&Window.defaults;" />
       <hbox align="center">
         <label value='&Width;' control='default.width'/>
-        <textbox id="default.width" preference="pref.width" size="5" type="number" label="&Width;"/>
+        <textbox id="default.width" preference="pref.width" size="5" type="number"/>
         <label value='&Height;' control='default.height'/>
         <textbox id="default.height" preference="pref.height" size="5" type="number"/>
       </hbox>
@@ -43,6 +44,11 @@
     <groupbox>
       <caption label='&Behavior;' />
       <checkbox label='&show.on.select;' id='show.on.select' preference='pref.show_on_select'/>
+      <hbox align="center">
+        <label id="lbls.show.first.x.chars" value="&show.first.x.chars.in.col;" control="show.first.x.chars" />
+        <textbox type="number" id='show.first.x.chars' preference='pref.show_first_x_chars_in_col' 
+                 width="50"/>
+      </hbox>
     </groupbox>
     <groupbox>
       <caption label='&storage.path;' />
