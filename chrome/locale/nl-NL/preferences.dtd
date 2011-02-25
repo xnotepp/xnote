@@ -11,7 +11,6 @@
 <!ENTITY Name "Naam">
 <!ENTITY Color "Kleur">
 <!ENTITY use.tag "Gebruik Label?">
-
-<!ENTITY Behavior "Behavior">
-<!ENTITY show.on.select "Show note on message selection">
-<!ENTITY show.first.x.chars.in.col "Show first X characters in XNote column">
+<!ENTITY Behavior "Gedrag">
+<!ENTITY show.on.select "Notitie tonen bij selectie">
+<!ENTITY show.first.x.chars.in.col "Toon eerste x karakters in Xnote Kolom">

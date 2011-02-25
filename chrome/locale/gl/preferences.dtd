@@ -11,7 +11,6 @@
 <!ENTITY Name "Nome">
 <!ENTITY Color "Cor">
 <!ENTITY use.tag "Usar etiqueta?">
-
 <!ENTITY Behavior "Comportamento">
 <!ENTITY show.on.select "Mostrar nota ao selecionar a mensaxe">
-<!ENTITY show.first.x.chars.in.col "Show first X characters in XNote column">
+<!ENTITY show.first.x.chars.in.col "Mostrar primeiros X caracteres na columna XNote">
