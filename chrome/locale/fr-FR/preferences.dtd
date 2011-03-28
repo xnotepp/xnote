@@ -2,15 +2,15 @@
 
 <!ENTITY xnote "XNote">
 <!ENTITY preferences "Préférences">
-<!ENTITY btn.browse "Parcourir...">
+<!ENTITY btn.browse "Parcourir…">
 <!ENTITY Window.defaults "Taille par défaut d'une nouvelle note">
 <!ENTITY Width "Largeur">
 <!ENTITY Height "Hauteur">
 <!ENTITY storage.path "Chemin de stockage des notes">
-<!ENTITY Message.tag "Etiquette de message">
+<!ENTITY Message.tag "Étiquette de message">
 <!ENTITY Name "Nom">
 <!ENTITY Color "Couleur">
 <!ENTITY use.tag "Utiliser l'étiquette de message ?">
-<!ENTITY behavior "Comportement">
-<!ENTITY show.on.select "Montrer la note du message sélectionné"> 
-<!ENTITY show.first.x.chars.in.col "Montrer les \"n\" premiers caractères de la note dans la colonne Xnote">
+<!ENTITY Behavior "Comportement">
+<!ENTITY show.on.select "Afficher la note du message sélectionné"> 
+<!ENTITY show.first.x.chars.in.col "Montrer les n premiers caractères de la note dans la colonne XNote">
