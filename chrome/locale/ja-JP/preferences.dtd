@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!ENTITY xnote "XNote">
+<!ENTITY preferences "設定">
+<!ENTITY btn.browse "参照">
+<!ENTITY Window.defaults "デフォルトのサイズ">
+<!ENTITY Width "幅">
+<!ENTITY Height "高さ">
+<!ENTITY storage.path "メモの保存先">
+<!ENTITY Message.tag "タグとの連動">
+<!ENTITY Name "タグ名">
+<!ENTITY Color "色">
+<!ENTITY use.tag "タグを使う">
+<!ENTITY Behavior "動作">
+<!ENTITY show.on.select "メッセージを選択したらメモを表示する">
+<!ENTITY show.first.x.chars.in.col "スレッドペインのXNoteカラムに先頭数文字を表示する">

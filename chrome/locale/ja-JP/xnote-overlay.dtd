@@ -1,0 +1,15 @@
+<!-- encoding="UTF-8" -->
+
+<!ENTITY xnote.label "XNote">
+<!ENTITY xnote.key "X">
+
+<!ENTITY ajout.label "新規作成">
+<!ENTITY ajout.key "C">
+<!ENTITY modif.label "変更">
+<!ENTITY modif.key "M">
+<!ENTITY suppr.label "削除">
+<!ENTITY suppr.key "D">
+
+<!ENTITY resetNoteWindow.label "メモをリセット">
+
+<!ENTITY header.label "メモでソートする">

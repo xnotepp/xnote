@@ -5,7 +5,7 @@
 
   <Description about='urn:mozilla:install-manifest'>
     <em:id>xnote@froihofer.net</em:id>
-    <em:version>2.2.5</em:version>
+    <em:version>2.2.6</em:version>
     <em:type>2</em:type> <!-- 2 corresponds to type 'extension' -->
     <em:optionsURL>chrome://xnote/content/preferences.xul</em:optionsURL>
     <em:targetApplication>
@@ -13,7 +13,7 @@
         <!-- Thunderbird -->
         <em:id>{3550f703-e582-4d05-9a08-453d09bdfdc6}</em:id>
         <em:minVersion>3.0</em:minVersion>
-        <em:maxVersion>3.3a</em:maxVersion>
+        <em:maxVersion>5.*</em:maxVersion>
       </Description>
     </em:targetApplication>
     <em:targetApplication>
@@ -21,15 +21,15 @@
       <!-- SeaMonkey -->
         <em:id>{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}</em:id>
         <em:minVersion>2.0</em:minVersion>
-        <em:maxVersion>2.1b2</em:maxVersion>
+        <em:maxVersion>2.1</em:maxVersion>
       </Description>
     </em:targetApplication>
 	
     <!-- Visible meta-data -->
-    <em:name>XNote</em:name>
+    <em:name>XNote++</em:name>
     <em:description>Add Post-It to your mails.</em:description>
     <em:iconURL>chrome://xnote/skin/icon32.png</em:iconURL>
-    <em:creator>Lorenz Froihofer: TB3 port, since Dec. 2009</em:creator>
+    <em:creator>Lorenz Froihofer: support for TB >= 3.0, since Dec. 2009</em:creator>
     <em:homepageURL>http://www.froihofer.net/xnote/</em:homepageURL>
     <em:contributor>Hugo Smadja: original developer</em:contributor>
     <em:contributor>Pierre-André Galmes: TB2 port, until Apr. 2008</em:contributor>
@@ -38,6 +38,7 @@
     <em:translator>fr-FR: Armand Sanier</em:translator>
     <em:translator>gl: Daniel Muñiz Fontoira (trasno.net)</em:translator>
     <em:translator>it-IT: Julien Buratto</em:translator>
+    <em:translator>ja-JP: Ryuji Sugino</em:translator>
     <em:translator>nl-NL: Bernhard Deeterink, Maarten van Vliet</em:translator>
   </Description>
 </RDF>
