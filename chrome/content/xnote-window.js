@@ -91,13 +91,16 @@ net.froihofer.xnote.Window = function() {
     var date1 = date.format(dateformat);
     //~ dump('\n->saveNote');
     if (note.modified) {
+      var oldText = note.text;
       note.text=document.getElementById('texte').value;
       if (note.text!='') {
         note.x=window.screenX-opener.screenX;
         note.y=window.screenY-opener.screenY;
         note.width=window.document.width;
         note.height=window.document.height;
-        note.modificationDate=date1;
+        if (oldText != note.text) {
+          note.modificationDate=date1;
+        }
         note.saveNote();
       }
       else {

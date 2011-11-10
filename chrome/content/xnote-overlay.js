@@ -105,11 +105,6 @@ net.froihofer.xnote.Overlay = function() {
    * Type: event command element XUL <menuitem>
    * Id: context-modif
    * FUNCTION
-   * There is an issue when right clicking on another email than currently selected.
-   * After the menu has disappeared, the mail selected before right clicking is again selected.
-   * Thus, the creation of the notes will not be on the correct mail. To avoid this, we
-   * currently do not enable the XNote context menu if the right click is not on
-   * the currently selected message.
    */
   pub.context_modifyNote = function () {
     initSource = 'clicBouton';	//specifies that the note is created by the user

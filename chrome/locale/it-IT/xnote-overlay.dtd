@@ -10,6 +10,6 @@
 <!ENTITY suppr.label "Cancella nota">
 <!ENTITY suppr.key "D">
 
-<!ENTITY resetNoteWindow.label "Reset note window">
+<!ENTITY resetNoteWindow.label "Reimposta finestra nota">
 
-<!ENTITY header.label "Click to sort by notes">
+<!ENTITY header.label "Clic per ordinare per nota">

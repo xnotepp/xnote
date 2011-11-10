@@ -5,7 +5,7 @@
 
   <Description about='urn:mozilla:install-manifest'>
     <em:id>xnote@froihofer.net</em:id>
-    <em:version>2.2.6</em:version>
+    <em:version>2.2.7</em:version>
     <em:type>2</em:type> <!-- 2 corresponds to type 'extension' -->
     <em:optionsURL>chrome://xnote/content/preferences.xul</em:optionsURL>
     <em:targetApplication>
@@ -13,7 +13,7 @@
         <!-- Thunderbird -->
         <em:id>{3550f703-e582-4d05-9a08-453d09bdfdc6}</em:id>
         <em:minVersion>3.0</em:minVersion>
-        <em:maxVersion>5.*</em:maxVersion>
+        <em:maxVersion>7.*</em:maxVersion>
       </Description>
     </em:targetApplication>
     <em:targetApplication>
@@ -21,7 +21,7 @@
       <!-- SeaMonkey -->
         <em:id>{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}</em:id>
         <em:minVersion>2.0</em:minVersion>
-        <em:maxVersion>2.1</em:maxVersion>
+        <em:maxVersion>2.4.*</em:maxVersion>
       </Description>
     </em:targetApplication>
 	
@@ -37,7 +37,7 @@
     <em:translator>en-US: Lorenz Froihofer, Björn Milcke</em:translator>
     <em:translator>fr-FR: Armand Sanier</em:translator>
     <em:translator>gl: Daniel Muñiz Fontoira (trasno.net)</em:translator>
-    <em:translator>it-IT: Julien Buratto</em:translator>
+    <em:translator>it-IT: Gabriele Gamba, Julien Buratto</em:translator>
     <em:translator>ja-JP: Ryuji Sugino</em:translator>
     <em:translator>nl-NL: Bernhard Deeterink, Maarten van Vliet</em:translator>
   </Description>
