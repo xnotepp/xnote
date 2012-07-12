@@ -15,6 +15,8 @@ net.froihofer.xnote.Window = function() {
   var xAvantDeplacement, yAvantDeplacement;
   // Variables for window resizing.
   var largeurAvantDeplacement, hauteurAvantDeplacement;
+  
+  var oldOpenerX, oldOpenerY;
 
   /** Displayed note. */
   var note;
@@ -191,24 +193,21 @@ net.froihofer.xnote.Window = function() {
     texte.focus();
   }
 
-  pub.openerDOMAttrModified = function(e) {
-    if (e.attrName != "screenX" && e.attrName != "screenY" && e.attrName != "sizemode") return;
-
-    //~dump("modified: "+e.attrName+", node="+e.relatedNode.nodeName+", node.ownerElement="+e.relatedNode.ownerElement+"\n");
-    //for (var i in e.relatedNode.ownerElement) ~dump(i+"\n");
-    //~dump("\n");
-    window.moveTo(opener.screenX + note.x, opener.screenY + note.y)
+  pub.checkOpenerMoved = function() {
+    if (oldOpenerX != opener.screenX || oldOpenerY != opener.screenY) {
+      window.moveTo(opener.screenX + note.x, opener.screenY + note.y)
+      oldOpenerX = opener.screenX;
+      oldOpenerY = opener.screenY;
+    }
   }
 
   pub.onUnload = function(e) {
 //    ~dump("\n->onUnload");
     pub.saveNote();
-    opener.removeEventListener('DOMAttrModified', net.froihofer.xnote.Window.openerDOMAttrModified, false);
   }
 
   pub.onOpenerUnload = function(e) {
     pub.saveNote();
-    opener.removeEventListener("DOMAttrModified", net.froihofer.xnote.Window.openerDOMAttrModified, useCapture)
   }
 
   return pub;
@@ -223,4 +222,4 @@ addEventListener('unload', net.froihofer.xnote.Window.onUnload, false);
 opener.addEventListener("unload", net.froihofer.xnote.Window.onOpenerUnload, false);
 //Unfortunately, there seems to be no better way to react on window
 //movement.
-opener.addEventListener('DOMAttrModified', net.froihofer.xnote.Window.openerDOMAttrModified, false);
+setInterval(net.froihofer.xnote.Window.checkOpenerMoved, 500);
