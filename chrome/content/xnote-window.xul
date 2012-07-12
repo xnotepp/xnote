@@ -20,37 +20,37 @@
   <script type='application/x-javascript' src='chrome://xnote/content/xnote-dateformat.js' />
 	<script type='application/x-javascript' src='chrome://xnote/content/xnote-window.js' />
 	
-	<box id='note' orient='vertical' flex='1'>
-		<box id='barre'>
+	<box id='xnote-note' orient='vertical' flex='1'>
+		<box id='xnote-barre'>
 			<titlebar flex='1' onmouseup='net.froihofer.xnote.Window.noteModified();'>
-				<label id='titre' value='&xnote;'/>
-				<label id='mdate' class="boite-de-texte" readonly="true"/>
+				<label id='xnote-titre' value='&xnote;'/>
+				<label id='xnote-mdate' class="boite-de-texte" readonly="true"/>
 			</titlebar>
 			
 			<image
-				id='bouton-fermer'
+				id='xnote-bouton-fermer'
 				tooltiptext='&close;'
 				class='custombutton-smaller'
 				onclick='if (event.button==0) { net.froihofer.xnote.Window.saveNote(); close(); }'/>
 		</box>
 		<textbox
-			id='texte'
+			id='xnote-texte'
 			class='boite-de-texte'
 			multiline='true'
 			flex='1'
 			oninput='net.froihofer.xnote.Window.noteModified();'
 			onblur=''/>
-		<box id='barre-bottom'>
+		<box id='xnote-barre-bottom'>
 			<image
-				id='bouton-suppr'
+				id='xnote-bouton-suppr'
 				class='custombutton-smaller'
 				tooltiptext='&suppr;'
-				onclick='if (event.button==0) { net.froihofer.xnote.Window.deleteNote(); close(); }'>
+				onclick='if (event.button==0 &amp;&amp; confirm("&xnote.ask.deletion;")) { net.froihofer.xnote.Window.deleteNote(); close(); }'>
 			</image>
 
 			<spacer flex='1'/>
 			<textbox
-				id='redim'
+				id='xnote-redim'
 				class='boite-de-texte'
 				onmousedown='net.froihofer.xnote.Window.startRedimensionnement(event);'
 				readonly='true'

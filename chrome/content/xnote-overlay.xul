@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 	# File : xnote-overlay.xul
 	# Auteur : Hugo Smadja, Lorenz Froihofer
@@ -21,7 +21,7 @@
 	<toolbox id='mail-toolbox'>
 		<toolbarpalette id='MailToolbarPalette'>
 			<toolbarbutton
-				id='button-xnote'
+				id='xnote-toolbar-button'
 				class='toolbarbutton-1 chromeclass-toolbar-additional'
                                 label='&xnote.label;'
                                 disabled='true'
@@ -30,36 +30,36 @@
 		</toolbarpalette>
 	</toolbox>
 
-	<stringbundleset id='stringbundleset'>
-		<stringbundle id='string-bundle' src='chrome://xnote/locale/xnote-overlay.properties'/>
+	<stringbundleset id='xnote-stringbundleset'>
+		<stringbundle id='xnote-stringbundle-overlay' src='chrome://xnote/locale/xnote-overlay.properties'/>
 	</stringbundleset>
 	
 <!-- Context menu for message list -->
  	<popup id='mailContext'>
-		<menu id='mailContext-xNote' label='&xnote.label;' accesskey='&xnote.key;'
+		<menu id='xnote-mailContext-xNote' label='&xnote.label;' accesskey='&xnote.key;'
                   image='chrome://xnote/skin/xnote_context.png' class='menuitem-iconic'
                   insertbefore="mailContext-openInBrowser,mailContext-openNewWindow">
 			<menupopup>
- 				<menuitem id='context-ajout' label='&ajout.label;' key='&ajout.key;'
+ 				<menuitem id='xnote-context-ajout' label='&ajout.label;' key='&ajout.key;'
 					oncommand='net.froihofer.xnote.Overlay.context_createNote();'>
 				</menuitem>
-				<menuitem id='context-modif' label='&modif.label;' key='&modif.key;'
+				<menuitem id='xnote-context-modif' label='&modif.label;' key='&modif.key;'
 					oncommand='net.froihofer.xnote.Overlay.context_modifyNote();'>
 				</menuitem>
-				<menuitem id='context-suppr' label='&suppr.label;' key='&suppr.key;'
+				<menuitem id='xnote-context-suppr' label='&suppr.label;' key='&suppr.key;'
 					oncommand="goDoCommand('cmd_label0'); net.froihofer.xnote.Overlay.context_deleteNote();">
-					<observes element='context-modif' attribute='hidden'/>
+					<observes element='xnote-context-modif' attribute='hidden'/>
 				</menuitem>
         <menuseparator>
-          <observes element='context-modif' attribute='hidden' />
+          <observes element='xnote-context-modif' attribute='hidden' />
         </menuseparator>
-        <menuitem id="context-reset-note-window" label="&resetNoteWindow.label;"
+        <menuitem id="xnote-context-reset-note-window" label="&resetNoteWindow.label;"
           oncommand="net.froihofer.xnote.Overlay.context_resetNoteWindow();">
-          <observes element='context-modif' attribute='hidden'/>
+          <observes element='xnote-context-modif' attribute='hidden'/>
         </menuitem>
 			</menupopup>
 		</menu>
-		<menuseparator id="mailContext-sep-xNote" insertbefore="mailContext-openInBrowser,mailContext-openNewWindow"/>
+		<menuseparator id="xnote-mailContext-sep-xNote" insertbefore="mailContext-openInBrowser,mailContext-openNewWindow"/>
 	</popup>
 	
 	<tree id="threadTree">
@@ -67,7 +67,7 @@
       <splitter class="tree-splitter" />
       <treecol id="colNote" persist="hidden ordinal width" label="&xnote.label;"
            currentView="unthreaded"
-           class="treecol-image noteColumnHeader" tooltiptext="&header.label;" />
+           class="treecol-image xnote-column-header" tooltiptext="&header.label;" />
     </treecols>
   </tree>
 </overlay>

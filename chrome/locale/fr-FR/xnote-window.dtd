@@ -4,3 +4,4 @@
 
 <!ENTITY close 'Sauver et quitter'>
 <!ENTITY suppr 'Suppression de la note'>
+<!ENTITY xnote.ask.deletion 'Etes-vous sûr de vouloir supprimer cette note?'>

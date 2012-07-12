@@ -10,16 +10,16 @@
   {-moz-image-region: rect(14px 28px 28px  14px);}
 
 
-#button-xnote { 
+#xnote-toolbar-button { 
 	list-style-image: url('chrome://xnote/skin/icone24.png');
 	-moz-image-region: rect(0px 24px 24px 0px);  
 }
 
-#button-xnote:hover {
+#xnote-toolbar-button:hover {
 	-moz-image-region: rect(24px 24px 48px 0px);
 }
 
-#button-xnote[disabled='true'] { 
+#xnote-toolbar-button[disabled='true'] { 
 	-moz-image-region: rect(48px 24px 72px 0px);
 }
 
@@ -34,7 +34,7 @@ toolbar[iconsize='small'] #button-xnote[disabled='true'] {
 	-moz-image-region: rect(32px 16px 48px 0px);
 }
 
-.noteColumnHeader {
+.xnote-column-header {
 	list-style-image: url('chrome://xnote/skin/xnote_context.png');
 }
 

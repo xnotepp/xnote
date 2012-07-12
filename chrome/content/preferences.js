@@ -32,7 +32,7 @@ net.froihofer.xnote.Preferences = function() {
             storagePath = "[ProfD]"+storagePath.substr(profileDir.path.length+1);
           }
         }
-        var prefPath = document.getElementById("pref.storage_path");
+        var prefPath = document.getElementById("xnote-pref-storage_path");
         prefPath.value = storagePath;
       }
     }

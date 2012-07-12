@@ -37,27 +37,31 @@ net.froihofer.xnote.Window = function() {
           .getService(Components.interfaces.nsIPrefService);
     try
     {
-      self.document.getElementById('note').style.setProperty('-moz-opacity', pref.getIntPref('xnote.transparence')/10, '');
+      self.document.getElementById('xnote-note').style.setProperty('-moz-opacity', pref.getIntPref('xnote.transparence')/10, '');
     }
     catch(e) {}*/
     note = self.arguments[0];
 
-    var texte=self.document.getElementById('texte');
+    var texte=self.document.getElementById('xnote-texte');
     texte.value=note.text;
 
     //set date in the titlebar
-    var modificationdate=self.document.getElementById("mdate");
+    var modificationdate=self.document.getElementById("xnote-mdate");
     modificationdate.value=note.modificationDate;
 
-    self.setTimeout('window.resizeTo('+note.width+','+note.height+');');
+    self.setTimeout(net.froihofer.xnote.Window.resizeWindow);
     //~ self.setTimeout("document.getElementById('xnote-window').style.setProperty('visibility','visible','')");
     //~ self.setTimeout("document.getElementById('xnote-window').setAttribute('background-color', 'black')");
 
     if (window.arguments[1]=='clicBouton')
       texte.focus();
     else
-      self.setTimeout('window.opener.focus();');
+      self.setTimeout(window.opener.focus);
   //~ dump('\n<-onLoad');
+  }
+
+  pub.resizeWindow = function () {
+    window.resizeTo(note.width, note.height);
   }
 
   /**
@@ -70,7 +74,7 @@ net.froihofer.xnote.Window = function() {
    */
   pub.updateTag = function () {
     //~ dump('\n->updateTag');
-    opener.net.froihofer.xnote.Overlay.updateTag(document.getElementById('texte').value);
+    opener.net.froihofer.xnote.Overlay.updateTag(document.getElementById('xnote-texte').value);
   //~ dump('\n<-updateTag');
   }
 
@@ -92,7 +96,7 @@ net.froihofer.xnote.Window = function() {
     //~ dump('\n->saveNote');
     if (note.modified) {
       var oldText = note.text;
-      note.text=document.getElementById('texte').value;
+      note.text=document.getElementById('xnote-texte').value;
       if (note.text!='') {
         note.x=window.screenX-opener.screenX;
         note.y=window.screenY-opener.screenY;
@@ -134,7 +138,7 @@ net.froihofer.xnote.Window = function() {
    */
   pub.deleteNote = function () {
     //~ dump('\n->supprimerNote');
-    document.getElementById('texte').value='';
+    document.getElementById('xnote-texte').value='';
     pub.noteModified();
     pub.saveNote();
   //~ dump('\n<-supprimerNote');
@@ -167,7 +171,7 @@ net.froihofer.xnote.Window = function() {
   pub.redimenssionnement = function (e) {
     //~ dump('\n w.document.width='+window.document.width+' ; w.document.height='+window.document.height);
 
-    //~ dump('\nlargeur='+document.getElementById('texte').style.width);
+    //~ dump('\nlargeur='+document.getElementById('xnote-texte').style.width);
     var nouvelleLargeur = largeurAvantDeplacement + e.screenX - xAvantDeplacement;
     var nouvelleHauteur = hauteurAvantDeplacement + e.screenY - yAvantDeplacement;
     nouvelleLargeur = nouvelleLargeur< 58 ?  58 : nouvelleLargeur;
@@ -183,7 +187,7 @@ net.froihofer.xnote.Window = function() {
   pub.stopRedimenssionnement = function (e) {
     document.removeEventListener('mousemove', net.froihofer.xnote.Window.redimenssionnement, true);
     document.removeEventListener('mouseup', net.froihofer.xnote.Window.stopRedimenssionnement, true);
-    var texte=self.document.getElementById('texte');
+    var texte=self.document.getElementById('xnote-texte');
     texte.focus();
   }
 

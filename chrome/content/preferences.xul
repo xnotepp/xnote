@@ -1,4 +1,4 @@
-<?xml version='1.0'?> 
+<?xml version="1.0" encoding="UTF-8"?> 
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 
 <!DOCTYPE prefwindow SYSTEM 'chrome://xnote/locale/preferences.dtd'>
@@ -11,51 +11,51 @@
 
   <prefpane id='xnote-pane' label='&xnote; &preferences;' orient='vertical'>
     <preferences>
-      <preference id='pref.width' name='xnote.width' type='int'/>
-      <preference id='pref.height' name='xnote.height' type='int'/>
-      <preference id='pref.storage_path' name='xnote.storage_path' type='string'/>
-      <preference id="pref.tag.name" name="mailnews.tags.xnote.tag" type="string"/>
-      <preference id="pref.tag_color" name="mailnews.tags.xnote.color" type="string" />
-      <preference id='pref.usetag' name='xnote.usetag' type='bool'/>
-      <preference id="pref.show_on_select" name="xnote.show_on_select" type="bool" />
-      <preference id="pref.show_first_x_chars_in_col" name="xnote.show_first_x_chars_in_col" type="int" />
+      <preference id='xnote-pref-width' name='xnote.width' type='int'/>
+      <preference id='xnote-pref-height' name='xnote.height' type='int'/>
+      <preference id='xnote-pref-storage_path' name='xnote.storage_path' type='string'/>
+      <preference id="xnote-pref-tag.name" name="mailnews.tags.xnote.tag" type="string"/>
+      <preference id="xnote-pref-tag_color" name="mailnews.tags.xnote.color" type="string" />
+      <preference id='xnote-pref-usetag' name='xnote.usetag' type='bool'/>
+      <preference id="xnote-pref-show_on_select" name="xnote.show_on_select" type="bool" />
+      <preference id="xnote-pref-show_first_x_chars_in_col" name="xnote.show_first_x_chars_in_col" type="int" />
     </preferences>
 
     <groupbox>
       <caption label="&Window.defaults;" />
       <hbox align="center">
         <label value='&Width;' control='default.width'/>
-        <textbox id="default.width" preference="pref.width" size="5" type="number"/>
+        <textbox id="xnote-default-width" preference="xnote-pref-width" size="5" type="number"/>
         <label value='&Height;' control='default.height'/>
-        <textbox id="default.height" preference="pref.height" size="5" type="number"/>
+        <textbox id="xnote-default-height" preference="xnote-pref-height" size="5" type="number"/>
       </hbox>
     </groupbox>
     <groupbox>
       <caption label="&Message.tag;" />
-      <checkbox label='&use.tag;' id='use.tag' preference='pref.usetag'/>
+      <checkbox label='&use.tag;' id='use.tag' preference='xnote-pref-usetag'/>
       <hbox align="center">
-        <label id="lbl.tag.color" value="&Name;" control="tb.tag.name"/>
-        <textbox id="tb.tag.name" preference="pref.tag.name" />
+        <label id="xnote-lbl-tag-color" value="&Name;" control="tb.tag.name"/>
+        <textbox id="xnote-tb-tag-name" preference="xnote-pref-tag.name" />
         <label value="&Color;" control="cp.tag.color"/>
-        <colorpicker id="cp.tag.color" type="button"
-			               preference='pref.tag_color'/>
+        <colorpicker id="xnote-cp-tag-color" type="button"
+			               preference='xnote-pref-tag_color'/>
       </hbox>
     </groupbox>
     <groupbox>
       <caption label='&Behavior;' />
-      <checkbox label='&show.on.select;' id='show.on.select' preference='pref.show_on_select'/>
+      <checkbox label='&show.on.select;' id='xnote-show-on-select' preference='xnote-pref-show_on_select'/>
       <hbox align="center">
-        <label id="lbls.show.first.x.chars" value="&show.first.x.chars.in.col;" control="show.first.x.chars" />
-        <textbox type="number" id='show.first.x.chars' preference='pref.show_first_x_chars_in_col' 
+        <label id="xnote-lbls-show-first-x-chars" value="&show.first.x.chars.in.col;" control="show.first.x.chars" />
+        <textbox type="number" id='xnote-tb-show-first-x-chars' preference='xnote-pref-show_first_x_chars_in_col' 
                  width="50"/>
       </hbox>
     </groupbox>
     <groupbox>
       <caption label='&storage.path;' />
       <hbox align="center">
-        <textbox id="storage.path" preference="pref.storage_path"
+        <textbox id="xnote-storage-path" preference="xnote-pref-storage_path"
                      readonly="true" size="30"/>
-        <button id="btn.browse.storage.path"
+        <button id="xnote-btn-browse-storage-path"
             label="&btn.browse;"
             oncommand="net.froihofer.xnote.Preferences.selectStoragePath()"/>
       </hbox>

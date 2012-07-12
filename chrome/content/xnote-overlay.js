@@ -68,16 +68,16 @@ net.froihofer.xnote.Overlay = function() {
     note = new net.froihofer.xnote.Note(pub.getMessageID());
     pub.updateTag( note.text );
 
-    var bundle = document.getElementById('string-bundle');
+    var bundle = document.getElementById('xnote-stringbundle-overlay');
 
     //~ dump('\nevent = '+event);
-    if (event) {
-      //~ dump('\nevent=true');
-      initSource = event;
-    }
+//    if (event) {
+//      //~ dump('\nevent=true');
+//      initSource = event;
+//    }
     var xnotePrefs = net.froihofer.xnote.Commons.xnotePrefs;
     if ((xnotePrefs.getBoolPref("show_on_select") && note.text != '')
-        || initSource=='clicBouton') {
+        || initSource=='clicBouton' || event=='clicBouton') {
       xnoteWindow = window.openDialog(
         'chrome://xnote/content/xnote-window.xul',
         'XNote',
@@ -134,7 +134,7 @@ net.froihofer.xnote.Overlay = function() {
   pub.context_deleteNote = function () {
     noteForRightMouseClick.deleteNote();
     pub.updateTag("");
-    setTimeout("net.froihofer.xnote.Overlay.initialise('')");
+    setTimeout(net.froihofer.xnote.Overlay.initialise);
   }
 
   pub.context_resetNoteWindow = function () {
@@ -196,14 +196,14 @@ net.froihofer.xnote.Overlay = function() {
     if (e.button==2) {
       noteForRightMouseClick = new net.froihofer.xnote.Note(pub.getMessageID());
       var noteExists = noteForRightMouseClick.exists();
-      document.getElementById('context-ajout').setAttribute('hidden', noteExists);
-      document.getElementById('context-modif').setAttribute('hidden', !noteExists);
+      document.getElementById('xnote-context-ajout').setAttribute('hidden', noteExists);
+      document.getElementById('xnote-context-modif').setAttribute('hidden', !noteExists);
       var messageArray = gFolderDisplay.selectedMessages;
       if (messageArray && messageArray.length == 1) {
-        document.getElementById('mailContext-xNote').setAttribute('disabled', false);
+        document.getElementById('xnote-mailContext-xNote').setAttribute('disabled', false);
       }
       else {
-        document.getElementById('mailContext-xNote').setAttribute('disabled', true);
+        document.getElementById('xnote-mailContext-xNote').setAttribute('disabled', true);
       }
     }
     var t = e.originalTarget;
@@ -235,18 +235,18 @@ net.froihofer.xnote.Overlay = function() {
    */
   pub.updateXNoteButton = function () {
     var messageArray = gFolderDisplay.selectedMessages;
-    var xnoteButton = document.getElementById('button-xnote');
+    var xnoteButton = document.getElementById('xnote-toolbar-button');
     if (messageArray && messageArray.length==1) {
       if (xnoteButton) {
         xnoteButton.setAttribute('disabled', false);
       }
-      document.getElementById('mailContext-xNote').setAttribute('disabled', false);
+      document.getElementById('xnote-mailContext-xNote').setAttribute('disabled', false);
     }
     else {
       if (xnoteButton) {
         xnoteButton.setAttribute('disabled', true);
       }
-      document.getElementById('mailContext-xNote').setAttribute('disabled', true);
+      document.getElementById('xnote-mailContext-xNote').setAttribute('disabled', true);
       pub.closeNote();
     }
   }
@@ -280,7 +280,7 @@ net.froihofer.xnote.Overlay = function() {
       var toolbar = toolbars.iterateNext();
       while(toolbar && !xnoteButtonPresent) {
         //~dump("\n\nChecking toolbar '"+toolbar.id+"', currentSet="+toolbar.currentSet);
-        if(toolbar.currentSet.indexOf("button-xnote")>-1) {
+        if(toolbar.currentSet.indexOf("xnote-toolbar-button")>-1) {
           xnoteButtonPresent = true;
           //~dump("\nFound XNote button.");
         }
@@ -296,7 +296,7 @@ net.froihofer.xnote.Overlay = function() {
         var newSet = "";
         for (var i = 0; i<buttons.length; i++) {
           if( !xnoteButtonPresent && buttons[i] == "spring" ) {
-            newSet += "button-xnote,";
+            newSet += "xnote-toolbar-button,";
             xnoteButtonPresent = true;
           }
           newSet += buttons[i]+",";
@@ -305,7 +305,7 @@ net.froihofer.xnote.Overlay = function() {
           newSet = newSet.substring(0, newSet.length-1);
         }
         else {
-          newSet = toolbar.currentSet + ",button-xnote";
+          newSet = toolbar.currentSet + ",xnote-toolbar-button";
         }
         toolbar.currentSet = newSet;
 
@@ -358,7 +358,7 @@ net.froihofer.xnote.Overlay = function() {
       EnsureSubjectValue=function(){
         var extensionDejaChargee ;
         oldEnsureSubjectValue();
-        setTimeout("net.froihofer.xnote.Overlay.initialise('')");
+        setTimeout(net.froihofer.xnote.Overlay.initialise);
       };
     }
     try {

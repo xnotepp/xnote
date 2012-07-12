@@ -25,7 +25,7 @@ net.froihofer.xnote.Storage = function() {
         _storageDir = defaultDir;
       }
       else try {
-        var storagePath = xnotePrefs.getCharPref('storage_path').trim();
+        var storagePath = net.froihofer.UTF8Coder.decode(xnotePrefs.getCharPref('storage_path').trim());
         if (storagePath != "") {
           if (storagePath.indexOf("[ProfD]") == 0) {
             _storageDir = Components.classes["@mozilla.org/file/local;1"]

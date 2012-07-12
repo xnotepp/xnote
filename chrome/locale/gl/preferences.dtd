@@ -6,11 +6,11 @@
 <!ENTITY Window.defaults "Xanela predeterminada">
 <!ENTITY Width "Largura">
 <!ENTITY Height "Altura">
-<!ENTITY storage.path "Camiño de almacenamento">
+<!ENTITY storage.path "Ruta de almacenamento">
 <!ENTITY Message.tag "Etiqueta de mensaxe">
 <!ENTITY Name "Nome">
 <!ENTITY Color "Cor">
 <!ENTITY use.tag "Usar etiqueta?">
 <!ENTITY Behavior "Comportamento">
-<!ENTITY show.on.select "Mostrar nota ao selecionar a mensaxe">
-<!ENTITY show.first.x.chars.in.col "Mostrar primeiros X caracteres na columna XNote">
+<!ENTITY show.on.select "Amosar nota ao selecionar a mensaxe">
+<!ENTITY show.first.x.chars.in.col "Amosar primeiros X caracteres na columna XNote">
