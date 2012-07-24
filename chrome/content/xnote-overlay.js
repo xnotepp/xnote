@@ -82,7 +82,7 @@ net.froihofer.xnote.Overlay = function() {
         'chrome://xnote/content/xnote-window.xul',
         'XNote',
         'chrome=yes,dependent=yes,resizable=yes,modal=no,left='+(window.screenX + note.x)+',top='+(window.screenY + note.y)+',width='+note.width+',height='+note.height,
-        note, initSource
+        note, (initSource == 'clicBouton' || event == 'clicBouton' ? 'clicBouton' : null)
         );
     }
     initSource = '';

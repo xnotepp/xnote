@@ -5,7 +5,7 @@
 
   <Description about='urn:mozilla:install-manifest'>
     <em:id>xnote@froihofer.net</em:id>
-    <em:version>2.2.8</em:version>
+    <em:version>2.2.9</em:version>
     <em:type>2</em:type> <!-- 2 corresponds to type 'extension' -->
     <em:optionsURL>chrome://xnote/content/preferences.xul</em:optionsURL>
     <em:targetApplication>
