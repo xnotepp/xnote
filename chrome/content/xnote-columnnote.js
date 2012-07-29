@@ -78,7 +78,7 @@ net.froihofer.xnote.ColumnNote = function() {
     },
 
     addCustomColumnHandler : function () {
-      gDBView.addColumnHandler("colNote", pub.columnHandler);
+      gDBView.addColumnHandler("xnoteCol", pub.columnHandler);
     }
   }
 

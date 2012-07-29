@@ -29,6 +29,10 @@ if (!net.froihofer.xnote) net.froihofer.xnote={};
 Components.utils.import("resource://gre/modules/errUtils.js");
 Components.utils.import("resource://xnote/modules/storage.js");
 Components.utils.import("resource://xnote/modules/commons.js");
+// The following does not work generally - don't know why. 
+// Besides this, a JS file has to be included by the XUL-file, if one 
+// wants access to the document elements.
+// Components.utils.import("resource://xnote/modules/checkUpgrades.js");
 
 
 net.froihofer.xnote.Overlay = function() {
@@ -252,18 +256,20 @@ net.froihofer.xnote.Overlay = function() {
   }
 
   /**
-   * This function is executed at the first boot after installing the extension.
-   * It adds the XNote icon at the end of the toolbar.
+   * This function checks whether updates are necessary.
+   * For example, it adds the XNote icon at the end of the toolbar if
+   * XNote has been newly installed.
    */
-  pub.firstBoot = function () {
+  pub.checkInitialization = function () {
     var addButton = false;
     var XNOTE_VERSION = net.froihofer.xnote.Commons.XNOTE_VERSION;
     var xnotePrefs = net.froihofer.xnote.Commons.xnotePrefs;
     if (xnotePrefs.prefHasUserValue("version")) {
-      var num = xnotePrefs.getCharPref('version');
-      if(num!=XNOTE_VERSION) {
+      var storedVersion = xnotePrefs.getCharPref('version');
+      if(storedVersion != XNOTE_VERSION) {
         xnotePrefs.setCharPref('version', XNOTE_VERSION);
         addButton = true;
+        //net.froihofer.xnote.Upgrades.checkUpgrades();
       }
     }
     else {
@@ -373,7 +379,7 @@ net.froihofer.xnote.Overlay = function() {
     catch(e){
       logException(e,false);
     }
-    pub.firstBoot();
+    pub.checkInitialization();
   }
 
   return pub;

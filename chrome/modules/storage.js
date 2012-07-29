@@ -2,7 +2,7 @@ if (!net) var net = {};
 if (!net.froihofer) net.froihofer={};
 if (!net.froihofer.xnote) net.froihofer.xnote={};
 
-var EXPORTED_SYMBOLS = ["net"];
+let EXPORTED_SYMBOLS = ["net"];
 
 Components.utils.import("resource://xnote/modules/commons.js");
 

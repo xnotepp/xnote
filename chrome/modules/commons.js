@@ -3,9 +3,11 @@ if (!net.froihofer) net.froihofer={};
 if (!net.froihofer.xnote) net.froihofer.xnote={};
 
 //See https://developer.mozilla.org/en/Using_JavaScript_code_modules for explanation
-var EXPORTED_SYMBOLS = ["net"];
+let EXPORTED_SYMBOLS = ["net"];
 
 net.froihofer.xnote.Commons = function() {
+  const _XNOTE_VERSION = "2.2.9";
+  
   // CONSTANT - Default tag name and color
   const XNOTE_TAG_NAME = "XNote";
   const XNOTE_TAG_COLOR = "#FFCC00"
@@ -31,7 +33,7 @@ net.froihofer.xnote.Commons = function() {
   var pub = {
     //Current XNote version
     get XNOTE_VERSION() {
-      return "2.2.3";
+      return _XNOTE_VERSION;
     },
 
     init : function() {
