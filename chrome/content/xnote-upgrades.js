@@ -5,10 +5,8 @@ if (!net.froihofer.xnote) net.froihofer.xnote={};
 
 net.froihofer.xnote.Upgrades = function() {
   
-  function upgradeTo_2_2_9() {
-    // Only kept here as a reference as there was
-    // unexpectedly nothing to do to still show the XNote column
-    // after ID renaming.
+  function upgradeTo_2_2_10() {
+    // TODO: Move preferences to extensions.xnote... namespace
   }
   
   var pub = {

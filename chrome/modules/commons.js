@@ -6,7 +6,7 @@ if (!net.froihofer.xnote) net.froihofer.xnote={};
 let EXPORTED_SYMBOLS = ["net"];
 
 net.froihofer.xnote.Commons = function() {
-  const _XNOTE_VERSION = "2.2.9";
+  const _XNOTE_VERSION = "2.2.10a";
   
   // CONSTANT - Default tag name and color
   const XNOTE_TAG_NAME = "XNote";

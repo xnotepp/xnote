@@ -40,8 +40,8 @@ net.froihofer.xnote.ColumnNote = function() {
         return true;
       },
 
-      getCellProperties:   function(row, col, props){},
-      getRowProperties:    function(row, props){},
+      getCellProperties:   function(row, col){},
+      getRowProperties:    function(row){},
       getImageSrc:         function(row, col) {
         var hdr = getHeaderForRow(row);
         if(pub.hasNote(hdr.messageId)){
