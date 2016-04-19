@@ -210,6 +210,12 @@ net.froihofer.xnote.Window = function() {
     pub.saveNote();
   }
 
+  /*pub.domAttrModified = function (e) {
+    ~dump("domAttrModified: "+e.attrName+", node="+e.relatedNode.nodeName+", node.ownerElement="+e.relatedNode.ownerElement+"\n");
+    //~for (var i in e.relatedNode.ownerElement) dump(i+"\n");
+    //~dump("\n");
+  }*/
+
   return pub;
 }();
 
@@ -217,6 +223,10 @@ net.froihofer.xnote.Window = function() {
 addEventListener('blur', net.froihofer.xnote.Window.updateTag, true);
 addEventListener('load', net.froihofer.xnote.Window.onLoad, false);
 addEventListener('unload', net.froihofer.xnote.Window.onUnload, false);
+
+//For testing purposes
+//addEventListener('DOMAttrModified', net.froihofer.xnote.Window.domAttrModified, false);
+
 //Necessary for correct shutdown as we are otherwise unable to correctly
 //save a modified note
 opener.addEventListener("unload", net.froihofer.xnote.Window.onOpenerUnload, false);

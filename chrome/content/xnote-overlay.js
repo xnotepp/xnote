@@ -372,7 +372,7 @@ net.froihofer.xnote.Overlay = function() {
       tree.addEventListener('select', pub.closeNote, false);
       tree.addEventListener('select', pub.updateXNoteButton, false);
       tree = document.getElementById('threadTree');
-      tree.addEventListener('click', pub.messageListClicked, false);
+      tree.addEventListener('contextmenu', pub.messageListClicked, false);
       tree = document.getElementById('threadTree');
       tree.addEventListener('select', pub.updateXNoteButton, false);
     }

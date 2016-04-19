@@ -57,12 +57,14 @@ net.froihofer.xnote.Note = function (messageId) {
   else {
     var fileInStream = Components.classes['@mozilla.org/network/file-input-stream;1'].createInstance(Components.interfaces.nsIFileInputStream);
     var fileScriptableIO = Components.classes['@mozilla.org/scriptableinputstream;1'].createInstance(Components.interfaces.nsIScriptableInputStream);
-    fileInStream.init(_notesFile, 0x01, 0444, null );
+    fileInStream.init(_notesFile, 0x01, parseInt("0444", 8), null );
     fileScriptableIO.init(fileInStream);
     pub.x = parseInt(fileScriptableIO.read(4));
     pub.y = parseInt(fileScriptableIO.read(4));
     pub.width = parseInt(fileScriptableIO.read(4));
     pub.height = parseInt(fileScriptableIO.read(4));
+    pub.x = Math.min(pub.x,screen.availWidth-pub.width-window.screenX);
+    pub.y = Math.min(pub.y,screen.availHeight-pub.height-window.screenY);
     pub.modificationDate = fileScriptableIO.read(32);
     // Changed because of this:
     // Just one comment - seems like xnote doesnt allow non-latin characters.
@@ -99,13 +101,13 @@ net.froihofer.xnote.Note = function (messageId) {
     
     var tempFile = _notesFile.parent.clone();
     tempFile.append("~"+_notesFile.leafName+".tmp");
-    tempFile.createUnique(tempFile.NORMAL_FILE_TYPE, 0600);
+    tempFile.createUnique(tempFile.NORMAL_FILE_TYPE, parseInt("0600",8));
 
     var fileOutStream = Components.classes['@mozilla.org/network/file-output-stream;1'].createInstance(Components.interfaces.nsIFileOutputStream);
     with (fileOutStream) {
       init(tempFile, 2, 0x200, false); // Opens for writing only
-      write(pub.x, 4);
-      write(pub.y, 4);
+      write(Math.min(pub.x,screen.availWidth-pub.width-window.screenX), 4);
+      write(Math.min(pub.y,screen.availHeight-pub.height-window.screenY), 4);
       write(pub.width, 4);
       write(pub.height, 4);
       write(pub.modificationDate, 32);
