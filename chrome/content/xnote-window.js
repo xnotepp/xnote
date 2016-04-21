@@ -6,11 +6,10 @@
 	# Description : Functions associated with the XNote window (xnote-window.xul).
 */
 
-if (!net) var net = {};
-if (!net.froihofer) net.froihofer={};
-if (!net.froihofer.xnote) net.froihofer.xnote={};
+if (!xnote) var xnote={};
+if (!xnote.ns) xnote.ns={};
 
-net.froihofer.xnote.Window = function() {
+xnote.ns.Window = function() {
   // Variables for window movement
   var xAvantDeplacement, yAvantDeplacement;
   // Variables for window resizing.
@@ -51,7 +50,7 @@ net.froihofer.xnote.Window = function() {
     var modificationdate=self.document.getElementById("xnote-mdate");
     modificationdate.value=note.modificationDate;
 
-    self.setTimeout(net.froihofer.xnote.Window.resizeWindow);
+    self.setTimeout(xnote.ns.Window.resizeWindow);
     //~ self.setTimeout("document.getElementById('xnote-window').style.setProperty('visibility','visible','')");
     //~ self.setTimeout("document.getElementById('xnote-window').setAttribute('background-color', 'black')");
 
@@ -76,7 +75,7 @@ net.froihofer.xnote.Window = function() {
    */
   pub.updateTag = function () {
     //~ dump('\n->updateTag');
-    opener.net.froihofer.xnote.Overlay.updateTag(document.getElementById('xnote-texte').value);
+    opener.xnote.ns.Overlay.updateTag(document.getElementById('xnote-texte').value);
   //~ dump('\n<-updateTag');
   }
 
@@ -93,7 +92,7 @@ net.froihofer.xnote.Window = function() {
     var prefs = Components.classes["@mozilla.org/preferences-service;1"].
                       getService(Components.interfaces.nsIPrefBranch);
     var dateformat= prefs.getCharPref("xnote.dateformat");
-    var date = net.froihofer.xnote.Date;
+    var date = xnote.ns.Date;
     var date1 = date.format(dateformat);
     //~ dump('\n->saveNote');
     if (note.modified) {
@@ -161,8 +160,8 @@ net.froihofer.xnote.Window = function() {
       yAvantDeplacement = e.screenY;
       hauteurAvantDeplacement = window.document.height;
       //~ dump('\n xAvantDeplacement='+xAvantDeplacement+' ; yAvantDeplacement='+yAvantDeplacement);
-      document.addEventListener('mousemove', net.froihofer.xnote.Window.redimenssionnement, true);
-      document.addEventListener('mouseup', net.froihofer.xnote.Window.stopRedimenssionnement, true);
+      document.addEventListener('mousemove', xnote.ns.Window.redimenssionnement, true);
+      document.addEventListener('mouseup', xnote.ns.Window.stopRedimenssionnement, true);
     }
   }
 
@@ -187,8 +186,8 @@ net.froihofer.xnote.Window = function() {
    * du déplacement de la souris.
    */
   pub.stopRedimenssionnement = function (e) {
-    document.removeEventListener('mousemove', net.froihofer.xnote.Window.redimenssionnement, true);
-    document.removeEventListener('mouseup', net.froihofer.xnote.Window.stopRedimenssionnement, true);
+    document.removeEventListener('mousemove', xnote.ns.Window.redimenssionnement, true);
+    document.removeEventListener('mouseup', xnote.ns.Window.stopRedimenssionnement, true);
     var texte=self.document.getElementById('xnote-texte');
     texte.focus();
   }
@@ -220,16 +219,16 @@ net.froihofer.xnote.Window = function() {
 }();
 
 // Capture the Window focus lost event to update the XNote tag.
-addEventListener('blur', net.froihofer.xnote.Window.updateTag, true);
-addEventListener('load', net.froihofer.xnote.Window.onLoad, false);
-addEventListener('unload', net.froihofer.xnote.Window.onUnload, false);
+addEventListener('blur', xnote.ns.Window.updateTag, true);
+addEventListener('load', xnote.ns.Window.onLoad, false);
+addEventListener('unload', xnote.ns.Window.onUnload, false);
 
 //For testing purposes
-//addEventListener('DOMAttrModified', net.froihofer.xnote.Window.domAttrModified, false);
+//addEventListener('DOMAttrModified', xnote.ns.Window.domAttrModified, false);
 
 //Necessary for correct shutdown as we are otherwise unable to correctly
 //save a modified note
-opener.addEventListener("unload", net.froihofer.xnote.Window.onOpenerUnload, false);
+opener.addEventListener("unload", xnote.ns.Window.onOpenerUnload, false);
 //Unfortunately, there seems to be no better way to react on window
 //movement.
-setInterval(net.froihofer.xnote.Window.checkOpenerMoved, 500);
+setInterval(xnote.ns.Window.checkOpenerMoved, 500);

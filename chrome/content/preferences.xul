@@ -57,7 +57,7 @@
                      readonly="true" size="30"/>
         <button id="xnote-btn-browse-storage-path"
             label="&btn.browse;"
-            oncommand="net.froihofer.xnote.Preferences.selectStoragePath()"/>
+            oncommand="xnote.ns.Preferences.selectStoragePath()"/>
       </hbox>
     </groupbox>
   </prefpane>

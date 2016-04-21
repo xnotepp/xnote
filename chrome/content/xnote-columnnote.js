@@ -1,10 +1,9 @@
-if (!net) var net = {};
-if (!net.froihofer) net.froihofer={};
-if (!net.froihofer.xnote) net.froihofer.xnote={};
+if (!xnote) var xnote={};
+if (!xnote.ns) xnote.ns={};
 
-Components.utils.import("resource://xnote/modules/commons.js");
+Components.utils.import("resource://xnote/modules/commons.js", xnote.ns);
 
-net.froihofer.xnote.ColumnNote = function() {
+xnote.ns.ColumnNote = function() {
 
   function getHeaderForRow(row) {
     return gDBView.getFolderForViewIndex(row).
@@ -14,21 +13,22 @@ net.froihofer.xnote.ColumnNote = function() {
   var pub = {
     columnHandler : {
       getCellText: function(row, col) {
-        var xnotePrefs = net.froihofer.xnote.Commons.xnotePrefs;
+        // ~ dump("xnote: getCellText: "+JSON.stringify(xnote, null, 2)+"\n");
+        var xnotePrefs = xnote.ns.Commons.xnotePrefs;
         if (xnotePrefs.getIntPref("show_first_x_chars_in_col") > 0) {
-          var xnote = new net.froihofer.xnote.Note(getHeaderForRow(row).messageId);
-          if (xnote.exists()) {
-            return " " + xnote.text.substr(0,xnotePrefs.getIntPref("show_first_x_chars_in_col"));
+          var note = new xnote.ns.Note(getHeaderForRow(row).messageId);
+          if (note.exists()) {
+            return " " + note.text.substr(0,xnotePrefs.getIntPref("show_first_x_chars_in_col"));
           }
         }
         return null;
       },
       getSortStringForRow: function(hdr) {
-        var xnotePrefs = net.froihofer.xnote.Commons.xnotePrefs;
+        var xnotePrefs = xnote.ns.Commons.xnotePrefs;
         if (xnotePrefs.getIntPref("show_first_x_chars_in_col") > 0) {
-          var xnote = new net.froihofer.xnote.Note(hdr.messageId);
-          if (xnote.exists()) {
-            return " " + xnote.text.substr(0,xnotePrefs.getIntPref("show_first_x_chars_in_col"));
+          var note = new xnote.ns.Note(hdr.messageId);
+          if (note.exists()) {
+            return " " + note.text.substr(0,xnotePrefs.getIntPref("show_first_x_chars_in_col"));
           }
           else {
             return "";
@@ -69,7 +69,7 @@ net.froihofer.xnote.ColumnNote = function() {
      * Returns null otherwise.
      */
     hasNote : function (messageID) {
-      return net.froihofer.xnote.Note(messageID).exists();
+      return xnote.ns.Note(messageID).exists();
     },
 
     doOnceLoaded : function () {
@@ -85,4 +85,5 @@ net.froihofer.xnote.ColumnNote = function() {
   return pub;
 }();
 
-window.addEventListener("load", net.froihofer.xnote.ColumnNote.doOnceLoaded, false);
+window.addEventListener("load", xnote.ns.ColumnNote.doOnceLoaded, false);
+//dump("xnote: xnote-columnnote - end: "+JSON.stringify(xnote, null, 2));

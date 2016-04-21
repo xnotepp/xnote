@@ -1,12 +1,11 @@
-if (!net) var net = {};
-if (!net.froihofer) net.froihofer={};
-if (!net.froihofer.xnote) net.froihofer.xnote={};
+if (!xnote) var xnote={};
+if (!xnote.ns) xnote.ns={};
 
-let EXPORTED_SYMBOLS = ["net"];
+let EXPORTED_SYMBOLS = ["Storage"];
 
-Components.utils.import("resource://xnote/modules/commons.js");
+Components.utils.import("resource://xnote/modules/commons.js", xnote.ns);
 
-net.froihofer.xnote.Storage = function() {
+var Storage = function() {
   /**
    * Path to storage directory of the notes.
    */
@@ -19,13 +18,13 @@ net.froihofer.xnote.Storage = function() {
                               .getService(Components.interfaces.nsIProperties);
       var profileDir = directoryService.get('ProfD', Components.interfaces.nsIFile);
       var defaultDir = profileDir.clone()
-      var xnotePrefs = net.froihofer.xnote.Commons.xnotePrefs;
+      var xnotePrefs = xnote.ns.Commons.xnotePrefs;
       defaultDir.append('XNote');
       if (!xnotePrefs.prefHasUserValue("storage_path")) {
         _storageDir = defaultDir;
       }
       else try {
-        var storagePath = net.froihofer.UTF8Coder.decode(xnotePrefs.getCharPref('storage_path').trim());
+        var storagePath = xnote.ns.UTF8Coder.decode(xnotePrefs.getCharPref('storage_path').trim());
         if (storagePath != "") {
           if (storagePath.indexOf("[ProfD]") == 0) {
             _storageDir = Components.classes["@mozilla.org/file/local;1"]

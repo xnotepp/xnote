@@ -6,23 +6,22 @@
 	# Description : classe Note permettant d'instancier des notes.
 */
 
-if (!net) var net = {};
-if (!net.froihofer) net.froihofer={};
-if (!net.froihofer.xnote) net.froihofer.xnote={};
+if (!xnote) var xnote={};
+if (!xnote.ns) xnote.ns={};
 
-Components.utils.import("resource://xnote/modules/storage.js");
-Components.utils.import("resource://xnote/modules/commons.js");
+Components.utils.import("resource://xnote/modules/storage.js", xnote.ns);
+Components.utils.import("resource://xnote/modules/commons.js", xnote.ns);
 
 /**
  * Constructor for the class Note using a file descriptor during creation of
  * the note. If the file does not exist, the note is initialized with
  * default values, otherwise it is initialized with the contents of the file.
  */
-net.froihofer.xnote.Note = function (messageId) {
+xnote.ns.Note = function (messageId) {
   //~ dump('\n->Note');
 
   // --- internal variables ------------------------------------------
-  var _notesFile = net.froihofer.xnote.Storage.getNotesFile(messageId);
+  var _notesFile = xnote.ns.Storage.getNotesFile(messageId);
   var _modified = false;
 
   //result
@@ -37,8 +36,8 @@ net.froihofer.xnote.Note = function (messageId) {
   }
 
   // Default values for a note window
-  pub.DEFAULT_XNOTE_WIDTH = net.froihofer.xnote.Commons.xnotePrefs.getIntPref("width");
-  pub.DEFAULT_XNOTE_HEIGHT = net.froihofer.xnote.Commons.xnotePrefs.getIntPref("height");
+  pub.DEFAULT_XNOTE_WIDTH = xnote.ns.Commons.xnotePrefs.getIntPref("width");
+  pub.DEFAULT_XNOTE_HEIGHT = xnote.ns.Commons.xnotePrefs.getIntPref("height");
   pub.DEFAULT_X = (window.outerWidth-pub.DEFAULT_XNOTE_WIDTH)/2;
   pub.DEFAULT_Y =(window.outerHeight-pub.DEFAULT_XNOTE_HEIGHT)/2;
 

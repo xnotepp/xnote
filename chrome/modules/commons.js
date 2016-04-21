@@ -1,11 +1,8 @@
-if (!net) var net = {};
-if (!net.froihofer) net.froihofer={};
-if (!net.froihofer.xnote) net.froihofer.xnote={};
 
 //See https://developer.mozilla.org/en/Using_JavaScript_code_modules for explanation
-let EXPORTED_SYMBOLS = ["net"];
+let EXPORTED_SYMBOLS = ["Commons", "UTF8Coder"];
 
-net.froihofer.xnote.Commons = function() {
+var Commons = function() {
   const _XNOTE_VERSION = "2.2.10";
   
   // CONSTANT - Default tag name and color
@@ -122,7 +119,7 @@ Modifications by Harry O.
 *
 **/
 
-net.froihofer.UTF8Coder = function() {
+var UTF8Coder = function() {
 
   var pub = {
     

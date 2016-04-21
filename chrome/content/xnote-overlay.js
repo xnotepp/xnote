@@ -22,20 +22,19 @@
   - Remove the XNote labels associated to messages? No
 */
 
-if (!net) var net = {};
-if (!net.froihofer) net.froihofer={};
-if (!net.froihofer.xnote) net.froihofer.xnote={};
+if (!xnote) var xnote={};
+if (!xnote.ns) xnote.ns={};
 
 Components.utils.import("resource://gre/modules/errUtils.js");
-Components.utils.import("resource://xnote/modules/storage.js");
-Components.utils.import("resource://xnote/modules/commons.js");
+Components.utils.import("resource://xnote/modules/storage.js", xnote.ns);
+Components.utils.import("resource://xnote/modules/commons.js", xnote.ns);
 // The following does not work generally - don't know why. 
 // Besides this, a JS file has to be included by the XUL-file, if one 
 // wants access to the document elements.
 // Components.utils.import("resource://xnote/modules/checkUpgrades.js");
 
 
-net.froihofer.xnote.Overlay = function() {
+xnote.ns.Overlay = function() {
   //result
   var pub = {};
 
@@ -69,7 +68,7 @@ net.froihofer.xnote.Overlay = function() {
     pub.closeNote();
 
     //Initialize note for the newly selected message
-    note = new net.froihofer.xnote.Note(pub.getMessageID());
+    note = new xnote.ns.Note(pub.getMessageID());
     pub.updateTag( note.text );
 
     var bundle = document.getElementById('xnote-stringbundle-overlay');
@@ -79,7 +78,7 @@ net.froihofer.xnote.Overlay = function() {
 //      //~ dump('\nevent=true');
 //      initSource = event;
 //    }
-    var xnotePrefs = net.froihofer.xnote.Commons.xnotePrefs;
+    var xnotePrefs = xnote.ns.Commons.xnotePrefs;
     if ((xnotePrefs.getBoolPref("show_on_select") && note.text != '')
         || initSource=='clicBouton' || event=='clicBouton') {
       xnoteWindow = window.openDialog(
@@ -122,7 +121,7 @@ net.froihofer.xnote.Overlay = function() {
       // The following prevents the previous message selection from
       // being restored during closing of the context menu.
       // Variable not present in SeaMonkey --> check to prevent errors.
-      if (net.froihofer.xnote.Commons.isInThunderbird) {
+      if (xnote.ns.Commons.isInThunderbird) {
         gRightMouseButtonSavedSelection.realSelection.select(currentIndex);
       }
     }
@@ -138,7 +137,7 @@ net.froihofer.xnote.Overlay = function() {
   pub.context_deleteNote = function () {
     noteForRightMouseClick.deleteNote();
     pub.updateTag("");
-    setTimeout(net.froihofer.xnote.Overlay.initialise);
+    setTimeout(xnote.ns.Overlay.initialise);
   }
 
   pub.context_resetNoteWindow = function () {
@@ -173,7 +172,7 @@ net.froihofer.xnote.Overlay = function() {
    */
   pub.updateTag = function ( noteText ) {
     // dump('\n->updateTag');
-    if(net.froihofer.xnote.Commons.useTag) {
+    if(xnote.ns.Commons.useTag) {
       // If the note isn't empty,
       if( noteText != '' ) {
         // Add the XNote Tag.
@@ -198,7 +197,7 @@ net.froihofer.xnote.Overlay = function() {
   pub.messageListClicked = function (e) {
     //~ dump('\n->messageListClicked');
     if (e.button==2) {
-      noteForRightMouseClick = new net.froihofer.xnote.Note(pub.getMessageID());
+      noteForRightMouseClick = new xnote.ns.Note(pub.getMessageID());
       var noteExists = noteForRightMouseClick.exists();
       document.getElementById('xnote-context-ajout').setAttribute('hidden', noteExists);
       document.getElementById('xnote-context-modif').setAttribute('hidden', !noteExists);
@@ -262,14 +261,14 @@ net.froihofer.xnote.Overlay = function() {
    */
   pub.checkInitialization = function () {
     var addButton = false;
-    var XNOTE_VERSION = net.froihofer.xnote.Commons.XNOTE_VERSION;
-    var xnotePrefs = net.froihofer.xnote.Commons.xnotePrefs;
+    var XNOTE_VERSION = xnote.ns.Commons.XNOTE_VERSION;
+    var xnotePrefs = xnote.ns.Commons.xnotePrefs;
     if (xnotePrefs.prefHasUserValue("version")) {
       var storedVersion = xnotePrefs.getCharPref('version');
       if(storedVersion != XNOTE_VERSION) {
         xnotePrefs.setCharPref('version', XNOTE_VERSION);
         addButton = true;
-        //net.froihofer.xnote.Upgrades.checkUpgrades();
+        //xnote.ns.Upgrades.checkUpgrades();
       }
     }
     else {
@@ -295,7 +294,7 @@ net.froihofer.xnote.Overlay = function() {
 
       if(!xnoteButtonPresent) try {
         toolbar = document.getElementById("mail-bar3");
-        if (!net.froihofer.xnote.Commons.isInThunderbird) {
+        if (!xnote.ns.Commons.isInThunderbird) {
           toolbar = document.getElementById("msgToolbar");
         }
         var buttons = toolbar.currentSet.split(",");
@@ -336,10 +335,10 @@ net.froihofer.xnote.Overlay = function() {
 
       switch(data) {
         case "xnote.storage_path":
-          net.froihofer.xnote.Storage.updateStoragePath();
+          xnote.ns.Storage.updateStoragePath();
           break;
         case "xnote.usetag":
-          net.froihofer.xnote.Commons.checkXNoteTag();
+          xnote.ns.Commons.checkXNoteTag();
           break;
       }
     }
@@ -351,11 +350,12 @@ net.froihofer.xnote.Overlay = function() {
    * note.
    */
   pub.onLoad = function (e) {
-    net.froihofer.xnote.Commons.init();
-    net.froihofer.xnote.Storage.updateStoragePath();
-    net.froihofer.xnote.Commons.checkXNoteTag();
+    dump("LFR: overlay.onLoad: "+JSON.stringify(xnote, null, 2)+"\n");
+    xnote.ns.Commons.init();
+    xnote.ns.Storage.updateStoragePath();
+    xnote.ns.Commons.checkXNoteTag();
     //The following statement does not work in SeaMonkey
-//    net.froihofer.xnote.Commons.xnotePrefs.addObserver("", prefObserver, false);
+//    xnote.ns.Commons.xnotePrefs.addObserver("", prefObserver, false);
     var prefs = Components.classes['@mozilla.org/preferences-service;1']
                            .getService(Components.interfaces.nsIPrefBranch2);
     prefs.addObserver("xnote.", prefObserver, false);
@@ -364,7 +364,7 @@ net.froihofer.xnote.Overlay = function() {
       EnsureSubjectValue=function(){
         var extensionDejaChargee ;
         oldEnsureSubjectValue();
-        setTimeout(net.froihofer.xnote.Overlay.initialise);
+        setTimeout(xnote.ns.Overlay.initialise);
       };
     }
     try {
@@ -391,4 +391,7 @@ net.froihofer.xnote.Overlay = function() {
 }
 start_venkman();*/
 
-addEventListener('load', net.froihofer.xnote.Overlay.onLoad, true);
+addEventListener('load', xnote.ns.Overlay.onLoad, true);
+
+// dump("xnote: overlay - end: "+JSON.stringify(xnote, null, 2));
+

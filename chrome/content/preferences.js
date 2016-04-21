@@ -1,20 +1,19 @@
-if (!net) var net = {};
-if (!net.froihofer) net.froihofer={};
-if (!net.froihofer.xnote) net.froihofer.xnote={};
+if (!xnote) var xnote = {};
+if (!xnote.ns) xnote.ns = {};
 
-Components.utils.import("resource://xnote/modules/commons.js");
-Components.utils.import("resource://xnote/modules/storage.js");
-Components.utils.import("resource://xnote/modules/StringBundle.js", net.froihofer.xnote);
+Components.utils.import("resource://xnote/modules/commons.js", xnote.ns);
+Components.utils.import("resource://xnote/modules/storage.js", xnote.ns);
+Components.utils.import("resource://xnote/modules/StringBundle.js", xnote.ns);
 
-net.froihofer.xnote.Preferences = function() {
-  var _stringBundle = new net.froihofer.xnote.StringBundle("chrome://xnote/locale/xnote-overlay.properties");
+xnote.ns.Preferences = function() {
+  var _stringBundle = new xnote.ns.StringBundle("chrome://xnote/locale/xnote-overlay.properties");
 
   var pub = {
     selectStoragePath : function() {
       var fp = Components.classes["@mozilla.org/filepicker;1"]
                      .createInstance(Components.interfaces.nsIFilePicker);
       fp.init(window, _stringBundle.get("Select.storage.dir"), fp.modeGetFolder);
-      var currentDir = net.froihofer.xnote.Storage.noteStorageDir;
+      var currentDir = xnote.ns.Storage.noteStorageDir;
       fp.displayDirectory = currentDir;
       var rv = fp.show();
       if (rv == fp.returnOK) {

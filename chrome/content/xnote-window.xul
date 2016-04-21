@@ -22,7 +22,7 @@
 	
 	<box id='xnote-note' orient='vertical' flex='1'>
 		<box id='xnote-barre'>
-			<titlebar flex='1' onmouseup='net.froihofer.xnote.Window.noteModified();'>
+			<titlebar flex='1' onmouseup='xnote.ns.Window.noteModified();'>
 				<label id='xnote-titre' value='&xnote;'/>
 				<label id='xnote-mdate' class="boite-de-texte" readonly="true"/>
 			</titlebar>
@@ -31,28 +31,28 @@
 				id='xnote-bouton-fermer'
 				tooltiptext='&close;'
 				class='custombutton-smaller'
-				onclick='if (event.button==0) { net.froihofer.xnote.Window.saveNote(); close(); }'/>
+				onclick='if (event.button==0) { xnote.ns.Window.saveNote(); close(); }'/>
 		</box>
 		<textbox
 			id='xnote-texte'
 			class='boite-de-texte'
 			multiline='true'
 			flex='1'
-			oninput='net.froihofer.xnote.Window.noteModified();'
+			oninput='xnote.ns.Window.noteModified();'
 			onblur=''/>
 		<box id='xnote-barre-bottom'>
 			<image
 				id='xnote-bouton-suppr'
 				class='custombutton-smaller'
 				tooltiptext='&suppr;'
-				onclick='if (event.button==0 &amp;&amp; confirm("&xnote.ask.deletion;")) { net.froihofer.xnote.Window.deleteNote(); close(); }'>
+				onclick='if (event.button==0 &amp;&amp; confirm("&xnote.ask.deletion;")) { xnote.ns.Window.deleteNote(); close(); }'>
 			</image>
 
 			<spacer flex='1'/>
 			<textbox
 				id='xnote-redim'
 				class='boite-de-texte'
-				onmousedown='net.froihofer.xnote.Window.startRedimensionnement(event);'
+				onmousedown='xnote.ns.Window.startRedimensionnement(event);'
 				readonly='true'
 				context='false'/>
 		</box>
