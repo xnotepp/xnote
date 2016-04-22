@@ -51,7 +51,6 @@ var Upgrades = function() {
       var versionComparator = Components.classes["@mozilla.org/xpcom/version-comparator;1"]
                         .getService(Components.interfaces.nsIVersionComparator);
       if (storedVersion == null || versionComparator.compare(storedVersion, "2.2.11") < 0) {
-        ~dump ("xnote: calling extension ns migration: "+JSON.stringify(Upgrades)+"\n");
         migratePrefsToExtensionsNs();
       }
       xnote.ns.Commons.xnotePrefs.setCharPref('version', 

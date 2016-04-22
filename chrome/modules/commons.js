@@ -3,7 +3,7 @@
 let EXPORTED_SYMBOLS = ["Commons", "UTF8Coder"];
 
 var Commons = function() {
-  const _XNOTE_VERSION = "2.2.11a2";
+  const _XNOTE_VERSION = "2.2.11";
   
   // CONSTANT - Default tag name and color
   const XNOTE_TAG_NAME = "XNote";
