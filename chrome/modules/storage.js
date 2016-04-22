@@ -43,7 +43,7 @@ var Storage = function() {
         }
       }
       catch (e) {
-  //      ~dump("\nCould not get storage path:"+e+"\n"+e.stack+"\n...applying default storage path.");
+        ~ dump("\nCould not get storage path:"+e+"\n"+e.stack+"\n...applying default storage path.");
         _storageDir = defaultDir;
       }
 //      ~ dump("\nxnote: storageDir initialized to: "+_storageDir.path);

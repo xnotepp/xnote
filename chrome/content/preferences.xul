@@ -11,14 +11,14 @@
 
   <prefpane id='xnote-pane' label='&xnote; &preferences;' orient='vertical'>
     <preferences>
-      <preference id='xnote-pref-width' name='xnote.width' type='int'/>
-      <preference id='xnote-pref-height' name='xnote.height' type='int'/>
-      <preference id='xnote-pref-storage_path' name='xnote.storage_path' type='string'/>
+      <preference id='xnote-pref-width' name='extensions.xnote.width' type='int'/>
+      <preference id='xnote-pref-height' name='extensions.xnote.height' type='int'/>
+      <preference id='xnote-pref-storage_path' name='extensions.xnote.storage_path' type='string'/>
       <preference id="xnote-pref-tag.name" name="mailnews.tags.xnote.tag" type="string"/>
       <preference id="xnote-pref-tag_color" name="mailnews.tags.xnote.color" type="string" />
-      <preference id='xnote-pref-usetag' name='xnote.usetag' type='bool'/>
-      <preference id="xnote-pref-show_on_select" name="xnote.show_on_select" type="bool" />
-      <preference id="xnote-pref-show_first_x_chars_in_col" name="xnote.show_first_x_chars_in_col" type="int" />
+      <preference id='xnote-pref-usetag' name='extensions.xnote.usetag' type='bool'/>
+      <preference id="xnote-pref-show_on_select" name="extensions.xnote.show_on_select" type="bool" />
+      <preference id="xnote-pref-show_first_x_chars_in_col" name="extensions.xnote.show_first_x_chars_in_col" type="int" />
     </preferences>
 
     <groupbox>

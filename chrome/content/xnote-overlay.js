@@ -28,10 +28,7 @@ if (!xnote.ns) xnote.ns={};
 Components.utils.import("resource://gre/modules/errUtils.js");
 Components.utils.import("resource://xnote/modules/storage.js", xnote.ns);
 Components.utils.import("resource://xnote/modules/commons.js", xnote.ns);
-// The following does not work generally - don't know why. 
-// Besides this, a JS file has to be included by the XUL-file, if one 
-// wants access to the document elements.
-// Components.utils.import("resource://xnote/modules/checkUpgrades.js");
+Components.utils.import("resource://xnote/modules/xnote-upgrades.js", xnote.ns);
 
 
 xnote.ns.Overlay = function() {
@@ -259,20 +256,15 @@ xnote.ns.Overlay = function() {
    * For example, it adds the XNote icon at the end of the toolbar if
    * XNote has been newly installed.
    */
-  pub.checkInitialization = function () {
+  pub.checkInitialization = function (storedVersion) {
     var addButton = false;
-    var XNOTE_VERSION = xnote.ns.Commons.XNOTE_VERSION;
     var xnotePrefs = xnote.ns.Commons.xnotePrefs;
-    if (xnotePrefs.prefHasUserValue("version")) {
-      var storedVersion = xnotePrefs.getCharPref('version');
-      if(storedVersion != XNOTE_VERSION) {
-        xnotePrefs.setCharPref('version', XNOTE_VERSION);
+    if (storedVersion) {
+      if(storedVersion != xnote.ns.Commons.XNOTE_VERSION) {
         addButton = true;
-        //xnote.ns.Upgrades.checkUpgrades();
       }
     }
     else {
-      xnotePrefs.setCharPref('version', XNOTE_VERSION);
       addButton = true;
     }
 
@@ -328,16 +320,16 @@ xnote.ns.Overlay = function() {
 
   var prefObserver = {
     observe : function(subject, topic, data) {
-//      ~ dump("\nxnote pref observer called, topic="+topic+", data="+data);
+      ~ dump("\nxnote pref observer called, topic="+topic+", data="+data);
       if (topic != "nsPref:changed") {
        return;
       }
 
       switch(data) {
-        case "xnote.storage_path":
+        case "extensions.xnote.storage_path":
           xnote.ns.Storage.updateStoragePath();
           break;
-        case "xnote.usetag":
+        case "extensions.xnote.usetag":
           xnote.ns.Commons.checkXNoteTag();
           break;
       }
@@ -350,15 +342,21 @@ xnote.ns.Overlay = function() {
    * note.
    */
   pub.onLoad = function (e) {
-    dump("LFR: overlay.onLoad: "+JSON.stringify(xnote, null, 2)+"\n");
+    //dump("xnote: overlay.onLoad: "+JSON.stringify(xnote, null, 2)+"\n");
     xnote.ns.Commons.init();
     xnote.ns.Storage.updateStoragePath();
+    var storedVersion = xnote.ns.Commons.xnotePrefs.prefHasUserValue("version") ?
+            xnote.ns.Commons.xnotePrefs.getCharPref("version") : null
+    xnote.ns.Upgrades.checkUpgrades(
+            storedVersion, 
+            xnote.ns.Commons.XNOTE_VERSION)
     xnote.ns.Commons.checkXNoteTag();
+    
     //The following statement does not work in SeaMonkey
 //    xnote.ns.Commons.xnotePrefs.addObserver("", prefObserver, false);
     var prefs = Components.classes['@mozilla.org/preferences-service;1']
                            .getService(Components.interfaces.nsIPrefBranch2);
-    prefs.addObserver("xnote.", prefObserver, false);
+    prefs.addObserver("extensions.xnote.", prefObserver, false);
     if (String(EnsureSubjectValue).search('extensionDejaChargee')==-1) {
       var oldEnsureSubjectValue=EnsureSubjectValue;
       EnsureSubjectValue=function(){
@@ -379,7 +377,7 @@ xnote.ns.Overlay = function() {
     catch(e){
       logException(e,false);
     }
-    pub.checkInitialization();
+    pub.checkInitialization(storedVersion);
   }
 
   return pub;

@@ -3,7 +3,7 @@
 let EXPORTED_SYMBOLS = ["Commons", "UTF8Coder"];
 
 var Commons = function() {
-  const _XNOTE_VERSION = "2.2.10";
+  const _XNOTE_VERSION = "2.2.11a2";
   
   // CONSTANT - Default tag name and color
   const XNOTE_TAG_NAME = "XNote";
@@ -45,7 +45,7 @@ var Commons = function() {
 
       _xnotePrefs = Components.classes["@mozilla.org/preferences-service;1"].
                      getService(Components.interfaces.nsIPrefService).
-                     getBranch("xnote.");
+                     getBranch("extensions.xnote.");
       _xnotePrefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
     },
 

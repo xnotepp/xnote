@@ -9,6 +9,8 @@
 if (!xnote) var xnote={};
 if (!xnote.ns) xnote.ns={};
 
+Components.utils.import("resource://xnote/modules/commons.js", xnote.ns);
+
 xnote.ns.Window = function() {
   // Variables for window movement
   var xAvantDeplacement, yAvantDeplacement;
@@ -88,10 +90,7 @@ xnote.ns.Window = function() {
    * A blank note will be deleted.
    */
   pub.saveNote = function () {
-    //Initialise prefs
-    var prefs = Components.classes["@mozilla.org/preferences-service;1"].
-                      getService(Components.interfaces.nsIPrefBranch);
-    var dateformat= prefs.getCharPref("xnote.dateformat");
+    var dateformat= xnote.ns.Commons.xnotePrefs.getCharPref("dateformat");
     var date = xnote.ns.Date;
     var date1 = date.format(dateformat);
     //~ dump('\n->saveNote');
