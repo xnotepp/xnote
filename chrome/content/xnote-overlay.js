@@ -259,12 +259,7 @@ xnote.ns.Overlay = function() {
   pub.checkInitialization = function (storedVersion) {
     var addButton = false;
     var xnotePrefs = xnote.ns.Commons.xnotePrefs;
-    if (storedVersion) {
-      if(storedVersion != xnote.ns.Commons.XNOTE_VERSION) {
-        addButton = true;
-      }
-    }
-    else {
+    if (!storedVersion) {
       addButton = true;
     }
 
@@ -350,6 +345,7 @@ xnote.ns.Overlay = function() {
     xnote.ns.Upgrades.checkUpgrades(
             storedVersion, 
             xnote.ns.Commons.XNOTE_VERSION)
+    xnote.ns.Commons.xnotePrefs.setCharPref("version", xnote.ns.Commons.XNOTE_VERSION);
     xnote.ns.Commons.checkXNoteTag();
     
     //The following statement does not work in SeaMonkey

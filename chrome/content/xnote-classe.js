@@ -62,8 +62,6 @@ xnote.ns.Note = function (messageId) {
     pub.y = parseInt(fileScriptableIO.read(4));
     pub.width = parseInt(fileScriptableIO.read(4));
     pub.height = parseInt(fileScriptableIO.read(4));
-    pub.x = Math.min(pub.x,screen.availWidth-pub.width-window.screenX);
-    pub.y = Math.min(pub.y,screen.availHeight-pub.height-window.screenY);
     pub.modificationDate = fileScriptableIO.read(32);
     // Changed because of this:
     // Just one comment - seems like xnote doesnt allow non-latin characters.
@@ -105,8 +103,8 @@ xnote.ns.Note = function (messageId) {
     var fileOutStream = Components.classes['@mozilla.org/network/file-output-stream;1'].createInstance(Components.interfaces.nsIFileOutputStream);
     with (fileOutStream) {
       init(tempFile, 2, 0x200, false); // Opens for writing only
-      write(Math.min(pub.x,screen.availWidth-pub.width-window.screenX), 4);
-      write(Math.min(pub.y,screen.availHeight-pub.height-window.screenY), 4);
+      write(pub.x, 4);
+      write(pub.y, 4);
       write(pub.width, 4);
       write(pub.height, 4);
       write(pub.modificationDate, 32);
