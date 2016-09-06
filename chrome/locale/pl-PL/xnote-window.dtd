@@ -1,0 +1,7 @@
+<!-- encoding='UTF-8' -->
+
+<!ENTITY xnote 'XNote'>
+
+<!ENTITY close 'Zapisz i zamknij'>
+<!ENTITY suppr 'Usuń notatkę'>
+<!ENTITY xnote.ask.deletion 'Czy jesteś pewien, że chesz usunąć notatkę?'>

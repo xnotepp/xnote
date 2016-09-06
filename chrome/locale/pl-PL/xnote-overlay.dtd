@@ -1,0 +1,15 @@
+<!-- encoding="UTF-8" -->
+
+<!ENTITY xnote.label "XNote">
+<!ENTITY xnote.key "X">
+
+<!ENTITY ajout.label "Utwórz notatkę">
+<!ENTITY ajout.key "C">
+<!ENTITY modif.label "Edytuj notatkę">
+<!ENTITY modif.key "M">
+<!ENTITY suppr.label "Usuń notatkę">
+<!ENTITY suppr.key "D">
+
+<!ENTITY resetNoteWindow.label "Resetuj okno notatek">
+
+<!ENTITY header.label "Sortowanie według notatek">

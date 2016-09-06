@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!ENTITY xnote "XNote">
+<!ENTITY preferences "Preferencje">
+<!ENTITY btn.browse "Otwórz...">
+<!ENTITY Window.defaults "Domyślny rozmiar okna">
+<!ENTITY Width "Szerokość">
+<!ENTITY Height "Wysokość">
+<!ENTITY storage.path "Ścieżka do bazy danych">
+<!ENTITY Message.tag "Etykieta wiadomości">
+<!ENTITY Name "Nazwa">
+<!ENTITY Color "Kolor">
+<!ENTITY use.tag "Użyj etykiety?">
+<!ENTITY Behavior "Ustawienia notatek">
+<!ENTITY show.on.select "Pokaż po wybraniu wiadomości">
+<!ENTITY show.first.x.chars.in.col "Pokaż pierwszych X znaków w kolumnie XNote:">

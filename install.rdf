@@ -5,7 +5,7 @@
 
   <Description about='urn:mozilla:install-manifest'>
     <em:id>xnote@froihofer.net</em:id>
-    <em:version>2.2.12</em:version>
+    <em:version>2.2.13a</em:version>
     <em:type>2</em:type> <!-- 2 corresponds to type 'extension' -->
     <em:optionsURL>chrome://xnote/content/preferences.xul</em:optionsURL>
     <em:targetApplication>
@@ -40,5 +40,6 @@
     <em:translator>it-IT: Gabriele Gamba, Julien Buratto</em:translator>
     <em:translator>ja-JP: Ryuji Sugino</em:translator>
     <em:translator>nl-NL: Bernhard Deeterink, Maarten van Vliet</em:translator>
+    <em:translator>pl-PL: Paweł Sikora</em:translator>
   </Description>
 </RDF>
