@@ -98,7 +98,9 @@ xnote.ns.Note = function (messageId) {
     
     var tempFile = _notesFile.parent.clone();
     tempFile.append("~"+_notesFile.leafName+".tmp");
-    tempFile.createUnique(tempFile.NORMAL_FILE_TYPE, parseInt("0600",8));
+    // Using 0660 instead of 0600 so that sharing notes accross users
+    // within the same group is possible on Linux.
+    tempFile.createUnique(tempFile.NORMAL_FILE_TYPE, parseInt("0660",8));
 
     var fileOutStream = Components.classes['@mozilla.org/network/file-output-stream;1'].createInstance(Components.interfaces.nsIFileOutputStream);
     with (fileOutStream) {

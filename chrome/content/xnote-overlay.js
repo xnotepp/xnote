@@ -60,7 +60,7 @@ xnote.ns.Overlay = function() {
    * Here we can change the style of the window dynamically
    */
   pub.initialise = function (event) {
-    //~ dump('\n->initialise');
+    // ~ dump('\n->initialise, messageId='+pub.getMessageID());
     //Closes the note (if any) of the old (deselected) message.
     pub.closeNote();
 
@@ -192,7 +192,7 @@ xnote.ns.Overlay = function() {
    *     menu, e.g., modify or delete a note for a message not containing a note.
    */
   pub.messageListClicked = function (e) {
-    //~ dump('\n->messageListClicked');
+    ~ dump('\n->messageListClicked, messageID='+pub.getMessageID());
     if (e.button==2) {
       noteForRightMouseClick = new xnote.ns.Note(pub.getMessageID());
       var noteExists = noteForRightMouseClick.exists();
