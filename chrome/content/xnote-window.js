@@ -45,11 +45,11 @@ xnote.ns.Window = function() {
     catch(e) {}*/
     note = self.arguments[0];
 
-    var texte=self.document.getElementById('xnote-texte');
+    let texte=self.document.getElementById('xnote-texte');
     texte.value=note.text;
 
     //set date in the titlebar
-    var modificationdate=self.document.getElementById("xnote-mdate");
+    let modificationdate=self.document.getElementById("xnote-mdate");
     modificationdate.value=note.modificationDate;
 
     self.setTimeout(xnote.ns.Window.resizeWindow);
@@ -90,12 +90,12 @@ xnote.ns.Window = function() {
    * A blank note will be deleted.
    */
   pub.saveNote = function () {
-    var dateformat= xnote.ns.Commons.xnotePrefs.getCharPref("dateformat");
-    var date = xnote.ns.Date;
-    var date1 = date.format(dateformat);
+    let dateformat= xnote.ns.Commons.xnotePrefs.getCharPref("dateformat");
+    let date = xnote.ns.Date;
+    let date1 = date.format(dateformat);
     //~ dump('\n->saveNote');
     if (note.modified) {
-      var oldText = note.text;
+      let oldText = note.text;
       note.text=document.getElementById('xnote-texte').value;
       if (note.text!='') {
         note.x=window.screenX-opener.screenX;
@@ -172,8 +172,8 @@ xnote.ns.Window = function() {
     //~ dump('\n w.document.width='+window.document.width+' ; w.document.height='+window.document.height);
 
     //~ dump('\nlargeur='+document.getElementById('xnote-texte').style.width);
-    var nouvelleLargeur = largeurAvantDeplacement + e.screenX - xAvantDeplacement;
-    var nouvelleHauteur = hauteurAvantDeplacement + e.screenY - yAvantDeplacement;
+    let nouvelleLargeur = largeurAvantDeplacement + e.screenX - xAvantDeplacement;
+    let nouvelleHauteur = hauteurAvantDeplacement + e.screenY - yAvantDeplacement;
     nouvelleLargeur = nouvelleLargeur< 58 ?  58 : nouvelleLargeur;
     nouvelleHauteur = nouvelleHauteur< 88 ?  88 : nouvelleHauteur;
     window.resizeTo(nouvelleLargeur,nouvelleHauteur);
@@ -187,7 +187,7 @@ xnote.ns.Window = function() {
   pub.stopRedimenssionnement = function (e) {
     document.removeEventListener('mousemove', xnote.ns.Window.redimenssionnement, true);
     document.removeEventListener('mouseup', xnote.ns.Window.stopRedimenssionnement, true);
-    var texte=self.document.getElementById('xnote-texte');
+    let texte=self.document.getElementById('xnote-texte');
     texte.focus();
   }
 

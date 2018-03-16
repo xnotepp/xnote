@@ -96,13 +96,13 @@ xnote.ns.Note = function (messageId) {
     }
     pub.text = pub.text.replace(/\n/g,'<BR>');
     
-    var tempFile = _notesFile.parent.clone();
+    let tempFile = _notesFile.parent.clone();
     tempFile.append("~"+_notesFile.leafName+".tmp");
     // Using 0660 instead of 0600 so that sharing notes accross users
     // within the same group is possible on Linux.
     tempFile.createUnique(tempFile.NORMAL_FILE_TYPE, parseInt("0660",8));
 
-    var fileOutStream = Components.classes['@mozilla.org/network/file-output-stream;1'].createInstance(Components.interfaces.nsIFileOutputStream);
+    let fileOutStream = Components.classes['@mozilla.org/network/file-output-stream;1'].createInstance(Components.interfaces.nsIFileOutputStream);
     with (fileOutStream) {
       init(tempFile, 2, 0x200, false); // Opens for writing only
       write(pub.x, 4);
@@ -117,7 +117,7 @@ xnote.ns.Note = function (messageId) {
       // like al�ki which are not preserved when saving a note ...
       //
       // fileOutStream.write(pub.text, pub.text.length);
-      var contentencode = encodeURIComponent(pub.text);
+      let contentencode = encodeURIComponent(pub.text);
       write(contentencode, contentencode.length);
 
       close();

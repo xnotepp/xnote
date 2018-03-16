@@ -16,18 +16,18 @@ var Storage = function() {
   //result
   var pub = {
     updateStoragePath : function() {
-      var directoryService = 	Components.classes['@mozilla.org/file/directory_service;1']
+      let directoryService = 	Components.classes['@mozilla.org/file/directory_service;1']
                               .getService(Components.interfaces.nsIProperties);
-      var profileDir = directoryService.get('ProfD', Components.interfaces.nsIFile);
-      var defaultDir = profileDir.clone()
-      var xnotePrefs = xnote.ns.Commons.xnotePrefs;
+      let profileDir = directoryService.get('ProfD', Components.interfaces.nsIFile);
+      let defaultDir = profileDir.clone()
+      let xnotePrefs = xnote.ns.Commons.xnotePrefs;
       defaultDir.append('XNote');
       if (!xnotePrefs.prefHasUserValue("storage_path")) {
         _storageDir = defaultDir;
       }
       else try {
-        var storagePath = xnote.ns.UTF8Coder.decode(xnotePrefs.getCharPref('storage_path').trim());
-        var FileUtils = Cu.import("resource://gre/modules/FileUtils.jsm").FileUtils;
+        let storagePath = xnote.ns.UTF8Coder.decode(xnotePrefs.getCharPref('storage_path').trim());
+        let FileUtils = Cu.import("resource://gre/modules/FileUtils.jsm").FileUtils;
         if (storagePath != "") {
           if (storagePath.indexOf("[ProfD]") == 0) {
             _storageDir = new FileUtils.File(profileDir.path);
@@ -63,7 +63,7 @@ var Storage = function() {
    */
   pub.getNotesFile = function (messageId) {
     //~ dump('\n'+pub.getNoteStorageDir().path+'\n'+messageID);
-    var notesFile = _storageDir.clone();
+    let notesFile = _storageDir.clone();
     notesFile.append(escape(messageId).replace(/\//g,"%2F")+'.xnote');
     return notesFile;
     //~ dump('\n'+pub.getNoteStorageDir()+messageID+'.xnote');

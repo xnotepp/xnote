@@ -67,14 +67,14 @@ xnote.ns.Overlay = function() {
     note = new xnote.ns.Note(pub.getMessageID());
     pub.updateTag( note.text );
 
-    var bundle = document.getElementById('xnote-stringbundle-overlay');
+    let bundle = document.getElementById('xnote-stringbundle-overlay');
 
     //~ dump('\nevent = '+event);
 //    if (event) {
 //      //~ dump('\nevent=true');
 //      initSource = event;
 //    }
-    var xnotePrefs = xnote.ns.Commons.xnotePrefs;
+    let xnotePrefs = xnote.ns.Commons.xnotePrefs;
     if ((xnotePrefs.getBoolPref("show_on_select") && note.text != '')
         || initSource=='clicBouton' || event=='clicBouton') {
       xnoteWindow = window.openDialog(
@@ -194,7 +194,7 @@ xnote.ns.Overlay = function() {
     ~ dump('\n->messageListClicked, messageID='+pub.getMessageID());
     if (e.button==2) {
       noteForRightMouseClick = new xnote.ns.Note(pub.getMessageID());
-      var noteExists = noteForRightMouseClick.exists();
+      let noteExists = noteForRightMouseClick.exists();
       document.getElementById('xnote-context-ajout').setAttribute('hidden', noteExists);
       document.getElementById('xnote-context-modif').setAttribute('hidden', !noteExists);
       var messageArray = gFolderDisplay.selectedMessages;
@@ -205,13 +205,13 @@ xnote.ns.Overlay = function() {
         document.getElementById('xnote-mailContext-xNote').setAttribute('disabled', true);
       }
     }
-    var t = e.originalTarget;
+    let t = e.originalTarget;
     if (t.localName == 'treechildren') {
-      var row = new Object;
-      var col = new Object;
-      var childElt = new Object;
+      let row = new Object;
+      let col = new Object;
+      let childElt = new Object;
 
-      var tree = GetThreadTree();
+      let tree = GetThreadTree();
       tree.treeBoxObject.getCellAt(e.clientX, e.clientY, row, col, childElt);
       currentIndex = row.value;
     //~ dump('\nrow.value = '+row.value);
@@ -223,7 +223,7 @@ xnote.ns.Overlay = function() {
    * Get message id from selected message
    */
   pub.getMessageID = function () {
-    var message = gFolderDisplay.selectedMessage;
+    let message = gFolderDisplay.selectedMessage;
     if (message != null) return message.messageId;
     return null;
   }
@@ -233,8 +233,8 @@ xnote.ns.Overlay = function() {
    * Disable XNote button if no or several mails are selected.
    */
   pub.updateXNoteButton = function () {
-    var messageArray = gFolderDisplay.selectedMessages;
-    var xnoteButton = document.getElementById('xnote-toolbar-button');
+    let messageArray = gFolderDisplay.selectedMessages;
+    let xnoteButton = document.getElementById('xnote-toolbar-button');
     if (messageArray && messageArray.length==1) {
       if (xnoteButton) {
         xnoteButton.setAttribute('disabled', false);
@@ -256,19 +256,19 @@ xnote.ns.Overlay = function() {
    * XNote has been newly installed.
    */
   pub.checkInitialization = function (storedVersion) {
-    var addButton = false;
-    var xnotePrefs = xnote.ns.Commons.xnotePrefs;
+    let addButton = false;
+    let xnotePrefs = xnote.ns.Commons.xnotePrefs;
     if (!storedVersion) {
       addButton = true;
     }
 
     if(addButton) {
-      var toolbox = document.getElementById("mail-toolbox");
-      var toolboxDocument = toolbox.ownerDocument;
+      let toolbox = document.getElementById("mail-toolbox");
+      let toolboxDocument = toolbox.ownerDocument;
 
-      var xnoteButtonPresent = false;
-      var toolbars = document.evaluate(".//.[local-name()='toolbar' and @customizable='true']", toolbox, null, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null);
-      var toolbar = toolbars.iterateNext();
+      let xnoteButtonPresent = false;
+      let toolbars = document.evaluate(".//.[local-name()='toolbar' and @customizable='true']", toolbox, null, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null);
+      let toolbar = toolbars.iterateNext();
       while(toolbar && !xnoteButtonPresent) {
         //~dump("\n\nChecking toolbar '"+toolbar.id+"', currentSet="+toolbar.currentSet);
         if(toolbar.currentSet.indexOf("xnote-toolbar-button")>-1) {
@@ -283,9 +283,9 @@ xnote.ns.Overlay = function() {
         if (!xnote.ns.Commons.isInThunderbird) {
           toolbar = document.getElementById("msgToolbar");
         }
-        var buttons = toolbar.currentSet.split(",");
-        var newSet = "";
-        for (var i = 0; i<buttons.length; i++) {
+        let buttons = toolbar.currentSet.split(",");
+        let newSet = "";
+        for (let i = 0; i<buttons.length; i++) {
           if( !xnoteButtonPresent && buttons[i] == "spring" ) {
             newSet += "xnote-toolbar-button,";
             xnoteButtonPresent = true;
@@ -304,7 +304,7 @@ xnote.ns.Overlay = function() {
         toolboxDocument.persist(toolbar.id, "currentset");
       }
       catch (e) {
-        var consoleService = Components.classes["@mozilla.org/consoleservice;1"]
+        let consoleService = Components.classes["@mozilla.org/consoleservice;1"]
                         .getService(Components.interfaces.nsIConsoleService);
         consoleService.logStringMessage("Could not add XNote button: "+e);
         logException(e, false, "Could not add XNote button: ");
@@ -339,7 +339,7 @@ xnote.ns.Overlay = function() {
     //dump("xnote: overlay.onLoad: "+JSON.stringify(xnote, null, 2)+"\n");
     xnote.ns.Commons.init();
     xnote.ns.Storage.updateStoragePath();
-    var storedVersion = xnote.ns.Commons.xnotePrefs.prefHasUserValue("version") ?
+    let storedVersion = xnote.ns.Commons.xnotePrefs.prefHasUserValue("version") ?
             xnote.ns.Commons.xnotePrefs.getCharPref("version") : null
     xnote.ns.Upgrades.checkUpgrades(
             storedVersion, 
@@ -349,19 +349,18 @@ xnote.ns.Overlay = function() {
     
     //The following statement does not work in SeaMonkey
 //    xnote.ns.Commons.xnotePrefs.addObserver("", prefObserver, false);
-    var prefs = Components.classes['@mozilla.org/preferences-service;1']
+    let prefs = Components.classes['@mozilla.org/preferences-service;1']
                            .getService(Components.interfaces.nsIPrefBranch);
     prefs.addObserver("extensions.xnote.", prefObserver, false);
     if (String(EnsureSubjectValue).search('extensionDejaChargee')==-1) {
-      var oldEnsureSubjectValue=EnsureSubjectValue;
+      let oldEnsureSubjectValue=EnsureSubjectValue;
       EnsureSubjectValue=function(){
-        var extensionDejaChargee ;
         oldEnsureSubjectValue();
         setTimeout(xnote.ns.Overlay.initialise);
       };
     }
     try {
-      var tree = document.getElementById('folderTree');
+      let tree = document.getElementById('folderTree');
       tree.addEventListener('select', pub.closeNote, false);
       tree.addEventListener('select', pub.updateXNoteButton, false);
       tree = document.getElementById('threadTree');

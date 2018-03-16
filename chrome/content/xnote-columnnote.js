@@ -14,9 +14,9 @@ xnote.ns.ColumnNote = function() {
     columnHandler : {
       getCellText: function(row, col) {
         // ~ dump("xnote: getCellText: "+JSON.stringify(xnote, null, 2)+"\n");
-        var xnotePrefs = xnote.ns.Commons.xnotePrefs;
+        let xnotePrefs = xnote.ns.Commons.xnotePrefs;
         if (xnotePrefs.getIntPref("show_first_x_chars_in_col") > 0) {
-          var note = new xnote.ns.Note(getHeaderForRow(row).messageId);
+          let note = new xnote.ns.Note(getHeaderForRow(row).messageId);
           if (note.exists()) {
             return " " + note.text.substr(0,xnotePrefs.getIntPref("show_first_x_chars_in_col"));
           }
@@ -24,9 +24,9 @@ xnote.ns.ColumnNote = function() {
         return null;
       },
       getSortStringForRow: function(hdr) {
-        var xnotePrefs = xnote.ns.Commons.xnotePrefs;
+        let xnotePrefs = xnote.ns.Commons.xnotePrefs;
         if (xnotePrefs.getIntPref("show_first_x_chars_in_col") > 0) {
-          var note = new xnote.ns.Note(hdr.messageId);
+          let note = new xnote.ns.Note(hdr.messageId);
           if (note.exists()) {
             return " " + note.text.substr(0,xnotePrefs.getIntPref("show_first_x_chars_in_col"));
           }
@@ -43,7 +43,7 @@ xnote.ns.ColumnNote = function() {
       getCellProperties:   function(row, col){},
       getRowProperties:    function(row){},
       getImageSrc:         function(row, col) {
-        var hdr = getHeaderForRow(row);
+        let hdr = getHeaderForRow(row);
         if(pub.hasNote(hdr.messageId)){
           return "chrome://xnote/skin/xnote_context.png";
         }
@@ -73,7 +73,7 @@ xnote.ns.ColumnNote = function() {
     },
 
     doOnceLoaded : function () {
-      var ObserverService = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);
+      let ObserverService = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);
       ObserverService.addObserver(pub.DbObserver, "MsgCreateDBView", false);
     },
 

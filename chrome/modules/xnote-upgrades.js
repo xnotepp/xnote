@@ -48,7 +48,7 @@ var Upgrades = function() {
   var pub = {
     
     checkUpgrades : function (storedVersion, currentVersion) {
-      var versionComparator = Components.classes["@mozilla.org/xpcom/version-comparator;1"]
+      let versionComparator = Components.classes["@mozilla.org/xpcom/version-comparator;1"]
                         .getService(Components.interfaces.nsIVersionComparator);
       if (storedVersion == null || versionComparator.compare(storedVersion, "2.2.11") < 0) {
         migratePrefsToExtensionsNs();

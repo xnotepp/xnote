@@ -34,7 +34,7 @@ var Commons = function() {
     },
 
     init : function() {
-      var appInfo = Components.classes["@mozilla.org/xre/app-info;1"]
+      let appInfo = Components.classes["@mozilla.org/xre/app-info;1"]
                               .getService(Components.interfaces.nsIXULAppInfo);
       if(appInfo.ID == THUNDERBIRD_ID) {
         _runningThunderbird = true;
@@ -66,12 +66,12 @@ var Commons = function() {
       _useTag = _xnotePrefs.getBoolPref("usetag");
       if(_useTag) {
         // Get the tag service.
-        var tagService = Components.classes["@mozilla.org/messenger/tagservice;1"]
+        let tagService = Components.classes["@mozilla.org/messenger/tagservice;1"]
                                  .getService(Components.interfaces.nsIMsgTagService);
-        var prefs = Components.classes['@mozilla.org/preferences-service;1']
+        let prefs = Components.classes['@mozilla.org/preferences-service;1']
                                  .getService(Components.interfaces.nsIPrefBranch);
 
-        var addTag = true;
+        let addTag = true;
         // Test if the XNote Tag already exists, if not, create it
         try {
           if (tagService.getTagForKey("xnote").trim() != "") {
@@ -88,8 +88,8 @@ var Commons = function() {
           //~dump("\nCould not get tag for key 'xnote': "+e.message+"\n"+e.trace);
         }
         if (addTag) {
-          var tagName = XNOTE_TAG_NAME;
-          var tagColor = XNOTE_TAG_COLOR;
+          let tagName = XNOTE_TAG_NAME;
+          let tagColor = XNOTE_TAG_COLOR;
           if (prefs.prefHasUserValue("mailnews.tags.xnote.tag")) {
             tagName = prefs.getCharPref("mailnews.tags.xnote.tag");
             if (tagName.trim() == "") tagName = XNOTE_TAG_NAME;
