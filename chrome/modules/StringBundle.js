@@ -41,6 +41,8 @@ const Ci = Components.interfaces;
 const Cr = Components.results;
 const Cu = Components.utils;
 
+Cu.import("resource://gre/modules/Services.jsm");
+
 /**
  * A string bundle.
  *
@@ -77,9 +79,7 @@ StringBundle.prototype = {
    */
   get _appLocale() {
     try {
-      return Cc["@mozilla.org/intl/nslocaleservice;1"].
-             getService(Ci.nsILocaleService).
-             getApplicationLocale();
+      return Services.locale.getAppLocale();
     }
     catch(ex) {
       return null;

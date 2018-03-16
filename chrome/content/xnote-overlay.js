@@ -25,7 +25,6 @@
 if (!xnote) var xnote={};
 if (!xnote.ns) xnote.ns={};
 
-Components.utils.import("resource://gre/modules/errUtils.js");
 Components.utils.import("resource://xnote/modules/storage.js", xnote.ns);
 Components.utils.import("resource://xnote/modules/commons.js", xnote.ns);
 Components.utils.import("resource://xnote/modules/xnote-upgrades.js", xnote.ns);
@@ -351,7 +350,7 @@ xnote.ns.Overlay = function() {
     //The following statement does not work in SeaMonkey
 //    xnote.ns.Commons.xnotePrefs.addObserver("", prefObserver, false);
     var prefs = Components.classes['@mozilla.org/preferences-service;1']
-                           .getService(Components.interfaces.nsIPrefBranch2);
+                           .getService(Components.interfaces.nsIPrefBranch);
     prefs.addObserver("extensions.xnote.", prefObserver, false);
     if (String(EnsureSubjectValue).search('extensionDejaChargee')==-1) {
       var oldEnsureSubjectValue=EnsureSubjectValue;

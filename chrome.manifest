@@ -5,7 +5,7 @@ overlay		chrome://browser/content/browser.xul		chrome://xnote/content/xnote-over
 # overlay		chrome://messenger/content/messageWindow.xul 	chrome://xnote/content/xnote-overlay.xul
 
 skin		xnote 	classic	   chrome/skin/
-style		chrome://global/content/customizeToolbar.xul	chrome://xnote/skin/xnote-overlay.css
+style		chrome://messenger/content/customizeToolbar.xul	chrome://xnote/skin/xnote-overlay.css
 
 locale		xnote	de	chrome/locale/de/
 locale		xnote	en-US	chrome/locale/en-US/

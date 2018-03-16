@@ -3,7 +3,7 @@
 let EXPORTED_SYMBOLS = ["Commons", "UTF8Coder"];
 
 var Commons = function() {
-  const _XNOTE_VERSION = "2.2.14a";
+  const _XNOTE_VERSION = "2.2.14b";
   
   // CONSTANT - Default tag name and color
   const XNOTE_TAG_NAME = "XNote";
@@ -46,7 +46,7 @@ var Commons = function() {
       _xnotePrefs = Components.classes["@mozilla.org/preferences-service;1"].
                      getService(Components.interfaces.nsIPrefService).
                      getBranch("extensions.xnote.");
-      _xnotePrefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
+      _xnotePrefs.QueryInterface(Components.interfaces.nsIPrefBranch);
     },
 
     get isInThunderbird() {
@@ -69,7 +69,7 @@ var Commons = function() {
         var tagService = Components.classes["@mozilla.org/messenger/tagservice;1"]
                                  .getService(Components.interfaces.nsIMsgTagService);
         var prefs = Components.classes['@mozilla.org/preferences-service;1']
-                                 .getService(Components.interfaces.nsIPrefBranch2);
+                                 .getService(Components.interfaces.nsIPrefBranch);
 
         var addTag = true;
         // Test if the XNote Tag already exists, if not, create it

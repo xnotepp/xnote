@@ -3,7 +3,9 @@ if (!xnote.ns) xnote.ns={};
 
 let EXPORTED_SYMBOLS = ["Storage"];
 
-Components.utils.import("resource://xnote/modules/commons.js", xnote.ns);
+const Cu = Components.utils;
+
+Cu.import("resource://xnote/modules/commons.js", xnote.ns);
 
 var Storage = function() {
   /**
@@ -25,17 +27,14 @@ var Storage = function() {
       }
       else try {
         var storagePath = xnote.ns.UTF8Coder.decode(xnotePrefs.getCharPref('storage_path').trim());
+        var FileUtils = Cu.import("resource://gre/modules/FileUtils.jsm").FileUtils;
         if (storagePath != "") {
           if (storagePath.indexOf("[ProfD]") == 0) {
-            _storageDir = Components.classes["@mozilla.org/file/local;1"]
-                       .createInstance(Components.interfaces.nsILocalFile);
-            _storageDir.initWithPath(profileDir.path);
+            _storageDir = new FileUtils.File(profileDir.path);
             _storageDir.appendRelativePath(storagePath.substring(7));
           }
           else {
-            _storageDir = Components.classes["@mozilla.org/file/local;1"]
-                       .createInstance(Components.interfaces.nsILocalFile);
-            _storageDir.initWithPath(storagePath);
+            _storageDir = new FileUtils.File(storagePath);
           }
         }
         else {
