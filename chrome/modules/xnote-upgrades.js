@@ -3,7 +3,7 @@ if (!xnote.ns) xnote.ns={};
 
 let EXPORTED_SYMBOLS = ["Upgrades"];
 
-Components.utils.import("resource://xnote/modules/commons.js", xnote.ns);
+ChromeUtils.import("resource://xnote/modules/commons.js", xnote.ns);
 
 var Upgrades = function() {
   

@@ -1,11 +1,9 @@
 if (!xnote) var xnote = {};
 if (!xnote.ns) xnote.ns = {};
 
-const Cu = Components.utils;
-
-Cu.import("resource://xnote/modules/commons.js", xnote.ns);
-Cu.import("resource://xnote/modules/storage.js", xnote.ns);
-Cu.import("resource://gre/modules/Services.jsm");
+ChromeUtils.import("resource://xnote/modules/commons.js", xnote.ns);
+ChromeUtils.import("resource://xnote/modules/storage.js", xnote.ns);
+ChromeUtils.import("resource://gre/modules/Services.jsm");
 
 xnote.ns.Preferences = function() {
   let _stringBundle = Services.strings.createBundle("chrome://xnote/locale/xnote-overlay.properties");

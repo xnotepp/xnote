@@ -9,8 +9,8 @@
 if (!xnote) var xnote={};
 if (!xnote.ns) xnote.ns={};
 
-Components.utils.import("resource://xnote/modules/storage.js", xnote.ns);
-Components.utils.import("resource://xnote/modules/commons.js", xnote.ns);
+ChromeUtils.import("resource://xnote/modules/storage.js", xnote.ns);
+ChromeUtils.import("resource://xnote/modules/commons.js", xnote.ns);
 
 /**
  * Constructor for the class Note using a file descriptor during creation of

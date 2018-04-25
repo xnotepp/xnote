@@ -5,15 +5,15 @@
 
   <Description about='urn:mozilla:install-manifest'>
     <em:id>xnote@froihofer.net</em:id>
-    <em:version>2.2.14b1</em:version>
+    <em:version>2.2.14</em:version>
     <em:type>2</em:type> <!-- 2 corresponds to type 'extension' -->
     <em:optionsURL>chrome://xnote/content/preferences.xul</em:optionsURL>
     <em:targetApplication>
       <Description>
         <!-- Thunderbird -->
         <em:id>{3550f703-e582-4d05-9a08-453d09bdfdc6}</em:id>
-        <em:minVersion>59.0b2</em:minVersion>
-        <em:maxVersion>59.*</em:maxVersion>
+        <em:minVersion>60</em:minVersion>
+        <em:maxVersion>60.*</em:maxVersion>
       </Description>
     </em:targetApplication>
     <!--em:targetApplication>

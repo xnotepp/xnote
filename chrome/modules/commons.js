@@ -3,11 +3,11 @@
 let EXPORTED_SYMBOLS = ["Commons", "UTF8Coder"];
 
 var Commons = function() {
-  const _XNOTE_VERSION = "2.2.14b";
+  const _XNOTE_VERSION = "2.2.14";
   
   // CONSTANT - Default tag name and color
   const XNOTE_TAG_NAME = "XNote";
-  const XNOTE_TAG_COLOR = "#FFCC00"
+  const XNOTE_TAG_COLOR = "#FFCC00";
 
   //Application IDs of applications we support
   const THUNDERBIRD_ID = "{3550f703-e582-4d05-9a08-453d09bdfdc6}";

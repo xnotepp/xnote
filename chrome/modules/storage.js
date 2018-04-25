@@ -3,9 +3,7 @@ if (!xnote.ns) xnote.ns={};
 
 let EXPORTED_SYMBOLS = ["Storage"];
 
-const Cu = Components.utils;
-
-Cu.import("resource://xnote/modules/commons.js", xnote.ns);
+ChromeUtils.import("resource://xnote/modules/commons.js", xnote.ns);
 
 var Storage = function() {
   /**
@@ -19,7 +17,7 @@ var Storage = function() {
       let directoryService = 	Components.classes['@mozilla.org/file/directory_service;1']
                               .getService(Components.interfaces.nsIProperties);
       let profileDir = directoryService.get('ProfD', Components.interfaces.nsIFile);
-      let defaultDir = profileDir.clone()
+      let defaultDir = profileDir.clone();
       let xnotePrefs = xnote.ns.Commons.xnotePrefs;
       defaultDir.append('XNote');
       if (!xnotePrefs.prefHasUserValue("storage_path")) {
@@ -27,7 +25,7 @@ var Storage = function() {
       }
       else try {
         let storagePath = xnote.ns.UTF8Coder.decode(xnotePrefs.getCharPref('storage_path').trim());
-        let FileUtils = Cu.import("resource://gre/modules/FileUtils.jsm").FileUtils;
+        let FileUtils = ChromeUtils.import("resource://gre/modules/FileUtils.jsm").FileUtils;
         if (storagePath != "") {
           if (storagePath.indexOf("[ProfD]") == 0) {
             _storageDir = new FileUtils.File(profileDir.path);

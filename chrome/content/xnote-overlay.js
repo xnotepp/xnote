@@ -25,10 +25,9 @@
 if (!xnote) var xnote={};
 if (!xnote.ns) xnote.ns={};
 
-Components.utils.import("resource://xnote/modules/storage.js", xnote.ns);
-Components.utils.import("resource://xnote/modules/commons.js", xnote.ns);
-Components.utils.import("resource://xnote/modules/xnote-upgrades.js", xnote.ns);
-
+ChromeUtils.import("resource://xnote/modules/storage.js", xnote.ns);
+ChromeUtils.import("resource://xnote/modules/commons.js", xnote.ns);
+ChromeUtils.import("resource://xnote/modules/xnote-upgrades.js", xnote.ns);
 
 xnote.ns.Overlay = function() {
   //result
@@ -191,7 +190,7 @@ xnote.ns.Overlay = function() {
    *     menu, e.g., modify or delete a note for a message not containing a note.
    */
   pub.messageListClicked = function (e) {
-    ~ dump('\n->messageListClicked, messageID='+pub.getMessageID());
+    // ~ dump('\n->messageListClicked, messageID='+pub.getMessageID());
     if (e.button==2) {
       noteForRightMouseClick = new xnote.ns.Note(pub.getMessageID());
       let noteExists = noteForRightMouseClick.exists();

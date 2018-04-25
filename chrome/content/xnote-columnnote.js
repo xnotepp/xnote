@@ -1,7 +1,7 @@
 if (!xnote) var xnote={};
 if (!xnote.ns) xnote.ns={};
 
-Components.utils.import("resource://xnote/modules/commons.js", xnote.ns);
+ChromeUtils.import("resource://xnote/modules/commons.js", xnote.ns);
 
 xnote.ns.ColumnNote = function() {
 
