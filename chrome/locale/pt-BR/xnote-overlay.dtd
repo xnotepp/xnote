@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<!ENTITY xnote.label "XNote">
+<!ENTITY xnote.key "X">
+
+<!ENTITY ajout.label "Inserir Nota">
+<!ENTITY ajout.key "I">
+<!ENTITY modif.label "Alterar rótulo">
+<!ENTITY modif.key "R">
+<!ENTITY suppr.label "Excluir nota">
+<!ENTITY suppr.key "E">
+
+<!ENTITY resetNoteWindow.label "Restaurar área de notas">
+
+<!ENTITY header.label "Clicar para ordenar títulos">

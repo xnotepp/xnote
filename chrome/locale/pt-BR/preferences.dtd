@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<!ENTITY xnote "XNote">
+<!ENTITY preferences "Config">
+<!ENTITY btn.browse "Localizar...">
+<!ENTITY Window.defaults "Configuração Padrão">
+<!ENTITY Width "Largura">
+<!ENTITY Height "Altura">
+<!ENTITY storage.path "Salvar em...">
+<!ENTITY Message.tag "Etiqueta da mensagem">
+<!ENTITY use.tag "Usar etiqueta?">
+<!ENTITY Name "Nome">
+<!ENTITY Color "Cor">
+<!ENTITY Behavior "Processo">
+<!ENTITY show.on.select "exibir XNote ao selecionar e-mail">
+<!ENTITY show.first.x.chars.in.col "Exibir X caracteres no campo XNote">

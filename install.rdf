@@ -5,14 +5,17 @@
 
   <Description about='urn:mozilla:install-manifest'>
     <em:id>xnote@froihofer.net</em:id>
-    <em:version>2.2.14</em:version>
+    <em:version>2.2.15a</em:version>
     <em:type>2</em:type> <!-- 2 corresponds to type 'extension' -->
+    <!-- Shows settings button within add-ons page, but opens in tab
+         which does not display niceley - lots of blank space. -->
+    <!--em:optionsType>3</em:optionsType--> 
     <em:optionsURL>chrome://xnote/content/preferences.xul</em:optionsURL>
     <em:targetApplication>
       <Description>
         <!-- Thunderbird -->
         <em:id>{3550f703-e582-4d05-9a08-453d09bdfdc6}</em:id>
-        <em:minVersion>60</em:minVersion>
+        <em:minVersion>60.0</em:minVersion>
         <em:maxVersion>60.*</em:maxVersion>
       </Description>
     </em:targetApplication>
@@ -41,5 +44,6 @@
     <em:translator>ja-JP: Ryuji Sugino</em:translator>
     <em:translator>nl-NL: Bernhard Deeterink, Maarten van Vliet</em:translator>
     <em:translator>pl-PL: Paweł Sikora</em:translator>
+    <em:translator>pt-BR: Walter Tabacniks</em:translator>
   </Description>
 </RDF>

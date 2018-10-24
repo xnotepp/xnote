@@ -1,0 +1,7 @@
+﻿<!-- encoding='UTF-8' -->
+
+<!ENTITY xnote 'XNote'>
+
+<!ENTITY close 'Salvar e sair'>
+<!ENTITY suppr 'Excluir nota'>
+<!ENTITY xnote.ask.deletion 'Confirma exclusão da nota?'>

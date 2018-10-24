@@ -15,5 +15,6 @@ locale		xnote	it-IT	chrome/locale/it-IT/
 locale		xnote   ja-JP	chrome/locale/ja-JP/
 locale		xnote	nl-NL	chrome/locale/nl-NL/
 locale		xnote	pl-PL	chrome/locale/pl-PL/
+locale		xnote	pt-BR	chrome/locale/pt-BR/
 
 resource  xnote   chrome/
