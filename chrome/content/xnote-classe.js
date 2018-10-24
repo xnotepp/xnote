@@ -105,10 +105,10 @@ xnote.ns.Note = function (messageId) {
     let fileOutStream = Components.classes['@mozilla.org/network/file-output-stream;1'].createInstance(Components.interfaces.nsIFileOutputStream);
     with (fileOutStream) {
       init(tempFile, 2, 0x200, false); // Opens for writing only
-      write(pub.x, 4);
-      write(pub.y, 4);
-      write(pub.width, 4);
-      write(pub.height, 4);
+      write(String(pub.x), 4);
+      write(String(pub.y), 4);
+      write(String(pub.width), 4);
+      write(String(pub.height), 4);
       write(pub.modificationDate, 32);
 
       // Changed because of this:

@@ -13,9 +13,9 @@ ChromeUtils.import("resource://xnote/modules/commons.js", xnote.ns);
 
 xnote.ns.Window = function() {
   // Variables for window movement
-  var xAvantDeplacement, yAvantDeplacement;
+  var xBeforeMove, yBeforeMove;
   // Variables for window resizing.
-  var largeurAvantDeplacement, hauteurAvantDeplacement;
+  var widthBeforeMove, heightBeforeMove;
   
   var oldOpenerX, oldOpenerY;
 
@@ -97,11 +97,11 @@ xnote.ns.Window = function() {
     if (note.modified) {
       let oldText = note.text;
       note.text=document.getElementById('xnote-texte').value;
-      if (note.text!='') {
+      if (note.text != '') {
         note.x=window.screenX-opener.screenX;
         note.y=window.screenY-opener.screenY;
-        note.width=window.document.width;
-        note.height=window.document.height;
+        note.width=window.innerWidth;
+        note.height=window.innerHeight;
         if (oldText != note.text) {
           note.modificationDate=date1;
         }
@@ -154,11 +154,12 @@ xnote.ns.Window = function() {
    */
   pub.startRedimensionnement = function (e) {
     if (e.button==0) {
-      xAvantDeplacement = e.screenX;
-      largeurAvantDeplacement = window.document.width;
-      yAvantDeplacement = e.screenY;
-      hauteurAvantDeplacement = window.document.height;
-      //~ dump('\n xAvantDeplacement='+xAvantDeplacement+' ; yAvantDeplacement='+yAvantDeplacement);
+      xBeforeMove = e.screenX;
+      widthBeforeMove = window.innerWidth;
+      yBeforeMove = e.screenY;
+      heightBeforeMove = window.innerHeight;
+      //~ dump('\n xBeforeMove='+xBeforeMove+' ; yBeforeMove='+yBeforeMove);
+      //~ dump('\n heightBeforeMove='+heightBeforeMove+' ; heightBeforeMove='+heightBeforeMove);
       document.addEventListener('mousemove', xnote.ns.Window.redimenssionnement, true);
       document.addEventListener('mouseup', xnote.ns.Window.stopRedimenssionnement, true);
     }
@@ -172,11 +173,14 @@ xnote.ns.Window = function() {
     //~ dump('\n w.document.width='+window.document.width+' ; w.document.height='+window.document.height);
 
     //~ dump('\nlargeur='+document.getElementById('xnote-texte').style.width);
-    let nouvelleLargeur = largeurAvantDeplacement + e.screenX - xAvantDeplacement;
-    let nouvelleHauteur = hauteurAvantDeplacement + e.screenY - yAvantDeplacement;
-    nouvelleLargeur = nouvelleLargeur< 58 ?  58 : nouvelleLargeur;
-    nouvelleHauteur = nouvelleHauteur< 88 ?  88 : nouvelleHauteur;
-    window.resizeTo(nouvelleLargeur,nouvelleHauteur);
+    let newWidth = widthBeforeMove + e.screenX - xBeforeMove;
+    let newHeight = heightBeforeMove + e.screenY - yBeforeMove;
+    //~ dump('\nxAvantDeplacement='+xBeforeMove+', yAvantDeplacement='+yBeforeMove);
+    //~ dump('\ne.screenX='+e.screenX+', e.screenY='+e.screenY);
+    //~ dump('\nnewWidth='+newWidth+', newHeight='+newHeight);
+    newWidth = newWidth < 58 ?  58 : newWidth;
+    newHeight = newHeight < 88 ?  88 : newHeight;
+    window.resizeTo(newWidth,newHeight);
     pub.noteModified();
   }
 

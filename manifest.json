@@ -1,0 +1,22 @@
+{
+  "manifest_version": 2,
+  "name": "XNote++",
+  "description": "Add Post-It to your mails.",
+  "version": "2.2.15a",
+  "author": "Lorenz Froihofer: support for TB >= 3.0, since Dec. 2009",
+  "homepage_url": "http://www.froihofer.net/xnote/",
+  "legacy": true,
+  "applications": {
+    "gecko": {
+      "id": "xnote@froihofer.net",
+      "strict_min_version": "63.0",
+	  "strict_max_version": "63.*"
+    }
+  },
+  "options_ui": {
+    "page": "chrome/content/preferences.xul"
+  },
+  "icons": {
+    "32": "chrome/skin/icon32.png"
+  }
+}
