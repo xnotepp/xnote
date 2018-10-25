@@ -370,6 +370,9 @@ xnote.ns.Overlay = function() {
     catch(e){
       logException(e,false);
     }
+    
+    //window.addEventListener('DOMAttrModified', xnote.ns.Commons.printEventDomAttrModified, false);
+
     pub.checkInitialization(storedVersion);
   }
 

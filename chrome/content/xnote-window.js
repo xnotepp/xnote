@@ -212,12 +212,6 @@ xnote.ns.Window = function() {
     pub.saveNote();
   }
 
-  /*pub.domAttrModified = function (e) {
-    ~dump("domAttrModified: "+e.attrName+", node="+e.relatedNode.nodeName+", node.ownerElement="+e.relatedNode.ownerElement+"\n");
-    //~for (var i in e.relatedNode.ownerElement) dump(i+"\n");
-    //~dump("\n");
-  }*/
-
   return pub;
 }();
 
@@ -227,7 +221,7 @@ addEventListener('load', xnote.ns.Window.onLoad, false);
 addEventListener('unload', xnote.ns.Window.onUnload, false);
 
 //For testing purposes
-//addEventListener('DOMAttrModified', xnote.ns.Window.domAttrModified, false);
+//addEventListener('DOMAttrModified', xnote.ns.Commons.printEventDomAttrModified, false);
 
 //Necessary for correct shutdown as we are otherwise unable to correctly
 //save a modified note

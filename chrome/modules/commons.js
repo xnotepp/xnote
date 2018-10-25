@@ -3,7 +3,7 @@
 let EXPORTED_SYMBOLS = ["Commons", "UTF8Coder"];
 
 var Commons = function() {
-  const _XNOTE_VERSION = "2.2.15a";
+  const _XNOTE_VERSION = "2.3.0a";
   
   // CONSTANT - Default tag name and color
   const XNOTE_TAG_NAME = "XNote";
@@ -98,6 +98,12 @@ var Commons = function() {
           tagService.addTagForKey( "xnote", tagName, tagColor, '');
         }
       }
+    },
+    
+    printEventDomAttrModified : function (e) {
+      ~dump("domAttrModified: "+e.attrName+", node="+e.relatedNode.nodeName+", node.ownerElement="+e.relatedNode.ownerElement+"\n");
+      //~for (var i in e.relatedNode.ownerElement) dump(i+"\n");
+      //~dump("\n");
     }
 
   };
