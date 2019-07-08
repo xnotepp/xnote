@@ -5,6 +5,17 @@ ChromeUtils.import("resource://xnote/modules/commons.js", xnote.ns);
 ChromeUtils.import("resource://xnote/modules/storage.js", xnote.ns);
 ChromeUtils.import("resource://gre/modules/Services.jsm");
 
+Preferences.addAll([
+    { id: "xnote-pref-width", type: "int" },
+    { id: "xnote-pref-height", type: "int" },
+    { id: "xnote-pref-storage_path", type: "string" },
+    { id: "xnote-pref-tag.name", type: "string" },
+    { id: "xnote-pref-tag_color", type: "string" },
+    { id: "xnote-pref-usetag", type: "bool" },
+    { id: "xnote-pref-show_on_select", type: "bool" },
+    { id: "xnote-pref-show_first_x_chars_in_col", type: "int" },
+]);
+
 xnote.ns.Preferences = function() {
   let _stringBundle = Services.strings.createBundle("chrome://xnote/locale/xnote-overlay.properties");
 

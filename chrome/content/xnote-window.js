@@ -63,8 +63,17 @@ xnote.ns.Window = function() {
   //~ dump('\n<-onLoad');
   }
 
+  function resizeWindow (width, height) {
+    width = width < 58 ?  58 : width;
+    //Consider background image for height because of textarea.
+    height = height < 130 ?  130 : height;
+    //~ dump('\nwidth='+width+', height='+height);
+    window.resizeTo(width, height);
+    document.getElementById("xnote-texte").style.height = (height - 40) + "px";
+  }
+
   pub.resizeWindow = function () {
-    window.resizeTo(note.width, note.height);
+    resizeWindow(note.width, note.height);
   }
 
   /**
@@ -177,10 +186,7 @@ xnote.ns.Window = function() {
     let newHeight = heightBeforeMove + e.screenY - yBeforeMove;
     //~ dump('\nxAvantDeplacement='+xBeforeMove+', yAvantDeplacement='+yBeforeMove);
     //~ dump('\ne.screenX='+e.screenX+', e.screenY='+e.screenY);
-    //~ dump('\nnewWidth='+newWidth+', newHeight='+newHeight);
-    newWidth = newWidth < 58 ?  58 : newWidth;
-    newHeight = newHeight < 88 ?  88 : newHeight;
-    window.resizeTo(newWidth,newHeight);
+    resizeWindow(newWidth, newHeight);
     pub.noteModified();
   }
 
@@ -191,7 +197,7 @@ xnote.ns.Window = function() {
   pub.stopRedimenssionnement = function (e) {
     document.removeEventListener('mousemove', xnote.ns.Window.redimenssionnement, true);
     document.removeEventListener('mouseup', xnote.ns.Window.stopRedimenssionnement, true);
-    let texte=self.document.getElementById('xnote-texte');
+    let texte=document.getElementById('xnote-texte');
     texte.focus();
   }
 

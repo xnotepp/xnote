@@ -11,6 +11,7 @@
 
 <window
 	xmlns='http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul'
+  xmlns:html="http://www.w3.org/1999/xhtml"
 	id='xnote-window'
 	hidechrome='true'
 	title='&xnote;'
@@ -33,14 +34,12 @@
 				class='custombutton-smaller'
 				onclick='if (event.button==0) { xnote.ns.Window.saveNote(); close(); }'/>
 		</box>
-		<textbox
+		<html:textarea
 			id='xnote-texte'
 			class='boite-de-texte'
-			multiline='true'
-			flex='1'
 			oninput='xnote.ns.Window.noteModified();'
-			onblur=''/>
-		<box id='xnote-barre-bottom'>
+    />
+		<box id='xnote-barre-bottom' flex="1">
 			<image
 				id='xnote-bouton-suppr'
 				class='custombutton-smaller'
@@ -48,7 +47,6 @@
 				onclick='if (event.button==0 &amp;&amp; confirm("&xnote.ask.deletion;")) { xnote.ns.Window.deleteNote(); close(); }'>
 			</image>
 
-			<spacer flex='1'/>
 			<textbox
 				id='xnote-redim'
 				class='boite-de-texte'

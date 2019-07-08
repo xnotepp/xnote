@@ -24,6 +24,10 @@
 
 #xnote-barre-bottom {
   height: 14px;
+  position: fixed;
+  bottom: 4px;
+  width: calc(100% - 3px);
+  /*border: 1px solid green; */
 }
 
 #xnote-bouton-fermer {
@@ -49,6 +53,7 @@
   cursor: se-resize;
   background : url(redim.png);
   width: 14px;
+  float: right;
 }
 
 .boite-de-texte {
@@ -80,6 +85,7 @@
 #xnote-texte {
   font-size: 10pt;
   padding: 3px;
+  /* for testing of resizing: background: lightblue; */
 }
 
 #xnote-deplacement {

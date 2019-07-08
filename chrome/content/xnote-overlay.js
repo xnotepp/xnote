@@ -190,7 +190,7 @@ xnote.ns.Overlay = function() {
    *     menu, e.g., modify or delete a note for a message not containing a note.
    */
   pub.messageListClicked = function (e) {
-    // ~ dump('\n->messageListClicked, messageID='+pub.getMessageID());
+     ~ dump('\n->messageListClicked, messageID='+pub.getMessageID());
     if (e.button==2) {
       noteForRightMouseClick = new xnote.ns.Note(pub.getMessageID());
       let noteExists = noteForRightMouseClick.exists();
@@ -206,14 +206,10 @@ xnote.ns.Overlay = function() {
     }
     let t = e.originalTarget;
     if (t.localName == 'treechildren') {
-      let row = new Object;
-      let col = new Object;
-      let childElt = new Object;
-
       let tree = GetThreadTree();
-      tree.treeBoxObject.getCellAt(e.clientX, e.clientY, row, col, childElt);
-      currentIndex = row.value;
-    //~ dump('\nrow.value = '+row.value);
+      let treeCellInfo = tree.getCellAt(e.clientX, e.clientY);
+      currentIndex = treeCellInfo.row;
+      ~ dump('\nclicked row = '+currentIndex);
     }
   //~ dump('\n<-messageListClicked');
   }
