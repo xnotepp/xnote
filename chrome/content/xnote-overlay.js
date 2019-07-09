@@ -182,6 +182,23 @@ xnote.ns.Overlay = function() {
     }
   }
 
+  function updateContextMenu() {
+    noteForRightMouseClick = new xnote.ns.Note(pub.getMessageID());
+    let noteExists = noteForRightMouseClick.exists();
+    document.getElementById('xnote-context-create').setAttribute('hidden', noteExists);
+    document.getElementById('xnote-context-modify').setAttribute('hidden', !noteExists);
+    document.getElementById('xnote-context-delete').setAttribute('hidden', !noteExists);
+    document.getElementById('xnote-context-separator-after-delete').setAttribute('hidden', !noteExists);
+    document.getElementById('xnote-context-reset-note-window').setAttribute('hidden', !noteExists);
+    var messageArray = gFolderDisplay.selectedMessages;
+    if (messageArray && messageArray.length == 1) {
+      document.getElementById('xnote-mailContext-xNote').setAttribute('disabled', false);
+    }
+    else {
+      document.getElementById('xnote-mailContext-xNote').setAttribute('disabled', true);
+    }
+  }
+
   /**
    * FUNCTION
    * For right click in message pane:
@@ -190,19 +207,9 @@ xnote.ns.Overlay = function() {
    *     menu, e.g., modify or delete a note for a message not containing a note.
    */
   pub.messageListClicked = function (e) {
-     ~ dump('\n->messageListClicked, messageID='+pub.getMessageID());
+    ~ dump('\n->messageListClicked, messageID='+pub.getMessageID());
     if (e.button==2) {
-      noteForRightMouseClick = new xnote.ns.Note(pub.getMessageID());
-      let noteExists = noteForRightMouseClick.exists();
-      document.getElementById('xnote-context-ajout').setAttribute('hidden', noteExists);
-      document.getElementById('xnote-context-modif').setAttribute('hidden', !noteExists);
-      var messageArray = gFolderDisplay.selectedMessages;
-      if (messageArray && messageArray.length == 1) {
-        document.getElementById('xnote-mailContext-xNote').setAttribute('disabled', false);
-      }
-      else {
-        document.getElementById('xnote-mailContext-xNote').setAttribute('disabled', true);
-      }
+      updateContextMenu();
     }
     let t = e.originalTarget;
     if (t.localName == 'treechildren') {
@@ -212,6 +219,14 @@ xnote.ns.Overlay = function() {
       ~ dump('\nclicked row = '+currentIndex);
     }
   //~ dump('\n<-messageListClicked');
+  }
+
+  pub.messagePaneClicked = function (e) {
+    ~ dump('\n->messagePaneClicked, messageID='+pub.getMessageID());
+    if (e.button==2) {
+      updateContextMenu();
+    }
+    currentIndex = gDBView.selection.currentIndex;
   }
 
   /**
@@ -360,8 +375,10 @@ xnote.ns.Overlay = function() {
       tree.addEventListener('select', pub.updateXNoteButton, false);
       tree = document.getElementById('threadTree');
       tree.addEventListener('contextmenu', pub.messageListClicked, false);
-      tree = document.getElementById('threadTree');
       tree.addEventListener('select', pub.updateXNoteButton, false);
+      
+      let messagePane = document.getElementById("messagepane");
+      messagePane.addEventListener("contextmenu", pub.messagePaneClicked, false);
     }
     catch(e){
       logException(e,false);

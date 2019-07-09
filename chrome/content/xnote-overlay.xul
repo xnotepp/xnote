@@ -39,22 +39,26 @@
                   image='chrome://xnote/skin/xnote_context.png' class='menuitem-iconic'
                   insertbefore="mailContext-openInBrowser,mailContext-openNewWindow">
 			<menupopup>
- 				<menuitem id='xnote-context-ajout' label='&ajout.label;' key='&ajout.key;'
+ 				<menuitem id='xnote-context-create' label='&ajout.label;' key='&ajout.key;'
 					oncommand='xnote.ns.Overlay.context_createNote();'>
 				</menuitem>
-				<menuitem id='xnote-context-modif' label='&modif.label;' key='&modif.key;'
+				<menuitem id='xnote-context-modify' label='&modif.label;' key='&modif.key;'
 					oncommand='xnote.ns.Overlay.context_modifyNote();'>
 				</menuitem>
-				<menuitem id='xnote-context-suppr' label='&suppr.label;' key='&suppr.key;'
+				<menuitem id='xnote-context-delete' label='&suppr.label;' key='&suppr.key;'
 					oncommand="goDoCommand('cmd_label0'); xnote.ns.Overlay.context_deleteNote();">
-					<observes element='xnote-context-modif' attribute='hidden'/>
+          <!--
+            It seems the observes element is no longer working as of TB 68.
+            Disabling now via JavaScript.
+          -->
+					<observes element='xnote-context-modify' attribute='hidden'/>
 				</menuitem>
-        <menuseparator>
-          <observes element='xnote-context-modif' attribute='hidden' />
+        <menuseparator id="xnote-context-separator-after-delete">
+          <observes element='xnote-context-modify' attribute='hidden' />
         </menuseparator>
         <menuitem id="xnote-context-reset-note-window" label="&resetNoteWindow.label;"
           oncommand="xnote.ns.Overlay.context_resetNoteWindow();">
-          <observes element='xnote-context-modif' attribute='hidden'/>
+          <observes element='xnote-context-modify' attribute='hidden'/>
         </menuitem>
 			</menupopup>
 		</menu>
