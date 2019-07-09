@@ -11,10 +11,10 @@
 			id='xnote-preferences'
 			persist='screenX screenY'
       type="child"
-      buttons="accept,cancel"
+      buttons="cancel,accept"
 >
 
-  <vbox> <!-- id='xnote-pane' label='&xnote; &preferences;' orient='vertical'-->
+  <vbox id='xnote-pane' label='&xnote; &preferences;' orient='vertical'>
 
     <groupbox>
       <hbox class="groupbox-title">
@@ -22,7 +22,7 @@
       </hbox>
       <hbox align="center">
         <label value='&Width;' control='default.width'/>
-        <html:input id="xnote-default-width" preference="xnote-pref-widthextensions.xnote.width" size="5" type="number"/>
+        <html:input id="xnote-default-width" preference="extensions.xnote.width" size="5" type="number"/>
         <label value='&Height;' control='default.height'/>
         <html:input id="xnote-default-height" preference="extensions.xnote.height" size="5" type="number"/>
       </hbox>
@@ -36,7 +36,7 @@
         <label id="xnote-lbl-tag-color" value="&Name;" control="tb.tag.name"/>
         <textbox id="xnote-tb-tag-name" preference="mailnews.tags.xnote.tag" />
         <label value="&Color;" control="cp.tag.color"/>
-        <colorpicker id="xnote-cp-tag-color" type="button"
+        <html:input id="xnote-cp-tag-color" type="color"
 			               preference='mailnews.tags.xnote.color'/>
       </hbox>
     </groupbox>
@@ -66,8 +66,6 @@
     </groupbox>
   </vbox>
 
-  <script 
-     src="chrome://global/content/preferencesBindings.js" 
-     type="application/javascript"/>
-  <script type='application/javascript' src='chrome://xnote/content/preferences.js'/>
+  <script src="chrome://global/content/preferencesBindings.js" type="application/javascript" />
+  <script src="chrome://xnote/content/preferences.js" type="application/javascript" />
 </dialog> 

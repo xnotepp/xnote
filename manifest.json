@@ -16,7 +16,8 @@
   "legacy": {
     "type" : "xul",
     "options": {
-      "page": "chrome/content/preferences.xul"
+      "page": "chrome://xnote/content/preferences.xul",
+      "open_in_tab": false
     }
   },
   "icons": {

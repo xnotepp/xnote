@@ -3,17 +3,17 @@ if (!xnote.ns) xnote.ns = {};
 
 ChromeUtils.import("resource://xnote/modules/commons.js", xnote.ns);
 ChromeUtils.import("resource://xnote/modules/storage.js", xnote.ns);
-ChromeUtils.import("resource://gre/modules/Services.jsm");
+var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 
 Preferences.addAll([
-    { id: "xnote-pref-width", type: "int" },
-    { id: "xnote-pref-height", type: "int" },
-    { id: "xnote-pref-storage_path", type: "string" },
-    { id: "xnote-pref-tag.name", type: "string" },
-    { id: "xnote-pref-tag_color", type: "string" },
-    { id: "xnote-pref-usetag", type: "bool" },
-    { id: "xnote-pref-show_on_select", type: "bool" },
-    { id: "xnote-pref-show_first_x_chars_in_col", type: "int" },
+    { id: "extensions.xnote.width", type: "int" },
+    { id: "extensions.xnote.height", type: "int" },
+    { id: "extensions.xnote.storage_path", type: "string" },
+    { id: "mailnews.tags.xnote.tag", type: "string" },
+    { id: "mailnews.tags.xnote.color", type: "string" },
+    { id: "extensions.xnote.usetag", type: "bool" },
+    { id: "extensions.xnote.show_on_select", type: "bool" },
+    { id: "extensions.xnote.show_first_x_chars_in_col", type: "int" },
 ]);
 
 xnote.ns.Preferences = function() {
@@ -44,8 +44,9 @@ xnote.ns.Preferences = function() {
             storagePath = "[ProfD]"+storagePath.substr(profileDir.path.length+1);
           }
         }
-        let prefPath = document.getElementById("xnote-pref-storage_path");
+        let prefPath = document.getElementById("xnote-storage-path");
         prefPath.value = storagePath;
+        xnote.ns.Commons.xnotePrefs.setCharPref("storage_path", storagePath);
       });
     }
   };
