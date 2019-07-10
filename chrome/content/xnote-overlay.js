@@ -34,7 +34,7 @@ xnote.ns.Overlay = function() {
   var pub = {};
 
   // Variables related to the XNote context menu.
-  var noteForRightMouseClick;
+  var noteForContextMenu;
   var currentIndex;
   
   /** Contains the note for the current message */
@@ -130,24 +130,24 @@ xnote.ns.Overlay = function() {
    * Delete the note associated with the selected e-mail.
    */
   pub.context_deleteNote = function () {
-    noteForRightMouseClick.deleteNote();
+    noteForContextMenu.deleteNote();
     pub.updateTag("");
     setTimeout(xnote.ns.Overlay.initialise);
   }
 
   pub.context_resetNoteWindow = function () {
     if (gDBView.selection.currentIndex==currentIndex) {
-      xnoteWindow.resizeTo(noteForRightMouseClick.DEFAULT_XNOTE_WIDTH, noteForRightMouseClick.DEFAULT_XNOTE_HEIGHT);
-      xnoteWindow.moveTo(noteForRightMouseClick.DEFAULT_X, noteForRightMouseClick.DEFAULT_Y)
+      xnoteWindow.resizeTo(noteForContextMenu.DEFAULT_XNOTE_WIDTH, noteForContextMenu.DEFAULT_XNOTE_HEIGHT);
+      xnoteWindow.moveTo(noteForContextMenu.DEFAULT_X, noteForContextMenu.DEFAULT_Y)
       note.modified = true;
     }
     else {
-      noteForRightMouseClick.x = noteForRightMouseClick.DEFAULT_X;
-      noteForRightMouseClick.y = noteForRightMouseClick.DEFAULT_Y;
-      noteForRightMouseClick.width = noteForRightMouseClick.DEFAULT_XNOTE_WIDTH;
-      noteForRightMouseClick.height = noteForRightMouseClick.DEFAULT_XNOTE_HEIGHT;
-      noteForRightMouseClick.modified = true;
-      noteForRightMouseClick.saveNote();
+      noteForContextMenu.x = noteForContextMenu.DEFAULT_X;
+      noteForContextMenu.y = noteForContextMenu.DEFAULT_Y;
+      noteForContextMenu.width = noteForContextMenu.DEFAULT_XNOTE_WIDTH;
+      noteForContextMenu.height = noteForContextMenu.DEFAULT_XNOTE_HEIGHT;
+      noteForContextMenu.modified = true;
+      noteForContextMenu.saveNote();
     }
   }
 
@@ -183,8 +183,8 @@ xnote.ns.Overlay = function() {
   }
 
   function updateContextMenu() {
-    noteForRightMouseClick = new xnote.ns.Note(pub.getMessageID());
-    let noteExists = noteForRightMouseClick.exists();
+    noteForContextMenu = new xnote.ns.Note(pub.getMessageID());
+    let noteExists = noteForContextMenu.exists();
     document.getElementById('xnote-context-create').setAttribute('hidden', noteExists);
     document.getElementById('xnote-context-modify').setAttribute('hidden', !noteExists);
     document.getElementById('xnote-context-delete').setAttribute('hidden', !noteExists);
