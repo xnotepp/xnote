@@ -75,16 +75,23 @@
   padding: 0 2px 0px 2px;
   margin: 0;
   font-weight: bold;
+  /* Prevent unreadable white text if dark theme is used */
+  color: black;
 }
 #xnote-mdate {
   font-size: 8pt;
   padding: 0 2px 0px 2px;
   margin: 0;
   font-weight: normal;
+  /* Prevent unreadable white text if dark theme is used */
+  color: black;
+  
 }
 #xnote-texte {
   font-size: 10pt;
   padding: 3px;
+  /* Prevent unreadable white text if dark theme is used */
+  color: black;
   /* for testing of resizing: background: lightblue; */
 }
 
@@ -100,6 +107,8 @@
 
 
 #xnote-window {
+  /* Prevent unreadable white text if dark theme is used */
+  color: black;
   /* display: none;
 	width: 0px;
 	height: 0px; */
