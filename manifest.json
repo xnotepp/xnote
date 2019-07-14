@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
-  "name": "XNote++",
-  "description": "Add Post-It to your mails.",
+  "name": "__MSG_extensionName__",
+  "description": "__MSG_extensionDescription__",
   "version": "2.3.0a",
   "author": "Lorenz Froihofer: support for TB >= 3.0, since Dec. 2009",
   "homepage_url": "http://www.froihofer.net/xnote/",

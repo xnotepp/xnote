@@ -1,0 +1,26 @@
+{
+  "extensionName": {
+    "message": "XNote++",
+    "description": "Name of the extension."
+  },
+
+  "extensionDescription": {
+    "message": "Add Post-It to your mails.",
+    "description": "Description of the extension."
+  },
+  
+  "preferences": { "message": "Préférences"},
+  "btn.browse": {"message": "Parcourir…"},
+  "Window.defaults": {"message": "Taille par défaut d'une nouvelle note"},
+  "Width": {"message": "Largeur"},
+  "Height": {"message": "Hauteur"},
+  "storage.path": {"message": "Chemin de stockage des notes"},
+  "Message.tag": {"message": "Étiquette de message"},
+  "Name": {"message": "Nom"},
+  "Color": {"message": "Couleur"},
+  "use.tag": {"message": "Utiliser l'étiquette de message ?"},
+  "Behavior": {"message": "Comportement"},
+  "show.on.select": {"message": "Afficher la note du message sélectionné"},
+  "show.first.x.chars.in.col": {"message": "Montrer les n premiers caractères de la note dans la colonne XNote"}
+  
+}

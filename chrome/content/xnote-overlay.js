@@ -207,7 +207,7 @@ xnote.ns.Overlay = function() {
    *     menu, e.g., modify or delete a note for a message not containing a note.
    */
   pub.messageListClicked = function (e) {
-    ~ dump('\n->messageListClicked, messageID='+pub.getMessageID());
+    //~ dump('\n->messageListClicked, messageID='+pub.getMessageID());
     if (e.button==2) {
       updateContextMenu();
     }
@@ -216,13 +216,13 @@ xnote.ns.Overlay = function() {
       let tree = GetThreadTree();
       let treeCellInfo = tree.getCellAt(e.clientX, e.clientY);
       currentIndex = treeCellInfo.row;
-      ~ dump('\nclicked row = '+currentIndex);
+      //~ dump('\nclicked row = '+currentIndex);
     }
   //~ dump('\n<-messageListClicked');
   }
 
   pub.messagePaneClicked = function (e) {
-    ~ dump('\n->messagePaneClicked, messageID='+pub.getMessageID());
+    //~ dump('\n->messagePaneClicked, messageID='+pub.getMessageID());
     if (e.button==2) {
       updateContextMenu();
     }

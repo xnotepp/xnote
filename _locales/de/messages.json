@@ -1,0 +1,25 @@
+{
+  "extensionName": {
+    "message": "XNote++",
+    "description": "Name of the extension."
+  },
+
+  "extensionDescription": {
+    "message": "Notizen zu E-Mails hinzufügen.",
+    "description": "Description of the extension."
+  },
+  
+  "preferences": { "message": "Einstellungen"},
+  "btn.browse": {"message": "Durchsuchen..."},
+  "Window.defaults": {"message": "Fenster Standardwerte"},
+  "Width": {"message": "Breite"},
+  "Height": {"message": "Höhe"},
+  "storage.path": {"message": "Speicherpfad"},
+  "Message.tag": {"message": "Nachrichtenschlagwort"},
+  "use.tag": {"message": "Schlagwort verwenden?"},
+  "Name": {"message": "Name"},
+  "Color": {"message": "Farbe"},
+  "Behavior": {"message": "Verhalten"},
+  "show.on.select": {"message": "XNote nach E-Mail Auswahl anzeigen"},
+  "show.first.x.chars.in.col": {"message": "Zeige die ersten X Zeichen in der XNote Spalte"}
+}

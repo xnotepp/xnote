@@ -1,0 +1,26 @@
+{
+  "extensionName": {
+    "message": "XNote++",
+    "description": "Name of the extension."
+  },
+
+  "extensionDescription": {
+    "message": "Add Post-It to your mails.",
+    "description": "Description of the extension."
+  },
+  
+  "preferences": { "message": "Voorkeuren"},
+  "btn.browse": {"message": "Browse..."},
+  "Window.defaults": {"message": "Standaard Venster"},
+  "Width": {"message": "Breedte"},
+  "Height": {"message": "Hoogte"},
+  "storage.path": {"message": "Opslaan als"},
+  "Message.tag": {"message": "Bericht Label"},
+  "Name": {"message": "Naam"},
+  "Color": {"message": "Kleur"},
+  "use.tag": {"message": "Gebruik Label?"},
+  "Behavior": {"message": "Gedrag"},
+  "show.on.select": {"message": "Notitie tonen bij selectie"},
+  "show.first.x.chars.in.col": {"message": "Toon eerste x karakters in Xnote Kolom"}
+  
+}

@@ -1,0 +1,25 @@
+{
+  "extensionName": {
+    "message": "XNote++",
+    "description": "Name of the extension."
+  },
+
+  "extensionDescription": {
+    "message": "Add Post-It to your mails.",
+    "description": "Description of the extension."
+  },
+  
+  "preferences": { "message": "設定"},
+  "btn.browse": {"message": "参照"},
+  "Window.defaults": {"message": "デフォルトのサイズ"},
+  "Width": {"message": "幅"},
+  "Height": {"message": "高さ"},
+  "storage.path": {"message": "メモの保存先"},
+  "Message.tag": {"message": "タグとの連動"},
+  "Name": {"message": "タグ名"},
+  "Color": {"message": "色"},
+  "use.tag": {"message": "タグを使う"},
+  "Behavior": {"message": "動作"},
+  "show.on.select": {"message": "メッセージを選択したらメモを表示する"},
+  "show.first.x.chars.in.col": {"message": "スレッドペインのXNoteカラムに先頭数文字を表示する"}
+}
