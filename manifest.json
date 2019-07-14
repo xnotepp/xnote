@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "__MSG_extensionName__",
   "description": "__MSG_extensionDescription__",
-  "version": "2.3.0a",
+  "version": "@@@XNOTE.VERSION@@@",
   "author": "Lorenz Froihofer: support for TB >= 3.0, since Dec. 2009",
   "homepage_url": "http://www.froihofer.net/xnote/",
   "applications": {
@@ -12,7 +12,7 @@
       "strict_max_version": "68.*"
     }
   },
-  "default_locale" : "en",
+  "default_locale" : "en_US",
   "legacy": {
     "type" : "xul",
     "options": {
