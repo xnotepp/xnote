@@ -1,5 +1,3 @@
-@import url(chrome://global/skin/);
-
 .custombutton-smaller           
   {-moz-image-region: rect(0px 14px 14px  0px);}
 .custombutton-smaller:hover
