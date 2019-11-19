@@ -66,8 +66,6 @@ xnote.ns.Overlay = function() {
     note = new xnote.ns.Note(pub.getMessageID());
     pub.updateTag( note.text );
 
-    let bundle = document.getElementById('xnote-stringbundle-overlay');
-
     //~ dump('\nevent = '+event);
 //    if (event) {
 //      //~ dump('\nevent=true');

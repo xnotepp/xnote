@@ -6,7 +6,6 @@
 -->
 <?xml-stylesheet href='chrome://xnote/skin/xnote-overlay.css' type='text/css'?>
 
-
 <!DOCTYPE overlay SYSTEM 'chrome://xnote/locale/xnote-overlay.dtd'>
 
 <overlay id='toolbox-completed'
@@ -28,10 +27,6 @@
 			</toolbarbutton>
 		</toolbarpalette>
 	</toolbox>
-
-	<stringbundleset id='xnote-stringbundleset'>
-		<stringbundle id='xnote-stringbundle-overlay' src='chrome://xnote/locale/xnote-overlay.properties'/>
-	</stringbundleset>
 	
 <!-- Context menu for message list -->
  	<popup id='mailContext'>
