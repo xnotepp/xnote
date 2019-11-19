@@ -1,0 +1,8 @@
+#Copy this file to a file called build.properties in this directory and adapt
+#the values
+
+#Path to your Thunderbird profile directory used for development
+profile.dir=C:/Users/username/...
+
+#Deployment path
+deploy.path=${profile.dir}/extensions/xnote@froihofer.net

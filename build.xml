@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="XNote" default="all" basedir=".">
+  <property file="build.properties"/>
+  <property name="xnote.version" value="2.3.2a" />
+
+  <fail unless="profile.dir" message="Profile directory not specified" />
+  <fail unless="deploy.path" message="Deploy path not specified." />
+
+  <fileset dir="${basedir}/build/package" id="build.files" />
+  
+  <target name="all" depends="package">
+    <sync todir="${deploy.path}">
+      <fileset refid="build.files" />
+    </sync>
+    <delete dir="${profile.dir}/startupCache"/>
+    <mkdir dir="build" />
+    <zip destfile="build/xnote-${xnote.version}.xpi">
+      <fileset refid="build.files" />
+    </zip>
+  </target>
+  
+  <target name="clean">
+    <delete dir="build" />
+  </target>
+  
+  <target name="package">
+    <mkdir dir="build/package"/>
+    <copy todir="build/package">
+      <fileset dir="src">
+        <exclude name="**/.hg/**" />
+        <exclude name="**/.hg*" />
+        <!-- Work in progress -->
+        <exclude name="options/**"/>
+        <exclude name="extlib/**"/>
+      </fileset>
+    </copy>
+    <replace token="@@@XNOTE.VERSION@@@" value="${xnote.version}" dir="build/package">
+      <includesfile name="build/package/manifest.json" />
+      <includesfile name="build/package/chrome/modules/commons.js" />
+    </replace>
+  </target>
+  <target name="run">
+    <!-- TODO define script. See Help menu or http://ant.apache.org/ -->
+  </target>
+</project>
