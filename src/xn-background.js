@@ -14,6 +14,30 @@ displaying a new note by click triggers unload listener (ca. 6 times)
 
 async function main() {
 
+    // landing windows.
+    messenger.runtime.onInstalled.addListener(async ({ reason, temporary }) => {
+      
+      // if (temporary) return; // skip during development
+      switch (reason) {
+        case "install":
+        {
+          let url = browser.runtime.getURL("popup/installed.html");
+          //await browser.tabs.create({ url });
+          await browser.windows.create({ url, type: "popup", width: 910, height: 700, });
+        }
+        break;
+        // see below
+        case "update":
+        {
+          let url = browser.runtime.getURL("popup/update.html");
+          //await browser.tabs.create({ url });
+          await browser.windows.create({ url, type: "popup", width: 910, height: 700, });
+        }
+        break;
+      // see below
+      }
+    });
+    
     
     messenger.WindowListener.registerChromeUrl([ 
         ["content", "xnote", "chrome/content/"],
