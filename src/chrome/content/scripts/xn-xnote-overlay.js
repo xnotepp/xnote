@@ -4,40 +4,24 @@ Services.scriptloader.loadSubScript("chrome://xnote/content/xnote-dateformat.js"
 Services.scriptloader.loadSubScript("chrome://xnote/content/xnote-classe.js", window, "UTF-8");
 Services.scriptloader.loadSubScript("chrome://xnote/content/xnote-overlay.js", window, "UTF-8");
 Services.scriptloader.loadSubScript("chrome://xnote/content/xnote-columnnote.js", window, "UTF-8");
-/*
-Services.scriptloader.loadSubScript("chrome://quickfolders/content/quickfolders-filterWorker.js", window, "UTF-8");
-//Services.scriptloader.loadSubScript("chrome://quickfolders/content/quickfolders-register.js", window, "UTF-8");
-Services.scriptloader.loadSubScript("chrome://quickfolders/content/quickfolders-util.js", window, "UTF-8");
-Services.scriptloader.loadSubScript("chrome://quickfolders/content/quickfolders-interface.js", window, "UTF-8");
-Services.scriptloader.loadSubScript("chrome://quickfolders/content/quickfolders-rsa.js", window, "UTF-8");
-Services.scriptloader.loadSubScript("chrome://quickfolders/content/quickfolders-register.js", window, "UTF-8");
-Services.scriptloader.loadSubScript("chrome://quickfolders/content/quickfolders-quickMove.js", window, "UTF-8");
-Services.scriptloader.loadSubScript("chrome://quickfolders/content/quickfolders-bookmarks.js", window, "UTF-8");
-Services.scriptloader.loadSubScript("chrome://quickfolders/content/quickfolders-change-order.js", window, "UTF-8");
-Services.scriptloader.loadSubScript("chrome://quickfolders/content/quickfolders-model.js", window, "UTF-8");
-Services.scriptloader.loadSubScript("chrome://quickfolders/content/qf-advancedTab.js", window, "UTF-8");
-Services.scriptloader.loadSubScript("chrome://quickfolders/content/quickfolders-folderTree.js", window, "UTF-8");
-Services.scriptloader.loadSubScript("chrome://quickfolders/content/quickfolders-folder-category.js", window, "UTF-8");
-Services.scriptloader.loadSubScript("chrome://quickfolders/content/qf-styles.js", window, "UTF-8");
-Services.scriptloader.loadSubScript("chrome://quickfolders/content/quickfolders-listener.js", window, "UTF-8");
-*/
+
 
 function onLoad(activatedWhileWindowOpen) {
     console.log (Services.appinfo.version);
     let layout = WL.injectCSS("chrome://xnote/content/skin/xnote-overlay.css");
- //   layout.setAttribute("title", "QuickFolderStyles");
-/*    
-    let tb = WL.injectCSS("chrome://quickfolders/content/quickfolders-thunderbird.css");
-    // tb.setAttribute("title", "QuickFolderStyles");
-    
-    WL.injectCSS("chrome://quickfolders/content/skin/quickfolders-widgets.css");
-    WL.injectCSS("chrome://quickfolders/content/qf-foldertree.css");
-    WL.injectCSS("chrome://quickfolders/content/quickfolders-filters.css");
-    WL.injectCSS("chrome://quickfolders/content/quickfolders-68.css");
-    WL.injectCSS("chrome://quickfolders/content/quickfolders-mods.css");
-*/
     let str1="clicBouton";
     WL.injectElements(`
+
+    <commandset id="tasksCommands">
+    <command id="cmd_xnoteconfig" label="xnote..."
+      oncommand="openDialog('chrome://xnote/content/preferences.xhtml', 'xnote', 'resizable');"/>
+   </commandset>
+ 
+  <menupopup id="taskPopup">
+   <menuitem id="xnote" command="cmd_xnoteconfig"/>
+  </menupopup>
+
+
     <!-- Toolbar button -->
 	<toolbox id="mail-toolbox">
 		<toolbarpalette id="MailToolbarPalette">
@@ -101,13 +85,6 @@ function onLoad(activatedWhileWindowOpen) {
   
   `, ["chrome://xnote/locale/xnote-overlay.dtd"]);
 
-/*
-   
-    window.QuickFolders.Util.logDebug('Adding Folder Listener...');
-    window.QuickFolders_mailSession.AddFolderListener(window.QuickFolders.FolderListener, Components.interfaces.nsIFolderListener.all);
-//   obsolete   window.QuickFolders.addLoadEventListener();
-    window.QuickFolders.initDelayed(window, WL);
-*/
 window.xnote.ns.Overlay.onLoad();
 window.xnote.ns.ColumnNote.doOnceLoaded();
 }
