@@ -66,6 +66,8 @@ xnote.ns.Overlay = function() {
     note = new xnote.ns.Note(pub.getMessageID());
     pub.updateTag( note.text );
 
+    let bundle = document.getElementById('xnote-stringbundle-overlay');
+
     //~ dump('\nevent = '+event);
 //    if (event) {
 //      //~ dump('\nevent=true');
@@ -272,6 +274,7 @@ xnote.ns.Overlay = function() {
 
     if(addButton) {
       let toolbox = document.getElementById("mail-toolbox");
+      let toolboxDocument = toolbox.ownerDocument;
 
       let xnoteButtonPresent = false;
       let toolbars = document.evaluate(".//.[local-name()='toolbar' and @customizable='true']", toolbox, null, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null);
@@ -308,7 +311,7 @@ xnote.ns.Overlay = function() {
         toolbar.currentSet = newSet;
 
         toolbar.setAttribute("currentset", newSet);
-        Services.xulStore.persist(toolbar, "currentset");
+        toolboxDocument.persist(toolbar.id, "currentset");
       }
       catch (e) {
         let consoleService = Components.classes["@mozilla.org/consoleservice;1"]
@@ -395,7 +398,7 @@ xnote.ns.Overlay = function() {
 }
 start_venkman();*/
 
-addEventListener('load', xnote.ns.Overlay.onLoad, true);
+//addEventListener('load', xnote.ns.Overlay.onLoad, true);
 
 // dump("xnote: overlay - end: "+JSON.stringify(xnote, null, 2));
 

@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "__MSG_extensionName__",
   "description": "__MSG_extensionDescription__",
-  "version": "@@@XNOTE.VERSION@@@",
+  "version": "2.3.1",
   "author": "Lorenz Froihofer: support for TB >= 3.0, since Dec. 2009",
   "homepage_url": "http://www.froihofer.net/xnote/",
   "applications": {
@@ -22,5 +22,27 @@
   },
   "icons": {
     "32": "chrome/skin/icon32.png"
-  }
+  },
+  "background": {
+    "scripts": ["xn-background.js"]
+  },
+  "experiment_apis": {
+    "WindowListener": {
+      "schema": "chrome/content/api/WindowListener/schema.json",
+      "parent": {
+        "scopes": ["addon_parent"],
+        "paths": [["WindowListener"]],
+        "script": "chrome/content/api/WindowListener/implementation.js"
+      }
+    }
+    },  
+    "LegacyPrefs": {
+      "schema": "chrome/content/api/LegacyPrefs/schema.json",
+      "parent": {
+        "scopes": ["addon_parent"],
+        "paths": [["LegacyPrefs"]],
+        "script": "chrome/content/api/LegacyPrefs/implementation.js"
+      
+      }
+    }
 }

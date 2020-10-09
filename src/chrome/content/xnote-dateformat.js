@@ -3,7 +3,8 @@
 By Steven Levithan <http://stevenlevithan.com> */
 
 if (!xnote) var xnote={};
-if (!xnote.ns) xnote.ns={};
+
+if (xnote.ns==undefined) xnote.ns={};
 
 xnote.ns.Date = new Date();
 
