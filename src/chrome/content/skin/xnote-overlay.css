@@ -1,0 +1,38 @@
+.custombutton-smaller           
+  {-moz-image-region: rect(0px 14px 14px  0px);}
+.custombutton-smaller:hover
+  {-moz-image-region: rect(0px 28px 14px  14px);}
+.custombutton-smaller:hover:active
+  	{-moz-image-region: rect(14px 14px 28px  0px);}
+.custombutton-smaller[disabled='true']
+  {-moz-image-region: rect(14px 28px 28px  14px);}
+
+
+#xnote-toolbar-button { 
+	list-style-image: url('chrome://xnote/content/skin/icone24.png');
+	-moz-image-region: rect(0px 24px 24px 0px);  
+}
+
+#xnote-toolbar-button:hover {
+	-moz-image-region: rect(24px 24px 48px 0px);
+}
+
+#xnote-toolbar-button[disabled='true'] { 
+	-moz-image-region: rect(48px 24px 72px 0px);
+}
+
+toolbar[iconsize='small'] #button-xnote {
+	list-style-image: url('chrome://xnote/content/skin/icone16.png');
+	-moz-image-region: rect(0px 16px 16px 0px);
+}
+toolbar[iconsize='small'] #button-xnote:hover {
+	-moz-image-region: rect(16px 16px 32px 0px);
+}
+toolbar[iconsize='small'] #button-xnote[disabled='true'] {
+	-moz-image-region: rect(32px 16px 48px 0px);
+}
+
+.xnote-column-header {
+	list-style-image: url('chrome://xnote/content/skin/xnote_context.png');
+}
+

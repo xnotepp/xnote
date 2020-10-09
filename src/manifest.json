@@ -9,19 +9,13 @@
     "gecko": {
       "id": "xnote@froihofer.net",
       "strict_min_version": "68.0",
-      "strict_max_version": "68.*"
+      "strict_max_version": "78.*"
     }
   },
   "default_locale" : "en_US",
-  "legacy": {
-    "type" : "xul",
-    "options": {
-      "page": "chrome://xnote/content/preferences.xul",
-      "open_in_tab": false
-    }
-  },
+
   "icons": {
-    "32": "chrome/skin/icon32.png"
+    "32": "chrome/content/skin/icon32.png"
   },
   "background": {
     "scripts": ["xn-background.js"]
@@ -35,14 +29,5 @@
         "script": "chrome/content/api/WindowListener/implementation.js"
       }
     }
-    },  
-    "LegacyPrefs": {
-      "schema": "chrome/content/api/LegacyPrefs/schema.json",
-      "parent": {
-        "scopes": ["addon_parent"],
-        "paths": [["LegacyPrefs"]],
-        "script": "chrome/content/api/LegacyPrefs/implementation.js"
-      
-      }
     }
 }

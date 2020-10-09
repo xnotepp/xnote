@@ -45,7 +45,7 @@ xnote.ns.ColumnNote = function() {
       getImageSrc:         function(row, col) {
         let hdr = getHeaderForRow(row);
         if(pub.hasNote(hdr.messageId)){
-          return "chrome://xnote/skin/xnote_context.png";
+          return "chrome://xnote/content/skin/xnote_context.png";
         }
         else {
           return null;

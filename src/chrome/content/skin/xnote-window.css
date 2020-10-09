@@ -1,0 +1,118 @@
+@import url(chrome://global/skin/);
+
+#xnote-note {
+  background: url(txt-background.png);
+  background-repeat: no-repeat;
+  background-position:right bottom;
+  background-color: #FBFEBF;
+  border: solid 2px #FAF098;
+  /* -moz-opacity: 0.8; */
+  /* z-index: 10; */
+  /* visibility: hidden; */
+}
+/*#messengerWindow
+{
+	display: -moz-stack !important;
+	-moz-binding: url('chrome://xnote/content/xnote-overlay.xml#bindingMailContentWrapper');
+}*/
+#xnote-barre {
+  background: url(title-background.png);
+  height: 16px;
+  border-bottom: solid 2px #FAF098;
+  cursor: move;
+}
+
+#xnote-barre-bottom {
+  height: 14px;
+  position: fixed;
+  bottom: 4px;
+  width: calc(100% - 3px);
+  /*border: 1px solid green; */
+}
+
+#xnote-bouton-fermer {
+  cursor: pointer;
+  list-style-image : url(close.png);
+}
+
+#xnote-bouton-palette {
+  cursor: pointer;
+  list-style-image : url(palett.png);
+}
+
+#xnote-bouton-palette:hover {
+  list-style-image : url(palett-over.png);
+}
+
+#xnote-bouton-suppr {
+  cursor: pointer;
+  list-style-image : url(supprimer.png);
+}
+
+#xnote-redim {
+  cursor: se-resize;
+  background : url(redim.png);
+  width: 14px;
+  float: right;
+}
+
+.boite-de-texte {
+  -moz-appearance:none;
+  background-color: transparent;
+  font-family: sans-serif;
+  font-weight: normal;
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+
+.textbox-input {
+  cursor: inherit;
+}
+
+#xnote-titre {
+  font-size: 8pt;
+  padding: 0 2px 0px 2px;
+  margin: 0;
+  font-weight: bold;
+  /* Prevent unreadable white text if dark theme is used */
+  color: black;
+}
+#xnote-mdate {
+  font-size: 8pt;
+  padding: 0 2px 0px 2px;
+  margin: 0;
+  font-weight: normal;
+  /* Prevent unreadable white text if dark theme is used */
+  color: black;
+  
+}
+#xnote-texte {
+  font-size: 10pt;
+  padding: 3px;
+  /* Prevent unreadable white text if dark theme is used */
+  color: black;
+  /* for testing of resizing: background: lightblue; */
+}
+
+#xnote-deplacement {
+  cursor: pointer;
+  padding-left: 5px;
+}
+
+.custombutton-smaller {-moz-image-region: rect(0px 14px 14px  0px);}
+.custombutton-smaller:hover {-moz-image-region: rect(0px 28px 14px  14px);}
+.custombutton-smaller:hover:active {-moz-image-region: rect(14px 14px 28px  0px);}
+.custombutton-smaller[disabled='true'] {-moz-image-region: rect(14px 28px 28px  14px);}
+
+
+#xnote-window {
+  /* Prevent unreadable white text if dark theme is used */
+  color: black;
+  /* display: none;
+	width: 0px;
+	height: 0px; */
+  /* -moz-opacity: 0.1px; */
+  /* visibility: hidden; */
+  /* background-color: transparent; */
+}

@@ -77,7 +77,7 @@ xnote.ns.Overlay = function() {
     if ((xnotePrefs.getBoolPref("show_on_select") && note.text != '')
         || initSource=='clicBouton' || event=='clicBouton') {
       xnoteWindow = window.openDialog(
-        'chrome://xnote/content/xnote-window.xul',
+        'chrome://xnote/content/xnote-window.xhtml',
         'XNote',
         'chrome=yes,dependent=yes,resizable=yes,modal=no,left='+(window.screenX + note.x)+',top='+(window.screenY + note.y)+',width='+note.width+',height='+note.height,
         note, (initSource == 'clicBouton' || event == 'clicBouton' ? 'clicBouton' : null)
