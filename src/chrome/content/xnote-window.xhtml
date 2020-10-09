@@ -32,7 +32,7 @@
 				id='xnote-bouton-fermer'
 				tooltiptext='&close;'
 				class='custombutton-smaller'
-				onclick='if (event.button==0) { xnote.ns.Window.saveNote(); close(); }'/>
+				onclick='if (event.button==0) { xnote.ns.Window.saveNote(); event.view.close(); }'/>
 		</box>
 		<html:textarea
 			id='xnote-texte'
