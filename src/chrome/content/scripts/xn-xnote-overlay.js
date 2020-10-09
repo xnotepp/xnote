@@ -12,15 +12,6 @@ function onLoad(activatedWhileWindowOpen) {
     let str1="clicBouton";
     WL.injectElements(`
 
-    <commandset id="tasksCommands">
-    <command id="cmd_xnoteconfig" label="xnote..."
-      oncommand="openDialog('chrome://xnote/content/preferences.xhtml', 'xnote', 'resizable');"/>
-   </commandset>
- 
-  <menupopup id="taskPopup">
-   <menuitem id="xnote" command="cmd_xnoteconfig"/>
-  </menupopup>
-
 
     <!-- Toolbar button -->
 	<toolbox id="mail-toolbox">

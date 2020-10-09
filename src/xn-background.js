@@ -7,7 +7,7 @@
 /*
 all locale files
 x   note does not close
-preferences
+x preferences: currently shown in tools->addon settings.
 displaying a new note by click triggers unload listener (ca. 6 times)
 */
 
@@ -24,7 +24,7 @@ async function main() {
         ["locale", "xnote", "de", "chrome/locale/de/"],
       ]);
  
- //   messenger.WindowListener.registerOptionsPage("chrome://xnote/content/options.xhtml"); 
+    messenger.WindowListener.registerOptionsPage("chrome://xnote/content/preferences.xhtml"); 
     
  
 
