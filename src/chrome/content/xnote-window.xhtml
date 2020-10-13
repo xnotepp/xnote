@@ -44,7 +44,7 @@
 				id='xnote-bouton-suppr'
 				class='custombutton-smaller'
 				tooltiptext='&suppr;'
-				onclick='if (event.button==0 &amp;&amp; confirm("&xnote.ask.deletion;")) { xnote.ns.Window.deleteNote(); close(); }'>
+				onclick='if (event.button==0 &amp;&amp; confirm("&xnote.ask.deletion;")) { xnote.ns.Window.deleteNote();event.view.close(); }'>
 			</image>
 
 			<html:input
