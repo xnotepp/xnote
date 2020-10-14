@@ -6,6 +6,8 @@
 	# Description : Functions associated with the XNote window (xnote-window.xul).
 */
 
+//var EXPORTED_SYMBOLS = ["xnote"];
+
 if (!xnote) var xnote={};
 if (!xnote.ns) xnote.ns={};
 
@@ -153,6 +155,9 @@ xnote.ns.Window = function() {
   //~ dump('\n<-supprimerNote');
   }
 
+  pub.closeNoteWnd = function () {
+    console.log("window.close()");
+  }
   /**
    * APPELANT XUL
    * type	: évènement mousedown de l'élément XUL <textbox>

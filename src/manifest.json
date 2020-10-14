@@ -17,6 +17,9 @@
   "icons": {
     "32": "chrome/content/skin/icon32.png"
   },
+
+  "permissions": ["activeTab", "tabs"],
+
   "background": {
     "scripts": ["xn-background.js"]
   },

@@ -22,6 +22,10 @@
   - Remove the XNote labels associated to messages? No
 */
 
+
+//var EXPORTED_SYMBOLS = ["xnote"];
+
+
 if (!xnote) var xnote={};
 if (!xnote.ns) xnote.ns={};
 
@@ -49,6 +53,12 @@ xnote.ns.Overlay = function() {
    */
   var initSource;
 
+  
+  pub.log = function (text) {
+    console.log(text);
+  }
+  
+  
   /**
    * CALLER XUL
    * type	: event load element XUL <toolbarbutton>
@@ -155,6 +165,7 @@ xnote.ns.Overlay = function() {
    * Closes the XNote window.
    */
   pub.closeNote = function () {
+ //   let xnoteWindow = xnote.ns.Overlay.xnoteWindow;
     if (xnoteWindow != null && xnoteWindow.document) {
       xnoteWindow.close();
     }

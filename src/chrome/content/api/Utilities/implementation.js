@@ -3,7 +3,10 @@
 var { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCommon.jsm"),
     { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm"),
     win = Services.wm.getMostRecentWindow("mail:3pane");
-//das geht nicht:
+
+// var {xnote} =  ChromeUtils.import("chrome://xnote/content/xnote-window.js");
+
+    //das geht nicht:
 //Services.scriptloader.loadSubScript("chrome://quickfolders/content/quickfolders-preferences.js", window, "UTF-8");
 
 console.log("xnote - implementation utilities");
@@ -46,6 +49,18 @@ var Utilities = class extends ExtensionCommon.ExtensionAPI {
           return Services.appinfo.version;//win.quickFilters.Util.VersionSanitized;
         },
 
+        closeNoteWindow() {
+          console.log("now close window");
+          let  winNote = Services.wm.getMostRecentWindow("xnote:note");
+          if (winNote)  winNote.close();
+
+          
+          //xnote.ns.Overlay.log("test");
+          debugger;
+          if (winNote)  winNote.close();
+                    //xnote.ns.Overlay.closeNote();
+          //xnote.ns.Window.closeNoteWnd();
+        },
 
         getAddonName() {
          // const util = win.quickFilters.Util;

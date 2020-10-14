@@ -11,6 +11,7 @@ x preferences: currently shown in tools->addon settings.
 displaying a new note by click triggers unload listener (ca. 6 times)
 */
 
+var lastTab=0, lastWindow=0;
 
 async function main() {
 
@@ -38,7 +39,20 @@ async function main() {
       }
     });
     
+ 
     
+    messenger.tabs.onActivated.addListener(async (activeInfo) => {
+      
+      console.log("tab activated "+ activeInfo.tabId + " window: " + activeInfo.windowId);
+      lastTab = activeInfo.tabId;
+      lastWindow = activeInfo.windowId;
+      let tabInfo = await messenger.tabs.get( activeInfo.tabId);
+      if (!tabInfo.mailTab   )   messenger.Utilities.closeNoteWindow();
+    });
+    
+
+
+
     messenger.WindowListener.registerChromeUrl([ 
         ["content", "xnote", "chrome/content/"],
         ["resource", "xnote", "chrome/"],

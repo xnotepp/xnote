@@ -14,7 +14,17 @@
           }
         ]
       },
+      
+ 
+ 
+      {
+        "name": "closeNoteWindow",
+        "type": "function",
+        "async": true,
+        "parameters": []
+      },
 
+ 
       {
         "name": "LicenseIsExpired",
         "type": "function",
