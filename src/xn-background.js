@@ -40,6 +40,10 @@ async function main() {
     });
     
  
+    messenger.messageDisplay.onMessageDisplayed.addListener((tab, message) => {
+      console.log(`Message displayed in tab ${tab.id}: ${message.subject}`);
+    });
+
     
     messenger.tabs.onActivated.addListener(async (activeInfo) => {
       

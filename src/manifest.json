@@ -18,11 +18,21 @@
     "32": "chrome/content/skin/icon32.png"
   },
 
-  "permissions": ["activeTab", "tabs"],
+  "permissions": ["activeTab", "tabs", "messagesRead"],
 
   "background": {
     "scripts": ["xn-background.js"]
   },
+
+  "message_display_action": {
+    "default_popup": "popup.html",
+    "default_title": "xnote++",
+    "default_icon" : {
+      "16": "chrome/content/skin/icone16.png",
+      "32": "chrome/content/skin/icon32.png"
+    }
+  },
+
   "experiment_apis": {
     "WindowListener": {
       "schema": "chrome/content/api/WindowListener/schema.json",

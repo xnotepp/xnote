@@ -20,7 +20,7 @@ function onLoad(activatedWhileWindowOpen) {
 				id="xnote-toolbar-button"
 				class="toolbarbutton-1 chromeclass-toolbar-additional"
                                 label="&xnote.label;"
-                                disabled="true"
+                                disabled="false"
         oncommand="xnote.ns.Overlay.initialise('clicBouton');">
 			</toolbarbutton>
 		</toolbarpalette>
