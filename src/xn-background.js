@@ -44,6 +44,8 @@ async function main() {
       console.log(`Message displayed in tab ${tab.id}: ${message.subject}`);
     });
 
+    messenger.messageDisplayAction.disable();
+
     
     messenger.tabs.onActivated.addListener(async (activeInfo) => {
       
