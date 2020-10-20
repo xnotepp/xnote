@@ -25,7 +25,7 @@
 
 //var EXPORTED_SYMBOLS = ["xnote"];
 
-
+var {xnote} = ChromeUtils.import("resource://xnote/modules/xnote.js");
 if (!xnote) var xnote={};
 if (!xnote.ns) xnote.ns={};
 
@@ -116,7 +116,10 @@ xnote.ns.Overlay = function() {
    */
   pub.context_modifyNote = function () {
     initSource = 'clicBouton';	//specifies that the note is created by the user
-    if (gDBView.selection.currentIndex==currentIndex) {
+    pub.initialise();
+    
+    
+    /*if (gDBView.selection.currentIndex==currentIndex) {
       //if you right click on the mail stream (one selected)
       pub.initialise();
     }
@@ -130,6 +133,7 @@ xnote.ns.Overlay = function() {
         gRightMouseButtonSavedSelection.realSelection.select(currentIndex);
       }
     }
+    */
   }
 
   /**
@@ -194,8 +198,11 @@ xnote.ns.Overlay = function() {
   }
 
   function updateContextMenu() {
+    //debugger;
     noteForContextMenu = new xnote.ns.Note(pub.getMessageID());
     let noteExists = noteForContextMenu.exists();
+    if (noteExists) xnote.WL.messenger.messageDisplayAction.disable(); else 
+         xnote.WL.messenger.messageDisplayAction.enable();  
     document.getElementById('xnote-context-create').setAttribute('hidden', noteExists);
     document.getElementById('xnote-context-modify').setAttribute('hidden', !noteExists);
     document.getElementById('xnote-context-delete').setAttribute('hidden', !noteExists);
@@ -227,10 +234,25 @@ xnote.ns.Overlay = function() {
       let tree = GetThreadTree();
       let treeCellInfo = tree.getCellAt(e.clientX, e.clientY);
       currentIndex = treeCellInfo.row;
+      //console.log(treeCellInfo.col.cycler);
       //~ dump('\nclicked row = '+currentIndex);
     }
   //~ dump('\n<-messageListClicked');
   }
+
+  pub.getCurrentRow = function (e) {
+    //~ dump('\n->messageListClicked, messageID='+pub.getMessageID());
+     let t = e.originalTarget;
+    if (t.localName == 'treechildren') {
+      let tree = GetThreadTree();
+      let treeCellInfo = tree.getCellAt(e.clientX, e.clientY);
+      currentIndex = treeCellInfo.row;
+      //console.log(treeCellInfo.col.cycler);
+      //~ dump('\nclicked row = '+currentIndex);
+    }
+  //~ dump('\n<-messageListClicked');
+  }
+
 
   pub.messagePaneClicked = function (e) {
     //~ dump('\n->messagePaneClicked, messageID='+pub.getMessageID());
@@ -387,9 +409,17 @@ xnote.ns.Overlay = function() {
       tree = document.getElementById('threadTree');
       tree.addEventListener('contextmenu', pub.messageListClicked, false);
       tree.addEventListener('select', pub.updateXNoteButton, false);
-      
+      tree.addEventListener('mouseover', pub.getCurrentRow, false);
+ 
+     
       let messagePane = document.getElementById("messagepane");
       messagePane.addEventListener("contextmenu", pub.messagePaneClicked, false);
+      tree= GetThreadTree();
+      if (tree) {
+   //     tree.addEventListener('click', pub.getCurrentRow, false);
+ 
+      }
+ 
     }
     catch(e){
       logException(e,false);

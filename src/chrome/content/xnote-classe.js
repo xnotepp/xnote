@@ -6,6 +6,8 @@
 	# Description : classe Note permettant d'instancier des notes.
 */
 
+var {xnote} = ChromeUtils.import("resource://xnote/modules/xnote.js");
+
 if (!xnote) var xnote={};
 if (!xnote.ns) xnote.ns={};
 
@@ -17,6 +19,9 @@ ChromeUtils.import("resource://xnote/modules/commons.js", xnote.ns);
  * the note. If the file does not exist, the note is initialized with
  * default values, otherwise it is initialized with the contents of the file.
  */
+
+
+xnote.WL = {}; 
 xnote.ns.Note = function (messageId) {
   //~ dump('\n->Note');
 
