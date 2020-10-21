@@ -44,8 +44,8 @@ async function main() {
       console.log(`Message displayed in tab ${tab.id}: ${message.subject}`);
     });
 
-    messenger.messageDisplayAction.disable();
-
+//    messenger.messageDisplayAction.disable();
+//    messenger.messageDisplayAction.setBadgeText({text:"test"});
     
     messenger.tabs.onActivated.addListener(async (activeInfo) => {
       
@@ -74,7 +74,7 @@ async function main() {
 
     messenger.WindowListener.registerDefaultPrefs("chrome/content/scripts/xn-defaultPrefs.js");
 
-    messenger.WindowListener.registerWindow("chrome://messenger/content/messenger.xul", "chrome/content/scripts/xn-xnote-overlay.js");
+ //   messenger.WindowListener.registerWindow("chrome://messenger/content/mainMailToolbox.inc.xhtml", "chrome/content/scripts/xn-xnote-MailToolbarPalette.js");
     messenger.WindowListener.registerWindow("chrome://messenger/content/messenger.xhtml", "chrome/content/scripts/xn-xnote-overlay.js");
    
    // messenger.WindowListener.registerStartupScript("chrome/content/scripts/xn-startup.js");

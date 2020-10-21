@@ -4,6 +4,8 @@ Services.scriptloader.loadSubScript("chrome://xnote/content/xnote-dateformat.js"
 Services.scriptloader.loadSubScript("chrome://xnote/content/xnote-classe.js", window, "UTF-8");
 Services.scriptloader.loadSubScript("chrome://xnote/content/xnote-overlay.js", window, "UTF-8");
 Services.scriptloader.loadSubScript("chrome://xnote/content/xnote-columnnote.js", window, "UTF-8");
+//Services.scriptloader.loadSubScript("chrome://global/content/preferencesBindings.js", window, "UTF-8");
+//Services.scriptloader.loadSubScript("chrome://xnote/content/preferences.js", window, "UTF-8");
 
 
 function onLoad(activatedWhileWindowOpen) {
@@ -12,20 +14,16 @@ function onLoad(activatedWhileWindowOpen) {
     let str1="clicBouton";
     WL.injectElements(`
 
+    <toolbar id="mail-bar3">
+    <toolbarbutton
+    id="xnote-toolbar-button"
+    class="toolbarbutton-1 chromeclass-toolbar-additional"
+                            label="&xnote.label;"
+                            disabled="false"
+    oncommand="xnote.ns.Overlay.initialise('clicBouton');">
+  </toolbarbutton>
 
-    <!-- Toolbar button -->
-	<toolbox id="mail-toolbox">
-		<toolbarpalette id="MailToolbarPalette">
-			<toolbarbutton
-				id="xnote-toolbar-button"
-				class="toolbarbutton-1 chromeclass-toolbar-additional"
-                                label="&xnote.label;"
-                                disabled="false"
-        oncommand="xnote.ns.Overlay.initialise('clicBouton');">
-			</toolbarbutton>
-		</toolbarpalette>
-  </toolbox>
-  
+  </toolbar>  
 
     <stringbundleset id="xnote-stringbundleset">
     <stringbundle id="xnote-stringbundle-overlay" src="chrome://xnote/locale/xnote-overlay.properties"/>
@@ -69,15 +67,17 @@ function onLoad(activatedWhileWindowOpen) {
     <treecols id="threadCols">
     <splitter class="tree-splitter" />
     <treecol id="xnoteCol" persist="hidden ordinal width" label="&xnote.label;"
-       currentView="unthreaded" is="treecol-image" 
+       currentView="unthreaded" is="treecol-image" cycler = "true"
        class="treecol-image xnote-column-header" tooltiptext="&header.label;" />
     </treecols>
     </tree>
   
   `, ["chrome://xnote/locale/xnote-overlay.dtd"]);
 
+window.xnote.WL = WL;  
 window.xnote.ns.Overlay.onLoad();
 window.xnote.ns.ColumnNote.doOnceLoaded();
+//window.xnote.ns.Preferences.setNewPrefs();
 }
 
 function onUnload(isAddOnShutDown) {
