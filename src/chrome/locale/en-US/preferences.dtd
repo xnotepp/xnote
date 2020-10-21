@@ -3,9 +3,12 @@
 <!ENTITY xnote "XNote">
 <!ENTITY preferences "Preferences">
 <!ENTITY btn.browse "Browse...">
-<!ENTITY Window.defaults "Window defaults">
+<!ENTITY Window.defaults "Window default size">
 <!ENTITY Width "Width">
 <!ENTITY Height "Height">
+<!ENTITY Window.defPosition "Window standard position">
+<!ENTITY HorPos "Horizontal">
+<!ENTITY VertPos "Vertical">
 <!ENTITY storage.path "Storage path">
 <!ENTITY Message.tag "Message tag">
 <!ENTITY Name "Name">

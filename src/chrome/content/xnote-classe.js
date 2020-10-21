@@ -43,8 +43,10 @@ xnote.ns.Note = function (messageId) {
   // Default values for a note window
   pub.DEFAULT_XNOTE_WIDTH = xnote.ns.Commons.xnotePrefs.getIntPref("width");
   pub.DEFAULT_XNOTE_HEIGHT = xnote.ns.Commons.xnotePrefs.getIntPref("height");
-  pub.DEFAULT_X = (window.outerWidth-pub.DEFAULT_XNOTE_WIDTH)/2;
-  pub.DEFAULT_Y =(window.outerHeight-pub.DEFAULT_XNOTE_HEIGHT)/2;
+  pub.DEFAULT_X_ORIG = (window.outerWidth-pub.DEFAULT_XNOTE_WIDTH)/2;
+  pub.DEFAULT_Y_ORIG =(window.outerHeight-pub.DEFAULT_XNOTE_HEIGHT)/2;
+  pub.DEFAULT_X = xnote.ns.Commons.xnotePrefs.getIntPref("HorPos");;
+  pub.DEFAULT_Y = xnote.ns.Commons.xnotePrefs.getIntPref("VertPos");;
 
   //--- Intialisation (either from file or defaults) --------------------------
 

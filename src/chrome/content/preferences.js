@@ -1,5 +1,6 @@
 if (!xnote) var xnote = {};
 if (!xnote.ns) xnote.ns = {};
+//debugger;
 
 ChromeUtils.import("resource://xnote/modules/commons.js", xnote.ns);
 ChromeUtils.import("resource://xnote/modules/storage.js", xnote.ns);
@@ -8,6 +9,8 @@ var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 Preferences.addAll([
     { id: "extensions.xnote.width", type: "int" },
     { id: "extensions.xnote.height", type: "int" },
+    { id: "extensions.xnote.HorPos", type: "int" },
+    { id: "extensions.xnote.VertPos", type: "int" },
     { id: "extensions.xnote.storage_path", type: "string" },
     { id: "mailnews.tags.xnote.tag", type: "string" },
     { id: "mailnews.tags.xnote.color", type: "string" },
@@ -20,6 +23,14 @@ xnote.ns.Preferences = function() {
   let _stringBundle = Services.strings.createBundle("chrome://xnote/locale/xnote-overlay.properties");
 
   var pub = {
+    setNewPrefs : function setNewPrefs() {
+      if (xnote.ns.Commons.xnotePrefs.getPrefType("HorPos") == xnote.ns.Commons.xnotePrefs.PREF_INVALID)
+        {
+  //        console.log("add new prefs");
+      //    xnote.ns.Commons.xnotePrefs.
+        }
+    },
+
     selectStoragePath : function() {
       let fp = Components.classes["@mozilla.org/filepicker;1"]
                      .createInstance(Components.interfaces.nsIFilePicker);

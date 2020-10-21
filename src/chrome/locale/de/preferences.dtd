@@ -3,9 +3,12 @@
 <!ENTITY xnote "XNote">
 <!ENTITY preferences "Einstellungen">
 <!ENTITY btn.browse "Durchsuchen...">
-<!ENTITY Window.defaults "Fenster Standardwerte">
+<!ENTITY Window.defaults "Fenster Standardgrösse">
 <!ENTITY Width "Breite">
 <!ENTITY Height "Höhe">
+<!ENTITY Window.defPosition "Fenster Standardposition">
+<!ENTITY HorPos "Horizontal">
+<!ENTITY VertPos "Vertikal">
 <!ENTITY storage.path "Speicherpfad">
 <!ENTITY Message.tag "Nachrichtenschlagwort">
 <!ENTITY use.tag "Schlagwort verwenden?">
