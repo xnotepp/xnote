@@ -5,6 +5,7 @@ var { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCo
     win = Services.wm.getMostRecentWindow("mail:3pane");
 
 // var {xnote} =  ChromeUtils.import("chrome://xnote/content/xnote-window.js");
+var {xnote} = ChromeUtils.import("resource://xnote/modules/xnote.js");
 
     //das geht nicht:
 //Services.scriptloader.loadSubScript("chrome://quickfolders/content/quickfolders-preferences.js", window, "UTF-8");
@@ -51,12 +52,13 @@ var Utilities = class extends ExtensionCommon.ExtensionAPI {
 
         closeNoteWindow() {
           console.log("now close window");
+          xnote.ns.Overlay.log("from module");
           let  winNote = Services.wm.getMostRecentWindow("xnote:note");
           if (winNote)  winNote.close();
 
           
           //xnote.ns.Overlay.log("test");
-          debugger;
+          //debugger;
           if (winNote)  winNote.close();
                     //xnote.ns.Overlay.closeNote();
           //xnote.ns.Window.closeNoteWnd();
