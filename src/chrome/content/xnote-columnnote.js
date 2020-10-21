@@ -85,5 +85,5 @@ xnote.ns.ColumnNote = function() {
   return pub;
 }();
 
-window.addEventListener("load", xnote.ns.ColumnNote.doOnceLoaded, false);
+//window.addEventListener("load", xnote.ns.ColumnNote.doOnceLoaded, false);
 //dump("xnote: xnote-columnnote - end: "+JSON.stringify(xnote, null, 2));

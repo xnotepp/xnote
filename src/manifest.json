@@ -26,7 +26,7 @@
 
   "message_display_action": {
     "default_popup": "popup.html",
-    "default_title": "xnote++",
+    "default_title": "XNote",
     "default_icon" : {
       "16": "chrome/content/skin/icone16.png",
       "32": "chrome/content/skin/icon32.png"
