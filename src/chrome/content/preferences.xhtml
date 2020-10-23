@@ -33,9 +33,9 @@
       </hbox>
       <hbox align="center">
         <label value='&HorPos;' control='default.HorPos'/>
-        <html:input id="xnote-default-width" preference="extensions.xnote.HorPos" size="8" />
+        <html:input id="xnote-default-width" preference="extensions.xnote.HorPos" size="8" type="number" />
         <label value='&VertPos;' control='default.VertPos'/>
-        <html:input id="xnote-default-height" preference="extensions.xnote.VertPos" size="8" />
+        <html:input id="xnote-default-height" preference="extensions.xnote.VertPos" size="8" type="number"/>
       </hbox>
     </groupbox>
     <groupbox>
@@ -45,7 +45,7 @@
       <checkbox label='&use.tag;' id='use.tag' preference='extensions.xnote.usetag'/>
       <hbox align="center">
         <label id="xnote-lbl-tag-color" value="&Name;" control="tb.tag.name"/>
-        <textbox id="xnote-tb-tag-name" preference="mailnews.tags.xnote.tag" />
+        <html:input id="xnote-tb-tag-name" preference="mailnews.tags.xnote.tag" />
         <label value="&Color;" control="cp.tag.color"/>
         <html:input id="xnote-cp-tag-color" type="color"
 			               preference='mailnews.tags.xnote.color'/>
@@ -68,7 +68,7 @@
         <label class="header">&storage.path;</label>
       </hbox>
       <hbox align="center">
-        <textbox id="xnote-storage-path" preference="extensions.xnote.storage_path"
+        <html:input id="xnote-storage-path" preference="extensions.xnote.storage_path"
                      readonly="true" size="30"/>
         <button id="xnote-btn-browse-storage-path"
             label="&btn.browse;"
