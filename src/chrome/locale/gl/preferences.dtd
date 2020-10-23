@@ -6,6 +6,9 @@
 <!ENTITY Window.defaults "Xanela predeterminada">
 <!ENTITY Width "Largura">
 <!ENTITY Height "Altura">
+<!ENTITY Window.defPosition "Window standard position">
+<!ENTITY HorPos "Horizontal">
+<!ENTITY VertPos "Vertical">
 <!ENTITY storage.path "Ruta de almacenamento">
 <!ENTITY Message.tag "Etiqueta de mensaxe">
 <!ENTITY Name "Nome">

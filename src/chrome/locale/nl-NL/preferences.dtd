@@ -6,6 +6,9 @@
 <!ENTITY Window.defaults "Standaard Venster">
 <!ENTITY Width "Breedte">
 <!ENTITY Height "Hoogte">
+<!ENTITY Window.defPosition "Standaard positie van het venster">
+<!ENTITY HorPos "Horizontale">
+<!ENTITY VertPos "Verticaal">
 <!ENTITY storage.path "Opslaan als">
 <!ENTITY Message.tag "Bericht Label">
 <!ENTITY Name "Naam">

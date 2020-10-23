@@ -6,6 +6,9 @@
 <!ENTITY Window.defaults "Domyślny rozmiar okna">
 <!ENTITY Width "Szerokość">
 <!ENTITY Height "Wysokość">
+<!ENTITY Window.defPosition "Standardowa pozycja okna">
+<!ENTITY HorPos "Horyzontalny">
+<!ENTITY VertPos "Pionowo">
 <!ENTITY storage.path "Ścieżka do bazy danych">
 <!ENTITY Message.tag "Etykieta wiadomości">
 <!ENTITY Name "Nazwa">

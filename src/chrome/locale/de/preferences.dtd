@@ -3,7 +3,7 @@
 <!ENTITY xnote "XNote">
 <!ENTITY preferences "Einstellungen">
 <!ENTITY btn.browse "Durchsuchen...">
-<!ENTITY Window.defaults "Fenster Standardgrösse">
+<!ENTITY Window.defaults "Fenster Standardgröße">
 <!ENTITY Width "Breite">
 <!ENTITY Height "Höhe">
 <!ENTITY Window.defPosition "Fenster Standardposition">

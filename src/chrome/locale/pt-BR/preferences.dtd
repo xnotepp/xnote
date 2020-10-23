@@ -6,6 +6,9 @@
 <!ENTITY Window.defaults "Configuração Padrão">
 <!ENTITY Width "Largura">
 <!ENTITY Height "Altura">
+<!ENTITY Window.defPosition "Posição padrão da janela">
+<!ENTITY HorPos "Horizontal">
+<!ENTITY VertPos "Vertical">
 <!ENTITY storage.path "Salvar em...">
 <!ENTITY Message.tag "Etiqueta da mensagem">
 <!ENTITY use.tag "Usar etiqueta?">

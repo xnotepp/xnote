@@ -6,6 +6,9 @@
 <!ENTITY Window.defaults "デフォルトのサイズ">
 <!ENTITY Width "幅">
 <!ENTITY Height "高さ">
+<!ENTITY Window.defPosition "窓の標準位置">
+<!ENTITY HorPos "水平方向">
+<!ENTITY VertPos "垂直方向">
 <!ENTITY storage.path "メモの保存先">
 <!ENTITY Message.tag "タグとの連動">
 <!ENTITY Name "タグ名">
