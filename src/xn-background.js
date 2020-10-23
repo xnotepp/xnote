@@ -62,10 +62,16 @@ async function main() {
     messenger.WindowListener.registerChromeUrl([ 
         ["content", "xnote", "chrome/content/"],
         ["resource", "xnote", "chrome/"],
-        //,
  
         ["locale", "xnote", "en-US", "chrome/locale/en-US/"],
         ["locale", "xnote", "de", "chrome/locale/de/"],
+        ["locale", "xnote", "fr-FR", "chrome/locale/fr-FR/"],
+        ["locale", "xnote", "gl", "chrome/locale/gl/"],
+        ["locale", "xnote", "it-IT", "chrome/locale/it-IT/"],
+        ["locale", "xnote", "ja-JP", "chrome/locale/ja-JP/"],
+        ["locale", "xnote", "nl-NL", "chrome/locale/nl-NL/"],
+        ["locale", "xnote", "pl-PL", "chrome/locale/pl-PL/"],
+        ["locale", "xnote", "pt-BR", "chrome/locale/pt-BR/"],
       ]);
  
     messenger.WindowListener.registerOptionsPage("chrome://xnote/content/preferences.xhtml"); 
