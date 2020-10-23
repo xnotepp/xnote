@@ -128,7 +128,7 @@ xnote.ns.Window = function() {
 
   /**
    * CALLER XUL
-   * Type: event input from XUL element <textbox>
+   * Type: event input from XUL element <html:input>
    * Id: text
    * FUNCTION
    * Notification that the note was modified (edited, moved, ...).
@@ -141,7 +141,7 @@ xnote.ns.Window = function() {
 
   /**
    * CALLER XUL
-   * Type: event input from XUL element <textbox>
+   * Type: event input from XUL element <html:input>
    * Id: text
    * FUNCTION
    * Change the set the note to be modified the note to be deleted when
@@ -160,7 +160,7 @@ xnote.ns.Window = function() {
   }
   /**
    * APPELANT XUL
-   * type	: évènement mousedown de l'élément XUL <textbox>
+   * type	: évènement mousedown de l'élément XUL <html:input>
    * id	: redim
    * FONCTION
    * Quand le bouton de la souris est enfoncé, sauve la taille et
