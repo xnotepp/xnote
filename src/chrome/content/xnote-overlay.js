@@ -304,7 +304,6 @@ xnote.ns.Overlay = function() {
 
     if(addButton) {
       let toolbox = document.getElementById("mail-toolbox");
-      let toolboxDocument = toolbox.ownerDocument;
 
       let xnoteButtonPresent = false;
       let toolbars = document.evaluate(".//.[local-name()='toolbar' and @customizable='true']", toolbox, null, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null);
@@ -341,7 +340,7 @@ xnote.ns.Overlay = function() {
         toolbar.currentSet = newSet;
 
         toolbar.setAttribute("currentset", newSet);
-        toolboxDocument.persist(toolbar.id, "currentset");
+        Services.xulStore.persist(toolbar, "currentset");
       }
       catch (e) {
         let consoleService = Components.classes["@mozilla.org/consoleservice;1"]
