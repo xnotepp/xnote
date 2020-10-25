@@ -116,10 +116,8 @@ xnote.ns.Overlay = function() {
    */
   pub.context_modifyNote = function () {
     initSource = 'clicBouton';	//specifies that the note is created by the user
-    pub.initialise();
     
-    
-    /*if (gDBView.selection.currentIndex==currentIndex) {
+    if (gDBView.selection.currentIndex==currentIndex) {
       //if you right click on the mail stream (one selected)
       pub.initialise();
     }
@@ -133,7 +131,6 @@ xnote.ns.Overlay = function() {
         gRightMouseButtonSavedSelection.realSelection.select(currentIndex);
       }
     }
-    */
   }
 
   /**
