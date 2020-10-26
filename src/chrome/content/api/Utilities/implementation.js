@@ -7,9 +7,6 @@ var { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCo
 // var {xnote} =  ChromeUtils.import("chrome://xnote/content/xnote-window.js");
 var {xnote} = ChromeUtils.import("resource://xnote/modules/xnote.js");
 
-    //das geht nicht:
-//Services.scriptloader.loadSubScript("chrome://quickfolders/content/quickfolders-preferences.js", window, "UTF-8");
-
 console.log("xnote - implementation utilities");
 var Utilities = class extends ExtensionCommon.ExtensionAPI {
   getAPI(context) {    
@@ -28,26 +25,8 @@ var Utilities = class extends ExtensionCommon.ExtensionAPI {
          console.log(text);
         },
 
-        isLicensed() {
-          return  ;//(win.quickFilters.Licenser).isValidated;
-        },
-        
-        LicenseIsExpired() {
-          return  ;//win.quickFilters.Licenser.isExpired;
-        },
-
-        LicenseIsProUser() {
-          return  ;//win.quickFilters.Util.hasPremiumLicense(false);
-        },
-
-
-        getAddonVersion() {
-         // const util = win.quickFilters.Util;
-          return ;//util.Version;
-        },
-
-        getTBVersion() { //somehow(??), we can also get this in MX
-          return Services.appinfo.version;//win.quickFilters.Util.VersionSanitized;
+        getTBVersion() { 
+          return Services.appinfo.version;
         },
 
         closeNoteWindow() {
@@ -60,15 +39,9 @@ var Utilities = class extends ExtensionCommon.ExtensionAPI {
           //xnote.ns.Overlay.log("test");
           //debugger;
           if (winNote)  winNote.close();
-                    //xnote.ns.Overlay.closeNote();
+          //xnote.ns.Overlay.closeNote();
           //xnote.ns.Window.closeNoteWnd();
         },
-
-        getAddonName() {
-         // const util = win.quickFilters.Util;
-          return 'quicXNote++';
-        },
-
 
         openLinkExternally(url) {
           let uri = url;

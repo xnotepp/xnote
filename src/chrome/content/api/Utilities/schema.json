@@ -15,40 +15,8 @@
         ]
       },
       
- 
- 
       {
         "name": "closeNoteWindow",
-        "type": "function",
-        "async": true,
-        "parameters": []
-      },
-
- 
-      {
-        "name": "LicenseIsExpired",
-        "type": "function",
-        "async": true,
-        "parameters": []
-      },
-
-      {
-        "name": "LicenseIsProUser",
-        "type": "function",
-        "async": true,
-        "parameters": []
-      },
-     
-      {
-        "name": "isLicensed",
-        "type": "function",
-        "async": true,
-        "parameters": []
-      },
-
-
-      {
-        "name": "getAddonVersion",
         "type": "function",
         "async": true,
         "parameters": []
@@ -61,15 +29,6 @@
         "parameters": []
       },
 
-
-      {
-        "name": "getAddonName",
-        "type": "function",
-        "async": true,
-        "parameters": []
-      },
-
-
       {
         "name": "showXhtmlPage",
         "type": "function",
@@ -79,8 +38,6 @@
             "type": "string",
             "description": "url to open in browser"
           }
-
-
         ]
       },
 
@@ -93,8 +50,6 @@
             "type": "string",
             "description": "url to open in browser"
           }
- 
-
         ]
       }
 

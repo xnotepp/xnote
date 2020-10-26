@@ -4,7 +4,7 @@
   "description": "__MSG_extensionDescription__",
   "version": "@@@XNOTE.VERSION@@@",
   "author": "Lorenz Froihofer: support for TB >= 3.0, since Dec. 2009, Klaus Bücher since TB 78",
-  "homepage_url": "http://www.froihofer.net/xnote/",
+  "homepage_url": "https://github.com/xnotepp/xnote/wiki",
   "applications": {
     "gecko": {
       "id": "xnote@froihofer.net",
@@ -22,15 +22,6 @@
 
   "background": {
     "scripts": ["xn-background.js"]
-  },
-
-  "message_display_action": {
-    "default_popup": "popup.html",
-    "default_title": "XNote",
-    "default_icon" : {
-      "16": "chrome/content/skin/icone16.png",
-      "32": "chrome/content/skin/icon32.png"
-    }
   },
 
   "experiment_apis": {
