@@ -198,8 +198,10 @@ xnote.ns.Overlay = function() {
     //debugger;
     noteForContextMenu = new xnote.ns.Note(pub.getMessageID());
     let noteExists = noteForContextMenu.exists();
+    /* Commented until button will be re-enabled in manifest.json 
+      ("message_display_action" removed in earlier commit).
     if (noteExists) xnote.WL.messenger.messageDisplayAction.disable(); else 
-         xnote.WL.messenger.messageDisplayAction.enable();  
+         xnote.WL.messenger.messageDisplayAction.enable(); */
     document.getElementById('xnote-context-create').setAttribute('hidden', noteExists);
     document.getElementById('xnote-context-modify').setAttribute('hidden', !noteExists);
     document.getElementById('xnote-context-delete').setAttribute('hidden', !noteExists);
