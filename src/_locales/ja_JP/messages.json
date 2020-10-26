@@ -21,5 +21,6 @@
   "use.tag": {"message": "タグを使う"},
   "Behavior": {"message": "動作"},
   "show.on.select": {"message": "メッセージを選択したらメモを表示する"},
-  "show.first.x.chars.in.col": {"message": "スレッドペインのXNoteカラムに先頭数文字を表示する"}
+  "show.first.x.chars.in.col": {"message": "スレッドペインのXNoteカラムに先頭数文字を表示する"},
+  "add-on.settings.in.menu": {"message" : "The add-on settings are currently to be found in menu \"Tools - Add-on settings - XNote++\"."}
 }

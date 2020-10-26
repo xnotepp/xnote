@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>__MSG_preferences__</title>
+    <script src="options.js" type="module"></script>
+  </head>
+  <body>
+    <p>__MSG_add-on.settings.in.menu__</p>
+    <!--h1>__MSG_preferences__</h1>
+    
+    <h2>__MSG_Window.defaults__</h2>
+    <label>__MSG_Width__:</label> <input type="number" min="50" />
+    <label>__MSG_Height__:</label> <input type="number" min="50" />
+    
+    <h2>__MSG_Message.tag__</h2>
+    <label>__MSG_use.tag__:</label> <input type="checkbox"/>
+    
+    <h2>__MSG_Behavior__</h2>
+    
+    <h2>__MSG_storage.path__</h2-->
+  </body>
+</html>
+
+<!--prefwindow xmlns='http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul'
+			title='&xnote; &preferences;'
+			id='xnote-preferences'
+			persist='screenX screenY'>
+  <script type='application/x-javascript' src='chrome://xnote/content/preferences.js'/>
+
+  <prefpane id='xnote-pane' label='&xnote; &preferences;' orient='vertical'>
+    <preferences>
+      <preference id='xnote-pref-width' name='extensions.xnote.width' type='int'/>
+      <preference id='xnote-pref-height' name='extensions.xnote.height' type='int'/>
+      <preference id='xnote-pref-storage_path' name='extensions.xnote.storage_path' type='string'/>
+      <preference id="xnote-pref-tag.name" name="mailnews.tags.xnote.tag" type="string"/>
+      <preference id="xnote-pref-tag_color" name="mailnews.tags.xnote.color" type="string" />
+      <preference id='xnote-pref-usetag' name='extensions.xnote.usetag' type='bool'/>
+      <preference id="xnote-pref-show_on_select" name="extensions.xnote.show_on_select" type="bool" />
+      <preference id="xnote-pref-show_first_x_chars_in_col" name="extensions.xnote.show_first_x_chars_in_col" type="int" />
+    </preferences>
+
+    <groupbox>
+      <caption label="&Window.defaults;" />
+      <hbox align="center">
+        <label value='&Width;' control='default.width'/>
+        <textbox id="xnote-default-width" preference="xnote-pref-width" size="5" type="number"/>
+        <label value='&Height;' control='default.height'/>
+        <textbox id="xnote-default-height" preference="xnote-pref-height" size="5" type="number"/>
+      </hbox>
+    </groupbox>
+    <groupbox>
+      <caption label="&Message.tag;" />
+      <checkbox label='&use.tag;' id='use.tag' preference='xnote-pref-usetag'/>
+      <hbox align="center">
+        <label id="xnote-lbl-tag-color" value="&Name;" control="tb.tag.name"/>
+        <textbox id="xnote-tb-tag-name" preference="xnote-pref-tag.name" />
+        <label value="&Color;" control="cp.tag.color"/>
+        <colorpicker id="xnote-cp-tag-color" type="button"
+			               preference='xnote-pref-tag_color'/>
+      </hbox>
+    </groupbox>
+    <groupbox>
+      <caption label='&Behavior;' />
+      <checkbox label='&show.on.select;' id='xnote-show-on-select' preference='xnote-pref-show_on_select'/>
+      <hbox align="center">
+        <label id="xnote-lbls-show-first-x-chars" value="&show.first.x.chars.in.col;" control="show.first.x.chars" />
+        <textbox type="number" id='xnote-tb-show-first-x-chars' preference='xnote-pref-show_first_x_chars_in_col' 
+                 width="50"/>
+      </hbox>
+    </groupbox>
+    <groupbox>
+      <caption label='&storage.path;' />
+      <hbox align="center">
+        <textbox id="xnote-storage-path" preference="xnote-pref-storage_path"
+                     readonly="true" size="30"/>
+        <button id="xnote-btn-browse-storage-path"
+            label="&btn.browse;"
+            oncommand="xnote.ns.Preferences.selectStoragePath()"/>
+      </hbox>
+    </groupbox>
+  </prefpane>
+</prefwindow--> 

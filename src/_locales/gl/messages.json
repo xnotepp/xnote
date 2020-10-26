@@ -21,6 +21,7 @@
   "use.tag": {"message": "Use tag?"},
   "Behavior": {"message": "Behavior"},
   "show.on.select": {"message": "Show note on message selection"},
-  "show.first.x.chars.in.col": {"message": "Show first X characters in XNote column"}
+  "show.first.x.chars.in.col": {"message": "Show first X characters in XNote column"},
+  "add-on.settings.in.menu": {"message" : "The add-on settings are currently to be found in menu \"Tools - Add-on settings - XNote++\"."}
   
 }

@@ -23,9 +23,9 @@
     <mkdir dir="build/package"/>
     <copy todir="build/package">
       <fileset dir="src">
-        <!-- Work in progress -->
+        <!-- Work in progress >
         <exclude name="options/**"/>
-        <exclude name="extlib/**"/>
+        <exclude name="extlib/**"/-->
       </fileset>
     </copy>
     <replace token="@@@XNOTE.VERSION@@@" value="${xnote.version}" dir="build/package">

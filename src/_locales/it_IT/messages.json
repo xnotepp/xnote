@@ -21,6 +21,7 @@
   "use.tag": {"message": "Usare etichetta?"},
   "Behavior": {"message": "Comportamento"},
   "show.on.select": {"message": "Mostra nota quando si seleziona il messaggio"},
-  "show.first.x.chars.in.col": {"message": "Mostra i primi x caratteri nella colonna XNote"}
+  "show.first.x.chars.in.col": {"message": "Mostra i primi x caratteri nella colonna XNote"},
+  "add-on.settings.in.menu": {"message" : "The add-on settings are currently to be found in menu \"Tools - Add-on settings - XNote++\"."}
   
 }

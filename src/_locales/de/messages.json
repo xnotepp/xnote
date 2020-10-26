@@ -21,5 +21,6 @@
   "Color": {"message": "Farbe"},
   "Behavior": {"message": "Verhalten"},
   "show.on.select": {"message": "XNote nach E-Mail Auswahl anzeigen"},
-  "show.first.x.chars.in.col": {"message": "Zeige die ersten X Zeichen in der XNote Spalte"}
+  "show.first.x.chars.in.col": {"message": "Zeige die ersten X Zeichen in der XNote Spalte"},
+  "add-on.settings.in.menu": {"message" : "Die Add-on Einstellungen sind derzeit noch im Menü unter \"Extras - Add-on-Einstellungen - XNote++\" zu finden."}
 }
