@@ -67,7 +67,7 @@ function onLoad(activatedWhileWindowOpen) {
     <treecols id="threadCols">
     <splitter class="tree-splitter" />
     <treecol id="xnoteCol" persist="hidden ordinal width" label="&xnote.label;"
-       currentView="unthreaded" is="treecol-image" cycler = "true"
+       currentView="unthreaded" is="treecol-image" 
        class="treecol-image xnote-column-header" tooltiptext="&header.label;" />
     </treecols>
     </tree>
