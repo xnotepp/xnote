@@ -6,9 +6,9 @@
 <!ENTITY Window.defaults "Taille par défaut d'une nouvelle note">
 <!ENTITY Width "Largeur">
 <!ENTITY Height "Hauteur">
-<!ENTITY Window.defPosition "Position standard de la fenêtre">
-<!ENTITY HorPos "Horizontal">
-<!ENTITY VertPos "Vertical">
+<!ENTITY Window.defPosition "Position par défaut d'une nouvelle note">
+<!ENTITY HorPos "Horizontale">
+<!ENTITY VertPos "Verticale">
 <!ENTITY storage.path "Chemin de stockage des notes">
 <!ENTITY Message.tag "Étiquette de message">
 <!ENTITY Name "Nom">
