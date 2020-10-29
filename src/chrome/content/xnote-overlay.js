@@ -405,9 +405,9 @@ xnote.ns.Overlay = function() {
       tree.addEventListener('select', pub.closeNote, false);
       tree.addEventListener('select', pub.updateXNoteButton, false);
       tree = document.getElementById('threadTree');
-      tree.addEventListener('contextmenu', pub.messageListClicked, false);
-      tree.addEventListener('select', pub.updateXNoteButton, false);
-      tree.addEventListener('mouseover', pub.getCurrentRow, false);
+     // tree.addEventListener('contextmenu', pub.messageListClicked, false);
+     // tree.addEventListener('select', pub.updateXNoteButton, false);
+     // tree.addEventListener('mouseover', pub.getCurrentRow, false);
  
      
       let messagePane = document.getElementById("messagepane");
@@ -427,6 +427,41 @@ xnote.ns.Overlay = function() {
 
     pub.checkInitialization(storedVersion);
   }
+
+
+
+  /**
+   * At each unload of the extension, deassociate events such as selection of mails,
+   * files, or right click on the list of messages. On selection show the associated
+   * note.
+   */
+  pub.onUnload = function (e) {
+    //dump("xnote: overlay.onLoad: "+JSON.stringify(xnote, null, 2)+"\n");
+      try {
+      let tree = document.getElementById('folderTree');
+      tree.removeEventListener('select', pub.closeNote, false);
+      tree.removeEventListener('select', pub.updateXNoteButton, false);
+      tree = document.getElementById('threadTree');
+      tree.removeEventListener('contextmenu', pub.messageListClicked, false);
+      tree.removeEventListener('select', pub.updateXNoteButton, false);
+      tree.removeEventListener('mouseover', pub.getCurrentRow, false);
+ 
+     
+      let messagePane = document.getElementById("messagepane");
+      messagePane.removeEventListener("contextmenu", pub.messagePaneClicked, false);
+      tree= GetThreadTree();
+      if (tree) {
+   //     tree.addEventListener('click', pub.getCurrentRow, false);
+ 
+      }
+ 
+    }
+    catch(e){
+      logException(e,false);
+    }
+    
+   }
+
 
   return pub;
 }();
