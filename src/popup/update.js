@@ -7,7 +7,7 @@ addEventListener("click", async (event) => {
 });  
 
 addEventListener("load", async (event) => {
-	debugger;
+	//debugger;
 	let text = document.body.innerHTML;
   htmltext = text.replace(/{addon}/g, await browser.runtime.getManifest().name );
   htmltext2 = htmltext.replace(/{version}/g, await browser.runtime.getManifest().version);
