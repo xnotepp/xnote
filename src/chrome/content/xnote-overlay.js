@@ -396,6 +396,8 @@ xnote.ns.Overlay = function() {
     if (String(EnsureSubjectValue).search('extensionDejaChargee')==-1) {
       let oldEnsureSubjectValue=EnsureSubjectValue;
       EnsureSubjectValue=function(){
+        //to prevent duplicate registrations:
+        var extensionDejaChargee;
         oldEnsureSubjectValue();
         setTimeout(xnote.ns.Overlay.initialise);
       };
