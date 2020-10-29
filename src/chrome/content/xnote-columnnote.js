@@ -85,12 +85,12 @@ xnote.ns.ColumnNote = function() {
 
     removeCustomColumnHandler : function () {
       gDBView.removeColumnHandler("xnoteCol", pub.columnHandler);
-    }
+    },
 
 
     addCustomColumnHandler : function () {
       gDBView.addColumnHandler("xnoteCol", pub.columnHandler);
-    }
+    },
   }
 
   return pub;
