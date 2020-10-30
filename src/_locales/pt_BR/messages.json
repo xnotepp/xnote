@@ -22,5 +22,5 @@
   "Behavior": {"message": "Processo"},
   "show.on.select": {"message": "Exibir XNote ao selecionar e-mail"},
   "show.first.x.chars.in.col": {"message": "Exibir X caracteres no campo XNote"},
-  "add-on.settings.in.menu": {"message" : "As configurações adicionais podem ser encontradas atualmente no menu \"Ferramentas - Opções de extras - XNote++\"."}
+  "add-on.settings.in.menu": {"message" : "Configurações adicionais encontram-se em \"Ferramentas - Configurações adicionais - XNote++\"."}
 }
