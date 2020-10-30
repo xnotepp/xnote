@@ -43,8 +43,15 @@
         ]
       },
       {
+        "name": "waitForMasterPassword",
+        "type": "function",
+        "async": true,
+        "parameters": []
+      },
+      {
         "name": "startListening",
         "type": "function",
+        "async": true,
         "parameters": []
       },
       {
