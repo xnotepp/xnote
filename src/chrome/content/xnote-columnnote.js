@@ -78,13 +78,13 @@ xnote.ns.ColumnNote = function() {
     },
 
     unloadColumn : function () {
-      let ObserverService = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);
+     let ObserverService = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);
       ObserverService.removeObserver(pub.DbObserver, "MsgCreateDBView");
       pub.removeCustomColumnHandler();
-    },
+ },
 
     removeCustomColumnHandler : function () {
-      gDBView.removeColumnHandler("xnoteCol", pub.columnHandler);
+      gDBView.removeColumnHandler("xnoteCol");//, pub.columnHandler);
     },
 
 

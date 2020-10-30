@@ -393,28 +393,32 @@ xnote.ns.Overlay = function() {
     let prefs = Components.classes['@mozilla.org/preferences-service;1']
                            .getService(Components.interfaces.nsIPrefBranch);
     prefs.addObserver("extensions.xnote.", prefObserver, false);
+  //this might be useful when the otes are stored in the mailbox in an extra folder
+   /*
     if (String(EnsureSubjectValue).search('extensionDejaChargee')==-1) {
       let oldEnsureSubjectValue=EnsureSubjectValue;
       EnsureSubjectValue=function(){
         oldEnsureSubjectValue();
-        setTimeout(xnote.ns.Overlay.initialise);
+//        setTimeout(xnote.ns.Overlay.initialise);
       };
     }
+    */
     try {
       let tree = document.getElementById('folderTree');
       tree.addEventListener('select', pub.closeNote, false);
       tree.addEventListener('select', pub.updateXNoteButton, false);
       tree = document.getElementById('threadTree');
-     // tree.addEventListener('contextmenu', pub.messageListClicked, false);
-     // tree.addEventListener('select', pub.updateXNoteButton, false);
-     // tree.addEventListener('mouseover', pub.getCurrentRow, false);
- 
+      tree.addEventListener('contextmenu', pub.messageListClicked, false);
+      tree.addEventListener('select', pub.updateXNoteButton, false);
+      tree.addEventListener('mouseover', pub.getCurrentRow, false);
+      tree.addEventListener('select', xnote.ns.Overlay.initialise, false);
+
      
       let messagePane = document.getElementById("messagepane");
       messagePane.addEventListener("contextmenu", pub.messagePaneClicked, false);
       tree= GetThreadTree();
       if (tree) {
-   //     tree.addEventListener('click', pub.getCurrentRow, false);
+        tree.addEventListener('click', pub.getCurrentRow, false);
  
       }
  
@@ -445,13 +449,14 @@ xnote.ns.Overlay = function() {
       tree.removeEventListener('contextmenu', pub.messageListClicked, false);
       tree.removeEventListener('select', pub.updateXNoteButton, false);
       tree.removeEventListener('mouseover', pub.getCurrentRow, false);
+      tree.removeEventListener('click', xnote.ns.Overlay.initialise, false);
  
      
       let messagePane = document.getElementById("messagepane");
       messagePane.removeEventListener("contextmenu", pub.messagePaneClicked, false);
       tree= GetThreadTree();
       if (tree) {
-   //     tree.addEventListener('click', pub.getCurrentRow, false);
+        tree.removeEventListener('click', pub.getCurrentRow, false);
  
       }
  
