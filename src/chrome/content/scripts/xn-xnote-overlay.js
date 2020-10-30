@@ -81,8 +81,8 @@ window.xnote.ns.ColumnNote.loadColumn();
 }
 
 function onUnload(isAddOnShutDown) {
-  window.xnote.ns.Overlay.onUnload();
   window.xnote.ns.ColumnNote.unloadColumn();
+  window.xnote.ns.Overlay.onUnload();
 
 
   }
