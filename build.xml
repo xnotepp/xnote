@@ -5,6 +5,7 @@
 
   <fail unless="profile.dir" message="Profile directory not specified" />
   <fail unless="deploy.path" message="Deploy path not specified." />
+  <fail unless="tb.exe" message="Path to Thunderbird executable not specified." />
 
   <fileset dir="${basedir}/build/package" id="build.files" />
   
@@ -36,7 +37,10 @@
       <fileset refid="build.files" />
     </zip>
   </target>
-  <target name="run">
-    <!-- TODO define script. See Help menu or http://ant.apache.org/ -->
+  <target name="run" depends="deploy">
+    <exec executable="${tb.exe}">
+      <arg value="-no-remote"/>
+      <arg value="-console"/>
+    </exec>
   </target>
 </project>

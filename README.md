@@ -11,16 +11,17 @@ add-on.
   build.properties.ori to build.properties and do the necessary changes.
 
 * If you configure the build process properly, the development cycle is to code, 
-  stop Thunderbird, run "ant deploy" (default target = "package", but "deploy" 
-  also copies files to your Thunderbird profile directory - you should establish 
-  a separate development profile), start Thunderbird and check for the changes. 
-  "ant deploy" copies the files to an extracted directory, not the xpi file, and 
-  also deletes the "startupCache" in the profile directory to force Thunderbird 
-  to consider the updated resources.
+  stop Thunderbird, run "ant run" and check for the changes. "ant run" copies 
+  the files to an extracted directory in your Thunderbird profile (see 
+  build.properties), not the xpi file, deletes the "startupCache" in the profile 
+  directory to force Thunderbird to consider the updated resources, and starts 
+  Thunderbird.
  
 * The ant build process creates a "build" directory next to the source directory 
   that will contain the add-on package in an xnote-&lt;version&gt;.xpi file. See 
-  the build.xml for details.
+  the build.xml for details. If you would like to manually install the XPI file, 
+  e.g., to test the installation notice, call "ant package" to only build the 
+  xpi file but not copy the sources to the TB profile.
 
 * If you are not yet familiar with Apache Ant, you can download it from 
   https://ant.apache.org/bindownload.cgi. Ant also requires 

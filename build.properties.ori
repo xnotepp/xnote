@@ -6,3 +6,6 @@ profile.dir=C:/Users/username/...
 
 #Deployment path
 deploy.path=${profile.dir}/extensions/xnote@froihofer.net
+
+#Path to Thunderbird executable
+tb.exe=C:/Program Files/Mozilla Thunderbird/thunderbird.exe
