@@ -155,9 +155,6 @@ xnote.ns.Window = function() {
   //~ dump('\n<-supprimerNote');
   }
 
-  pub.closeNoteWnd = function () {
-    console.log("window.close()");
-  }
   /**
    * APPELANT XUL
    * type	: évènement mousedown de l'élément XUL <html:input>

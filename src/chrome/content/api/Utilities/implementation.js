@@ -7,7 +7,7 @@ var { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCo
 // var {xnote} =  ChromeUtils.import("chrome://xnote/content/xnote-window.js");
 var {xnote} = ChromeUtils.import("resource://xnote/modules/xnote.js");
 
-console.log("xnote - implementation utilities");
+//console.log("xnote - implementation utilities");
 var Utilities = class extends ExtensionCommon.ExtensionAPI {
   getAPI(context) {    
     

@@ -9,7 +9,7 @@ Services.scriptloader.loadSubScript("chrome://xnote/content/xnote-columnnote.js"
 
 
 function onLoad(activatedWhileWindowOpen) {
-  console.log (Services.appinfo.version);
+  //console.log (Services.appinfo.version);
   let layout = WL.injectCSS("resource://xnote/skin/xnote-overlay.css");
   WL.injectElements(`
 

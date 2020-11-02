@@ -40,7 +40,7 @@ async function main() {
     
  
     messenger.messageDisplay.onMessageDisplayed.addListener((tab, message) => {
-      console.log(`Message displayed in tab ${tab.id}: ${message.subject}`);
+      //console.log(`Message displayed in tab ${tab.id}: ${message.subject}`);
     });
 
 //    messenger.messageDisplayAction.disable();
@@ -48,7 +48,7 @@ async function main() {
     
     messenger.tabs.onActivated.addListener(async (activeInfo) => {
       
-      console.log("tab activated "+ activeInfo.tabId + " window: " + activeInfo.windowId);
+      //console.log("tab activated "+ activeInfo.tabId + " window: " + activeInfo.windowId);
       lastTab = activeInfo.tabId;
       lastWindow = activeInfo.windowId;
       let tabInfo = await messenger.tabs.get( activeInfo.tabId);

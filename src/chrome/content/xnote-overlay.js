@@ -52,13 +52,7 @@ xnote.ns.Overlay = function() {
    * automatically when selecting an email.
    */
   var initSource;
-
-  
-  pub.log = function (text) {
-    console.log(text);
-  }
-  
-  
+ 
   /**
    * CALLER XUL
    * type	: event load element XUL <toolbarbutton>
