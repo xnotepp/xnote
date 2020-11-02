@@ -35,20 +35,20 @@
 
   "experiment_apis": {
     "WindowListener": {
-      "schema": "chrome/content/api/WindowListener/schema.json",
+      "schema": "experiments-api/WindowListener/windowlistener.json",
       "parent": {
         "scopes": ["addon_parent"],
         "paths": [["WindowListener"]],
-        "script": "chrome/content/api/WindowListener/implementation.js"
+        "script": "experiments-api/WindowListener/windowlistener.js"
       }
     }
     ,
     "Utilities": {
-      "schema": "chrome/content/api/Utilities/schema.json",
+      "schema": "experiments-api/Utilities/utilities.json",
       "parent": {
         "scopes": ["addon_parent"],
         "paths": [["Utilities"]],
-        "script": "chrome/content/api/Utilities/implementation.js"
+        "script": "experiments-api/Utilities/utilities.js"
       
        }
     },
