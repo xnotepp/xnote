@@ -35,29 +35,29 @@
 
   "experiment_apis": {
     "WindowListener": {
-      "schema": "experiments-api/WindowListener/windowlistener.json",
+      "schema": "experiment-apis/WindowListener/windowlistener.json",
       "parent": {
         "scopes": ["addon_parent"],
         "paths": [["WindowListener"]],
-        "script": "experiments-api/WindowListener/windowlistener.js"
+        "script": "experiment-apis/WindowListener/windowlistener.js"
       }
     }
     ,
     "Utilities": {
-      "schema": "experiments-api/Utilities/utilities.json",
+      "schema": "experiment-apis/Utilities/utilities.json",
       "parent": {
         "scopes": ["addon_parent"],
         "paths": [["Utilities"]],
-        "script": "experiments-api/Utilities/utilities.js"
+        "script": "experiment-apis/Utilities/utilities.js"
       
        }
     },
     "xnoteapi": {
-      "schema": "experiments-api/xnote/xnote-experiments.json",
+      "schema": "experiment-apis/xnote/xnote-experiments.json",
       "parent": {
         "scopes": ["addon_parent"],
         "paths": [["xnoteapi"]],
-        "script": "experiments-api/xnote/xnote-experiments.js"
+        "script": "experiment-apis/xnote/xnote-experiments.js"
        }
     }
   
