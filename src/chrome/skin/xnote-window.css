@@ -27,6 +27,7 @@
   position: fixed;
   bottom: 4px;
   width: calc(100% - 3px);
+  display: block;
   /*border: 1px solid green; */
 }
 

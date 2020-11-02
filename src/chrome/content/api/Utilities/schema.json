@@ -14,13 +14,6 @@
           }
         ]
       },
-      
-      {
-        "name": "closeNoteWindow",
-        "type": "function",
-        "async": true,
-        "parameters": []
-      },
 
       {
         "name": "getTBVersion",

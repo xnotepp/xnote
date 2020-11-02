@@ -1,0 +1,20 @@
+[
+  {
+    "namespace": "xnoteapi",
+    "functions": [
+      {
+        "name": "initNote",
+        "type": "function",
+        "async": true,
+        "parameters": []
+      },
+
+      {
+        "name": "closeNoteWindow",
+        "type": "function",
+        "async": true,
+        "parameters": []
+      }
+   ]
+  }
+]

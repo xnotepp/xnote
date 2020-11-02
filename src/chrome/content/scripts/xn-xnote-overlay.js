@@ -9,30 +9,18 @@ Services.scriptloader.loadSubScript("chrome://xnote/content/xnote-columnnote.js"
 
 
 function onLoad(activatedWhileWindowOpen) {
-    console.log (Services.appinfo.version);
-    let layout = WL.injectCSS("chrome://xnote/content/skin/xnote-overlay.css");
-    let str1="clicBouton";
-    WL.injectElements(`
-
-    <toolbar id="mail-bar3">
-    <toolbarbutton
-    id="xnote-toolbar-button"
-    class="toolbarbutton-1 chromeclass-toolbar-additional"
-                            label="&xnote.label;"
-                            disabled="false"
-    oncommand="xnote.ns.Overlay.initialise('clicBouton');">
-  </toolbarbutton>
-
-  </toolbar>  
+  console.log (Services.appinfo.version);
+  let layout = WL.injectCSS("resource://xnote/skin/xnote-overlay.css");
+  WL.injectElements(`
 
     <stringbundleset id="xnote-stringbundleset">
-    <stringbundle id="xnote-stringbundle-overlay" src="chrome://xnote/locale/xnote-overlay.properties"/>
+      <stringbundle id="xnote-stringbundle-overlay" src="chrome://xnote/locale/xnote-overlay.properties"/>
     </stringbundleset>
     
     <!-- Context menu for message list -->
     <popup id="mailContext">
     <menu id="xnote-mailContext-xNote" label="&xnote.label;" accesskey="&xnote.key;"
-              image="chrome://xnote/content/skin/xnote_context.png" class="menuitem-iconic"
+              image="resource://xnote/skin/xnote_context.png" class="menuitem-iconic"
               insertbefore="mailContext-openInBrowser,mailContext-openNewWindow">
         <menupopup>
              <menuitem id="xnote-context-create" label="&ajout.label;" accesskey="&ajout.key;"
@@ -74,14 +62,14 @@ function onLoad(activatedWhileWindowOpen) {
   
   `, ["chrome://xnote/locale/xnote-overlay.dtd"]);
 
-window.xnote.WL = WL;  
-window.xnote.ns.Overlay.onLoad();
-window.xnote.ns.ColumnNote.doOnceLoaded();
-//window.xnote.ns.Preferences.setNewPrefs();
+  window.xnote.WL = WL;  
+  window.xnote.ns.Overlay.onLoad();
+  window.xnote.ns.ColumnNote.doOnceLoaded();
+  //window.xnote.ns.Preferences.setNewPrefs();
 }
 
 function onUnload(isAddOnShutDown) {
  
 
-  }
+}
 

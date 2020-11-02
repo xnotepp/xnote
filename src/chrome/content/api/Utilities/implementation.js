@@ -29,20 +29,6 @@ var Utilities = class extends ExtensionCommon.ExtensionAPI {
           return Services.appinfo.version;
         },
 
-        closeNoteWindow() {
-          console.log("now close window");
-          xnote.ns.Overlay.log("from module");
-          let  winNote = Services.wm.getMostRecentWindow("xnote:note");
-          if (winNote)  winNote.close();
-
-          
-          //xnote.ns.Overlay.log("test");
-          //debugger;
-          if (winNote)  winNote.close();
-          //xnote.ns.Overlay.closeNote();
-          //xnote.ns.Window.closeNoteWnd();
-        },
-
         openLinkExternally(url) {
           let uri = url;
           if (!(uri instanceof Ci.nsIURI)) {
@@ -62,7 +48,7 @@ var Utilities = class extends ExtensionCommon.ExtensionAPI {
         }
   
         // get may only return something, if a value is set
-     }
-  }
-};
+      }
+    }
+  };
 }

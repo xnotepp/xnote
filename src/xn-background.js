@@ -5,7 +5,6 @@
 
 //TODO
 /*
-all locale files
 x   note does not close
 x preferences: currently shown in tools->addon settings.
 displaying a new note by click triggers unload listener (ca. 6 times)
@@ -53,12 +52,9 @@ async function main() {
       lastTab = activeInfo.tabId;
       lastWindow = activeInfo.windowId;
       let tabInfo = await messenger.tabs.get( activeInfo.tabId);
-      if (!tabInfo.mailTab   )   messenger.Utilities.closeNoteWindow();
+      if (!tabInfo.mailTab) messenger.xnoteapi.closeNoteWindow();
     });
     
-
-
-
     messenger.WindowListener.registerChromeUrl([ 
         ["content", "xnote", "chrome/content/"],
         ["resource", "xnote", "chrome/"],
@@ -72,7 +68,7 @@ async function main() {
         ["locale", "xnote", "nl-NL", "chrome/locale/nl-NL/"],
         ["locale", "xnote", "pl-PL", "chrome/locale/pl-PL/"],
         ["locale", "xnote", "pt-BR", "chrome/locale/pt-BR/"],
-      ]);
+    ]);
  
     messenger.WindowListener.registerOptionsPage("chrome://xnote/content/preferences.xhtml"); 
     
@@ -86,14 +82,18 @@ async function main() {
    // messenger.WindowListener.registerStartupScript("chrome/content/scripts/xn-startup.js");
   //  messenger.WindowListener.registerShutdownScript("chrome/content/scripts/xn-shutdown.js");
 
+  browser.browserAction.onClicked.addListener(async (tab, info) => {
+    messenger.xnoteapi.initNote();
+  });
+
+  browser.browserAction.disable();
+
  /*
   * Start listening for opened windows. Whenever a window is opened, the registered
   * JS file is loaded. To prevent namespace collisions, the files are loaded into
   * an object inside the global window. The name of that object can be specified via
   * the parameter of startListening(). This object also contains an extension member.
   */
-
-
     messenger.WindowListener.startListening();
 }
 

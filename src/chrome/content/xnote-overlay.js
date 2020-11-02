@@ -276,7 +276,7 @@ xnote.ns.Overlay = function() {
    */
   pub.updateXNoteButton = function () {
     let messageArray = gFolderDisplay.selectedMessages;
-    let xnoteButton = document.getElementById('xnote-toolbar-button');
+    let xnoteButton = document.getElementById('xnote_froihofer_net-browserAction-toolbarbutton');
     if (messageArray && messageArray.length==1) {
       if (xnoteButton) {
         xnoteButton.setAttribute('disabled', false);
@@ -312,7 +312,7 @@ xnote.ns.Overlay = function() {
       let toolbar = toolbars.iterateNext();
       while(toolbar && !xnoteButtonPresent) {
         //~dump("\n\nChecking toolbar '"+toolbar.id+"', currentSet="+toolbar.currentSet);
-        if(toolbar.currentSet.indexOf("xnote-toolbar-button")>-1) {
+        if(toolbar.currentSet.indexOf("xnote_froihofer_net-browserAction-toolbarbutton")>-1) {
           xnoteButtonPresent = true;
           //~dump("\nFound XNote button.");
         }
@@ -328,7 +328,7 @@ xnote.ns.Overlay = function() {
         let newSet = "";
         for (let i = 0; i<buttons.length; i++) {
           if( !xnoteButtonPresent && buttons[i] == "spring" ) {
-            newSet += "xnote-toolbar-button,";
+            newSet += "xnote_froihofer_net-browserAction-toolbarbutton,";
             xnoteButtonPresent = true;
           }
           newSet += buttons[i]+",";
@@ -337,7 +337,7 @@ xnote.ns.Overlay = function() {
           newSet = newSet.substring(0, newSet.length-1);
         }
         else {
-          newSet = toolbar.currentSet + ",xnote-toolbar-button";
+          newSet = toolbar.currentSet + ",xnote_froihofer_net-browserAction-toolbarbutton";
         }
         toolbar.currentSet = newSet;
 

@@ -8,21 +8,21 @@
   {-moz-image-region: rect(14px 28px 28px  14px);}
 
 
-#xnote-toolbar-button { 
-	list-style-image: url('chrome://xnote/skin/icone24.png');
+#xnote_froihofer_net-browserAction-toolbarbutton { 
+	list-style-image: url('resource://xnote/skin/icone24.png');
 	-moz-image-region: rect(0px 24px 24px 0px);  
 }
 
-#xnote-toolbar-button:hover {
+#xnote_froihofer_net-browserAction-toolbarbutton:hover {
 	-moz-image-region: rect(24px 24px 48px 0px);
 }
 
-#xnote-toolbar-button[disabled='true'] { 
+#xnote_froihofer_net-browserAction-toolbarbutton[disabled='true'] { 
 	-moz-image-region: rect(48px 24px 72px 0px);
 }
 
 toolbar[iconsize='small'] #button-xnote {
-	list-style-image: url('chrome://xnote/skin/icone16.png');
+	list-style-image: url('resource://xnote/skin/icone16.png');
 	-moz-image-region: rect(0px 16px 16px 0px);
 }
 toolbar[iconsize='small'] #button-xnote:hover {
@@ -33,6 +33,6 @@ toolbar[iconsize='small'] #button-xnote[disabled='true'] {
 }
 
 .xnote-column-header {
-	list-style-image: url('chrome://xnote/skin/xnote_context.png');
+	list-style-image: url('resource://xnote/skin/xnote_context.png');
 }
 
