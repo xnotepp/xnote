@@ -72,9 +72,7 @@ async function main() {
  
     messenger.WindowListener.registerOptionsPage("chrome://xnote/content/preferences.xhtml"); 
     
- 
-
-    messenger.WindowListener.registerDefaultPrefs("chrome/content/scripts/xn-defaultPrefs.js");
+    messenger.WindowListener.registerDefaultPrefs("defaults/preferences/defaults.js");
 
  //   messenger.WindowListener.registerWindow("chrome://messenger/content/mainMailToolbox.inc.xhtml", "chrome/content/scripts/xn-xnote-MailToolbarPalette.js");
     messenger.WindowListener.registerWindow("chrome://messenger/content/messenger.xhtml", "chrome/content/scripts/xn-xnote-overlay.js");
