@@ -16,13 +16,6 @@
       },
 
       {
-        "name": "getTBVersion",
-        "type": "function",
-        "async": true,
-        "parameters": []
-      },
-
-      {
         "name": "showXhtmlPage",
         "type": "function",
         "parameters": [

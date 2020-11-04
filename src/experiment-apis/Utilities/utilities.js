@@ -25,10 +25,6 @@ var Utilities = class extends ExtensionCommon.ExtensionAPI {
          console.log(text);
         },
 
-        getTBVersion() { 
-          return Services.appinfo.version;
-        },
-
         openLinkExternally(url) {
           let uri = url;
           if (!(uri instanceof Ci.nsIURI)) {
