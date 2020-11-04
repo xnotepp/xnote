@@ -11,9 +11,13 @@
   
   "preferences": { "message": "Config"},
   "btn.browse": {"message": "Localizar..."},
+  "btn.save" : {"message": "Salvar"},
   "Window.defaults": {"message": "Configuração Padrão"},
   "Width": {"message": "Largura"},
   "Height": {"message": "Altura"},
+  "Window.defPosition" : {"message": "Posição padrão da janela"},
+  "Window.horPos" : {"message": "Horizontal"},
+  "Window.vertPos" : {"message": "Vertical"},
   "storage.path": {"message": "Salvar em..."},
   "Message.tag": {"message": "Etiqueta da mensagem"},
   "Name": {"message": "Nome"},

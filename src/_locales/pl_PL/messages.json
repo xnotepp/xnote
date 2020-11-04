@@ -11,9 +11,13 @@
   
   "preferences": { "message": "Preferencje"},
   "btn.browse": {"message": "Otwórz..."},
+  "btn.save" : {"message": "Zapisz"},
   "Window.defaults": {"message": "Domyślny rozmiar okna"},
   "Width": {"message": "Szerokość"},
   "Height": {"message": "Wysokość"},
+  "Window.defPosition" : {"message": "Standardowa pozycja okna"},
+  "Window.horPos" : {"message": "Horyzontalny"},
+  "Window.vertPos" : {"message": "Pionowo"},
   "storage.path": {"message": "Ścieżka do bazy danych"},
   "Message.tag": {"message": "Etykieta wiadomości"},
   "Name": {"message": "Nazwa"},

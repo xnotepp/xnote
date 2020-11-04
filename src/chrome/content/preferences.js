@@ -23,14 +23,6 @@ xnote.ns.Preferences = function() {
   let _stringBundle = Services.strings.createBundle("chrome://xnote/locale/xnote-overlay.properties");
 
   var pub = {
-    setNewPrefs : function setNewPrefs() {
-      if (xnote.ns.Commons.xnotePrefs.getPrefType("HorPos") == xnote.ns.Commons.xnotePrefs.PREF_INVALID)
-        {
-  //        console.log("add new prefs");
-      //    xnote.ns.Commons.xnotePrefs.
-        }
-    },
-
     selectStoragePath : function() {
       let fp = Components.classes["@mozilla.org/filepicker;1"]
                      .createInstance(Components.interfaces.nsIFilePicker);

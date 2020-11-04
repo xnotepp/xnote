@@ -11,9 +11,13 @@
   
   "preferences": { "message": "Voorkeuren"},
   "btn.browse": {"message": "Browse..."},
+  "btn.save" : {"message": "Bespaar"},
   "Window.defaults": {"message": "Standaard Venster"},
   "Width": {"message": "Breedte"},
   "Height": {"message": "Hoogte"},
+  "Window.defPosition" : {"message": "Standaard positie van het venster"},
+  "Window.horPos" : {"message": "Horizontale"},
+  "Window.vertPos" : {"message": "Verticaal"},
   "storage.path": {"message": "Opslaan als"},
   "Message.tag": {"message": "Bericht Label"},
   "Name": {"message": "Naam"},

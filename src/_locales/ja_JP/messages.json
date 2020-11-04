@@ -11,9 +11,13 @@
   
   "preferences": { "message": "設定"},
   "btn.browse": {"message": "参照"},
+  "btn.save" : {"message": "保存"},
   "Window.defaults": {"message": "デフォルトのサイズ"},
   "Width": {"message": "幅"},
   "Height": {"message": "高さ"},
+  "Window.defPosition" : {"message": "Fenster 窓の標準位置"},
+  "Window.horPos" : {"message": "水平方向"},
+  "Window.vertPos" : {"message": "垂直方向"},
   "storage.path": {"message": "メモの保存先"},
   "Message.tag": {"message": "タグとの連動"},
   "Name": {"message": "タグ名"},

@@ -1,5 +1,30 @@
 import '/extlib/l10n.js';
 
+var btnSave = document.getElementById("btnSave");
+var btnSelectStoragePath = document.getElementById("btnSelectStoragePath");
+
+var prefs;
+var defaultPrefs;
+
+function savePrefs() {
+  console.log("Save prefs called");
+}
+
+function selectStoragePath() {
+  console.log("selectStoragePath called");
+}
+
+function initOptions() {
+
+	btnSave.addEventListener('click', savePrefs);
+	btnSelectStoragePath.addEventListener('click', selectStoragePath);
+
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  initOptions();
+}, { once: true });
+
 /*if (!xnote) var xnote = {};
 if (!xnote.ns) xnote.ns = {};
 
