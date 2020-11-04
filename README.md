@@ -16,6 +16,11 @@ add-on.
   build.properties), not the xpi file, deletes the "startupCache" in the profile 
   directory to force Thunderbird to consider the updated resources, and starts 
   Thunderbird.
+
+  In some cases, e.g., changes to the HTML of the options dialog, it is 
+  sufficient to run "ant deploy" to copy the files to the profile directory and 
+  then try to reload the resources in Thunderbird. For the options dialog, this 
+  works by closing the add-on settings dialog and reopen it.
  
 * The ant build process creates a "build" directory next to the source directory 
   that will contain the add-on package in an xnote-&lt;version&gt;.xpi file. See 
