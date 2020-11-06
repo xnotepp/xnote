@@ -9,3 +9,6 @@ deploy.path=${profile.dir}/extensions/xnote@froihofer.net
 
 #Path to Thunderbird executable
 tb.exe=C:/Program Files/Mozilla Thunderbird/thunderbird.exe
+
+#If set to true, additional debug output will be produced
+debug=true

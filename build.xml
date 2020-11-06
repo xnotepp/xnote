@@ -33,6 +33,10 @@
       <includesfile name="build/package/manifest.json" />
       <includesfile name="build/package/chrome/modules/commons.js" />
     </replace>
+    <replace token='"@@@DEBUGFLAG@@@"' value="${debug}" dir="build/package">
+      <includesfile name="build/package/options/options.js" />
+      <includesfile name="build/package/xn-background.js" />
+    </replace>
     <zip destfile="build/xnote-${xnote.version}.xpi">
       <fileset refid="build.files" />
     </zip>
