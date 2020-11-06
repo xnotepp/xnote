@@ -1,4 +1,3 @@
-pref("extensions.xnote@froihofer.net.description","chrome://xnote/locale/xnote-overlay.properties");
 pref("extensions.xnote.usetag", false);
 pref("extensions.xnote.dateformat","yyyy-mm-dd - HH:MM");
 pref("extensions.xnote.width", 250);

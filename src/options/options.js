@@ -1,10 +1,24 @@
 import '/extlib/l10n.js';
 
+var prefs;
+var defaultPrefs;
+
+//The object only works if retrieved through chrome.extension, but not
+//through browser.extension or messenger.extension
+var bgPage = chrome.extension.getBackgroundPage();
+
 var btnSave = document.getElementById("btnSave");
 var btnSelectStoragePath = document.getElementById("btnSelectStoragePath");
 
-var prefs;
-var defaultPrefs;
+function isButton(node){
+	return node.nodeName == "INPUT" && node.type.toLocaleUpperCase() === "BUTTON"
+}
+function isCheckbox(node){
+	return node.nodeName == "INPUT" && node.type.toLocaleUpperCase() === "CHECKBOX"
+}
+function isRadio(node){
+	return node.nodeName == "INPUT" && node.type.toLocaleUpperCase() === "RADIO"
+}
 
 function savePrefs() {
   console.log("Save prefs called");
@@ -14,10 +28,56 @@ function selectStoragePath() {
   console.log("selectStoragePath called");
 }
 
-function initOptions() {
+async function initOptions() {
+  prefs = await browser.storage.local.get("preferences");
+  prefs = prefs.preferences;
+  console.debug(prefs);
+
+  for (const node of document.querySelectorAll('[data-preference]')) {
+    let pref = node.dataset.preference;
+    console.debug(`Loading preference: ${pref}`);
+    let value = prefs[pref];
+
+    if (pref.startsWith("tag.")) {
+      switch (pref) {
+        case "tag.color":
+          node.value = await bgPage.getTbPref("mailnews.tags.xnote.color");
+          break;
+        case "tag.name":
+          node.value = await bgPage.getTbPref("mailnews.tags.xnote.tag");
+          break;
+        default:
+          console.error(`Unknown tag preference ${pref}`);
+      }
+    }
+    else {
+      switch(node.nodeName) {
+        case "SELECT":
+          for(let option of node.querySelectorAll("option")){
+            if(option.value == value){
+              option.selected = true;
+              break;
+            }
+          }
+          break;
+        case "INPUT":
+          if(isCheckbox(node)){
+            node.checked = value;
+          } else if(isRadio(node)){
+            node.checked = (value === node.value);
+          } else {
+            node.value = value;
+          }
+          break;
+        default:
+          console.error(`Unknown node type ${node.nodeName}`);
+          console.error(node);
+      }
+    }
+  }
 
 	btnSave.addEventListener('click', savePrefs);
-	btnSelectStoragePath.addEventListener('click', selectStoragePath);
+	btnSelectStoragePath.addEventListener('click', selectStoragePath);  
 
 }
 

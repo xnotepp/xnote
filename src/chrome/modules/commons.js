@@ -11,7 +11,7 @@ var Commons = function() {
 
   //Application IDs of applications we support
   const THUNDERBIRD_ID = "{3550f703-e582-4d05-9a08-453d09bdfdc6}";
-  const SEAMONKEY_ID = "{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}";
+  //const SEAMONKEY_ID = "{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}";
 
   /**
    * Used to distinguish between Thunderbird and Seamonkey
