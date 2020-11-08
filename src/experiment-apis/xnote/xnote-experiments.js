@@ -94,15 +94,19 @@ var xnoteapi = class extends ExtensionCommon.ExtensionAPI {
             switch (prefType(name)) {
               case "bool": {
                 Services.prefs.setBoolPref(name, value);
+                break;
               }
               case "int": {
                 Services.prefs.setIntPref(name, value);
+                break;
               }
               case "char": {
                 Services.prefs.setCharPref(name, value);
+                break;
               }
               case "string": {
                 Services.prefs.setStringPref(name, value);
+                break;
               }
               default:
                 console.error(`Unknown preference type: ${prefType(name)}`)

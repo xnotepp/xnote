@@ -1,13 +1,11 @@
 import '/extlib/l10n.js';
 
-var prefs;
-var defaultPrefs;
-
 //The object only works if retrieved through chrome.extension, but not
 //through browser.extension or messenger.extension
 var bgPage = chrome.extension.getBackgroundPage();
 
-var btnSave = document.getElementById("btnSave");
+var prefs = bgPage.getPreferences();
+
 var btnSelectStoragePath = document.getElementById("btnSelectStoragePath");
 
 function isButton(node){
@@ -20,10 +18,6 @@ function isRadio(node){
 	return node.nodeName == "INPUT" && node.type.toLocaleUpperCase() === "RADIO"
 }
 
-async function savePrefs() {
-  console.debug("Save prefs called");
-}
-
 async function selectStoragePath() {
   console.debug("selectStoragePath called");
   let startDir = prefs["storage_path"];
@@ -34,36 +28,80 @@ async function selectStoragePath() {
     console.debug(`startDir for selectStoragePath: ${startDir}`);
   }
   try {
-  let storagePath = await bgPage.selectDirectory(startDir, bgPage.browser.i18n.getMessage("Select.storage.dir"));
-  console.debug(`selected storage path: ${storagePath}`)
-  if (storagePath == null) return;
-  //Check whether the new path is inside the profile directory
-  //and if yes, make the path relative to the profile.
-  if (storagePath.indexOf(profileDir) == 0) {
-    if (storagePath.length == profileDir.length) {
-      storagePath = "[ProfD]"
+    bgPage.selectDirectory(startDir, bgPage.browser.i18n.getMessage("Select.storage.dir")).then((storagePath) => {
+      console.debug(`selected storage path: ${storagePath}`)
+      if (storagePath == null) return;
+      //Check whether the new path is inside the profile directory
+      //and if yes, make the path relative to the profile.
+      if (storagePath.indexOf(profileDir) == 0) {
+        if (storagePath.length == profileDir.length) {
+          storagePath = "[ProfD]"
+        }
+        else {
+          storagePath = "[ProfD]"+storagePath.substr(profileDir.length+1);
+        }
+      }
+      let prefPath = document.getElementById("storage.path");
+      prefPath.value = storagePath;
+      prefs["storage_path"] = storagePath;
+    });
+  }
+  catch (e) {
+    console.error(e);
+  }
+}
+
+async function savePrefs() {
+  for (const node of document.querySelectorAll('[data-preference]')) {
+    const pref = node.dataset.preference;
+    console.debug(`Saving preference: ${pref}`);
+    if (pref.startsWith("tag.")) {
+      switch (pref) {
+        case "tag.color":
+          bgPage.setTbPref("mailnews.tags.xnote.color", node.value);
+          break;
+        case "tag.name":
+          bgPage.setTbPref("mailnews.tags.xnote.tag", node.value);
+          break;
+        default:
+          console.error(`Unknown tag preference ${pref}`);
+      }
     }
     else {
-      storagePath = "[ProfD]"+storagePath.substr(profileDir.length+1);
+      switch(node.nodeName) {
+        case "SELECT":
+          for(let option of node.querySelectorAll("option")){
+            if(option.selected){
+              prefs[pref] = node.value;
+              break;
+            }
+          }
+          break;
+        case "INPUT":
+          if(isCheckbox(node)){
+            prefs[pref] = node.checked;
+          } else if(isRadio(node) && node.checked){
+            prefs[pref] = node.value;
+          } else {
+            prefs[pref] = node.value;
+          }
+          break;
+        default:
+          console.error(`Unknown node type ${node.nodeName}`);
+          console.error(node);
+      }
     }
   }
-  let prefPath = document.getElementById("storage.path");
-  prefPath.value = storagePath;
-}
-catch (e) {
-  console.error(e);
-}
+  bgPage.setPreferences(prefs);
 }
 
 async function initOptions() {
-  prefs = await browser.storage.local.get("preferences");
-  prefs = prefs.preferences;
   console.debug(prefs);
 
   for (const node of document.querySelectorAll('[data-preference]')) {
-    let pref = node.dataset.preference;
+    const pref = node.dataset.preference;
     console.debug(`Loading preference: ${pref}`);
-    let value = prefs[pref];
+    const value = prefs[pref];
 
     if (pref.startsWith("tag.")) {
       switch (pref) {

@@ -101,7 +101,7 @@ var Commons = function() {
     },
     
     printEventDomAttrModified : function (e) {
-      ~dump("domAttrModified: "+e.attrName+", node="+e.relatedNode.nodeName+", node.ownerElement="+e.relatedNode.ownerElement+"\n");
+      //~dump("domAttrModified: "+e.attrName+", node="+e.relatedNode.nodeName+", node.ownerElement="+e.relatedNode.ownerElement+"\n");
       //~for (var i in e.relatedNode.ownerElement) dump(i+"\n");
       //~dump("\n");
     }

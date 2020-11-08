@@ -19,14 +19,13 @@ var xnotefiles = class extends ExtensionCommon.ExtensionAPI {
           let FileUtils = ChromeUtils.import("resource://gre/modules/FileUtils.jsm").FileUtils;
           let startDir = new FileUtils.File(startDirectory);
           fp.displayDirectory = startDir;
-          fp.open(rv => {
-            if (rv != fp.returnOK) {
-              return null;
-            };
-            console.debug("selectDirectory returns: "+fp.file.path);
-            console.debug(fp.file.path);
-            return fp.file.path;
-          });
+          return new Promise(function(resolve, reject) {
+						fp.open(rv => {
+							if(rv === fp.returnOK){
+								resolve(fp.file.path);
+							}
+						});
+					})
         },
 
         getProfileDirectory: async function() {

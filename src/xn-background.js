@@ -12,7 +12,11 @@ displaying a new note by click triggers unload listener (ca. 6 times)
 const debug = "@@@DEBUGFLAG@@@";
 
 var lastTab=0, lastWindow=0;
-// This is the current "migration" version. You can increase it later
+
+var _preferences;
+
+
+// This is the current "migration" version for preferences. You can increase it later
 // if you happen to need to do more pref (or maybe other migrations) only once
 // for a user.
 const kCurrentLegacyMigration = 1;
@@ -61,7 +65,7 @@ async function migratePrefs() {
 
   prefs.migratedLegacy = kCurrentLegacyMigration;
   console.log("Storing preferences");
-  await browser.storage.local.set({ preferences: prefs });
+  await browser.storage.local.set({ "preferences": prefs });
 }
 
 async function getTbPref(name) {
@@ -70,6 +74,15 @@ async function getTbPref(name) {
 
 async function setTbPref(name, value) {
   browser.xnoteapi.setTbPref(name, value);
+}
+
+function getPreferences() {
+  return _preferences;
+}
+
+async function setPreferences(preferences) {
+  _preferences = preferences;
+  browser.storage.local.set({ "preferences": _preferences })
 }
 
 async function selectDirectory(startDir, title) {
@@ -87,6 +100,8 @@ async function appendRelativePath(basePath, extension){
 }
 
 async function main() {
+  _preferences = (await browser.storage.local.get("preferences")).preferences;
+
   // landing windows.
   messenger.runtime.onInstalled.addListener(async ({ reason, temporary }) => {
     // if (temporary) return; // skip during development
