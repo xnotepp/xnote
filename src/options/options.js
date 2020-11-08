@@ -20,12 +20,39 @@ function isRadio(node){
 	return node.nodeName == "INPUT" && node.type.toLocaleUpperCase() === "RADIO"
 }
 
-function savePrefs() {
-  console.log("Save prefs called");
+async function savePrefs() {
+  console.debug("Save prefs called");
 }
 
-function selectStoragePath() {
-  console.log("selectStoragePath called");
+async function selectStoragePath() {
+  console.debug("selectStoragePath called");
+  let startDir = prefs["storage_path"];
+  let profileDir = await bgPage.getProfileDirectory();
+  if (startDir.startsWith("[ProfD]")) {
+    console.debug(`profileDir: ${profileDir}; startDir: ${startDir}`);
+    startDir = await bgPage.appendRelativePath(profileDir, startDir.substring(7));
+    console.debug(`startDir for selectStoragePath: ${startDir}`);
+  }
+  try {
+  let storagePath = await bgPage.selectDirectory(startDir, bgPage.browser.i18n.getMessage("Select.storage.dir"));
+  console.debug(`selected storage path: ${storagePath}`)
+  if (storagePath == null) return;
+  //Check whether the new path is inside the profile directory
+  //and if yes, make the path relative to the profile.
+  if (storagePath.indexOf(profileDir) == 0) {
+    if (storagePath.length == profileDir.length) {
+      storagePath = "[ProfD]"
+    }
+    else {
+      storagePath = "[ProfD]"+storagePath.substr(profileDir.length+1);
+    }
+  }
+  let prefPath = document.getElementById("storage.path");
+  prefPath.value = storagePath;
+}
+catch (e) {
+  console.error(e);
+}
 }
 
 async function initOptions() {
@@ -84,47 +111,3 @@ async function initOptions() {
 document.addEventListener('DOMContentLoaded', () => {
   initOptions();
 }, { once: true });
-
-/*if (!xnote) var xnote = {};
-if (!xnote.ns) xnote.ns = {};
-
-ChromeUtils.import("resource://xnote/modules/commons.js", xnote.ns);
-ChromeUtils.import("resource://xnote/modules/storage.js", xnote.ns);
-ChromeUtils.import("resource://gre/modules/Services.jsm");
-
-xnote.ns.Preferences = function() {
-  let _stringBundle = Services.strings.createBundle("chrome://xnote/locale/xnote-overlay.properties");
-
-  var pub = {
-    selectStoragePath : function() {
-      let fp = Components.classes["@mozilla.org/filepicker;1"]
-                     .createInstance(Components.interfaces.nsIFilePicker);
-      fp.init(window, _stringBundle.GetStringFromName("Select.storage.dir"), fp.modeGetFolder);
-      let currentDir = xnote.ns.Storage.noteStorageDir;
-      fp.displayDirectory = currentDir;
-      fp.open(rv => {
-        if (rv != fp.returnOK) {
-          return;
-        };
-        var storagePath =  fp.file.path;
-        //Check whether the new path is inside the profile directory
-        //and if yes, make the path relative to the profile.
-        var directoryService = 	Components.classes['@mozilla.org/file/directory_service;1']
-                          .getService(Components.interfaces.nsIProperties);
-        let profileDir = directoryService.get('ProfD', Components.interfaces.nsIFile);
-        if (storagePath.indexOf(profileDir.path) == 0) {
-          if (storagePath.length == profileDir.path.length) {
-            storagePath = "[ProfD]"
-          }
-          else {
-            storagePath = "[ProfD]"+storagePath.substr(profileDir.path.length+1);
-          }
-        }
-        let prefPath = document.getElementById("xnote-pref-storage_path");
-        prefPath.value = storagePath;
-      });
-    }
-  };
-
-  return pub;
-}(); */

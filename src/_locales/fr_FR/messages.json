@@ -26,6 +26,6 @@
   "Behavior": {"message": "Comportement"},
   "show.on.select": {"message": "Afficher la note du message sélectionné"},
   "show.first.x.chars.in.col": {"message": "Montrer les n premiers caractères de la note dans la colonne XNote"},
-  "add-on.settings.in.menu": {"message" : "Les paramètres du module se trouvent dans le menu \"Outils - Options des modules - XNote++\"."}
+  "Select.storage.dir": {"message": "Veuillez sélectionner le dossier d'enregistrement des notes."}
   
 }

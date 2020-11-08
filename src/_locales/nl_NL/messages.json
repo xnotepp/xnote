@@ -26,6 +26,6 @@
   "Behavior": {"message": "Gedrag"},
   "show.on.select": {"message": "Notitie tonen bij selectie"},
   "show.first.x.chars.in.col": {"message": "Toon eerste x karakters in Xnote Kolom"},
-  "add-on.settings.in.menu": {"message" : "The add-on settings are currently to be found in menu \"Tools - Add-on settings - XNote++\"."}
+  "Select.storage.dir": {"message": "Selecteer standaard directory voor Xnote."}
   
 }

@@ -26,5 +26,5 @@
   "Behavior": {"message": "Ustawienia notatek"},
   "show.on.select": {"message": "Pokaż po wybraniu wiadomości"},
   "show.first.x.chars.in.col": {"message": "Pokaż pierwszych X znaków w kolumnie XNote:"},
-  "add-on.settings.in.menu": {"message" : "The add-on settings are currently to be found in menu \"Tools - Add-on settings - XNote++\"."}
+  "Select.storage.dir": {"message": "Proszę wybrać ścieżkę zapisu dla XNote."}
 }

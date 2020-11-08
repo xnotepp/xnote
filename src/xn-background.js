@@ -72,6 +72,20 @@ async function setTbPref(name, value) {
   browser.xnoteapi.setTbPref(name, value);
 }
 
+async function selectDirectory(startDir, title) {
+  let result = await browser.xnotefiles.selectDirectory(null, startDir, title);
+  console.debug("select directory returns: "+result);
+  return result;
+}
+
+async function getProfileDirectory() {
+  return await browser.xnotefiles.getProfileDirectory();
+}
+
+async function appendRelativePath(basePath, extension){
+  return await browser.xnotefiles.appendRelativePath(basePath, extension);
+}
+
 async function main() {
   // landing windows.
   messenger.runtime.onInstalled.addListener(async ({ reason, temporary }) => {

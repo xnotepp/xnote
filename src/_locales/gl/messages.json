@@ -26,6 +26,6 @@
   "Behavior": {"message": "Comportamento"},
   "show.on.select": {"message": "Amosar nota ao selecionar a mensaxe"},
   "show.first.x.chars.in.col": {"message": "Amosar primeiros X caracteres na columna XNote"},
-  "add-on.settings.in.menu": {"message" : "The add-on settings are currently to be found in menu \"Tools - Add-on settings - XNote++\"."}
+  "Select.storage.dir": {"message": "Selecione o cartafol de almacenamento para XNote."}
   
 }

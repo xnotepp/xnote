@@ -1,0 +1,56 @@
+[
+  {
+    "namespace": "xnotefiles",
+    "functions": [
+
+      {
+        "name": "selectDirectory",
+        "type": "function",
+        "async": true,
+        "parameters": [
+          {
+            "name": "window",
+            "type": "any",
+            "description": "File picker depends on this window. Pass 'null' to use the last top level window."
+          },
+          {
+            "name": "startDirectory",
+            "type": "string",
+            "description": "Directory to show initially to the user."
+          },
+          {
+            "name": "title",
+            "type": "string",
+            "description": "Title of the dialog."
+          }
+        ]
+      },
+
+      {
+        "name": "getProfileDirectory",
+        "type": "function",
+        "async": true,
+        "parameters": []
+      },
+
+      {
+        "name": "appendRelativePath",
+        "type": "function",
+        "async": true,
+        "description": "Allows to connect two path segments by taking care of the platform-specific path separator.",
+        "parameters": [
+          {
+            "name": "path",
+            "type": "string",
+            "description": "Base path"
+          },
+          {
+            "name": "extension",
+            "type": "string",
+            "description": "Additional path to add to the base path."
+          }
+        ]
+      }
+   ]
+  }
+]

@@ -20,13 +20,12 @@ Preferences.addAll([
 ]);
 
 xnote.ns.Preferences = function() {
-  let _stringBundle = Services.strings.createBundle("chrome://xnote/locale/xnote-overlay.properties");
 
   var pub = {
     selectStoragePath : function() {
       let fp = Components.classes["@mozilla.org/filepicker;1"]
                      .createInstance(Components.interfaces.nsIFilePicker);
-      fp.init(window, _stringBundle.GetStringFromName("Select.storage.dir"), fp.modeGetFolder);
+      fp.init(window, "Select XNote storage directory.", fp.modeGetFolder);
       let currentDir = xnote.ns.Storage.noteStorageDir;
       fp.displayDirectory = currentDir;
       fp.open(rv => {

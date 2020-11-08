@@ -58,6 +58,14 @@
         "paths": [["xnoteapi"]],
         "script": "experiment-apis/xnote/xnote-experiments.js"
        }
+    },
+    "xnotefiles": {
+      "schema": "experiment-apis/files/files-api.json",
+      "parent": {
+        "scopes": ["addon_parent"],
+        "paths": [["xnotefiles"]],
+        "script": "experiment-apis/files/files-api.js"
+       }
     }
   }
 }
