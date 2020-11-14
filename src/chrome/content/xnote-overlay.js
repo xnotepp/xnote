@@ -394,7 +394,7 @@ xnote.ns.Overlay = function() {
                            .getService(Components.interfaces.nsIPrefBranch);
     prefs.addObserver("extensions.xnote.", prefObserver, false);
   //this might be useful when the otes are stored in the mailbox in an extra folder
-   /*
+   /*    */
     if (String(EnsureSubjectValue).search('extensionDejaChargee')==-1) {
       let oldEnsureSubjectValue=EnsureSubjectValue;
       EnsureSubjectValue=function(){
@@ -402,7 +402,7 @@ xnote.ns.Overlay = function() {
 //        setTimeout(xnote.ns.Overlay.initialise);
       };
     }
-    */
+
     try {
       let tree = document.getElementById('folderTree');
       tree.addEventListener('select', pub.closeNote, false);
@@ -411,7 +411,7 @@ xnote.ns.Overlay = function() {
       tree.addEventListener('contextmenu', pub.messageListClicked, false);
       tree.addEventListener('select', pub.updateXNoteButton, false);
       tree.addEventListener('mouseover', pub.getCurrentRow, false);
-      tree.addEventListener('select', xnote.ns.Overlay.initialise, false);
+      tree.addEventListener('click', xnote.ns.Overlay.initialise, false);
 
      
       let messagePane = document.getElementById("messagepane");
@@ -449,7 +449,7 @@ xnote.ns.Overlay = function() {
       tree.removeEventListener('contextmenu', pub.messageListClicked, false);
       tree.removeEventListener('select', pub.updateXNoteButton, false);
       tree.removeEventListener('mouseover', pub.getCurrentRow, false);
-      tree.removeEventListener('click', xnote.ns.Overlay.initialise, false);
+      //tree.removeEventListener('click', xnote.ns.Overlay.initialise, false);
  
      
       let messagePane = document.getElementById("messagepane");
