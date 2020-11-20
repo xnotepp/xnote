@@ -21,7 +21,7 @@ var Utilities = class extends ExtensionCommon.ExtensionAPI {
       Utilities: {
 
         logDebug (text) {
-         console.log(text);
+         console.debug(text);
         },
 
         openLinkExternally(url) {
