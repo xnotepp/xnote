@@ -39,7 +39,6 @@ var xnotefiles = class extends ExtensionCommon.ExtensionAPI {
         appendRelativePath: async function(path, extension) {
           let FileUtils = ChromeUtils.import("resource://gre/modules/FileUtils.jsm").FileUtils;
           var result = new FileUtils.File(path);
-          debugger;
           result.appendRelativePath(extension);
           console.debug(result);
           console.debug(`appendRelativePath result: ${result.path}`);

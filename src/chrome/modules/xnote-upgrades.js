@@ -1,9 +1,10 @@
-if (!xnote) var xnote={};
-if (!xnote.ns) xnote.ns={};
-
 let EXPORTED_SYMBOLS = ["Upgrades"];
 
-ChromeUtils.import("resource://xnote/modules/commons.js", xnote.ns);
+if (!ExtensionParent) var { ExtensionParent } = ChromeUtils.import("resource://gre/modules/ExtensionParent.jsm");
+if (!extension) var extension = ExtensionParent.GlobalManager.getExtension("xnote@froihofer.net");
+var {xnote} = ChromeUtils.import(extension.rootURI.resolve("chrome/modules/xnote.js"));
+if (!xnote.ns) xnote.ns={};
+ChromeUtils.import(extension.rootURI.resolve("chrome/modules/commons.js"), xnote.ns);
 
 var Upgrades = function() {
   
@@ -12,17 +13,17 @@ var Upgrades = function() {
   // under "xnote." will no longer be touched afterwards and the migration
   // to the extension.xnote namespace is completed.
   function migratePrefsToExtensionsNs() {   
-    var nsIPrefServiceObj = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService);
-    var oldNsIPrefBranchObj = nsIPrefServiceObj.getBranch("xnote.");
-    var xnotePrefs = xnote.ns.Commons.xnotePrefs;
-    var boolPrefs = ['show_on_select','usetag'];
-    var intPrefs = ['width', 'height', 'show_first_x_chars_in_col'];
-    var charPrefs = ['dateformat','storage_path'];
+    const nsIPrefServiceObj = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService);
+    const oldNsIPrefBranchObj = nsIPrefServiceObj.getBranch("xnote.");
+    const xnoteLegacyPrefs = xnote.ns.Commons.xnoteLegacyPrefs;
+    const boolPrefs = ['show_on_select','usetag'];
+    const intPrefs = ['width', 'height', 'show_first_x_chars_in_col'];
+    const charPrefs = ['dateformat','storage_path'];
     
     boolPrefs.forEach(function(prefName){
       if (oldNsIPrefBranchObj.prefHasUserValue(prefName)) {
         //~ dump ("Migrating preference: '"+prefName+"'\n");
-        xnotePrefs.setBoolPref(prefName, oldNsIPrefBranchObj.getBoolPref(prefName));
+        xnoteLegacyPrefs.setBoolPref(prefName, oldNsIPrefBranchObj.getBoolPref(prefName));
         oldNsIPrefBranchObj.clearUserPref(prefName);
       }
     });
@@ -30,7 +31,7 @@ var Upgrades = function() {
     intPrefs.forEach(function(prefName){
       if (oldNsIPrefBranchObj.prefHasUserValue(prefName)) {
         //~ dump ("Migrating preference: '"+prefName+"'\n");
-        xnotePrefs.setIntPref(prefName, oldNsIPrefBranchObj.getIntPref(prefName));
+        xnoteLegacyPrefs.setIntPref(prefName, oldNsIPrefBranchObj.getIntPref(prefName));
         oldNsIPrefBranchObj.clearUserPref(prefName);
       }
     });
@@ -38,7 +39,7 @@ var Upgrades = function() {
     charPrefs.forEach(function(prefName){
       if (oldNsIPrefBranchObj.prefHasUserValue(prefName)) {
         //~ dump ("Migrating preference: '"+prefName+"'\n");
-        xnotePrefs.setCharPref(prefName, oldNsIPrefBranchObj.getCharPref(prefName));
+        xnoteLegacyPrefs.setCharPref(prefName, oldNsIPrefBranchObj.getCharPref(prefName));
         oldNsIPrefBranchObj.clearUserPref(prefName);
       }
     });
@@ -53,11 +54,12 @@ var Upgrades = function() {
       if (storedVersion == null || versionComparator.compare(storedVersion, "2.2.11") < 0) {
         migratePrefsToExtensionsNs();
       }
-      xnote.ns.Commons.xnotePrefs.setCharPref('version', 
-          xnote.ns.Commons.XNOTE_VERSION);
+      xnote.ns.Commons.xnoteLegacyPrefs.setCharPref('version', xnote.ns.Commons.XNOTE_VERSION);
     }
 
   };
 
   return pub;
 }();
+
+//console.debug("Initializing xnote - upgrades.js");

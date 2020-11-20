@@ -26,6 +26,12 @@ var Commons = function() {
   //XNote prefs
   var _xnotePrefs;
 
+  //XNote legacy prefs API
+  var _xnoteLegacyPrefs;
+
+  //is XNote installed for the first time on that TB profile?
+  var _isNewInstallation;
+
   //result
   var pub = {
     //Current XNote version
@@ -43,27 +49,38 @@ var Commons = function() {
         _runningThunderbird = false;
       }
 
-      _xnotePrefs = Components.classes["@mozilla.org/preferences-service;1"].
+      _xnoteLegacyPrefs = Components.classes["@mozilla.org/preferences-service;1"].
                      getService(Components.interfaces.nsIPrefService).
                      getBranch("extensions.xnote.");
-      _xnotePrefs.QueryInterface(Components.interfaces.nsIPrefBranch);
+      _xnoteLegacyPrefs.QueryInterface(Components.interfaces.nsIPrefBranch);
     },
-
     get isInThunderbird() {
       return _runningThunderbird;
     },
-
+    get isNewInstallation() {
+      return _isNewInstallation;
+    },
+    set isNewInstallation(isNewInstallation) {
+      _isNewInstallation = isNewInstallation;
+    },
+    get xnoteLegacyPrefs() {
+      return _xnoteLegacyPrefs;
+    },
     get xnotePrefs() {
       return _xnotePrefs;
     },
-
+    set xnotePrefs(xnotePrefs) {
+      console.debug(`New XNote Prefs: ${JSON.stringify(xnotePrefs)}`);
+      _xnotePrefs = xnotePrefs;
+    },
     get useTag() {
       return _useTag;
     },
 
     checkXNoteTag : function() {
       //Check preference for whether tags should be used
-      _useTag = _xnotePrefs.getBoolPref("usetag");
+      _useTag = _xnotePrefs.usetag;
+      console.debug(`checkXNoteTag: usetag=${_useTag}`);
       if(_useTag) {
         // Get the tag service.
         let tagService = Components.classes["@mozilla.org/messenger/tagservice;1"]
@@ -107,7 +124,7 @@ var Commons = function() {
     }
 
   };
-
+  
   return pub;
 }();
 
@@ -181,3 +198,5 @@ var UTF8Coder = function() {
 
   return pub;
 }();
+
+//console.debug("Initializing xnote commons.js");

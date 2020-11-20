@@ -2,13 +2,12 @@
 /* Date/Time Format v0.2; MIT-style license
 By Steven Levithan <http://stevenlevithan.com> */
 
-if (!xnote) var xnote={};
+//See https://developer.mozilla.org/en/Using_JavaScript_code_modules for explanation
+let EXPORTED_SYMBOLS = ["DateFormat"];
 
-if (xnote.ns==undefined) xnote.ns={};
+var DateFormat = new Date();
 
-xnote.ns.Date = new Date();
-
-xnote.ns.Date.format = function(mask) {
+DateFormat.format = function(mask) {
 	var d = this; // Needed for the replace() closure
 	
 	// If preferred, zeroise() can be moved out of the format() method for performance and reuse purposes

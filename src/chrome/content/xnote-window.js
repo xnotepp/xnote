@@ -6,12 +6,12 @@
 	# Description : Functions associated with the XNote window (xnote-window.xul).
 */
 
-//var EXPORTED_SYMBOLS = ["xnote"];
-
-if (!xnote) var xnote={};
-if (!xnote.ns) xnote.ns={};
-
-ChromeUtils.import("resource://xnote/modules/commons.js", xnote.ns);
+const { ExtensionParent } = ChromeUtils.import("resource://gre/modules/ExtensionParent.jsm");
+const extension = ExtensionParent.GlobalManager.getExtension("xnote@froihofer.net");
+var {xnote} = ChromeUtils.import(extension.rootURI.resolve("chrome/modules/xnote.js"));
+if (!xnote.ns) xnote.ns = {};
+ChromeUtils.import(extension.rootURI.resolve("chrome/modules/commons.js"), xnote.ns);
+ChromeUtils.import(extension.rootURI.resolve("chrome/modules/dateformat.jsm"), xnote.ns);
 
 xnote.ns.Window = function() {
   // Variables for window movement
@@ -38,9 +38,7 @@ xnote.ns.Window = function() {
   pub.onLoad = function (e) {
     //~ dump('\n->onLoad');
     // premet l'accès au préférences
-    /*var pref = 	Components.classes['@mozilla.org/preferences-service;1']
-          .getService(Components.interfaces.nsIPrefService);
-    try
+    /*try
     {
       self.document.getElementById('xnote-note').style.setProperty('-moz-opacity', pref.getIntPref('xnote.transparence')/10, '');
     }
@@ -55,8 +53,6 @@ xnote.ns.Window = function() {
     modificationdate.value=note.modificationDate;
 
     self.setTimeout(xnote.ns.Window.resizeWindow);
-    //~ self.setTimeout("document.getElementById('xnote-window').style.setProperty('visibility','visible','')");
-    //~ self.setTimeout("document.getElementById('xnote-window').setAttribute('background-color', 'black')");
 
     if (window.arguments[1]=='clicBouton')
       texte.focus();
@@ -101,9 +97,9 @@ xnote.ns.Window = function() {
    * A blank note will be deleted.
    */
   pub.saveNote = function () {
-    let dateformat= xnote.ns.Commons.xnotePrefs.getCharPref("dateformat");
-    let date = xnote.ns.Date;
-    let date1 = date.format(dateformat);
+    let dateformat= xnote.ns.Commons.xnotePrefs.dateformat;
+    let date = xnote.ns.DateFormat;
+    let dateStr = date.format(dateformat);
     //~ dump('\n->saveNote');
     if (note.modified) {
       let oldText = note.text;
@@ -114,7 +110,7 @@ xnote.ns.Window = function() {
         note.width=window.innerWidth;
         note.height=window.innerHeight;
         if (oldText != note.text) {
-          note.modificationDate=date1;
+          note.modificationDate=dateStr;
         }
         note.saveNote();
       }

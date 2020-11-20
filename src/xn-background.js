@@ -6,7 +6,6 @@
 //TODO
 /*
 x   note does not close
-x preferences: currently shown in tools->addon settings.
 displaying a new note by click triggers unload listener (ca. 6 times)
 */
 const debug = "@@@DEBUGFLAG@@@";
@@ -21,26 +20,21 @@ var _preferences;
 // for a user.
 const kCurrentLegacyMigration = 1;
 
-// This is the list of defaults for the legacy preferences. Note, you only
-// need to handle the defaults here. Regardless of if there are preferences
-// to be migrated or not, these values will be saved if the preference doesn't
-// exist.
+// This is the list of defaults for the legacy preferences.
 const kPrefDefaults = {
   usetag: false,
   dateformat: "yyyy-mm-dd - HH:MM",
   width: 250,
   height: 200,
-  HorPos: 250,
-  VertPos: 250,
+  horPos: 250,
+  vertPos: 250,
   show_on_select: true,
   show_first_x_chars_in_col: 20,
   storage_path: "[ProfD]XNote"
 };
 
 async function migratePrefs() {
-  console.log("migratePrefs called.")
-  // You could use any sub-section that you want here, it doesn't have
-  // to be called "preferences".
+  //console.debug("migratePrefs called.")
   const results = await browser.storage.local.get("preferences");
 
   const currentMigration =
@@ -64,7 +58,7 @@ async function migratePrefs() {
   }
 
   prefs.migratedLegacy = kCurrentLegacyMigration;
-  console.log("Storing preferences");
+  console.debug("Storing migrated preferences.");
   await browser.storage.local.set({ "preferences": prefs });
 }
 
@@ -83,6 +77,7 @@ function getPreferences() {
 async function setPreferences(preferences) {
   _preferences = preferences;
   browser.storage.local.set({ "preferences": _preferences })
+  browser.xnoteapi.setPreferences(preferences);
 }
 
 async function selectDirectory(startDir, title) {
@@ -100,7 +95,14 @@ async function appendRelativePath(basePath, extension){
 }
 
 async function main() {
+  await migratePrefs();
+
   _preferences = (await browser.storage.local.get("preferences")).preferences;
+  if (debug) {
+    console.debug({"Preferences" : _preferences});
+  }
+  await browser.xnoteapi.setPreferences(_preferences);
+  await browser.xnoteapi.init();
 
   // landing windows.
   messenger.runtime.onInstalled.addListener(async ({ reason, temporary }) => {
@@ -155,15 +157,7 @@ async function main() {
     ["locale", "xnote", "pt-BR", "chrome/locale/pt-BR/"],
   ]);
 
-  messenger.WindowListener.registerOptionsPage("chrome://xnote/content/preferences.xhtml"); 
-  messenger.WindowListener.registerDefaultPrefs("defaults/preferences/defaults.js");
   messenger.WindowListener.registerWindow("chrome://messenger/content/messenger.xhtml", "chrome/content/scripts/xn-xnote-overlay.js");
-
-  await migratePrefs();
-  if (debug) {
-    const results = await browser.storage.local.get("preferences");
-    console.debug({ results });
-  }
 
   browser.browserAction.onClicked.addListener(async (tab, info) => {
     messenger.xnoteapi.initNote();

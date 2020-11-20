@@ -23,15 +23,12 @@
 */
 
 
-//var EXPORTED_SYMBOLS = ["xnote"];
-
-var {xnote} = ChromeUtils.import("resource://xnote/modules/xnote.js");
-if (!xnote) var xnote={};
+if (!ExtensionParent) var { ExtensionParent } = ChromeUtils.import("resource://gre/modules/ExtensionParent.jsm");
+if (!extension) var extension = ExtensionParent.GlobalManager.getExtension("xnote@froihofer.net");
+var {xnote} = ChromeUtils.import(extension.rootURI.resolve("chrome/modules/xnote.js"));
 if (!xnote.ns) xnote.ns={};
-
-ChromeUtils.import("resource://xnote/modules/storage.js", xnote.ns);
-ChromeUtils.import("resource://xnote/modules/commons.js", xnote.ns);
-ChromeUtils.import("resource://xnote/modules/xnote-upgrades.js", xnote.ns);
+ChromeUtils.import(extension.rootURI.resolve("chrome/modules/commons.js"), xnote.ns);
+ChromeUtils.import(extension.rootURI.resolve("chrome/modules/storage.js"), xnote.ns);
 
 xnote.ns.Overlay = function() {
   //result
@@ -70,15 +67,8 @@ xnote.ns.Overlay = function() {
     note = new xnote.ns.Note(pub.getMessageID());
     pub.updateTag( note.text );
 
-    let bundle = document.getElementById('xnote-stringbundle-overlay');
-
-    //~ dump('\nevent = '+event);
-//    if (event) {
-//      //~ dump('\nevent=true');
-//      initSource = event;
-//    }
     let xnotePrefs = xnote.ns.Commons.xnotePrefs;
-    if ((xnotePrefs.getBoolPref("show_on_select") && note.text != '')
+    if ((xnotePrefs.show_on_select && note.text != '')
         || initSource=='clicBouton' || event=='clicBouton') {
       xnoteWindow = window.openDialog(
         'chrome://xnote/content/xnote-window.xhtml',
@@ -291,14 +281,9 @@ xnote.ns.Overlay = function() {
    * For example, it adds the XNote icon at the end of the toolbar if
    * XNote has been newly installed.
    */
-  pub.checkInitialization = function (storedVersion) {
-    let addButton = false;
-    let xnotePrefs = xnote.ns.Commons.xnotePrefs;
-    if (!storedVersion) {
-      addButton = true;
-    }
-
-    if(addButton) {
+  pub.checkInitialization = function () {
+    if(xnote.ns.Commons.isNewInstallation) {
+      console.log("First time installation - add the XNote toolbar button.");
       let toolbox = document.getElementById("mail-toolbox");
 
       let xnoteButtonPresent = false;
@@ -339,28 +324,7 @@ xnote.ns.Overlay = function() {
         Services.xulStore.persist(toolbar, "currentset");
       }
       catch (e) {
-        let consoleService = Components.classes["@mozilla.org/consoleservice;1"]
-                        .getService(Components.interfaces.nsIConsoleService);
-        consoleService.logStringMessage("Could not add XNote button: "+e);
-        logException(e, false, "Could not add XNote button: ");
-      }
-    }
-  }
-
-  var prefObserver = {
-    observe : function(subject, topic, data) {
-      ~ dump("\nxnote pref observer called, topic="+topic+", data="+data);
-      if (topic != "nsPref:changed") {
-       return;
-      }
-
-      switch(data) {
-        case "extensions.xnote.storage_path":
-          xnote.ns.Storage.updateStoragePath();
-          break;
-        case "extensions.xnote.usetag":
-          xnote.ns.Commons.checkXNoteTag();
-          break;
+        console.error("Could not add XNote button.", e)
       }
     }
   }
@@ -371,22 +335,8 @@ xnote.ns.Overlay = function() {
    * note.
    */
   pub.onLoad = function (e) {
-    //dump("xnote: overlay.onLoad: "+JSON.stringify(xnote, null, 2)+"\n");
-    xnote.ns.Commons.init();
-    xnote.ns.Storage.updateStoragePath();
-    let storedVersion = xnote.ns.Commons.xnotePrefs.prefHasUserValue("version") ?
-            xnote.ns.Commons.xnotePrefs.getCharPref("version") : null
-    xnote.ns.Upgrades.checkUpgrades(
-            storedVersion, 
-            xnote.ns.Commons.XNOTE_VERSION)
-    xnote.ns.Commons.xnotePrefs.setCharPref("version", xnote.ns.Commons.XNOTE_VERSION);
-    xnote.ns.Commons.checkXNoteTag();
+    //console.debug("xnote: overlay.onLoad: "+JSON.stringify(xnote, null, 2)+"\n");
     
-    //The following statement does not work in SeaMonkey
-//    xnote.ns.Commons.xnotePrefs.addObserver("", prefObserver, false);
-    let prefs = Components.classes['@mozilla.org/preferences-service;1']
-                           .getService(Components.interfaces.nsIPrefBranch);
-    prefs.addObserver("extensions.xnote.", prefObserver, false);
     if (String(EnsureSubjectValue).search('extensionDejaChargee')==-1) {
       let oldEnsureSubjectValue=EnsureSubjectValue;
       EnsureSubjectValue=function(){
@@ -421,7 +371,7 @@ xnote.ns.Overlay = function() {
     
     //window.addEventListener('DOMAttrModified', xnote.ns.Commons.printEventDomAttrModified, false);
 
-    pub.checkInitialization(storedVersion);
+    pub.checkInitialization();
   }
 
   return pub;

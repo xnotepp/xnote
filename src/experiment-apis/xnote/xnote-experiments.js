@@ -1,7 +1,14 @@
 var { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCommon.jsm"),
     { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm"),
     win = Services.wm.getMostRecentWindow("mail:3pane");
-var {xnote} = ChromeUtils.import("resource://xnote/modules/xnote.js");
+
+const { ExtensionParent } = ChromeUtils.import("resource://gre/modules/ExtensionParent.jsm");
+const extension = ExtensionParent.GlobalManager.getExtension("xnote@froihofer.net");
+var {xnote} = ChromeUtils.import(extension.rootURI.resolve("chrome/modules/xnote.js"));
+if (!xnote.ns) xnote.ns = {};
+ChromeUtils.import(extension.rootURI.resolve("chrome/modules/commons.js"), xnote.ns);
+ChromeUtils.import(extension.rootURI.resolve("chrome/modules/storage.js"), xnote.ns);
+ChromeUtils.import(extension.rootURI.resolve("chrome/modules/xnote-upgrades.js"), xnote.ns);
 
 const XNOTE_BASE_PREF_NAME = "extensions.xnote.";
 
@@ -51,6 +58,21 @@ var xnoteapi = class extends ExtensionCommon.ExtensionAPI {
   getAPI(context) {    
     return {
       xnoteapi: {
+        async init() {
+          xnote.ns.Commons.init();
+          xnote.ns.Storage.updateStoragePath();
+          //TODO: Move the stored version to the browser storage or do the check 
+          //for a previous installation before preferences are migrated
+          let storedVersion = xnote.ns.Commons.xnoteLegacyPrefs.prefHasUserValue("version") ?
+                  xnote.ns.Commons.xnoteLegacyPrefs.getCharPref("version") : null
+              
+          console.log(`storedVersion: ${storedVersion}; comparison: `+ (storedVersion == null));
+          xnote.ns.Commons.isNewInstallation = storedVersion == null;
+          xnote.ns.Upgrades.checkUpgrades(storedVersion, xnote.ns.Commons.XNOTE_VERSION)
+          xnote.ns.Commons.xnoteLegacyPrefs.setCharPref("version", xnote.ns.Commons.XNOTE_VERSION);
+          xnote.ns.Commons.checkXNoteTag();
+        },
+        
         async closeNoteWindow() {
           //console.log("now close window");
           let  winNote = Services.wm.getMostRecentWindow("xnote:note");
@@ -64,6 +86,13 @@ var xnoteapi = class extends ExtensionCommon.ExtensionAPI {
 
         async getPref(name) {
           return this.getTbPref(`${XNOTE_BASE_PREF_NAME}${name}`)
+        },
+
+        async setPreferences(prefs) {
+          xnote.ns.Commons.xnotePrefs = prefs;
+          console.debug({"XnotePrefs" : xnote.ns.Commons.xnotePrefs});
+          xnote.ns.Storage.updateStoragePath();
+          xnote.ns.Commons.checkXNoteTag();
         },
 
         async getTbPref(name) {
@@ -117,5 +146,20 @@ var xnoteapi = class extends ExtensionCommon.ExtensionAPI {
         }
       }
     }
-  };
+  }
+
+  onShutdown(isAppShutdown) {
+    console.debug(`onShutdown: isAppShutdown=${isAppShutdown}`);
+    if (isAppShutdown) return;
+  
+    Components.utils.unload("resource://xnote/modules/xnote-upgrades.js");
+    Components.utils.unload("resource://xnote/modules/storage.js");
+    Components.utils.unload("resource://xnote/modules/commons.js");
+    Components.utils.unload(extension.rootURI.resolve("chrome/modules/xnote.js"));
+
+    // invalidate the startup cache, such that after updating the addon the old
+    // version is no longer cached
+    Services.obs.notifyObservers(null, "startupcache-invalidate");
+    
+  }
 }
