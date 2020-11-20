@@ -21,4 +21,4 @@ jobs:
       with:
         java-version: 1.8
     - name: Build with Ant
-      run: cp build.properties.ori build.properties && ant -noinput -buildfile build.xml package
+      run: cp build.properties.ori build.properties && ant -noinput -buildfile build.xml clean package
