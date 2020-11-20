@@ -6,13 +6,12 @@
 	# Description : classe Note permettant d'instancier des notes.
 */
 
-var {xnote} = ChromeUtils.import("resource://xnote/modules/xnote.js");
-
-if (!xnote) var xnote={};
+if (!ExtensionParent) var { ExtensionParent } = ChromeUtils.import("resource://gre/modules/ExtensionParent.jsm");
+if (!extension) var extension = ExtensionParent.GlobalManager.getExtension("xnote@froihofer.net");
+var {xnote} = ChromeUtils.import(extension.rootURI.resolve("chrome/modules/xnote.js"));
 if (!xnote.ns) xnote.ns={};
-
-ChromeUtils.import("resource://xnote/modules/storage.js", xnote.ns);
-ChromeUtils.import("resource://xnote/modules/commons.js", xnote.ns);
+ChromeUtils.import(extension.rootURI.resolve("chrome/modules/commons.js"), xnote.ns);
+ChromeUtils.import(extension.rootURI.resolve("chrome/modules/storage.js"), xnote.ns);
 
 /**
  * Constructor for the class Note using a file descriptor during creation of
@@ -41,12 +40,12 @@ xnote.ns.Note = function (messageId) {
   }
 
   // Default values for a note window
-  pub.DEFAULT_XNOTE_WIDTH = xnote.ns.Commons.xnotePrefs.getIntPref("width");
-  pub.DEFAULT_XNOTE_HEIGHT = xnote.ns.Commons.xnotePrefs.getIntPref("height");
+  pub.DEFAULT_XNOTE_WIDTH = xnote.ns.Commons.xnotePrefs.width;
+  pub.DEFAULT_XNOTE_HEIGHT = xnote.ns.Commons.xnotePrefs.height;
   pub.DEFAULT_X_ORIG = (window.outerWidth-pub.DEFAULT_XNOTE_WIDTH)/2;
   pub.DEFAULT_Y_ORIG =(window.outerHeight-pub.DEFAULT_XNOTE_HEIGHT)/2;
-  pub.DEFAULT_X = xnote.ns.Commons.xnotePrefs.getIntPref("HorPos");;
-  pub.DEFAULT_Y = xnote.ns.Commons.xnotePrefs.getIntPref("VertPos");;
+  pub.DEFAULT_X = xnote.ns.Commons.xnotePrefs.horPos;
+  pub.DEFAULT_Y = xnote.ns.Commons.xnotePrefs.vertPos;
 
   //--- Intialisation (either from file or defaults) --------------------------
 

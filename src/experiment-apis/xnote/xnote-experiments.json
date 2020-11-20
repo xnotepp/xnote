@@ -3,6 +3,12 @@
     "namespace": "xnoteapi",
     "functions": [
       {
+        "name": "init",
+        "type": "function",
+        "async": true,
+        "parameters": []
+      },
+      {
         "name": "initNote",
         "type": "function",
         "async": true,
@@ -25,6 +31,19 @@
             "name": "name",
             "type": "string",
             "description": "Old preference string excluding extensions.xnote. prefix."
+          }
+        ]
+      },
+
+      {
+        "name": "setPreferences",
+        "type": "function",
+        "async": true,
+        "parameters": [
+          {
+            "name": "prefs",
+            "type": "any",
+            "description": "Set the preferences object from the local browser storage."
           }
         ]
       },

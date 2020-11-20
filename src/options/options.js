@@ -52,9 +52,10 @@ async function selectStoragePath() {
 }
 
 async function savePrefs() {
+  const storagePathChanged = document.getElementById('storage.path').value != prefs.storage_path;
   for (const node of document.querySelectorAll('[data-preference]')) {
     const pref = node.dataset.preference;
-    console.debug(`Saving preference: ${pref}`);
+    //console.debug(`Saving preference: ${pref}`);
     if (pref.startsWith("tag.")) {
       switch (pref) {
         case "tag.color":
@@ -96,11 +97,11 @@ async function savePrefs() {
 }
 
 async function initOptions() {
-  console.debug(prefs);
+  //console.debug(prefs);
 
   for (const node of document.querySelectorAll('[data-preference]')) {
     const pref = node.dataset.preference;
-    console.debug(`Loading preference: ${pref}`);
+    //console.debug(`Loading preference: ${pref}`);
     const value = prefs[pref];
 
     if (pref.startsWith("tag.")) {
