@@ -8,14 +8,8 @@ var prefs = bgPage.getPreferences();
 
 var btnSelectStoragePath = document.getElementById("btnSelectStoragePath");
 
-function isButton(node){
-	return node.nodeName == "INPUT" && node.type.toLocaleUpperCase() === "BUTTON"
-}
-function isCheckbox(node){
-	return node.nodeName == "INPUT" && node.type.toLocaleUpperCase() === "CHECKBOX"
-}
-function isRadio(node){
-	return node.nodeName == "INPUT" && node.type.toLocaleUpperCase() === "RADIO"
+function isInputType(node, type){
+	return node.nodeName.toLowerCase() == "input" && node.type.toLowerCase() == type.toLowerCase()
 }
 
 async function selectStoragePath() {
@@ -79,11 +73,14 @@ async function savePrefs() {
           }
           break;
         case "INPUT":
-          if(isCheckbox(node)){
+          if(isInputType(node,"checkbox")){
             prefs[pref] = node.checked;
-          } else if(isRadio(node) && node.checked){
+          } else if(isInputType(node, "radio") && node.checked){
             prefs[pref] = node.value;
-          } else {
+          } else if (isInputType(node, "number")) {
+            prefs[pref] = parseInt(node.value);
+          }
+          else {
             prefs[pref] = node.value;
           }
           break;
@@ -127,9 +124,9 @@ async function initOptions() {
           }
           break;
         case "INPUT":
-          if(isCheckbox(node)){
+          if(isInputType(node, "checkbox")) {
             node.checked = value;
-          } else if(isRadio(node)){
+          } else if(isInputType(node, "radio")) {
             node.checked = (value === node.value);
           } else {
             node.value = value;
