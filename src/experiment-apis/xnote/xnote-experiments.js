@@ -4,11 +4,11 @@ var { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCo
 
 const { ExtensionParent } = ChromeUtils.import("resource://gre/modules/ExtensionParent.jsm");
 const extension = ExtensionParent.GlobalManager.getExtension("xnote@froihofer.net");
-var {xnote} = ChromeUtils.import(extension.rootURI.resolve("chrome/modules/xnote.js"));
+var {xnote} = ChromeUtils.import(extension.rootURI.resolve("chrome/modules/xnote.jsm"));
 if (!xnote.ns) xnote.ns = {};
-ChromeUtils.import(extension.rootURI.resolve("chrome/modules/commons.js"), xnote.ns);
-ChromeUtils.import(extension.rootURI.resolve("chrome/modules/storage.js"), xnote.ns);
-ChromeUtils.import(extension.rootURI.resolve("chrome/modules/xnote-upgrades.js"), xnote.ns);
+ChromeUtils.import(extension.rootURI.resolve("chrome/modules/commons.jsm"), xnote.ns);
+ChromeUtils.import(extension.rootURI.resolve("chrome/modules/storage.jsm"), xnote.ns);
+ChromeUtils.import(extension.rootURI.resolve("chrome/modules/xnote-upgrades.jsm"), xnote.ns);
 
 const XNOTE_BASE_PREF_NAME = "extensions.xnote.";
 
@@ -152,10 +152,10 @@ var xnoteapi = class extends ExtensionCommon.ExtensionAPI {
     console.debug(`onShutdown: isAppShutdown=${isAppShutdown}`);
     if (isAppShutdown) return;
   
-    Components.utils.unload("resource://xnote/modules/xnote-upgrades.js");
-    Components.utils.unload("resource://xnote/modules/storage.js");
-    Components.utils.unload("resource://xnote/modules/commons.js");
-    Components.utils.unload(extension.rootURI.resolve("chrome/modules/xnote.js"));
+    Components.utils.unload(extension.rootURI.resolve("chrome/modules/xnote-upgrades.jsm"));
+    Components.utils.unload(extension.rootURI.resolve("chrome/modules/storage.jsm"));
+    Components.utils.unload(extension.rootURI.resolve("chrome/modules/commons.jsm"));
+    Components.utils.unload(extension.rootURI.resolve("chrome/modules/xnote.jsm"));
 
     // invalidate the startup cache, such that after updating the addon the old
     // version is no longer cached

@@ -8,9 +8,9 @@
 
 const { ExtensionParent } = ChromeUtils.import("resource://gre/modules/ExtensionParent.jsm");
 const extension = ExtensionParent.GlobalManager.getExtension("xnote@froihofer.net");
-var {xnote} = ChromeUtils.import(extension.rootURI.resolve("chrome/modules/xnote.js"));
+var {xnote} = ChromeUtils.import(extension.rootURI.resolve("chrome/modules/xnote.jsm"));
 if (!xnote.ns) xnote.ns = {};
-ChromeUtils.import(extension.rootURI.resolve("chrome/modules/commons.js"), xnote.ns);
+ChromeUtils.import(extension.rootURI.resolve("chrome/modules/commons.jsm"), xnote.ns);
 ChromeUtils.import(extension.rootURI.resolve("chrome/modules/dateformat.jsm"), xnote.ns);
 
 xnote.ns.Window = function() {

@@ -31,7 +31,7 @@
     </copy>
     <replace token="@@@XNOTE.VERSION@@@" value="${xnote.version}" dir="build/package">
       <includesfile name="build/package/manifest.json" />
-      <includesfile name="build/package/chrome/modules/commons.js" />
+      <includesfile name="build/package/chrome/modules/commons.jsm" />
     </replace>
     <replace token='"@@@DEBUGFLAG@@@"' value="${debug}" dir="build/package">
       <includesfile name="build/package/options/options.js" />

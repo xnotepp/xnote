@@ -2,9 +2,9 @@ let EXPORTED_SYMBOLS = ["Storage"];
 
 if (!ExtensionParent) var { ExtensionParent } = ChromeUtils.import("resource://gre/modules/ExtensionParent.jsm");
 if (!extension) var extension = ExtensionParent.GlobalManager.getExtension("xnote@froihofer.net");
-var {xnote} = ChromeUtils.import(extension.rootURI.resolve("chrome/modules/xnote.js"));
+var {xnote} = ChromeUtils.import(extension.rootURI.resolve("chrome/modules/xnote.jsm"));
 if (!xnote.ns) xnote.ns = {};
-ChromeUtils.import(extension.rootURI.resolve("chrome/modules/commons.js"), xnote.ns);
+ChromeUtils.import(extension.rootURI.resolve("chrome/modules/commons.jsm"), xnote.ns);
 
 var Storage = function() {
   /**

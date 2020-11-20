@@ -199,4 +199,4 @@ var UTF8Coder = function() {
   return pub;
 }();
 
-//console.debug("Initializing xnote commons.js");
+//console.debug("Initializing xnote commons.jsm");
