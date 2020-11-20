@@ -1,0 +1,3 @@
+[bugtraq]
+	url = https://github.com/xnotepp/xnote/issues/%BUGID%
+	logregex = "#(\\d+)"
