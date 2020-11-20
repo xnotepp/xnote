@@ -25,7 +25,7 @@ var Storage = function() {
         _storageDir = defaultDir;
       }
       else try {
-        let storagePath = xnote.ns.UTF8Coder.decode(xnotePrefs.storage_path.trim());
+        let storagePath = xnotePrefs.storage_path;
         let FileUtils = ChromeUtils.import("resource://gre/modules/FileUtils.jsm").FileUtils;
         if (storagePath != "") {
           if (storagePath.indexOf("[ProfD]") == 0) {
@@ -41,7 +41,7 @@ var Storage = function() {
         }
       }
       catch (e) {
-        console.error("Could not get storage path:"+e+"\n"+e.stack+"\n...applying default storage path.");
+        console.error("Could not get storage path:"+e+"\n"+"\n...applying default storage path."+e.stack);
         _storageDir = defaultDir;
       }
       console.debug("xnote: storageDir initialized to: "+_storageDir.path);
