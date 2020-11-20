@@ -30,12 +30,12 @@
       </fileset>
     </copy>
     <replace token="@@@XNOTE.VERSION@@@" value="${xnote.version}" dir="build/package">
-      <includesfile name="build/package/manifest.json" />
-      <includesfile name="build/package/chrome/modules/commons.jsm" />
+      <include name="manifest.json" />
+      <include name="chrome/modules/commons.jsm" />
     </replace>
     <replace token='"@@@DEBUGFLAG@@@"' value="${debug}" dir="build/package">
-      <includesfile name="build/package/options/options.js" />
-      <includesfile name="build/package/xn-background.js" />
+      <include name="options/options.js" />
+      <include name="xn-background.js" />
     </replace>
     <zip destfile="build/xnote-${xnote.version}.xpi">
       <fileset refid="build.files" />
