@@ -24,5 +24,5 @@ jobs:
       run: cp build.properties.ori build.properties && ant -noinput -buildfile build.xml clean package
     - uses: actions/upload-artifact@v2
       with:
-        name: Add-on package
+        name: XNote
         path: build/*.xpi
