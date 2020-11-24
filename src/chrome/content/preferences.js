@@ -5,6 +5,8 @@ if (!xnote.ns) xnote.ns = {};
 ChromeUtils.import("resource://xnote/modules/commons.js", xnote.ns);
 ChromeUtils.import("resource://xnote/modules/storage.js", xnote.ns);
 var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
+var { MailServices } = ChromeUtils.import("resource:///modules/MailServices.jsm");
+var { TagUtils } = ChromeUtils.import("resource:///modules/TagUtils.jsm");
 
 Preferences.addAll([
     { id: "extensions.xnote.width", type: "int" },
@@ -29,6 +31,26 @@ xnote.ns.Preferences = function() {
   //        console.log("add new prefs");
       //    xnote.ns.Commons.xnotePrefs.
         }
+    },
+
+    onLoad : function () {
+
+      window.addEventListener("dialogaccept", xnote.ns.Preferences.onAccept);
+      window.addEventListener("dialogcancel", xnote.ns.Preferences.onCancel);
+    },
+    onAccept : function () {
+
+      let colorEl = document.getElementById("xnote-cp-tag-color");
+      let color = colorEl.value;
+      let tagName="XNote";
+      let tagKey=  MailServices.tags.getKeyForTag(tagName);
+      MailServices.tags.setColorForKey(tagKey, color);
+      TagUtils.addTagToAllDocumentSheets(tagKey, color);
+      window.removeEventListener("dialogaccept", xnote.ns.Preferences.onAccept);
+    },
+    onCancel : function () {
+
+      window.removeEventListener("dialogcancel", xnote.ns.Preferences.onCancel);
     },
 
     selectStoragePath : function() {
