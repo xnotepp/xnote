@@ -142,7 +142,9 @@ xnote.ns.Note = function (messageId) {
     //~ dump('\n->note_supprimer');
     if (_notesFile.exists()) {
       _notesFile.remove(false);
-      //~ dump('\n->note_supprimer');
+      let ind = xnote.messageIds.indexOf(_messageId);
+      if (ind>=0) xnote.messageIds.remove(ind);
+     //~ dump('\n->note_supprimer');
       return true;
     }
     else {
