@@ -15,7 +15,7 @@
   "Window.defaults": {"message": "Window default size"},
   "Width": {"message": "Width"},
   "Height": {"message": "Height"},
-  "Window.defPosition" : {"message": "Fenster Standardposition"},
+  "Window.defPosition" : {"message": "Window default position"},
   "Window.horPos" : {"message": "Horizontal"},
   "Window.vertPos" : {"message": "Vertical"},
   "storage.path": {"message": "Storage path"},
