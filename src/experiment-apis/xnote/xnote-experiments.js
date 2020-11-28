@@ -1,5 +1,6 @@
 var { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCommon.jsm"),
     { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm"),
+    { TagUtils } = ChromeUtils.import("resource:///modules/TagUtils.jsm"),
     win = Services.wm.getMostRecentWindow("mail:3pane");
 
 const { ExtensionParent } = ChromeUtils.import("resource://gre/modules/ExtensionParent.jsm");
@@ -120,7 +121,11 @@ var xnoteapi = class extends ExtensionCommon.ExtensionAPI {
 
         async setTbPref(name, value) {
           try {
-            switch (prefType(name)) {
+            if (name == "mailnews.tags.xnote.color") {
+              TagUtils.addTagToAllDocumentSheets("xnote", value);
+              Services.prefs.setStringPref(name, value);
+            }
+            else switch (prefType(name)) {
               case "bool": {
                 Services.prefs.setBoolPref(name, value);
                 break;
