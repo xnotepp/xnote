@@ -17,9 +17,15 @@ async function selectStoragePath() {
   let startDir = prefs["storage_path"];
   let profileDir = await bgPage.getProfileDirectory();
   if (startDir.startsWith("[ProfD]")) {
-    console.debug(`profileDir: ${profileDir}; startDir: ${startDir}`);
-    startDir = await bgPage.appendRelativePath(profileDir, startDir.substring(7));
-    console.debug(`startDir for selectStoragePath: ${startDir}`);
+    try {
+      console.debug(`profileDir: ${profileDir}; startDir: ${startDir}`);
+      startDir = await bgPage.appendRelativePath(profileDir, startDir.substring(7));
+      console.debug(`startDir for selectStoragePath: ${startDir}`);
+    }
+    catch (e) {
+      console.debug(`Directory does not exist: ${startDir}.`, e);
+      startDir = profileDir;
+    }
   }
   try {
     bgPage.selectDirectory(startDir, bgPage.browser.i18n.getMessage("Select.storage.dir")).then((storagePath) => {
