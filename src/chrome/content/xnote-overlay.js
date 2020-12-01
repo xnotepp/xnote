@@ -68,17 +68,16 @@ xnote.ns.Overlay = function() {
     pub.updateTag( note.text );
 
     let xnotePrefs = xnote.ns.Commons.xnotePrefs;
-    let popup = "";
-    if ( note.text != '') popup = "popup, ";  //keep focus in threadplane
-    if ((xnotePrefs.show_on_select && note.text != '')        || initSource=='clicBouton' || event=='clicBouton') {
+    if ((xnotePrefs.show_on_select && note.text != '')
+        || initSource=='clicBouton' || event=='clicBouton') {
       xnoteWindow = window.openDialog(
         'chrome://xnote/content/xnote-window.xhtml',
         'XNote',
-        'chrome=yes,' + popup + 'dependent=yes,resizable=yes,modal=no,left='+(window.screenX + note.x)+',top='+(window.screenY + note.y)+',width='+note.width+',height='+note.height,
+        'chrome=yes,dependent=yes,resizable=yes,modal=no,left='+(window.screenX + note.x)+',top='+(window.screenY + note.y)+',width='+note.width+',height='+note.height,
         note, (initSource == 'clicBouton' || event == 'clicBouton' ? 'clicBouton' : null)
         );
     }
-     initSource = '';
+    initSource = '';
   //~ dump('\n<-initialise');
   }
 
