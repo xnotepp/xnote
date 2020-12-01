@@ -6,6 +6,12 @@
   <fail unless="profile.dir" message="Profile directory not specified" />
   <fail unless="deploy.path" message="Deploy path not specified." />
   <fail unless="tb.exe" message="Path to Thunderbird executable not specified." />
+  <condition property="jshint.exec" value="jshint.cmd">
+    <os family="windows" />
+  </condition>
+  <condition property="jshint.exec" value="jshint">
+    <os family="unix" />
+  </condition>
 
   <fileset dir="${basedir}/build/package" id="build.files" />
   
@@ -20,7 +26,7 @@
     <delete dir="build" />
   </target>
   
-  <target name="package">
+  <target name="package" depends="check-js">
     <mkdir dir="build/package"/>
     <copy todir="build/package">
       <fileset dir="src">
@@ -41,10 +47,19 @@
       <fileset refid="build.files" />
     </zip>
   </target>
+
   <target name="run" depends="deploy">
     <exec executable="${tb.exe}">
       <arg value="-no-remote"/>
       <arg value="-console"/>
     </exec>
+  </target>
+
+  <target name="check-js">
+    <apply executable="${jshint.exec}" parallel="false" failonerror="true">
+      <arg value="--config"/>
+      <arg value="jshint.json"/>
+     <fileset dir="src" includes="*.js,*.jsm,*.json" />
+    </apply>
   </target>
 </project>

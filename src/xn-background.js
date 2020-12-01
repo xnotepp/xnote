@@ -38,9 +38,8 @@ async function migratePrefs() {
   const results = await browser.storage.local.get("preferences");
 
   const currentMigration =
-    results.preferences && results.preferences.migratedLegacy
-      ? results.preferences.migratedLegacy
-      : 0;
+    results.preferences && results.preferences.migratedLegacy ? 
+        results.preferences.migratedLegacy : 0;
 
   if (currentMigration >= kCurrentLegacyMigration) {
     return;
@@ -76,7 +75,7 @@ function getPreferences() {
 
 async function setPreferences(preferences) {
   _preferences = preferences;
-  browser.storage.local.set({ "preferences": _preferences })
+  browser.storage.local.set({ "preferences": _preferences });
   browser.xnoteapi.setPreferences(preferences);
 }
 

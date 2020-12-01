@@ -28,6 +28,10 @@ add-on.
   e.g., to test the installation notice, call "ant package" to only build the 
   xpi file but not copy the sources to the TB profile.
 
+* The build process uses JSHint to check for JavaScript errors. In order to get
+  that working, install [NodeJS](https://nodejs.org/) and install JSHint
+  through: `npm install -g jshint`
+
 * If you are not yet familiar with Apache Ant, you can download it from 
   https://ant.apache.org/bindownload.cgi. Ant also requires 
   [Java](https://jdk.java.net/java-se-ri/11) to be installed on your computer. 
