@@ -16,7 +16,7 @@ jobs:
     
     strategy:
       matrix:
-        node-version: [8.x, 10.x, 12.x, 14.x]
+        node-version: [12.x, 14.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -30,7 +30,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm install -g jshint
     - name: Build with Ant
-      run: cp build.properties.ori build.properties && ant -noinput -buildfile build.xml clean check-js package
+      run: cp build.properties.ori build.properties && ant -noinput -buildfile build.xml clean package
     - uses: actions/upload-artifact@v2
       with:
         name: XNote
