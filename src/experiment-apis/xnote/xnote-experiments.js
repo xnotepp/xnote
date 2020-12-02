@@ -43,6 +43,9 @@ function prefType(name) {
     case XNOTE_BASE_PREF_NAME+"show_first_x_chars_in_col": {
       return "int";
     }
+    case XNOTE_BASE_PREF_NAME+"storage_path": {
+      return "string";
+    }
     case "mailnews.tags.xnote.tag": {
       return "string";
     }
@@ -111,12 +114,14 @@ var xnoteapi = class extends ExtensionCommon.ExtensionAPI {
               case "string": {
                 return Services.prefs.getStringPref(name);
               }
+              default: {
+                console.error(`Unexpected pref type for: ${name}`);
+              }
             }
           } catch (ex) {
-            console.error(ex);
+            console.error(`Could not get TB pref ${name}` , ex);
             return undefined;
           }
-          throw new Error("Unexpected pref type");
         },
 
         async setTbPref(name, value) {
@@ -146,7 +151,7 @@ var xnoteapi = class extends ExtensionCommon.ExtensionAPI {
                 console.error(`Unknown preference type: ${prefType(name)}`)
             }
           } catch (ex) {
-            console.error(ex);
+            console.error(`Could not set TB pref ${name}` , ex);
           }
         }
       }
