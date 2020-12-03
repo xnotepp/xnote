@@ -7,7 +7,7 @@ var { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCo
 var {xnote} = ChromeUtils.import("resource://xnote/modules/xnote.jsm");
 
 //console.log("xnote - implementation utilities");
-var Utilities = class extends ExtensionCommon.ExtensionAPI {
+var xnoteUtilities = class extends ExtensionCommon.ExtensionAPI {
   getAPI(context) {    
     
     const PrefTypes = {
@@ -18,7 +18,7 @@ var Utilities = class extends ExtensionCommon.ExtensionAPI {
     };
 
     return {
-      Utilities: {
+      xnoteUtilities: {
 
         logDebug (text) {
          console.debug(text);
