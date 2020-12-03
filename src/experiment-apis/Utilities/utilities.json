@@ -1,6 +1,6 @@
 [
   {
-    "namespace": "Utilities",
+    "namespace": "xnoteUtilities",
     "functions": [
       {
         "name": "logDebug",

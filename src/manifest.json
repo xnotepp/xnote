@@ -34,19 +34,19 @@
   },
 
   "experiment_apis": {
-    "WindowListener": {
+    "xnoteWindowListener": {
       "schema": "experiment-apis/WindowListener/windowlistener.json",
       "parent": {
         "scopes": ["addon_parent"],
-        "paths": [["WindowListener"]],
+        "paths": [["xnoteWindowListener"]],
         "script": "experiment-apis/WindowListener/windowlistener.js"
       }
     },
-    "Utilities": {
+    "xnoteUtilities": {
       "schema": "experiment-apis/Utilities/utilities.json",
       "parent": {
         "scopes": ["addon_parent"],
-        "paths": [["Utilities"]],
+        "paths": [["xnoteUtilities"]],
         "script": "experiment-apis/Utilities/utilities.js"
       
        }
