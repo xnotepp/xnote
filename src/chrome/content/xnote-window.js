@@ -7,11 +7,11 @@
 */
 
 const { ExtensionParent } = ChromeUtils.import("resource://gre/modules/ExtensionParent.jsm");
-const extension = ExtensionParent.GlobalManager.getExtension("xnote@froihofer.net");
-var {xnote} = ChromeUtils.import(extension.rootURI.resolve("chrome/modules/xnote.jsm"));
+if (!xnote) var xnote = {};
 if (!xnote.ns) xnote.ns = {};
-ChromeUtils.import(extension.rootURI.resolve("chrome/modules/commons.jsm"), xnote.ns);
-ChromeUtils.import(extension.rootURI.resolve("chrome/modules/dateformat.jsm"), xnote.ns);
+if (!xnote.ns.Extension) xnote.ns.Extension = ExtensionParent.GlobalManager.getExtension("xnote@froihofer.net");
+ChromeUtils.import(xnote.ns.Extension.rootURI.resolve("chrome/modules/commons.jsm"), xnote.ns);
+ChromeUtils.import(xnote.ns.Extension.rootURI.resolve("chrome/modules/dateformat.jsm"), xnote.ns);
 
 xnote.ns.Window = function() {
   // Variables for window movement

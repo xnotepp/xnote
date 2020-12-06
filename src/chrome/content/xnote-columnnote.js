@@ -1,8 +1,8 @@
 if (!ExtensionParent) var { ExtensionParent } = ChromeUtils.import("resource://gre/modules/ExtensionParent.jsm");
-if (!extension) var extension = ExtensionParent.GlobalManager.getExtension("xnote@froihofer.net");
-var {xnote} = ChromeUtils.import(extension.rootURI.resolve("chrome/modules/xnote.jsm"));
+if (!xnote) var xnote = {};
 if (!xnote.ns) xnote.ns={};
-ChromeUtils.import(extension.rootURI.resolve("chrome/modules/commons.jsm"), xnote.ns);
+if (!xnote.ns.Extension) xnote.ns.Extension = ExtensionParent.GlobalManager.getExtension("xnote@froihofer.net");
+ChromeUtils.import(xnote.ns.Extension.rootURI.resolve("chrome/modules/commons.jsm"), xnote.ns);
 
 xnote.ns.ColumnNote = function() {
 
