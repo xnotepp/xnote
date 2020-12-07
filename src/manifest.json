@@ -34,11 +34,11 @@
   },
 
   "experiment_apis": {
-    "xnoteWindowListener": {
+    "WindowListener": {
       "schema": "experiment-apis/WindowListener/windowlistener.json",
       "parent": {
         "scopes": ["addon_parent"],
-        "paths": [["xnoteWindowListener"]],
+        "paths": [["WindowListener"]],
         "script": "experiment-apis/WindowListener/windowlistener.js"
       }
     },

@@ -38,7 +38,7 @@ var { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCo
 var { ExtensionSupport } = ChromeUtils.import("resource:///modules/ExtensionSupport.jsm");
 var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 
-var xnoteWindowListener = class extends ExtensionCommon.ExtensionAPI {
+var WindowListener = class extends ExtensionCommon.ExtensionAPI {
   getAPI(context) {
     // track if this is the background/main context
     this.isBackgroundContext = (context.viewType == "background");
@@ -64,7 +64,7 @@ var xnoteWindowListener = class extends ExtensionCommon.ExtensionAPI {
     this.counts = 0;
 
     return {
-      xnoteWindowListener: {
+      WindowListener: {
 
         registerOptionsPage(optionsUrl) {
           self.pathToOptionsPage = optionsUrl.startsWith("chrome://")

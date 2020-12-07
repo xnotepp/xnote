@@ -1,6 +1,6 @@
 [
   {
-    "namespace": "xnoteWindowListener",
+    "namespace": "WindowListener",
     "functions": [
       {
         "name": "registerDefaultPrefs",

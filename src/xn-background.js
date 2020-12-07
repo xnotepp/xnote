@@ -152,7 +152,7 @@ async function main() {
     if (!tabInfo.mailTab) messenger.xnoteapi.closeNoteWindow();
   });
   
-  messenger.xnoteWindowListener.registerChromeUrl([ 
+  messenger.WindowListener.registerChromeUrl([ 
     ["content", "xnote", "chrome/content/"],
     ["resource", "xnote", "chrome/"],
 
@@ -167,7 +167,7 @@ async function main() {
     ["locale", "xnote", "pt-BR", "chrome/locale/pt-BR/"],
   ]);
 
-  messenger.xnoteWindowListener.registerWindow("chrome://messenger/content/messenger.xhtml", "chrome/content/scripts/xn-xnote-overlay.js");
+  messenger.WindowListener.registerWindow("chrome://messenger/content/messenger.xhtml", "chrome/content/scripts/xn-xnote-overlay.js");
 
   browser.browserAction.onClicked.addListener(async (tab, info) => {
     messenger.xnoteapi.initNote();
@@ -181,7 +181,7 @@ async function main() {
   * an object inside the global window. The name of that object can be specified via
   * the parameter of startListening(). This object also contains an extension member.
   */
-    messenger.xnoteWindowListener.startListening();
+    messenger.WindowListener.startListening();
 }
 
 main().catch(console.error);
