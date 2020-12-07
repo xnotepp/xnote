@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project name="XNote" default="package" basedir=".">
   <property file="build.properties"/>
-  <property name="xnote.version" value="3.1.3a" />
+  <property name="xnote.version" value="3.1.3" />
 
   <fail unless="profile.dir" message="Profile directory not specified" />
   <fail unless="deploy.path" message="Deploy path not specified." />
