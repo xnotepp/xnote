@@ -4,6 +4,8 @@ var { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCo
     { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm"),
     win = Services.wm.getMostRecentWindow("mail:3pane");
 
+var {xnote} = ChromeUtils.import("resource://xnote/modules/xnote.jsm");
+
 //console.log("xnote - implementation utilities");
 var xnoteUtilities = class extends ExtensionCommon.ExtensionAPI {
   getAPI(context) {    
