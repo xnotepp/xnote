@@ -73,9 +73,15 @@ xnote.ns.ColumnNote = function() {
       return xnote.ns.Note(messageID).exists();
     },
 
-    doOnceLoaded : function () {
+    onLoad : function () {
       let ObserverService = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);
       ObserverService.addObserver(pub.DbObserver, "MsgCreateDBView", false);
+    },
+
+
+    onUnload : function () {
+      let ObserverService = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);
+      ObserverService.removeObserver(pub.DbObserver, "MsgCreateDBView");
     },
 
     addCustomColumnHandler : function () {

@@ -63,12 +63,12 @@ function onLoad(activatedWhileWindowOpen) {
 
   window.xnote.WL = WL;  
   window.xnote.ns.Overlay.onLoad();
-  window.xnote.ns.ColumnNote.doOnceLoaded();
+  window.xnote.ns.ColumnNote.onLoad();
 }
 
 function onUnload(isAddOnShutDown) {
   window.xnote.ns.Overlay.onUnload();
- 
+  window.xnote.ns.ColumnNote.onUnload();
 
 }
 
