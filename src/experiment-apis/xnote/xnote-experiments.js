@@ -162,10 +162,10 @@ var xnoteapi = class extends ExtensionCommon.ExtensionAPI {
     console.debug(`onShutdown: isAppShutdown=${isAppShutdown}`);
     if (isAppShutdown) return;
   
-    Components.utils.unload(extension.rootURI.resolve("chrome/modules/xnote-upgrades.jsm"));
-    Components.utils.unload(extension.rootURI.resolve("chrome/modules/storage.jsm"));
-    Components.utils.unload(extension.rootURI.resolve("chrome/modules/commons.jsm"));
-    Components.utils.unload(extension.rootURI.resolve("chrome/modules/xnote.jsm"));
+    Components.utils.unload(xnoteExtension.rootURI.resolve("chrome/modules/xnote-upgrades.jsm"));
+    Components.utils.unload(xnoteExtension.rootURI.resolve("chrome/modules/storage.jsm"));
+    Components.utils.unload(xnoteExtension.rootURI.resolve("chrome/modules/commons.jsm"));
+    Components.utils.unload(xnoteExtension.rootURI.resolve("chrome/modules/xnote.jsm"));
 
     // invalidate the startup cache, such that after updating the addon the old
     // version is no longer cached
