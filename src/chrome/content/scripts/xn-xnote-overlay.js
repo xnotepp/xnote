@@ -67,6 +67,7 @@ function onLoad(activatedWhileWindowOpen) {
 }
 
 function onUnload(isAddOnShutDown) {
+  window.xnote.ns.Overlay.onUnload();
  
 
 }

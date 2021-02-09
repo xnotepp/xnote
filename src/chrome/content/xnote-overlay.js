@@ -374,6 +374,38 @@ xnote.ns.Overlay = function() {
     pub.checkInitialization();
   }
 
+  pub.onUnload = function (e) {
+    //console.debug("xnote: overlay.onLoad: "+JSON.stringify(xnote, null, 2)+"\n");
+    
+    
+    try {
+      let tree = document.getElementById('folderTree');
+      tree.removeEventListener('select', pub.closeNote);
+      tree.removeEventListener('select', pub.updateXNoteButton);
+      tree = document.getElementById('threadTree');
+      tree.removeEventListener('contextmenu', pub.messageListClicked);
+      tree.removeEventListener('select', pub.updateXNoteButton);
+      tree.removeEventListener('mouseover', pub.getCurrentRow);
+ 
+     
+      let messagePane = document.getElementById("messagepane");
+      messagePane.removeEventListener("contextmenu", pub.messagePaneClicked);
+      tree= GetThreadTree();
+      if (tree) {
+   //     tree.addEventListener('click', pub.getCurrentRow, false);
+ 
+      }
+ 
+    }
+    catch(e){
+      logException(e,false);
+    }
+    
+ 
+
+  }
+
+
   return pub;
 }();
 
