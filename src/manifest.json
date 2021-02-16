@@ -9,7 +9,7 @@
     "gecko": {
       "id": "xnote@froihofer.net",
       "strict_min_version": "78.0",
-      "strict_max_version": "78.*"
+      "strict_max_version": "86.*"
     }
   },
   "default_locale" : "en_US",
@@ -35,11 +35,11 @@
 
   "experiment_apis": {
     "WindowListener": {
-      "schema": "experiment-apis/WindowListener/windowlistener.json",
+      "schema": "experiment-apis/WindowListener/schema.json",
       "parent": {
         "scopes": ["addon_parent"],
         "paths": [["WindowListener"]],
-        "script": "experiment-apis/WindowListener/windowlistener.js"
+        "script": "experiment-apis/WindowListener/implementation.js"
       }
     },
     "xnoteUtilities": {
