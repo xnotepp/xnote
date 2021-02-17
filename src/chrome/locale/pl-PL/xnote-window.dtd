@@ -5,3 +5,4 @@
 <!ENTITY close 'Zapisz i zamknij'>
 <!ENTITY suppr 'Usuń notatkę'>
 <!ENTITY xnote.ask.deletion 'Czy jesteś pewien, że chesz usunąć notatkę?'>
+<!ENTITY print 'Print note'>
