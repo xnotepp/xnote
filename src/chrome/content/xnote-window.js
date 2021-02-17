@@ -47,6 +47,9 @@ xnote.ns.Window = function() {
 
     let texte=self.document.getElementById('xnote-texte');
     texte.value=note.text;
+//PrintUtils.showPageSetup();
+//self.print();
+
 
     //set date in the titlebar
     let modificationdate=self.document.getElementById("xnote-mdate");
@@ -135,6 +138,14 @@ xnote.ns.Window = function() {
   //~ dump('\n<-modifierNote');
   }
 
+ 
+ 
+ pub.printNote = function () {
+
+  self.print();
+ }
+ 
+ 
   /**
    * CALLER XUL
    * Type: event input from XUL element <html:input>
