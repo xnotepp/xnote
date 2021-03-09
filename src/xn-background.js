@@ -12,6 +12,8 @@ const debug = "@@@DEBUGFLAG@@@";
 
 var lastTab=0, lastWindow=0;
 
+var xnote_displayed = false;
+
 var _preferences;
 
 
@@ -139,6 +141,7 @@ async function main() {
 
   messenger.messageDisplay.onMessageDisplayed.addListener((tab, message) => {
     //console.log(`Message displayed in tab ${tab.id}: ${message.subject}`);
+    xnote_displayed = false;  // for the case that no autodisplay, to be able to manually toggle the display
   });
 
 //    messenger.messageDisplayAction.disable();
@@ -170,7 +173,13 @@ async function main() {
   messenger.WindowListener.registerWindow("chrome://messenger/content/messenger.xhtml", "chrome/content/scripts/xn-xnote-overlay.js");
 
   browser.browserAction.onClicked.addListener(async (tab, info) => {
-    messenger.xnoteapi.initNote();
+    if (!xnote_displayed) {
+     messenger.xnoteapi.initNote();
+     xnote_displayed = true; }
+     else {
+      messenger.xnoteapi.closeNoteWindow();
+      xnote_displayed = false;
+     }
   });
 
   browser.browserAction.disable();
