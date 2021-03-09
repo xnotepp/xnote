@@ -42,6 +42,11 @@ add-on.
 * There are developer tools included in Thunderbird for debugging - menu is 
   presumably called "Tools" or "Extra" and then "developer tools" (not using the 
   English version).
+  
+* Since TB moved to the new extension system in 78, you can also 'temporarily' load 
+  (and reload upon changes) an addon during development. It is not necessary to pack 
+  it as an xpi nor to copy it into the profile folder. After a restart of TB, it will 
+  be 'gone'. Do this by Extra (or Tools)->developer toolbox->temporarily install adon
 
 ---
 vim:spelllang=en
