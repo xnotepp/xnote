@@ -47,6 +47,10 @@ xnote.ns.Window = function() {
 
     let texte=self.document.getElementById('xnote-texte');
     texte.value=note.text;
+
+    let fwd = self.document.getElementById('xnote-button-forward');
+    fwd.href = "mailto:?body=" + encodeURI(note.text);
+
 //PrintUtils.showPageSetup();
 //self.print();
 
@@ -144,7 +148,12 @@ xnote.ns.Window = function() {
 
   self.print();
  }
- 
+
+ pub.forwardNote = function () {
+
+  self.print();
+ }
+
  
   /**
    * CALLER XUL
