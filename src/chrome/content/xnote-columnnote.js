@@ -82,11 +82,16 @@ xnote.ns.ColumnNote = function() {
     onUnload : function () {
       let ObserverService = Components.classes["@mozilla.org/observer-service;1"].getService(Components.interfaces.nsIObserverService);
       ObserverService.removeObserver(pub.DbObserver, "MsgCreateDBView");
-    },
+      pub.removeCustomColumnHandler();
+      },
 
     addCustomColumnHandler : function () {
       gDBView.addColumnHandler("xnoteCol", pub.columnHandler);
-    }
+    },
+
+    removeCustomColumnHandler : function () {
+      gDBView.removeColumnHandler("xnoteCol");
+    }    
   }
 
   return pub;
