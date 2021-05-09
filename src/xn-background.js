@@ -106,6 +106,32 @@ async function appendRelativePath(basePath, extension){
   return await browser.xnotefiles.appendRelativePath(basePath, extension);
 }
 
+
+ // landing windows.
+ messenger.runtime.onInstalled.addListener(async ({ reason, temporary }) => {
+  // if (temporary) return; // skip during development
+  switch (reason) {
+    case "install":
+    {
+      let url = browser.runtime.getURL("popup/installed.html");
+      //await browser.tabs.create({ url });
+      await browser.windows.create({ url, type: "popup", width: 910, height: 750, });
+    }
+    break;
+    // see below
+    case "update":
+    {
+      let url = browser.runtime.getURL("popup/update.html");
+      //await browser.tabs.create({ url });
+      await browser.windows.create({ url, type: "popup", width: 910, height: 750, });
+    }
+    break;
+  // see below
+  }
+});   
+
+
+
 async function main() {
   await migratePrefs();
 
@@ -116,29 +142,7 @@ async function main() {
   await browser.xnoteapi.setPreferences(_preferences);
   await browser.xnoteapi.init();
 
-  // landing windows.
-  messenger.runtime.onInstalled.addListener(async ({ reason, temporary }) => {
-    // if (temporary) return; // skip during development
-    switch (reason) {
-      case "install":
-      {
-        let url = browser.runtime.getURL("popup/installed.html");
-        //await browser.tabs.create({ url });
-        await browser.windows.create({ url, type: "popup", width: 910, height: 750, });
-      }
-      break;
-      // see below
-      case "update":
-      {
-        let url = browser.runtime.getURL("popup/update.html");
-        //await browser.tabs.create({ url });
-        await browser.windows.create({ url, type: "popup", width: 910, height: 750, });
-      }
-      break;
-    // see below
-    }
-  });   
-
+ 
   messenger.messageDisplay.onMessageDisplayed.addListener((tab, message) => {
     //console.log(`Message displayed in tab ${tab.id}: ${message.subject}`);
     xnote_displayed = false;  // for the case that no autodisplay, to be able to manually toggle the display
