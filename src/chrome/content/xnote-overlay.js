@@ -354,13 +354,13 @@ xnote.ns.Overlay = function() {
       tree.addEventListener('contextmenu', pub.messageListClicked, false);
       tree.addEventListener('select', pub.updateXNoteButton, false);
       tree.addEventListener('mouseover', pub.getCurrentRow, false);
- 
+      tree.addEventListener('select', xnote.ns.Overlay.initialise, false);
      
       let messagePane = document.getElementById("messagepane");
       messagePane.addEventListener("contextmenu", pub.messagePaneClicked, false);
       tree= GetThreadTree();
       if (tree) {
-   //     tree.addEventListener('click', pub.getCurrentRow, false);
+        tree.addEventListener('click', pub.getCurrentRow, false);
  
       }
  
@@ -386,13 +386,14 @@ xnote.ns.Overlay = function() {
       tree.removeEventListener('contextmenu', pub.messageListClicked);
       tree.removeEventListener('select', pub.updateXNoteButton);
       tree.removeEventListener('mouseover', pub.getCurrentRow);
- 
+      tree.removeEventListener('select', xnote.ns.Overlay.initialise);
+
      
       let messagePane = document.getElementById("messagepane");
       messagePane.removeEventListener("contextmenu", pub.messagePaneClicked);
       tree= GetThreadTree();
       if (tree) {
-   //     tree.addEventListener('click', pub.getCurrentRow, false);
+        tree.removeEventListener('click', pub.getCurrentRow);
  
       }
  
