@@ -43,6 +43,23 @@ xnote.ns.Window = function() {
       self.document.getElementById('xnote-note').style.setProperty('-moz-opacity', pref.getIntPref('xnote.transparence')/10, '');
     }
     catch(e) {}*/
+
+
+// Capture the Window focus lost event to update the XNote tag.
+addEventListener('blur', xnote.ns.Window.updateTag, true);
+addEventListener('load', xnote.ns.Window.onLoad, false);
+addEventListener('unload', xnote.ns.Window.onUnload, false);
+
+//For testing purposes
+//addEventListener('DOMAttrModified', xnote.ns.Commons.printEventDomAttrModified, false);
+
+//Necessary for correct shutdown as we are otherwise unable to correctly
+//save a modified note
+opener.addEventListener("unload", xnote.ns.Window.onOpenerUnload, false);
+//Unfortunately, there seems to be no better way to react on window
+//movement.
+setInterval(xnote.ns.Window.checkOpenerMoved, 500);
+
     note = self.arguments[0];
 
     let texte=self.document.getElementById('xnote-texte');
@@ -229,7 +246,12 @@ xnote.ns.Window = function() {
 
   pub.onUnload = function(e) {
 //    ~dump("\n->onUnload");
-    pub.saveNote();
+console.log("note unLoad");
+pub.saveNote();
+removeEventListener('blur', xnote.ns.Window.updateTag);
+removeEventListener('load', xnote.ns.Window.onLoad);
+removeEventListener('unload', xnote.ns.Window.onUnload);
+opener.removeEventListener("unload", xnote.ns.Window.onOpenerUnload);
   }
 
   pub.onOpenerUnload = function(e) {
@@ -239,17 +261,4 @@ xnote.ns.Window = function() {
   return pub;
 }();
 
-// Capture the Window focus lost event to update the XNote tag.
-addEventListener('blur', xnote.ns.Window.updateTag, true);
 addEventListener('load', xnote.ns.Window.onLoad, false);
-addEventListener('unload', xnote.ns.Window.onUnload, false);
-
-//For testing purposes
-//addEventListener('DOMAttrModified', xnote.ns.Commons.printEventDomAttrModified, false);
-
-//Necessary for correct shutdown as we are otherwise unable to correctly
-//save a modified note
-opener.addEventListener("unload", xnote.ns.Window.onOpenerUnload, false);
-//Unfortunately, there seems to be no better way to react on window
-//movement.
-setInterval(xnote.ns.Window.checkOpenerMoved, 500);
