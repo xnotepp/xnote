@@ -47,11 +47,7 @@ xnote.ns.Window = function() {
 
 // Capture the Window focus lost event to update the XNote tag.
 addEventListener('blur', xnote.ns.Window.updateTag, true);
-addEventListener('load', xnote.ns.Window.onLoad, false);
 addEventListener('unload', xnote.ns.Window.onUnload, false);
-
-//For testing purposes
-//addEventListener('DOMAttrModified', xnote.ns.Commons.printEventDomAttrModified, false);
 
 //Necessary for correct shutdown as we are otherwise unable to correctly
 //save a modified note
@@ -83,6 +79,7 @@ setInterval(xnote.ns.Window.checkOpenerMoved, 500);
     else
       self.setTimeout(window.opener.focus);
   //~ dump('\n<-onLoad');
+
   }
 
   function resizeWindow (width, height) {
@@ -262,3 +259,7 @@ opener.removeEventListener("unload", xnote.ns.Window.onOpenerUnload);
 }();
 
 addEventListener('load', xnote.ns.Window.onLoad, false);
+
+
+//For testing purposes
+//addEventListener('DOMAttrModified', xnote.ns.Commons.printEventDomAttrModified, false);
