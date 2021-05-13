@@ -26,6 +26,7 @@
   "Behavior": {"message": "Gedrag"},
   "show.on.select": {"message": "Notitie tonen bij selectie"},
   "show.first.x.chars.in.col": {"message": "Toon eerste x karakters in Xnote Kolom"},
-  "Select.storage.dir": {"message": "Selecteer standaard directory voor Xnote."}
+  "Select.storage.dir": {"message": "Selecteer standaard directory voor Xnote."},
+  "show.in.messageDisplay": {"message": "Show XNote summary in messsage display"}
   
 }

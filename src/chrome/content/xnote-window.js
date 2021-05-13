@@ -72,6 +72,8 @@ setInterval(xnote.ns.Window.checkOpenerMoved, 500);
     let modificationdate=self.document.getElementById("xnote-mdate");
     modificationdate.value=note.modificationDate;
 
+    
+
     self.setTimeout(xnote.ns.Window.resizeWindow);
 
     if (window.arguments[1]=='clicBouton')

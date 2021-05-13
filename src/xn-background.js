@@ -8,7 +8,7 @@
 x   note does not close
 displaying a new note by click triggers unload listener (ca. 6 times)
 */
-const debug = "@@@DEBUGFLAG@@@";
+const debug = true;//"@@@DEBUGFLAG@@@";
 
 var lastTab=0, lastWindow=0;
 
@@ -16,11 +16,37 @@ var xnote_displayed = false;
 
 var _preferences;
 
+var xnote = {};
+xnote.text = "";
+xnote.inMsgDisplay = false;
+
+
+browser.runtime.onMessage.addListener(notifyMsgDisplay);
+
+function notifyMsgDisplay(message, sender, sendResponse) {
+  console.log("received from msgDisplay");
+  console.log("Msg:", message.getXNoteText);
+  sendResponse({response: "Response from background script"});
+
+  //messenger.runtime.sendMessage({"toMsgDisplay": xnote.text});
+ 
+  /*
+    browser.notifications.create({
+      "type": "basic",
+      "iconUrl": browser.extension.getURL("link.png"),
+      "title": "You clicked a link!",
+      "message": message.url
+    });
+    */
+  }
+
+
+
 
 // This is the current "migration" version for preferences. You can increase it later
 // if you happen to need to do more pref (or maybe other migrations) only once
 // for a user.
-const kCurrentLegacyMigration = 1;
+const kCurrentLegacyMigration = 2;
 
 // This is the list of defaults for the legacy preferences.
 const kPrefDefaults = {
@@ -31,6 +57,7 @@ const kPrefDefaults = {
   horPos: 250,
   vertPos: 250,
   show_on_select: true,
+  show_in_messageDisplay: false,
   show_first_x_chars_in_col: 20,
   storage_path: "[ProfD]XNote"
 };
@@ -68,6 +95,11 @@ async function migratePrefs() {
       }
     }
   }
+ 
+  if (currentMigration < 2) {
+    prefs["show_in_messageDisplay"] = kPrefDefaults["show_in_messageDisplay"];
+    setTbPref("extensions.xnote.show_in_messageDisplay", kPrefDefaults["show_in_messageDisplay"]);
+}
 
   prefs.migratedLegacy = kCurrentLegacyMigration;
   console.debug("Storing migrated preferences.");
@@ -82,6 +114,7 @@ async function setTbPref(name, value) {
   browser.xnoteapi.setTbPref(name, value);
 }
 
+//setTbPref("extensions.xnote.show_in_messageDisplay", false);
 function getPreferences() {
   return _preferences;
 }
@@ -131,6 +164,13 @@ async function appendRelativePath(basePath, extension){
 });   
 
 
+async function msgDisplayListener(tab, msg) {
+  console.log("tab", tab.id, tab.mailTab);
+  await messenger.tabs.executeScript(tab.id, {
+    file:  "mDisplay.js"
+  });  
+  }
+
 
 async function main() {
   await migratePrefs();
@@ -143,7 +183,7 @@ async function main() {
   await browser.xnoteapi.init();
 
  
-  messenger.messageDisplay.onMessageDisplayed.addListener((tab, message) => {
+  await messenger.messageDisplay.onMessageDisplayed.addListener((tab, message) => {
     //console.log(`Message displayed in tab ${tab.id}: ${message.subject}`);
     xnote_displayed = false;  // for the case that no autodisplay, to be able to manually toggle the display
   });
@@ -156,7 +196,11 @@ async function main() {
     lastTab = activeInfo.tabId;
     lastWindow = activeInfo.windowId;
     let tabInfo = await messenger.tabs.get( activeInfo.tabId);
-    if (!tabInfo.mailTab) messenger.xnoteapi.closeNoteWindow();
+    if (!tabInfo.mailTab) 
+    {
+      messenger.xnoteapi.closeNoteWindow();
+      xnote.text = "";
+    };
   });
   
   messenger.WindowListener.registerChromeUrl([ 
@@ -187,6 +231,28 @@ async function main() {
   });
 
   browser.browserAction.disable();
+
+  messenger.NotifyTools.onNotifyBackground.addListener(async (info) => {
+    switch (info.command) {
+      case "addToMsgDisplay":
+        if (true) {
+          xnote.text = info.text;
+//        console.log("msgDisplay");
+//        console.log(xnote.text);
+          let activeTab = await messenger.tabs.query({active: true, currentWindow: true});
+//        console.log(activeTab);
+          await messenger.tabs.sendMessage(activeTab[0].id,{XNoteText: xnote.text}, null)  ;
+        };
+        let rv = "received from background";
+        return rv;
+        break;
+    }
+  });
+  
+  
+  messenger.messageDisplay.onMessageDisplayed.addListener(msgDisplayListener);
+
+
 
  /*
   * Start listening for opened windows. Whenever a window is opened, the registered

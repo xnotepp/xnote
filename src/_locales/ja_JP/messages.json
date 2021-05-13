@@ -26,5 +26,6 @@
   "Behavior": {"message": "動作"},
   "show.on.select": {"message": "メッセージを選択したらメモを表示する"},
   "show.first.x.chars.in.col": {"message": "スレッドペインのXNoteカラムに先頭数文字を表示する"},
-  "Select.storage.dir": {"message": "メモの保存先を選択してください"}
+  "Select.storage.dir": {"message": "メモの保存先を選択してください"},
+  "show.in.messageDisplay": {"message": "Show XNote summary in messsage display"}
 }

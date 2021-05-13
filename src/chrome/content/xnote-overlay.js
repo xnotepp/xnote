@@ -67,6 +67,14 @@ xnote.ns.Overlay = function() {
     note = new xnote.ns.Note(pub.getMessageID());
     pub.updateTag( note.text );
 
+
+    let msgDisplaytext = note.modificationDate + "  " + note.text;
+
+    notifyTools.notifyBackground({command: "addToMsgDisplay", text: msgDisplaytext}).then((data) => {
+      console.log(data);
+    });
+
+
     let xnotePrefs = xnote.ns.Commons.xnotePrefs;
     if ((xnotePrefs.show_on_select && note.text != '')
         || initSource=='clicBouton' || event=='clicBouton') {

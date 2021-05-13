@@ -40,6 +40,9 @@ function prefType(name) {
     case XNOTE_BASE_PREF_NAME+"show_on_select": {
       return "bool";
     }
+    case XNOTE_BASE_PREF_NAME+"show_in_messageDisplay": {
+      return "bool";
+    }
     case XNOTE_BASE_PREF_NAME+"show_first_x_chars_in_col": {
       return "int";
     }

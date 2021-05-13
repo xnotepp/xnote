@@ -80,6 +80,7 @@ async function savePrefs() {
           break;
         case "INPUT":
           if(isInputType(node,"checkbox")){
+            debugger;
             prefs[pref] = node.checked;
           } else if(isInputType(node, "radio") && node.checked){
             prefs[pref] = node.value;

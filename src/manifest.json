@@ -27,7 +27,7 @@
     "page": "options/options.html"
   },
 
-  "permissions": ["activeTab", "tabs", "messagesRead", "storage"],
+  "permissions": ["activeTab", "tabs", "messagesRead", "storage", "messagesRead", "messagesModify"],
 
   "background": {
     "scripts": ["xn-background.js"]
@@ -42,6 +42,17 @@
         "script": "experiment-apis/WindowListener/implementation.js"
       }
     },
+ 
+    "NotifyTools": {
+      "schema": "experiment-apis/NotifyTools/schema.json",
+      "parent": {
+        "scopes": ["addon_parent"],
+        "paths": [["NotifyTools"]],
+        "script": "experiment-apis/NotifyTools/implementation.js"
+      }
+    },
+
+ 
     "xnoteUtilities": {
       "schema": "experiment-apis/Utilities/utilities.json",
       "parent": {

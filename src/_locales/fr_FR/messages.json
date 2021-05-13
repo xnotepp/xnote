@@ -26,6 +26,7 @@
   "Behavior": {"message": "Comportement"},
   "show.on.select": {"message": "Afficher la note du message sélectionné"},
   "show.first.x.chars.in.col": {"message": "Montrer les n premiers caractères de la note dans la colonne XNote"},
-  "Select.storage.dir": {"message": "Veuillez sélectionner le dossier d'enregistrement des notes."}
+  "Select.storage.dir": {"message": "Veuillez sélectionner le dossier d'enregistrement des notes."},
+  "show.in.messageDisplay": {"message": "Show XNote summary in messsage display"}
   
 }

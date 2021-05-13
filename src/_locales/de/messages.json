@@ -26,5 +26,8 @@
   "Behavior": {"message": "Verhalten"},
   "show.on.select": {"message": "XNote nach E-Mail Auswahl anzeigen"},
   "show.first.x.chars.in.col": {"message": "Zeige die ersten X Zeichen in der XNote Spalte"},
-  "Select.storage.dir": {"message": "Wählen Sie bitte das Verzeichnis zum Speichern der XNotes."}
+  "Select.storage.dir": {"message": "Wählen Sie bitte das Verzeichnis zum Speichern der XNotes."},
+  "show.in.messageDisplay": {"message": "XNote Zusammenfassung in der email anzeigen"}
+
+  
 }
