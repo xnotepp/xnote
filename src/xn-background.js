@@ -18,6 +18,7 @@ var _preferences;
 
 var xnote = {};
 xnote.text = "";
+xnote.date = "";
 xnote.inMsgDisplay = false;
 
 
@@ -114,7 +115,6 @@ async function setTbPref(name, value) {
   browser.xnoteapi.setTbPref(name, value);
 }
 
-//setTbPref("extensions.xnote.show_in_messageDisplay", false);
 function getPreferences() {
   return _preferences;
 }
@@ -183,7 +183,7 @@ async function main() {
   await browser.xnoteapi.init();
 
  
-  await messenger.messageDisplay.onMessageDisplayed.addListener((tab, message) => {
+  messenger.messageDisplay.onMessageDisplayed.addListener((tab, message) => {
     //console.log(`Message displayed in tab ${tab.id}: ${message.subject}`);
     xnote_displayed = false;  // for the case that no autodisplay, to be able to manually toggle the display
   });
@@ -237,11 +237,12 @@ async function main() {
       case "addToMsgDisplay":
         if (true) {
           xnote.text = info.text;
+          xnote.date = info.date;
 //        console.log("msgDisplay");
 //        console.log(xnote.text);
           let activeTab = await messenger.tabs.query({active: true, currentWindow: true});
 //        console.log(activeTab);
-          await messenger.tabs.sendMessage(activeTab[0].id,{XNoteText: xnote.text}, null)  ;
+          await messenger.tabs.sendMessage(activeTab[0].id,{XNoteText: info.text, XNoteDate: info.date}, null)  ;
         };
         let rv = "received from background";
         return rv;
