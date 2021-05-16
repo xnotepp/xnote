@@ -102,6 +102,24 @@ var xnoteapi = class extends ExtensionCommon.ExtensionAPI {
           xnote.ns.Commons.checkXNoteTag();
         },
 
+
+
+        async getXNote(id) {
+          let note = {};
+          try {
+
+            let realMessage = context.extension.messageManager.get(id);
+            console.log("realmsg", realMessage.messageId );
+            note = new xnote.ns.Note(realMessage.messageId);
+            console.log("xnote", note);
+ 
+                   } catch (ex) {
+            console.error(`Could not get TB mesg` );
+          }
+          return {text: note.text, date: note.modificationDate};
+        },
+
+  
         async getTbPref(name) {
           try {
             switch (prefType(name)) {

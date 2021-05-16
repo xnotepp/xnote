@@ -8,6 +8,10 @@
 x   note does not close
 displaying a new note by click triggers unload listener (ca. 6 times)
 */
+
+'use strict';
+
+
 const debug = true;//"@@@DEBUGFLAG@@@";
 
 var lastTab=0, lastWindow=0;
@@ -20,15 +24,25 @@ var xnote = {};
 xnote.text = "";
 xnote.date = "";
 xnote.inMsgDisplay = false;
+xnote.msgTab = -1;
+
+
 
 
 browser.runtime.onMessage.addListener(notifyMsgDisplay);
 
-function notifyMsgDisplay(message, sender, sendResponse) {
+async function notifyMsgDisplay(message, sender, sendResponse) {
   console.log("received from msgDisplay");
-  console.log("Msg:", message.getXNoteText);
-  sendResponse({response: "Response from background script"});
-
+  console.log("Msg:", message.command, "tabid", sender.tab.id);
+  let msg = await messenger.messageDisplay.getDisplayedMessage(sender.tab.id);
+  console.log("msg", msg);
+  let xnote = await messenger.xnoteapi.getXNote(msg.id);
+  console.log("bcknote", xnote);
+ // let data = await messenger.NotifyTools.notifyExperiment({command: "getNote"});//.then((data) => {
+//    console.log(data)
+//  });
+  sendResponse({note: "xnote"});
+  return xnote;
   //messenger.runtime.sendMessage({"toMsgDisplay": xnote.text});
  
   /*
@@ -166,12 +180,19 @@ async function appendRelativePath(basePath, extension){
 
 async function msgDisplayListener(tab, msg) {
   console.log("tab", tab.id, tab.mailTab);
+  xnote.msgTab = tab.id;
+  /*
   await messenger.tabs.executeScript(tab.id, {
     file:  "mDisplay.js"
-  });  
+  }); 
+  */ 
   }
 
+ async function wait (t) {
+    //	let t = 5000;
+	await new Promise(resolve => window.setTimeout(resolve, t));
 
+}
 async function main() {
   await migratePrefs();
 
@@ -182,7 +203,44 @@ async function main() {
   await browser.xnoteapi.setPreferences(_preferences);
   await browser.xnoteapi.init();
 
+ /* //does not solve timing at install*/
+  await messenger.messageDisplayScripts.register({
+    js: [{ file: "mDisplay.js" }]
+    //,
+    //css: [{ file: "/src/message-content-styles.css" }],
+  });
+
+  
+/*  nope, needs to be loaded repeatedly into each messageDisplay
+  let TBwindows = await messenger.windows.getAll({populate:true} );
+  console.log("msgDisplays", TBwindows);
  
+  for (let TBwindow of TBwindows ) {
+    //console.log("tabs", msgDisplay.tabs);
+    if (TBwindow.type == "messageDisplay") {
+      console.log("messageDisplay", TBwindow.tabs[0].id);
+      await messenger.tabs.executeScript(TBwindow.tabs[0].id, {
+        file:  "mDisplay.js"
+      });  
+    }    
+    else {
+      for (let tab of TBwindow.tabs) {
+        if (tab.mailTab) {
+          console.log("mailTab", tab.id);
+          await messenger.tabs.executeScript(tab.id, {
+            file:  "mDisplay.js"
+          });  
+        }        
+      };
+
+    };
+  
+  
+  
+  };
+*/
+
+//console.log("msgDisplays", msgDisplays);
   messenger.messageDisplay.onMessageDisplayed.addListener((tab, message) => {
     //console.log(`Message displayed in tab ${tab.id}: ${message.subject}`);
     xnote_displayed = false;  // for the case that no autodisplay, to be able to manually toggle the display
@@ -240,10 +298,22 @@ async function main() {
           xnote.date = info.date;
 //        console.log("msgDisplay");
 //        console.log(xnote.text);
+//          let activeTab = await messenger.tabs.query({windowType: "messageDisplay"});
           let activeTab = await messenger.tabs.query({active: true, currentWindow: true});
 //        console.log(activeTab);
-          await messenger.tabs.sendMessage(activeTab[0].id,{XNoteText: info.text, XNoteDate: info.date}, null)  ;
+//          await wait (5000);
+/*
+await messenger.tabs.executeScript(activeTab[0].id, {
+  file:  "mDisplay.js"
+});  
+
+//debugger;
+        if (info.text.length>0)  await messenger.tabs.sendMessage(activeTab[0].id,{XNoteText: info.text, XNoteDate: info.date}, null)  ;
+*/
         };
+//        console.log(msgtab?"")
+
+        console.log("msgtab?", xnote.msgTab);
         let rv = "received from background";
         return rv;
         break;
