@@ -1,6 +1,8 @@
 
 var xnote = "";  // k  b\nbbbb\nbbbbbbbbbbbböklllll11111111222222222222222333333333llllcbvvv42vvvvvv";
-//debugger;
+var xnoteOrig = "";
+var dateOrig = "";
+var btnState = 0;//debugger;
 //console.log("loading mdisplay script");
 
 function notify(message) {
@@ -25,9 +27,10 @@ function notify(message) {
     
     return fullStr.substr(0, frontChars) + separator + fullStr.substr(fullStr.length - backChars);
 };
-let xnote = message.text;
+xnoteOrig = xnote = message.text;
+dateOrig = message.date;
 
-//if (xnote.length>6) 
+if (xnote.length>0) 
 {
   let no_linebreak =  xnote.replace(/(\r\n|\n|\r)/gm," ");
   let no_double_space =  no_linebreak.replace(/\s+/g," ");
@@ -37,8 +40,10 @@ let xnote = message.text;
   let strippedHtml = "";
   strippedHtml = trunc.replace(/<[^>]+>/g, ''); //html entities are not converted, <> are stripped
   
-  let text3 = "<div id = 'xnote_msgDisplay' style = 'width:100%;background-color: #FBFEBF;' ><b>XNote  " + message.date +": </b>" +strippedHtml + "</div>";
+  let text3 = "<div id = 'xnote_msgDisplay' style = 'width:100%;background-color: #FBFEBF;' ><button id = 'chgSize'> Show all</button><b>XNote  " + message.date +": </b><span id = 'xnoteFull'></span><span id = 'xnoteShort'>" +strippedHtml + "</span></div>";
   document.documentElement.firstChild.insertAdjacentHTML("beforebegin",text3);
+  let btn = document.getElementById("chgSize");
+  btn.addEventListener("click", showAll, false);
      
   
   };
@@ -46,11 +51,41 @@ let xnote = message.text;
   function handleResponse(message) {
     console.log(`note Message from the background script: `, message);
   }
-   
+  
+  function showAll() {
+console.log("all", xnoteOrig);
+let btn = document.getElementById("chgSize");
+btn.textContent = "Compact";
+if (btnState == 0 ) {
+   let note = document.getElementById("xnoteShort");
+note.textContent ="";//remove();
+let div = document.createElement("div");
+div.setAttribute("id", "fullNoteDiv");
+note.append(div);
+
+let span = document.getElementById("xnoteFull");
+// let fullnote = "<div id = 'fullNote'>" + xnote + "</div>";
+ //span.insertAdjacentHTML("afterend",fullnote);
+ let brNote =  xnoteOrig.replace(/(?:\r\n|\r|\n)/g, '<br />');//xnoteOrig.replace("\r", "<br>");
+ div.insertAdjacentHTML("afterend",brNote);
+ btnState = 1;
+}
+else
+{
+  btnState = 0;
+  this.value = "Show all";
+  let all = document.getElementById("xnote_msgDisplay");
+  all.remove();
+  notify({text:xnoteOrig, date: dateOrig});
+
+}
+  };
+
   async function startup() {
   await messenger.runtime.onMessage.addListener(notify);
   let message = await messenger.runtime.sendMessage({command: "getXNote"});
   console.log(message);//  sending.then(handleResponse);//
+
   notify(message);
 
  }

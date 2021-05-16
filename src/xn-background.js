@@ -7,6 +7,10 @@
 /*
 x   note does not close
 displaying a new note by click triggers unload listener (ca. 6 times)
+donate link
+console.log
+text onboarding
+upgrade, new pref
 */
 
 'use strict';
@@ -15,6 +19,7 @@ displaying a new note by click triggers unload listener (ca. 6 times)
 const debug = true;//"@@@DEBUGFLAG@@@";
 
 var lastTab=0, lastWindow=0;
+var openMsgs = [];
 
 var xnote_displayed = false;
 
@@ -27,21 +32,28 @@ xnote.inMsgDisplay = false;
 xnote.msgTab = -1;
 
 
+messenger.tabs.onRemoved.addListener(tabRemoved);
 
+async function tabRemoved(tabId)  {
+console.log("tab gone", tabId);
+};
 
 browser.runtime.onMessage.addListener(notifyMsgDisplay);
 
 async function notifyMsgDisplay(message, sender, sendResponse) {
   console.log("received from msgDisplay");
   console.log("Msg:", message.command, "tabid", sender.tab.id);
-  let msg = await messenger.messageDisplay.getDisplayedMessage(sender.tab.id);
+  if (message.command == "getXNote") {
+    let msg = await messenger.messageDisplay.getDisplayedMessage(sender.tab.id);
   console.log("msg", msg);
   let xnote = await messenger.xnoteapi.getXNote(msg.id);
+  //openMsgs[msg.id] = sender.tab.id;
   console.log("bcknote", xnote);
  // let data = await messenger.NotifyTools.notifyExperiment({command: "getNote"});//.then((data) => {
 //    console.log(data)
 //  });
   sendResponse({note: "xnote"});
+  if (_preferences["show_in_messageDisplay"]== false) xnote.text = "";
   return xnote;
   //messenger.runtime.sendMessage({"toMsgDisplay": xnote.text});
  
@@ -53,7 +65,8 @@ async function notifyMsgDisplay(message, sender, sendResponse) {
       "message": message.url
     });
     */
-  }
+};
+}
 
 
 
