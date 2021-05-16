@@ -7,18 +7,16 @@
 /*
 x   note does not close
 displaying a new note by click triggers unload listener (ca. 6 times)
-donate link
-console.log
-text onboarding
+
 upgrade, new pref
 */
 
 'use strict';
 
 
-const debug = true;//"@@@DEBUGFLAG@@@";
+const debug = "@@@DEBUGFLAG@@@";
 
-var lastTab=0, lastWindow=0;
+var lastTab = 0, lastWindow = 0;
 var openMsgs = [];
 
 var xnote_displayed = false;
@@ -34,38 +32,38 @@ xnote.msgTab = -1;
 
 messenger.tabs.onRemoved.addListener(tabRemoved);
 
-async function tabRemoved(tabId)  {
-console.log("tab gone", tabId);
+async function tabRemoved(tabId) {
+  //console.log("tab gone", tabId);
 };
 
 browser.runtime.onMessage.addListener(notifyMsgDisplay);
 
 async function notifyMsgDisplay(message, sender, sendResponse) {
-  console.log("received from msgDisplay");
-  console.log("Msg:", message.command, "tabid", sender.tab.id);
+  //console.log("received from msgDisplay");
+  //console.log("Msg:", message.command, "tabid", sender.tab.id);
   if (message.command == "getXNote") {
     let msg = await messenger.messageDisplay.getDisplayedMessage(sender.tab.id);
-  console.log("msg", msg);
-  let xnote = await messenger.xnoteapi.getXNote(msg.id);
-  //openMsgs[msg.id] = sender.tab.id;
-  console.log("bcknote", xnote);
- // let data = await messenger.NotifyTools.notifyExperiment({command: "getNote"});//.then((data) => {
-//    console.log(data)
-//  });
-  sendResponse({note: "xnote"});
-  if (_preferences["show_in_messageDisplay"]== false) xnote.text = "";
-  return xnote;
-  //messenger.runtime.sendMessage({"toMsgDisplay": xnote.text});
- 
-  /*
-    browser.notifications.create({
-      "type": "basic",
-      "iconUrl": browser.extension.getURL("link.png"),
-      "title": "You clicked a link!",
-      "message": message.url
-    });
-    */
-};
+    //console.log("msg", msg);
+    let xnote = await messenger.xnoteapi.getXNote(msg.id);
+    //openMsgs[msg.id] = sender.tab.id;
+    //console.log("bcknote", xnote);
+    // let data = await messenger.NotifyTools.notifyExperiment({command: "getNote"});//.then((data) => {
+    //    console.log(data)
+    //  });
+    sendResponse({ note: "xnote" });
+    if (_preferences["show_in_messageDisplay"] == false) xnote.text = "";
+    return xnote;
+    //messenger.runtime.sendMessage({"toMsgDisplay": xnote.text});
+
+    /*
+      browser.notifications.create({
+        "type": "basic",
+        "iconUrl": browser.extension.getURL("link.png"),
+        "title": "You clicked a link!",
+        "message": message.url
+      });
+      */
+  };
 }
 
 
@@ -95,8 +93,8 @@ async function migratePrefs() {
   const results = await browser.storage.local.get("preferences");
 
   const currentMigration =
-    results.preferences && results.preferences.migratedLegacy ? 
-        results.preferences.migratedLegacy : 0;
+    results.preferences && results.preferences.migratedLegacy ?
+      results.preferences.migratedLegacy : 0;
 
   if (currentMigration >= kCurrentLegacyMigration) {
     return;
@@ -123,11 +121,11 @@ async function migratePrefs() {
       }
     }
   }
- 
+
   if (currentMigration < 2) {
     prefs["show_in_messageDisplay"] = kPrefDefaults["show_in_messageDisplay"];
     setTbPref("extensions.xnote.show_in_messageDisplay", kPrefDefaults["show_in_messageDisplay"]);
-}
+  }
 
   prefs.migratedLegacy = kCurrentLegacyMigration;
   console.debug("Storing migrated preferences.");
@@ -154,7 +152,7 @@ async function setPreferences(preferences) {
 
 async function selectDirectory(startDir, title) {
   let result = await browser.xnotefiles.selectDirectory(null, startDir, title);
-  console.debug("select directory returns: "+result);
+  console.debug("select directory returns: " + result);
   return result;
 }
 
@@ -162,48 +160,48 @@ async function getProfileDirectory() {
   return await browser.xnotefiles.getProfileDirectory();
 }
 
-async function appendRelativePath(basePath, extension){
+async function appendRelativePath(basePath, extension) {
   return await browser.xnotefiles.appendRelativePath(basePath, extension);
 }
 
 
- // landing windows.
- messenger.runtime.onInstalled.addListener(async ({ reason, temporary }) => {
+// landing windows.
+messenger.runtime.onInstalled.addListener(async ({ reason, temporary }) => {
   // if (temporary) return; // skip during development
   switch (reason) {
     case "install":
-    {
-      let url = browser.runtime.getURL("popup/installed.html");
-      //await browser.tabs.create({ url });
-      await browser.windows.create({ url, type: "popup", width: 910, height: 750, });
-    }
-    break;
+      {
+        let url = browser.runtime.getURL("popup/installed.html");
+        //await browser.tabs.create({ url });
+        await browser.windows.create({ url, type: "popup", width: 910, height: 750, });
+      }
+      break;
     // see below
     case "update":
-    {
-      let url = browser.runtime.getURL("popup/update.html");
-      //await browser.tabs.create({ url });
-      await browser.windows.create({ url, type: "popup", width: 910, height: 750, });
-    }
-    break;
-  // see below
+      {
+        let url = browser.runtime.getURL("popup/update.html");
+        //await browser.tabs.create({ url });
+        await browser.windows.create({ url, type: "popup", width: 910, height: 750, });
+      }
+      break;
+    // see below
   }
-});   
+});
 
 
 async function msgDisplayListener(tab, msg) {
-  console.log("tab", tab.id, tab.mailTab);
+  //console.log("tab", tab.id, tab.mailTab);
   xnote.msgTab = tab.id;
   /*
   await messenger.tabs.executeScript(tab.id, {
     file:  "mDisplay.js"
   }); 
-  */ 
-  }
+  */
+}
 
- async function wait (t) {
-    //	let t = 5000;
-	await new Promise(resolve => window.setTimeout(resolve, t));
+async function wait(t) {
+  //	let t = 5000;
+  await new Promise(resolve => window.setTimeout(resolve, t));
 
 }
 async function main() {
@@ -211,70 +209,69 @@ async function main() {
 
   _preferences = (await browser.storage.local.get("preferences")).preferences;
   if (debug) {
-    console.debug({"Preferences" : _preferences});
+    console.debug({ "Preferences": _preferences });
   }
   await browser.xnoteapi.setPreferences(_preferences);
   await browser.xnoteapi.init();
 
- /* //does not solve timing at install*/
+  /* //does not solve timing at install*/
   await messenger.messageDisplayScripts.register({
     js: [{ file: "mDisplay.js" }]
     //,
     //css: [{ file: "/src/message-content-styles.css" }],
   });
 
+
+  /*  nope, needs to be loaded repeatedly into each messageDisplay
+    let TBwindows = await messenger.windows.getAll({populate:true} );
+    console.log("msgDisplays", TBwindows);
+   
+    for (let TBwindow of TBwindows ) {
+      //console.log("tabs", msgDisplay.tabs);
+      if (TBwindow.type == "messageDisplay") {
+        console.log("messageDisplay", TBwindow.tabs[0].id);
+        await messenger.tabs.executeScript(TBwindow.tabs[0].id, {
+          file:  "mDisplay.js"
+        });  
+      }    
+      else {
+        for (let tab of TBwindow.tabs) {
+          if (tab.mailTab) {
+            console.log("mailTab", tab.id);
+            await messenger.tabs.executeScript(tab.id, {
+              file:  "mDisplay.js"
+            });  
+          }        
+        };
   
-/*  nope, needs to be loaded repeatedly into each messageDisplay
-  let TBwindows = await messenger.windows.getAll({populate:true} );
-  console.log("msgDisplays", TBwindows);
- 
-  for (let TBwindow of TBwindows ) {
-    //console.log("tabs", msgDisplay.tabs);
-    if (TBwindow.type == "messageDisplay") {
-      console.log("messageDisplay", TBwindow.tabs[0].id);
-      await messenger.tabs.executeScript(TBwindow.tabs[0].id, {
-        file:  "mDisplay.js"
-      });  
-    }    
-    else {
-      for (let tab of TBwindow.tabs) {
-        if (tab.mailTab) {
-          console.log("mailTab", tab.id);
-          await messenger.tabs.executeScript(tab.id, {
-            file:  "mDisplay.js"
-          });  
-        }        
       };
-
+    
+    
+    
     };
-  
-  
-  
-  };
-*/
+  */
 
-//console.log("msgDisplays", msgDisplays);
+  //console.log("msgDisplays", msgDisplays);
   messenger.messageDisplay.onMessageDisplayed.addListener((tab, message) => {
     //console.log(`Message displayed in tab ${tab.id}: ${message.subject}`);
     xnote_displayed = false;  // for the case that no autodisplay, to be able to manually toggle the display
   });
 
-//    messenger.messageDisplayAction.disable();
-//    messenger.messageDisplayAction.setBadgeText({text:"test"});
-  
+  //    messenger.messageDisplayAction.disable();
+  //    messenger.messageDisplayAction.setBadgeText({text:"test"});
+
   messenger.tabs.onActivated.addListener(async (activeInfo) => {
     //console.log("tab activated "+ activeInfo.tabId + " window: " + activeInfo.windowId);
     lastTab = activeInfo.tabId;
     lastWindow = activeInfo.windowId;
-    let tabInfo = await messenger.tabs.get( activeInfo.tabId);
-    if (!tabInfo.mailTab) 
-    {
+    let tabInfo = await messenger.tabs.get(activeInfo.tabId);
+    if (!tabInfo.mailTab) {
       messenger.xnoteapi.closeNoteWindow();
       xnote.text = "";
     };
   });
-  
-  messenger.WindowListener.registerChromeUrl([ 
+
+  messenger.WindowListener.registerChromeUrl([
     ["content", "xnote", "chrome/content/"],
     ["resource", "xnote", "chrome/"],
 
@@ -293,12 +290,13 @@ async function main() {
 
   browser.browserAction.onClicked.addListener(async (tab, info) => {
     if (!xnote_displayed) {
-     messenger.xnoteapi.initNote();
-     xnote_displayed = true; }
-     else {
+      messenger.xnoteapi.initNote();
+      xnote_displayed = true;
+    }
+    else {
       messenger.xnoteapi.closeNoteWindow();
       xnote_displayed = false;
-     }
+    }
   });
 
   browser.browserAction.disable();
@@ -309,42 +307,42 @@ async function main() {
         if (true) {
           xnote.text = info.text;
           xnote.date = info.date;
-//        console.log("msgDisplay");
-//        console.log(xnote.text);
-//          let activeTab = await messenger.tabs.query({windowType: "messageDisplay"});
-          let activeTab = await messenger.tabs.query({active: true, currentWindow: true});
-//        console.log(activeTab);
-//          await wait (5000);
-/*
-await messenger.tabs.executeScript(activeTab[0].id, {
-  file:  "mDisplay.js"
-});  
-
-//debugger;
-        if (info.text.length>0)  await messenger.tabs.sendMessage(activeTab[0].id,{XNoteText: info.text, XNoteDate: info.date}, null)  ;
-*/
+          //        console.log("msgDisplay");
+          //        console.log(xnote.text);
+          //          let activeTab = await messenger.tabs.query({windowType: "messageDisplay"});
+          let activeTab = await messenger.tabs.query({ active: true, currentWindow: true });
+          //        console.log(activeTab);
+          //          await wait (5000);
+          /*
+          await messenger.tabs.executeScript(activeTab[0].id, {
+            file:  "mDisplay.js"
+          });  
+          
+          //debugger;
+                  if (info.text.length>0)  await messenger.tabs.sendMessage(activeTab[0].id,{XNoteText: info.text, XNoteDate: info.date}, null)  ;
+          */
         };
-//        console.log(msgtab?"")
+        //        console.log(msgtab?"")
 
-        console.log("msgtab?", xnote.msgTab);
+        // console.log("msgtab?", xnote.msgTab);
         let rv = "received from background";
         return rv;
         break;
     }
   });
-  
-  
+
+
   messenger.messageDisplay.onMessageDisplayed.addListener(msgDisplayListener);
 
 
 
- /*
-  * Start listening for opened windows. Whenever a window is opened, the registered
-  * JS file is loaded. To prevent namespace collisions, the files are loaded into
-  * an object inside the global window. The name of that object can be specified via
-  * the parameter of startListening(). This object also contains an extension member.
-  */
-    messenger.WindowListener.startListening();
+  /*
+   * Start listening for opened windows. Whenever a window is opened, the registered
+   * JS file is loaded. To prevent namespace collisions, the files are loaded into
+   * an object inside the global window. The name of that object can be specified via
+   * the parameter of startListening(). This object also contains an extension member.
+   */
+  messenger.WindowListener.startListening();
 }
 
 main().catch(console.error);

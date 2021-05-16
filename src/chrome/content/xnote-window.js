@@ -245,7 +245,7 @@ setInterval(xnote.ns.Window.checkOpenerMoved, 500);
 
   pub.onUnload = function(e) {
 //    ~dump("\n->onUnload");
-console.log("note unLoad");
+//console.log("note unLoad");
 pub.saveNote();
 removeEventListener('blur', xnote.ns.Window.updateTag);
 removeEventListener('load', xnote.ns.Window.onLoad);
