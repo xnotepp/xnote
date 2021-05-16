@@ -1,7 +1,7 @@
 
 addEventListener("click", async (event) => {
 	if (event.target.id.startsWith("donate")) {
-
+   console.log("donate link");
 	  messenger.windows.openDefaultBrowser("https://www.paypal.com/donate?hosted_button_id=2AKE2G2B9J3ZS");
 	}
 });  
@@ -15,5 +15,6 @@ addEventListener("load", async (event) => {
   htmltext = htmltext2.replace(/{appver}/g, browserInfo.version);
   document.body.innerHTML=htmltext;
 });
+
   
 

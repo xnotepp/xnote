@@ -71,6 +71,7 @@ function onLoad(activatedWhileWindowOpen) {
 function onUnload(isAddOnShutDown) {
   window.xnote.ns.Overlay.onUnload();
   window.xnote.ns.ColumnNote.onUnload();
+  Services.obs.notifyObservers(null, "startupcache-invalidate", null);   
 
 }
 
