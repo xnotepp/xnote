@@ -5,3 +5,5 @@
 <!ENTITY close 'Speichern und Beenden'>
 <!ENTITY suppr 'Notiz entfernen'>
 <!ENTITY xnote.ask.deletion 'Sind sie sicher, dass Sie die Notiz löschen möchten?'>
+<!ENTITY print 'Notiz drucken'>
+<!ENTITY forward 'Notiz per email weiterleiten'>

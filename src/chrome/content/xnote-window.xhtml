@@ -20,7 +20,7 @@
 	windowtype="xnote:note"
 	minheight='88'>
 	<script type='application/x-javascript' src='chrome://xnote/content/xnote-window.js' />
-	
+    <script src="chrome://global/content/printUtils.js"/>
 	<box id='xnote-note' orient='vertical' flex='1'>
 		<box id='xnote-barre'>
 			<titlebar flex='1' onmouseup='xnote.ns.Window.noteModified();'>
@@ -46,6 +46,24 @@
 				tooltiptext='&suppr;'
 				onclick='if (event.button==0 &amp;&amp; confirm("&xnote.ask.deletion;")) { xnote.ns.Window.deleteNote();event.view.close(); }'>
 			</image>
+
+			<image
+				id='xnote-button-print'
+				class='custombutton-smaller'
+				tooltiptext='&print;'
+				src = "chrome://messenger/skin/icons/print.svg"
+				onclick='if (event.button==0 ) { xnote.ns.Window.printNote(); }'>
+			</image>
+
+			<html:a href="mailto:" id = 'xnote-button-forward'>
+			<image
+				id='xnote-button-forward-img'
+				class='custombutton-smaller'
+				tooltiptext='&forward;'
+				src = "chrome://messenger/skin/icons/forward.svg"
+				>
+			</image>
+	</html:a>
 
 			<html:input
 				id='xnote-redim'

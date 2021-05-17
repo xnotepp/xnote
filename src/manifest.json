@@ -2,14 +2,14 @@
   "manifest_version": 2,
   "name": "__MSG_extensionName__",
   "description": "__MSG_extensionDescription__",
-  "version": "@@@XNOTE.VERSION@@@",
+  "version": "3.1.5",
   "author": "Lorenz Froihofer: support for TB >= 3.0, since Dec. 2009, Klaus Bücher since TB 78",
   "homepage_url": "https://github.com/xnotepp/xnote/wiki",
   "applications": {
     "gecko": {
       "id": "xnote@froihofer.net",
       "strict_min_version": "78.0",
-      "strict_max_version": "78.*"
+      "strict_max_version": "86.0"
     }
   },
   "default_locale" : "en_US",
@@ -27,7 +27,7 @@
     "page": "options/options.html"
   },
 
-  "permissions": ["activeTab", "tabs", "messagesRead", "storage"],
+  "permissions": ["activeTab", "tabs", "storage", "messagesRead", "messagesModify"],
 
   "background": {
     "scripts": ["xn-background.js"]
@@ -35,13 +35,24 @@
 
   "experiment_apis": {
     "WindowListener": {
-      "schema": "experiment-apis/WindowListener/windowlistener.json",
+      "schema": "experiment-apis/WindowListener/schema.json",
       "parent": {
         "scopes": ["addon_parent"],
         "paths": [["WindowListener"]],
-        "script": "experiment-apis/WindowListener/windowlistener.js"
+        "script": "experiment-apis/WindowListener/implementation.js"
       }
     },
+ 
+    "NotifyTools": {
+      "schema": "experiment-apis/NotifyTools/schema.json",
+      "parent": {
+        "scopes": ["addon_parent"],
+        "paths": [["NotifyTools"]],
+        "script": "experiment-apis/NotifyTools/implementation.js"
+      }
+    },
+
+ 
     "xnoteUtilities": {
       "schema": "experiment-apis/Utilities/utilities.json",
       "parent": {

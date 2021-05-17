@@ -23,6 +23,19 @@
       },
 
       {
+        "name": "getXNote",
+        "type": "function",
+        "async": true,
+        "parameters": [
+          {
+            "name": "id",
+            "type": "any",
+            "description": "MX message id"
+          }
+        ]
+      },
+
+      {
         "name": "getPref",
         "type": "function",
         "async": true,

@@ -26,5 +26,6 @@
   "Behavior": {"message": "Processo"},
   "show.on.select": {"message": "Exibir XNote ao selecionar e-mail"},
   "show.first.x.chars.in.col": {"message": "Exibir X caracteres no campo XNote"},
-  "Select.storage.dir": {"message": "Selecione a pasta de armazenamento do XNotes."}
+  "Select.storage.dir": {"message": "Selecione a pasta de armazenamento do XNotes."},
+  "show.in.messageDisplay": {"message": "Show XNote summary in messsage display"}
 }

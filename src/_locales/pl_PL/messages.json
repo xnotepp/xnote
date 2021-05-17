@@ -26,5 +26,6 @@
   "Behavior": {"message": "Ustawienia notatek"},
   "show.on.select": {"message": "Pokaż po wybraniu wiadomości"},
   "show.first.x.chars.in.col": {"message": "Pokaż pierwszych X znaków w kolumnie XNote:"},
-  "Select.storage.dir": {"message": "Proszę wybrać ścieżkę zapisu dla XNote."}
+  "Select.storage.dir": {"message": "Proszę wybrać ścieżkę zapisu dla XNote."},
+  "show.in.messageDisplay": {"message": "Show XNote summary in messsage display"}
 }

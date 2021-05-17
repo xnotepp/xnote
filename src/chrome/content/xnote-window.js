@@ -43,14 +43,36 @@ xnote.ns.Window = function() {
       self.document.getElementById('xnote-note').style.setProperty('-moz-opacity', pref.getIntPref('xnote.transparence')/10, '');
     }
     catch(e) {}*/
+
+
+// Capture the Window focus lost event to update the XNote tag.
+addEventListener('blur', xnote.ns.Window.updateTag, true);
+addEventListener('unload', xnote.ns.Window.onUnload, false);
+
+//Necessary for correct shutdown as we are otherwise unable to correctly
+//save a modified note
+opener.addEventListener("unload", xnote.ns.Window.onOpenerUnload, false);
+//Unfortunately, there seems to be no better way to react on window
+//movement.
+setInterval(xnote.ns.Window.checkOpenerMoved, 500);
+
     note = self.arguments[0];
 
     let texte=self.document.getElementById('xnote-texte');
     texte.value=note.text;
 
+    let fwd = self.document.getElementById('xnote-button-forward');
+    fwd.href = "mailto:?body=" + encodeURI(note.text);
+
+//PrintUtils.showPageSetup();
+//self.print();
+
+
     //set date in the titlebar
     let modificationdate=self.document.getElementById("xnote-mdate");
     modificationdate.value=note.modificationDate;
+
+    
 
     self.setTimeout(xnote.ns.Window.resizeWindow);
 
@@ -59,6 +81,7 @@ xnote.ns.Window = function() {
     else
       self.setTimeout(window.opener.focus);
   //~ dump('\n<-onLoad');
+
   }
 
   function resizeWindow (width, height) {
@@ -135,6 +158,19 @@ xnote.ns.Window = function() {
   //~ dump('\n<-modifierNote');
   }
 
+ 
+ 
+ pub.printNote = function () {
+
+  self.print();
+ }
+
+ pub.forwardNote = function () {
+
+  self.print();
+ }
+
+ 
   /**
    * CALLER XUL
    * Type: event input from XUL element <html:input>
@@ -209,7 +245,12 @@ xnote.ns.Window = function() {
 
   pub.onUnload = function(e) {
 //    ~dump("\n->onUnload");
-    pub.saveNote();
+//console.log("note unLoad");
+pub.saveNote();
+removeEventListener('blur', xnote.ns.Window.updateTag);
+removeEventListener('load', xnote.ns.Window.onLoad);
+removeEventListener('unload', xnote.ns.Window.onUnload);
+opener.removeEventListener("unload", xnote.ns.Window.onOpenerUnload);
   }
 
   pub.onOpenerUnload = function(e) {
@@ -219,17 +260,8 @@ xnote.ns.Window = function() {
   return pub;
 }();
 
-// Capture the Window focus lost event to update the XNote tag.
-addEventListener('blur', xnote.ns.Window.updateTag, true);
 addEventListener('load', xnote.ns.Window.onLoad, false);
-addEventListener('unload', xnote.ns.Window.onUnload, false);
+
 
 //For testing purposes
 //addEventListener('DOMAttrModified', xnote.ns.Commons.printEventDomAttrModified, false);
-
-//Necessary for correct shutdown as we are otherwise unable to correctly
-//save a modified note
-opener.addEventListener("unload", xnote.ns.Window.onOpenerUnload, false);
-//Unfortunately, there seems to be no better way to react on window
-//movement.
-setInterval(xnote.ns.Window.checkOpenerMoved, 500);

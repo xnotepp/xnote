@@ -26,6 +26,7 @@
   "Behavior": {"message": "Comportamento"},
   "show.on.select": {"message": "Amosar nota ao selecionar a mensaxe"},
   "show.first.x.chars.in.col": {"message": "Amosar primeiros X caracteres na columna XNote"},
-  "Select.storage.dir": {"message": "Selecione o cartafol de almacenamento para XNote."}
+  "Select.storage.dir": {"message": "Selecione o cartafol de almacenamento para XNote."},
+  "show.in.messageDisplay": {"message": "Show XNote summary in messsage display"}
   
 }
