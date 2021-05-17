@@ -14,7 +14,7 @@ upgrade, new pref
 'use strict';
 
 
-const debug = "@@@DEBUGFLAG@@@";
+const debug = false;//"@@@DEBUGFLAG@@@";
 
 var lastTab = 0, lastWindow = 0;
 var openMsgs = [];
@@ -83,13 +83,13 @@ const kPrefDefaults = {
   horPos: 250,
   vertPos: 250,
   show_on_select: true,
-  show_in_messageDisplay: false,
+  show_in_messageDisplay: true,
   show_first_x_chars_in_col: 20,
   storage_path: "[ProfD]XNote"
 };
 
 async function migratePrefs() {
-  //console.debug("migratePrefs called.")
+  console.debug("migratePrefs called.")
   const results = await browser.storage.local.get("preferences");
 
   const currentMigration =
@@ -168,6 +168,7 @@ async function appendRelativePath(basePath, extension) {
 // landing windows.
 messenger.runtime.onInstalled.addListener(async ({ reason, temporary }) => {
   // if (temporary) return; // skip during development
+  console.log("install reason:", reason);
   switch (reason) {
     case "install":
       {

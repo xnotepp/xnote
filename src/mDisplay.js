@@ -4,8 +4,6 @@ var xnoteOrig = "";
 var dateOrig = "";
 var btnState = 0;//debugger;
 //console.log("loading mdisplay script");
-//var imgMin = document.createElement("img");
-//  imgMin.src = messenger.runtime.getURL("icons/iconfinder_minimize-2_2561246MIT16.png");
 
 function notify(message) {
   //  console.log("received in msgDisplay from background");
@@ -35,7 +33,7 @@ function notify(message) {
   if (xnote.length > 0) {
     let no_linebreak = xnote.replace(/(\r\n|\n|\r)/gm, " ");
     let no_double_space = no_linebreak.replace(/\s+/g, " ");
-    let trunc = truncate(no_double_space, 200, "...");
+    let trunc = truncate(no_double_space, 350, "...");
     let imgMax = document.createElement("img");
     imgMax.src = messenger.runtime.getURL("icons/iconfinder_maximize-2_2561250MIT16.png");
     // https://ourcodeworld.com/articles/read/376/how-to-strip-html-from-a-string-extract-only-text-content-in-javascript
