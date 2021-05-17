@@ -27,7 +27,7 @@
     "page": "options/options.html"
   },
 
-  "permissions": ["activeTab", "tabs", "messagesRead", "storage", "messagesRead", "messagesModify"],
+  "permissions": ["activeTab", "tabs", "storage", "messagesRead", "messagesModify"],
 
   "background": {
     "scripts": ["xn-background.js"]
