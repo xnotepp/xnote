@@ -14,7 +14,7 @@ upgrade, new pref
 'use strict';
 
 
-const debug = false;//"@@@DEBUGFLAG@@@";
+const debug = "@@@DEBUGFLAG@@@";
 
 var lastTab = 0, lastWindow = 0;
 var openMsgs = [];

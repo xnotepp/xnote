@@ -2,14 +2,14 @@
   "manifest_version": 2,
   "name": "__MSG_extensionName__",
   "description": "__MSG_extensionDescription__",
-  "version": "3.1.5",
+  "version": "@@@XNOTE.VERSION@@@",
   "author": "Lorenz Froihofer: support for TB >= 3.0, since Dec. 2009, Klaus Bücher since TB 78",
   "homepage_url": "https://github.com/xnotepp/xnote/wiki",
   "applications": {
     "gecko": {
       "id": "xnote@froihofer.net",
       "strict_min_version": "78.0",
-      "strict_max_version": "86.*"
+      "strict_max_version": "88.*"
     }
   },
   "default_locale" : "en_US",
