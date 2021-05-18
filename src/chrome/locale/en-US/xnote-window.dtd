@@ -5,3 +5,5 @@
 <!ENTITY close 'Save and quit'>
 <!ENTITY suppr 'Remove note'>
 <!ENTITY xnote.ask.deletion 'Are you sure you want to delete the note?'>
+<!ENTITY print 'Print note'>
+<!ENTITY forward 'Forward note by email'>

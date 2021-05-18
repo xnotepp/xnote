@@ -6,4 +6,4 @@
 <!ENTITY suppr 'メモを削除'>
 <!ENTITY xnote.ask.deletion 'メモを削除してもよろしいですか？'>
 <!ENTITY print 'Print note'>
-<!ENTITY forward 'Forward (email) note'>
+<!ENTITY forward 'Forward note by email'>

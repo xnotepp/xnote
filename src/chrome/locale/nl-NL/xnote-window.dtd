@@ -6,4 +6,4 @@
 <!ENTITY suppr 'Verwijder notitie'>
 <!ENTITY xnote.ask.deletion 'Weet je zeker dat je deze Notitie wilt verwijderen?'>
 <!ENTITY print 'Print note'>
-<!ENTITY forward 'Forward (email) note'>
+<!ENTITY forward 'Forward note by email'>
