@@ -168,7 +168,7 @@ async function appendRelativePath(basePath, extension) {
 // landing windows.
 messenger.runtime.onInstalled.addListener(async ({ reason, temporary }) => {
   // if (temporary) return; // skip during development
-  console.log("install reason:", reason);
+ //  console.log("install reason:", reason);
   switch (reason) {
     case "install":
       {
@@ -225,12 +225,12 @@ async function main() {
 
   /*  nope, needs to be loaded repeatedly into each messageDisplay
     let TBwindows = await messenger.windows.getAll({populate:true} );
-    console.log("msgDisplays", TBwindows);
+//    console.log("msgDisplays", TBwindows);
    
     for (let TBwindow of TBwindows ) {
       //console.log("tabs", msgDisplay.tabs);
       if (TBwindow.type == "messageDisplay") {
-        console.log("messageDisplay", TBwindow.tabs[0].id);
+ //       console.log("messageDisplay", TBwindow.tabs[0].id);
         await messenger.tabs.executeScript(TBwindow.tabs[0].id, {
           file:  "mDisplay.js"
         });  
@@ -238,7 +238,7 @@ async function main() {
       else {
         for (let tab of TBwindow.tabs) {
           if (tab.mailTab) {
-            console.log("mailTab", tab.id);
+ //           console.log("mailTab", tab.id);
             await messenger.tabs.executeScript(tab.id, {
               file:  "mDisplay.js"
             });  

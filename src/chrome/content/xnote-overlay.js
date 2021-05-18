@@ -291,7 +291,7 @@ xnote.ns.Overlay = function () {
    */
   pub.checkInitialization = function () {
     if (xnote.ns.Commons.isNewInstallation) {
-      console.log("First time installation - add the XNote toolbar button.");
+  //     console.log("First time installation - add the XNote toolbar button.");
       let toolbox = document.getElementById("mail-toolbox");
 
       let xnoteButtonPresent = false;
