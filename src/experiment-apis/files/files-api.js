@@ -32,7 +32,7 @@ var xnotefiles = class extends ExtensionCommon.ExtensionAPI {
           var directoryService = 	Components.classes['@mozilla.org/file/directory_service;1']
                               .getService(Components.interfaces.nsIProperties);
           let profileDir = directoryService.get('ProfD', Components.interfaces.nsIFile);
-          console.debug(`getProfileDir returns: ${profileDir.path}`);
+     //     console.debug(`getProfileDir returns: ${profileDir.path}`);
           return profileDir.path;
         },
 
@@ -40,8 +40,8 @@ var xnotefiles = class extends ExtensionCommon.ExtensionAPI {
           let FileUtils = ChromeUtils.import("resource://gre/modules/FileUtils.jsm").FileUtils;
           var result = new FileUtils.File(path);
           result.appendRelativePath(extension);
-          console.debug(result);
-          console.debug(`appendRelativePath result: ${result.path}`);
+    //      console.debug(result);
+    //      console.debug(`appendRelativePath result: ${result.path}`);
           return result.path;
         }
       }  

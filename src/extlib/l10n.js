@@ -16,8 +16,8 @@ var l10n = {
     aMessage = `l10s: ${aMessage}`;
     if (typeof window.log === 'function')
       log(aMessage, ...aArgs);
-    else
-      console.log(aMessage, ...aArgs);
+    else ;
+//      console.log(aMessage, ...aArgs);
   },
 
   updateDocument() {

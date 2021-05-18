@@ -89,7 +89,7 @@ const kPrefDefaults = {
 };
 
 async function migratePrefs() {
-  console.debug("migratePrefs called.")
+  //console.debug("migratePrefs called.")
   const results = await browser.storage.local.get("preferences");
 
   const currentMigration =
@@ -128,7 +128,7 @@ async function migratePrefs() {
   }
 
   prefs.migratedLegacy = kCurrentLegacyMigration;
-  console.debug("Storing migrated preferences.");
+  //console.debug("Storing migrated preferences.");
   await browser.storage.local.set({ "preferences": prefs });
 }
 
@@ -152,7 +152,7 @@ async function setPreferences(preferences) {
 
 async function selectDirectory(startDir, title) {
   let result = await browser.xnotefiles.selectDirectory(null, startDir, title);
-  console.debug("select directory returns: " + result);
+  //console.debug("select directory returns: " + result);
   return result;
 }
 
@@ -210,7 +210,7 @@ async function main() {
 
   _preferences = (await browser.storage.local.get("preferences")).preferences;
   if (debug) {
-    console.debug({ "Preferences": _preferences });
+    //console.debug({ "Preferences": _preferences });
   }
   await browser.xnoteapi.setPreferences(_preferences);
   await browser.xnoteapi.init();

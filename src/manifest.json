@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "__MSG_extensionName__",
   "description": "__MSG_extensionDescription__",
-  "version": "3.1.6",
+  "version": "3.1.7",
   "author": "Lorenz Froihofer: support for TB >= 3.0, since Dec. 2009, Klaus Bücher since TB 78",
   "homepage_url": "https://github.com/xnotepp/xnote/wiki",
   "applications": {

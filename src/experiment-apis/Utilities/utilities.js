@@ -21,7 +21,7 @@ var xnoteUtilities = class extends ExtensionCommon.ExtensionAPI {
       xnoteUtilities: {
 
         logDebug (text) {
-         console.debug(text);
+  //       console.debug(text);
         },
 
         openLinkExternally(url) {

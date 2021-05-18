@@ -73,7 +73,7 @@ var xnoteapi = class extends ExtensionCommon.ExtensionAPI {
           let storedVersion = xnote.ns.Commons.xnoteLegacyPrefs.prefHasUserValue("version") ?
                   xnote.ns.Commons.xnoteLegacyPrefs.getCharPref("version") : null
               
-          console.log(`storedVersion: ${storedVersion}; comparison: `+ (storedVersion == null));
+  //        console.log(`storedVersion: ${storedVersion}; comparison: `+ (storedVersion == null));
           xnote.ns.Commons.isNewInstallation = storedVersion == null;
           xnote.ns.Upgrades.checkUpgrades(storedVersion, xnote.ns.Commons.XNOTE_VERSION)
           xnote.ns.Commons.xnoteLegacyPrefs.setCharPref("version", xnote.ns.Commons.XNOTE_VERSION);
@@ -97,7 +97,7 @@ var xnoteapi = class extends ExtensionCommon.ExtensionAPI {
 
         async setPreferences(prefs) {
           xnote.ns.Commons.xnotePrefs = prefs;
-          console.debug({"XnotePrefs" : xnote.ns.Commons.xnotePrefs});
+ //         console.debug({"XnotePrefs" : xnote.ns.Commons.xnotePrefs});
           xnote.ns.Storage.updateStoragePath();
           xnote.ns.Commons.checkXNoteTag();
         },
@@ -109,9 +109,9 @@ var xnoteapi = class extends ExtensionCommon.ExtensionAPI {
           try {
 
             let realMessage = context.extension.messageManager.get(id);
-            console.log("realmsg", realMessage.messageId );
+   //         console.log("realmsg", realMessage.messageId );
             note = new xnote.ns.Note(realMessage.messageId);
-            console.log("xnote", note);
+   //         console.log("xnote", note);
  
                    } catch (ex) {
             console.error(`Could not get TB mesg` );
@@ -180,7 +180,7 @@ var xnoteapi = class extends ExtensionCommon.ExtensionAPI {
   }
 
   onShutdown(isAppShutdown) {
-    console.debug(`onShutdown: isAppShutdown=${isAppShutdown}`);
+//    console.debug(`onShutdown: isAppShutdown=${isAppShutdown}`);
     if (isAppShutdown) return;
   
     Components.utils.unload(xnoteExtension.rootURI.resolve("chrome/modules/xnote-upgrades.jsm"));

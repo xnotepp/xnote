@@ -44,7 +44,7 @@ var Storage = function() {
         console.error("Could not get storage path:"+e+"\n"+"\n...applying default storage path."+e.stack);
         _storageDir = defaultDir;
       }
-      console.debug("xnote: storageDir initialized to: "+_storageDir.path);
+ //     console.debug("xnote: storageDir initialized to: "+_storageDir.path);
     },
 
     /**

@@ -13,23 +13,23 @@ function isInputType(node, type){
 }
 
 async function selectStoragePath() {
-  console.debug("selectStoragePath called");
+//  console.debug("selectStoragePath called");
   let startDir = prefs.storage_path;
   let profileDir = await bgPage.getProfileDirectory();
   if (startDir.startsWith("[ProfD]")) {
     try {
-      console.debug(`profileDir: ${profileDir}; startDir: ${startDir}`);
+ //     console.debug(`profileDir: ${profileDir}; startDir: ${startDir}`);
       startDir = await bgPage.appendRelativePath(profileDir, startDir.substring(7));
-      console.debug(`startDir for selectStoragePath: ${startDir}`);
+ //     console.debug(`startDir for selectStoragePath: ${startDir}`);
     }
     catch (e) {
-      console.debug(`Directory does not exist: ${startDir}.`, e);
+ //     console.debug(`Directory does not exist: ${startDir}.`, e);
       startDir = profileDir;
     }
   }
   try {
     bgPage.selectDirectory(startDir, bgPage.browser.i18n.getMessage("Select.storage.dir")).then((storagePath) => {
-      console.debug(`selected storage path: ${storagePath}`);
+ //     console.debug(`selected storage path: ${storagePath}`);
       if (storagePath == null) return;
       //Check whether the new path is inside the profile directory
       //and if yes, make the path relative to the profile.

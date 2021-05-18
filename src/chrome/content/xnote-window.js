@@ -5,7 +5,7 @@
 	# Authors : Hugo Smadja, Lorenz Froihofer
 	# Description : Functions associated with the XNote window (xnote-window.xul).
 */
-var { XPCOMUtils } = ChromeUtils.import("resource://gre/modules/XPCOMUtils.jsm");
+//var { XPCOMUtils } = ChromeUtils.import("resource://gre/modules/XPCOMUtils.jsm");
 const { ExtensionParent } = ChromeUtils.import("resource://gre/modules/ExtensionParent.jsm");
 const xnoteExtension = ExtensionParent.GlobalManager.getExtension("xnote@froihofer.net");
 var {xnote} = ChromeUtils.import(xnoteExtension.rootURI.resolve("chrome/modules/xnote.jsm"));
@@ -161,6 +161,7 @@ setInterval(xnote.ns.Window.checkOpenerMoved, 500);
  
  
  pub.printNote = function () {
+  // console.log("printwindow", window.document, "text", window.document.documentElement.textContent);
 
   self.print();
  }
