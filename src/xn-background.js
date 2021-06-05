@@ -207,6 +207,7 @@ async function wait(t) {
 }
 async function main() {
   await migratePrefs();
+//  await messenger.clipboard.writeText("info.text");
 
   _preferences = (await browser.storage.local.get("preferences")).preferences;
   if (debug) {
@@ -329,7 +330,13 @@ async function main() {
         let rv = "received from background";
         return rv;
         break;
-    }
+        case "copyToClipboard":
+  //        messenger.clipboard.writeText(info.text);
+          let rvc = "copied to clipboard";
+          return rvc;
+  
+        break;
+        }
   });
 
 

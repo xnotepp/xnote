@@ -171,6 +171,23 @@ setInterval(xnote.ns.Window.checkOpenerMoved, 500);
   self.print();
  }
 
+ pub.copyNoteToClipboard = function() {
+  let clipboard = Cc["@mozilla.org/widget/clipboardhelper;1"].getService(Ci.nsIClipboardHelper);
+  clipboard.copyString(note.text);   
+  /*
+  console.log("wnd", window, "doc", window.document);
+   var res;
+   window.document.designMode = "on";
+  // let docb = window.document.getElementById("body");
+  // console.log("body", docb);
+   res = window.document.execCommand("selectAll");
+   console.log("selectAll", res);
+
+   res = window.document.execCommand("copy");
+   console.log("copy", res);
+ */
+}
+
  
   /**
    * CALLER XUL
