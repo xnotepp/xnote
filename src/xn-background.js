@@ -13,7 +13,6 @@ upgrade, new pref
 
 //'use strict';
 
-
 const debug = "@@@DEBUGFLAG@@@";
 
 var lastTab = 0, lastWindow = 0;
