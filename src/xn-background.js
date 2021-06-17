@@ -11,10 +11,10 @@ displaying a new note by click triggers unload listener (ca. 6 times)
 upgrade, new pref
 */
 
-'use strict';
+//use(strict);
 
 
-const debug = false;//"@@@DEBUGFLAG@@@";
+const debug = "@@@DEBUGFLAG@@@";
 
 var lastTab = 0, lastWindow = 0;
 var openMsgs = [];
@@ -34,7 +34,7 @@ messenger.tabs.onRemoved.addListener(tabRemoved);
 
 async function tabRemoved(tabId) {
   //console.log("tab gone", tabId);
-};
+}
 
 browser.runtime.onMessage.addListener(notifyMsgDisplay);
 
@@ -51,7 +51,7 @@ async function notifyMsgDisplay(message, sender, sendResponse) {
     //    console.log(data)
     //  });
     sendResponse({ note: "xnote" });
-    if (_preferences["show_in_messageDisplay"] == false) xnote.text = "";
+    if (_preferences.show_in_messageDisplay == false) xnote.text = "";
     return xnote;
     //messenger.runtime.sendMessage({"toMsgDisplay": xnote.text});
 
@@ -63,7 +63,7 @@ async function notifyMsgDisplay(message, sender, sendResponse) {
         "message": message.url
       });
       */
-  };
+  }
 }
 
 
@@ -123,8 +123,8 @@ async function migratePrefs() {
   }
 
   if (currentMigration < 2) {
-    prefs["show_in_messageDisplay"] = kPrefDefaults["show_in_messageDisplay"];
-    setTbPref("extensions.xnote.show_in_messageDisplay", kPrefDefaults["show_in_messageDisplay"]);
+    prefs.show_in_messageDisplay = kPrefDefaults.show_in_messageDisplay;
+    setTbPref("extensions.xnote.show_in_messageDisplay", kPrefDefaults.show_in_messageDisplay);
   }
 
   prefs.migratedLegacy = kCurrentLegacyMigration;
@@ -269,7 +269,7 @@ async function main() {
     if (!tabInfo.mailTab) {
       messenger.xnoteapi.closeNoteWindow();
       xnote.text = "";
-    };
+    }
   });
 
   messenger.WindowListener.registerChromeUrl([
@@ -322,13 +322,12 @@ async function main() {
           //debugger;
                   if (info.text.length>0)  await messenger.tabs.sendMessage(activeTab[0].id,{XNoteText: info.text, XNoteDate: info.date}, null)  ;
           */
-        };
+        }
         //        console.log(msgtab?"")
 
         // console.log("msgtab?", xnote.msgTab);
         let rv = "received from background";
         return rv;
-        break;
     }
   });
 
