@@ -5,7 +5,16 @@
 	# Authors : Hugo Smadja, Lorenz Froihofer
 	# Description : Functions associated with the XNote window (xnote-window.xul).
 */
-//var { XPCOMUtils } = ChromeUtils.import("resource://gre/modules/XPCOMUtils.jsm");
+var { XPCOMUtils } = ChromeUtils.import("resource://gre/modules/XPCOMUtils.jsm");
+var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
+//var { PrintUtils } = ChromeUtils.import("chrome://messenger/content/printUtils.js");
+/**/
+XPCOMUtils.defineLazyScriptGetter(
+  this,
+  "PrintUtils",
+  "chrome://messenger/content/printUtils.js"
+);
+
 const { ExtensionParent } = ChromeUtils.import("resource://gre/modules/ExtensionParent.jsm");
 const xnoteExtension = ExtensionParent.GlobalManager.getExtension("xnote@froihofer.net");
 var {xnote} = ChromeUtils.import(xnoteExtension.rootURI.resolve("chrome/modules/xnote.jsm"));
@@ -161,10 +170,97 @@ setInterval(xnote.ns.Window.checkOpenerMoved, 500);
  
  
  pub.printNote = function () {
-  // console.log("printwindow", window.document, "text", window.document.documentElement.textContent);
+  //window.document.documentElement.textContent= note.text;
+     console.log("printwindow", window.document, "docEl", window.document.documentElement , "text", window.document.documentElement.textContent, window);
+ 
+  console.log("note", xnote.text);
+  //window.print();
+ // self.print();
+ // window.document.print();
+ //window.top = window;
+ //window.currentWindowGlobal = window;
+ //PrintUtils.printWindow(window, {});
+ let mainWindow = Services.wm.getMostRecentWindow("mail:3pane");
+ /* */
+ let messageBrowser = mainWindow.document.getElementById("messagepane");//messagepane
+ let msgBody = messageBrowser.contentDocument.documentElement.getElementsByTagName("body");
+ console.log("body", msgBody[0], messageBrowser.contentDocument.children[0].children[2]);
+ let messagePaneBrowser = mainWindow.document.getElementById("xnote-print");
+ messagePaneBrowser.setAttribute('style', 'white-space: pre-line;');
+ let modificationdate=self.document.getElementById("xnote-mdate");
+ let docEl = messagePaneBrowser.contentDocument.documentElement;
+ let doc = messagePaneBrowser.contentDocument;
+ var p = doc.createElement("p");
+ p.appendChild(doc.createTextNode("XNote " +modificationdate.value));
+ docEl.appendChild(p);
+  docEl.appendChild(doc.createElement("br"));
+ p = doc.createElement("p");
+ p.appendChild(doc.createTextNode(note.text));
+ docEl.appendChild(p);
 
-  self.print();
- }
+ docEl.appendChild(doc.createElement("br"));
+ let hr = doc.createElement("br");
+ 
+ docEl.appendChild(hr);
+
+ NodeList.prototype.forEach = Array.prototype.forEach;
+ var children = msgBody[0].childNodes;
+ children.forEach(function(item){
+   var cln = item.cloneNode(true);
+   docEl.appendChild(cln);
+ });
+ //messagePaneBrowser.contentDocument.documentElement.textContent =
+ //"XNote " +modificationdate.value +"\r\n" + note.text;//"eee";
+ mainWindow.PrintUtils.startPrintWindow(messagePaneBrowser.browsingContext, {});
+
+
+// messagePaneBrowser.contentDocument.documentElement.textContent = "";
+ /*debugger;
+ let messagePaneBrowser =document.getElementById("bb");  
+// messagePaneBrowser.top = window;
+ //messagePaneBrowser.currentWindowGlobal = window;
+ //messagePaneBrowser.top = window;
+ //messagePaneBrowser.currentWindowGlobal = window;
+ console.log("msbro", messagePaneBrowser);
+ messagePaneBrowser.contentDocument.documentElement.textContent = "eee";
+ //messagePaneBrowser.contentDocument.textContent = "jjj";
+ console.log("brodoc", messagePaneBrowser.contentDocument);
+ mainWindow.PrintUtils.startPrintWindow(messagePaneBrowser.browsingContext, {});
+
+ var printContents = document.getElementById("xnote-texte").cloneNode(true);
+
+ w = window.open();
+ w.document.body.appendChild(printContents);
+ w.print();
+ w.close();
+ 
+ let childWindow =window.open('', '', 'height=600,width=800');;// window.open('','childWindow','location=yes, menubar=yes, toolbar=yes');
+ childWindow.document.open();
+ childWindow.document.write('<html><head></head><body>');
+ childWindow.document.write(xnote.text);
+ //childWindow.document.write(document.getElementById('targetTextArea').value.replace(/\n/gi,'<br>'));
+ childWindow.document.write('</body></html>');
+ childWindow.print();
+ childWindow.document.close();
+ childWindow.close();
+/*
+
+ <browser id="messagepane"
+                 context="mailContext"
+                 tooltip="aHTMLTooltip"
+                 style="height: 0px; min-height: 1px"
+                 flex="1"
+                 name="messagepane"
+                 disablesecurity="true"
+                 disablehistory="true"
+                 type="content"
+                 primary="true"
+                 autofind="false"
+                 src="about:blank"
+                 messagemanagergroup="single-page"
+                 onclick="return contentAreaClick(event);"
+                 onresize="return messagePaneOnResize(event);"/> */
+}
 
  pub.forwardNote = function () {
 

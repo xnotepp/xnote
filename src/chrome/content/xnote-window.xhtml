@@ -18,6 +18,7 @@
 	onkeypress="if (event.keyCode==27) close();"
 	minwidth='58'
 	windowtype="xnote:note"
+
 	minheight='88'>
 	<script type='application/x-javascript' src='chrome://xnote/content/xnote-window.js' />
     <script src="chrome://global/content/printUtils.js"/>
@@ -34,11 +35,13 @@
 				class='custombutton-smaller'
 				onclick='if (event.button==0) { xnote.ns.Window.saveNote(); event.view.close(); }'/>
 		</box>
+
 		<html:textarea
 			id='xnote-texte'
 			class='boite-de-texte'
 			oninput='xnote.ns.Window.noteModified();'
-    />
+	/>
+
 		<box id='xnote-barre-bottom' flex="1">
 			<image
 				id='xnote-bouton-suppr'
@@ -54,6 +57,8 @@
 				src = "chrome://messenger/skin/icons/print.svg"
 				onclick='if (event.button==0 ) { xnote.ns.Window.printNote(); }'>
 			</image>
+
+	
 
 			<html:a href="mailto:" id = 'xnote-button-forward'>
 			<image

@@ -84,6 +84,7 @@ xnote.ns.Overlay = function () {
         'chrome=yes,dependent=yes,resizable=yes,modal=no,left=' + (window.screenX + note.x) + ',top=' + (window.screenY + note.y) + ',width=' + note.width + ',height=' + note.height,
         note, (initSource == 'clicBouton' || event == 'clicBouton' ? 'clicBouton' : null)
       );
+ 
     }
     initSource = '';
     //~ dump('\n<-initialise');
