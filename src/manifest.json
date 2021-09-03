@@ -2,13 +2,14 @@
   "manifest_version": 2,
   "name": "__MSG_extensionName__",
   "description": "__MSG_extensionDescription__",
-  "version": "3.2.3",
+  "version": "3.2.4",
   "author": "Lorenz Froihofer: support for TB >= 3.0, since Dec. 2009, Klaus Bücher since TB 78",
   "homepage_url": "https://github.com/xnotepp/xnote/wiki",
   "applications": {
     "gecko": {
       "id": "xnote@froihofer.net",
-      "strict_min_version": "78.0"
+      "strict_min_version": "91.0",
+      "strict_max_version": "91.*"
     }
   },
   "default_locale" : "en_US",
@@ -26,7 +27,7 @@
     "page": "options/options.html"
   },
 
-  "permissions": ["activeTab", "tabs", "activeTab", "storage", "messagesRead", "messagesModify", "clipboardWrite"],
+  "permissions": ["activeTab", "tabs",  "storage", "messagesRead", "messagesModify", "clipboardWrite"],
 
   "background": {
     "scripts": ["xn-background.js"]
