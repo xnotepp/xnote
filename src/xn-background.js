@@ -175,17 +175,18 @@ messenger.runtime.onInstalled.addListener(async ({ reason, temporary }) => {
         let url = browser.runtime.getURL("popup/installed.html");
         //await browser.tabs.create({ url });
         let wID1 = await browser.windows.create({ url, type: "popup", width: 910, height: 750, });
-        console.log ("wid", wID1);    }
+ //       console.log ("wid", wID1);   
+ }
       break;
     // see below
     case "update":
       {
         let url = browser.runtime.getURL("popup/update.html");
-        let url2 = browser.runtime.getURL("popup/installed.html");
+//        let url2 = browser.runtime.getURL("popup/installed.html");
         //await browser.tabs.create({ url });
         let wID = await browser.windows.create({ url, type: "popup", width: 910, height: 750, });
-        console.log ("wid", wID);
-       debugger;
+//        console.log ("wid", wID);
+//       debugger;
 //        let tID = await messenger.tabs.create({active:true, index:1, url: "http://www.google.com", windowId: wID.id});
    ////   let tID = await messenger.tabs.create({windowId: wID.id});
    //    tID = await messenger.tabs.create({windowId: wID.id});

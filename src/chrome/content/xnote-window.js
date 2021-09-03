@@ -171,9 +171,9 @@ setInterval(xnote.ns.Window.checkOpenerMoved, 500);
  
  pub.printNote = function () {
   //window.document.documentElement.textContent= note.text;
-     console.log("printwindow", window.document, "docEl", window.document.documentElement , "text", window.document.documentElement.textContent, window);
+  //   console.log("printwindow", window.document, "docEl", window.document.documentElement , "text", window.document.documentElement.textContent, window);
  
-  console.log("note", xnote.text);
+//  console.log("note", xnote.text);
   //window.print();
  // self.print();
  // window.document.print();
@@ -184,7 +184,7 @@ setInterval(xnote.ns.Window.checkOpenerMoved, 500);
  /* */
  let messageBrowser = mainWindow.document.getElementById("messagepane");//messagepane
  let msgBody = messageBrowser.contentDocument.documentElement.getElementsByTagName("body");
- console.log("body", msgBody[0], messageBrowser.contentDocument.children[0].children[2]);
+// console.log("body", msgBody[0], messageBrowser.contentDocument.children[0].children[2]);
  let messagePaneBrowser = mainWindow.document.getElementById("xnote-print");
  messagePaneBrowser.setAttribute('style', 'white-space: pre-line;');
  let modificationdate=self.document.getElementById("xnote-mdate");

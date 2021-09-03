@@ -130,7 +130,7 @@ var xnoteapi = class extends ExtensionCommon.ExtensionAPI {
                 return Services.prefs.getIntPref(name);
               }
               case "char": {
-                return Services.prefs.getCharPref(name);
+                return Services.prefs.getStringPref(name);
               }
               case "string": {
                 return Services.prefs.getStringPref(name);
@@ -161,7 +161,7 @@ var xnoteapi = class extends ExtensionCommon.ExtensionAPI {
                 break;
               }
               case "char": {
-                Services.prefs.setCharPref(name, value);
+                Services.prefs.setStringPref(name, value);
                 break;
               }
               case "string": {

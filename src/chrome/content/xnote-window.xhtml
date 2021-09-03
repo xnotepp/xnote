@@ -11,27 +11,28 @@
 
 <window
 	xmlns='http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul'
-  xmlns:html="http://www.w3.org/1999/xhtml"
+  xmlns:html='http://www.w3.org/1999/xhtml'
 	id='xnote-window'
 	hidechrome='true'
-	title='&xnote;'
-	onkeypress="if (event.keyCode==27) close();"
+	title = ""
+
+	onkeypress='if (event.keyCode==27) close();'
 	minwidth='58'
-	windowtype="xnote:note"
+	windowtype='xnote:note'
 
 	minheight='88'>
-	<script type='application/x-javascript' src='chrome://xnote/content/xnote-window.js' />
-    <script src="chrome://global/content/printUtils.js"/>
+	<script  src="chrome://xnote/content/xnote-window.js" ></script>
+
 	<box id='xnote-note' orient='vertical' flex='1'>
 		<box id='xnote-barre'>
 			<titlebar flex='1' onmouseup='xnote.ns.Window.noteModified();'>
-				<label id='xnote-titre' value='&xnote;'/>
+				<label id='xnote-titre' value="&xnote;"/>
 				<label id='xnote-mdate' class="boite-de-texte" readonly="true"/>
 			</titlebar>
 			
 			<image
 				id='xnote-bouton-fermer'
-				tooltiptext='&close;'
+				tooltiptext="&close;"
 				class='custombutton-smaller'
 				onclick='if (event.button==0) { xnote.ns.Window.saveNote(); event.view.close(); }'/>
 		</box>
@@ -46,7 +47,7 @@
 			<image
 				id='xnote-bouton-suppr'
 				class='custombutton-smaller'
-				tooltiptext='&suppr;'
+				tooltiptext='&amp;suppr;'
 				onclick='if (event.button==0 &amp;&amp; confirm("&xnote.ask.deletion;")) { xnote.ns.Window.deleteNote();event.view.close(); }'>
 			</image>
 
@@ -73,7 +74,7 @@
 	<image
 				id='xnote-button-copy'
 				class='custombutton-smaller'
-				tooltiptext='copy to clipboard;'
+				tooltiptext='copy to clipboard'
 				src = "chrome://xnote/content/skin/iconmonstr-clipboard-13-16.png"
 				onclick='if (event.button==0 ) { xnote.ns.Window.copyNoteToClipboard(); }'>
 			</image>
