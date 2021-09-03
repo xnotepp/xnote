@@ -57,7 +57,8 @@ function onLoad(activatedWhileWindowOpen) {
     <splitter class="tree-splitter" />
     <treecol id="xnoteCol" persist="hidden ordinal width" label="&xnote.label;"
        currentView="unthreaded" is="treecol-image" 
-       class="treecol-image xnote-column-header" tooltiptext="&header.label;" />
+       class="treecol-image xnote-column-header" tooltiptext="&header.label;"
+       src = "resource://xnote/skin/xnote_context.png" />
     </treecols>
     </tree>
   
