@@ -13,7 +13,7 @@ function notify(message) {
     let old = document.getElementById("xnote_msgDisplay");
     old.remove();
   }
-  catch (e) { };
+  catch (e) { }
 
   function truncate(fullStr, strLen, separator) {
     if (fullStr.length <= strLen) return fullStr;
@@ -26,7 +26,7 @@ function notify(message) {
       backChars = Math.floor(charsToShow / 2);
 
     return fullStr.substr(0, frontChars) + separator + fullStr.substr(fullStr.length - backChars);
-  };
+  }
   xnoteOrig = xnote = message.text;
   dateOrig = message.date;
 
@@ -47,8 +47,8 @@ function notify(message) {
     btn.addEventListener("click", showAll, false);
 
 
-  };
-};
+  }
+}
 function handleResponse(message) {
   //console.log(`note Message from the background script: `, message);
 }
@@ -80,7 +80,7 @@ function showAll() {
     notify({ text: xnoteOrig, date: dateOrig });
 
   }
-};
+}
 
 async function startup() {
   await messenger.runtime.onMessage.addListener(notify);
