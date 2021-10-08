@@ -168,31 +168,31 @@ async function appendRelativePath(basePath, extension) {
 // landing windows.
 messenger.runtime.onInstalled.addListener(async ({ reason, temporary }) => {
   // if (temporary) return; // skip during development
- //  console.log("install reason:", reason);
+  //  console.log("install reason:", reason);
   switch (reason) {
     case "install":
       {
         let url = browser.runtime.getURL("popup/installed.html");
         //await browser.tabs.create({ url });
         let wID1 = await browser.windows.create({ url, type: "popup", width: 910, height: 750, });
- //       console.log ("wid", wID1);   
- }
+        //       console.log ("wid", wID1);   
+      }
       break;
     // see below
     case "update":
       {
         let url = browser.runtime.getURL("popup/update.html");
-//        let url2 = browser.runtime.getURL("popup/installed.html");
+        //        let url2 = browser.runtime.getURL("popup/installed.html");
         //await browser.tabs.create({ url });
         let wID = await browser.windows.create({ url, type: "popup", width: 910, height: 750, });
-//        console.log ("wid", wID);
-//       debugger;
-//        let tID = await messenger.tabs.create({active:true, index:1, url: "http://www.google.com", windowId: wID.id});
-   ////   let tID = await messenger.tabs.create({windowId: wID.id});
-   //    tID = await messenger.tabs.create({windowId: wID.id});
-  //     tID = await messenger.tabs.create({windowId: wID.id});
-  //      console.log ("tid", tID);   
-  }
+        //        console.log ("wid", wID);
+        //       debugger;
+        //        let tID = await messenger.tabs.create({active:true, index:1, url: "http://www.google.com", windowId: wID.id});
+        ////   let tID = await messenger.tabs.create({windowId: wID.id});
+        //    tID = await messenger.tabs.create({windowId: wID.id});
+        //     tID = await messenger.tabs.create({windowId: wID.id});
+        //      console.log ("tid", tID);   
+      }
       break;
     // see below
   }
@@ -214,12 +214,30 @@ async function wait(t) {
   await new Promise(resolve => window.setTimeout(resolve, t));
 
 }
-async function main() {
-  
-  
 
+//var portFromBookmarks = null;
+var portXnote = null;
+async function main() {
+
+  //  let testdata = await messenger.NotifyTools.notifyExperiment({command: "fromXNote"});//.then((data) => {
+  /*
+    messenger.runtime.onConnectExternal.addListener((port) => {
+      console.log(port);
+   
+      if (port.sender.id === "bookmarks@opto.one") {
+        console.log("connection attempt from bookmarks");
+        portFromBookmarks = port;
+        if (portFromBookmarks != null ) portFromBookmarks.postMessage({content: "Message from xnote"});
+        portFromBookmarks.onMessage.addListener((message) => {
+          console.log(`From Hansel: ${message.content}`);
+        });
+      }
+     
+    });    
+  
+  */
   await migratePrefs();
-//  await messenger.clipboard.writeText("info.text");
+  //  await messenger.clipboard.writeText("info.text");
 
   _preferences = (await browser.storage.local.get("preferences")).preferences;
   if (debug) {
@@ -315,8 +333,54 @@ async function main() {
 
   browser.browserAction.disable();
 
+
+  /*
+    
+    portXnote = browser.runtime.connect(
+      "bookmarks@opto.one", // optional string
+      {name: "xnote2bookmarks"}  // optional object
+    )
+    portXnote.onDisconnect.addListener((p) => {
+      if (p.error) {
+        console.log(`Disconnected due to an error: ${p.error.message}`);
+      }
+    });
+    console.log("portXnote" ,portXnote);
+  
+  
+  */
   messenger.NotifyTools.onNotifyBackground.addListener(async (info) => {
     switch (info.command) {
+
+      case "setBookmark":
+        console.log("setXNoteBookmark in bckgrd");
+        messenger.runtime.sendMessage("bookmarks@opto.one", { content: "addXnoteBookmark" }, {});
+        //  portXnote.postMessage({content: "Message from xnote"});
+        //   try {
+        /*
+                if (true) { //portXnote == null) {
+      
+                portXnote = browser.runtime.connect(
+                  "bookmarks@opto.one", // optional string
+                  {name: "xnote2bookmarks"}  // optional object
+                );
+                portXnote.onDisconnect.addListener((p) => {
+                  if (p.error) {
+                    console.log(`Disconnected due to an error: ${p.error.message}`);
+                    portXnote = null;
+                  }
+                });
+              
+      
+              };
+              */
+        //    console.log(portXnote);
+
+        //    if (portXnote.sender != undefined ) portXnote.postMessage({content: "Message from xnote"}); else console.log("cannot contact bookmarks");
+        //  }
+        //   catch (e) {};
+        //return;
+        break;
       case "addToMsgDisplay":
         if (true) {
           xnote.text = info.text;
@@ -342,13 +406,13 @@ async function main() {
         let rv = "received from background";
         return rv;
         break;
-        case "copyToClipboard":
-  //        messenger.clipboard.writeText(info.text);
-          let rvc = "copied to clipboard";
-          return rvc;
-  
+      case "copyToClipboard":
+        //        messenger.clipboard.writeText(info.text);
+        let rvc = "copied to clipboard";
+        return rvc;
+
         break;
-        }
+    }
   });
 
 

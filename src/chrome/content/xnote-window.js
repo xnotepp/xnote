@@ -21,6 +21,7 @@ var {xnote} = ChromeUtils.import(xnoteExtension.rootURI.resolve("chrome/modules/
 if (!xnote.ns) xnote.ns = {};
 ChromeUtils.import(xnoteExtension.rootURI.resolve("chrome/modules/commons.jsm"), xnote.ns);
 ChromeUtils.import(xnoteExtension.rootURI.resolve("chrome/modules/dateformat.jsm"), xnote.ns);
+Services.scriptloader.loadSubScript("chrome://xnote/content/scripts/notifyTools.js", window, "UTF-8");
 
 xnote.ns.Window = function() {
   // Variables for window movement
@@ -167,7 +168,10 @@ setInterval(xnote.ns.Window.checkOpenerMoved, 500);
   //~ dump('\n<-modifierNote');
   }
 
- 
+ pub.bookmarkNote = function () {
+  notifyTools.notifyBackground({ command: "setBookmark" });//.then((data) => {
+    console.log("set bookmark");
+ }
  
  pub.printNote = function () {
   //window.document.documentElement.textContent= note.text;

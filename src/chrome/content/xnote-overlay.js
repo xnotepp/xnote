@@ -70,7 +70,7 @@ xnote.ns.Overlay = function () {
 
     let msgDisplaytext = note.modificationDate + "  " + note.text;
 
-    notifyTools.notifyBackground({ command: "addToMsgDisplay", text: note.text, date: note.modificationDate }).then((data) => {
+    xnote.notifyTools.notifyBackground({ command: "addToMsgDisplay", text: note.text, date: note.modificationDate }).then((data) => {
       //console.log(data);
     });
 

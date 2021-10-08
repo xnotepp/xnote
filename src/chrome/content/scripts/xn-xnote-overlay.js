@@ -1,9 +1,11 @@
 var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 
+
+
 Services.scriptloader.loadSubScript("chrome://xnote/content/xnote-classe.js", window, "UTF-8");
 Services.scriptloader.loadSubScript("chrome://xnote/content/xnote-overlay.js", window, "UTF-8");
 Services.scriptloader.loadSubScript("chrome://xnote/content/xnote-columnnote.js", window, "UTF-8");
-Services.scriptloader.loadSubScript("chrome://xnote/content/scripts/notifyTools.js", window, "UTF-8");
+Services.scriptloader.loadSubScript("chrome://xnote/content/scripts/notifyTools.js", window.xnote, "UTF-8");
 //Services.scriptloader.loadSubScript("chrome://global/content/preferencesBindings.js", window, "UTF-8");
 //Services.scriptloader.loadSubScript("chrome://xnote/content/preferences.js", window, "UTF-8");
 

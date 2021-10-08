@@ -2,6 +2,11 @@
  * This file is provided by the addon-developer-support repository at
  * https://github.com/thundernest/addon-developer-support
  *
+ * Version 1.1
+ *  - added startup event, to make sure API is ready as soon as the add-on is starting
+ *    NOTE: This requires to add the startup event to the manifest, see:
+ *    https://github.com/thundernest/addon-developer-support/tree/master/auxiliary-apis/NotifyTools#usage
+ *
  * Author: John Bieling (john@thunderbird.net)
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -25,8 +30,9 @@ var NotifyTools = class extends ExtensionCommon.ExtensionAPI {
           aData == self.extension.id
         ) {
           let payload = aSubject.wrappedJSObject;
-          // This is called from the BL observer.js and therefore it should have a resolve
-          // payload, but better check.
+
+          // Make sure payload has a resolve function, which we use to resolve the
+          // observer notification.
           if (payload.resolve) {
             let observerTrackerPromises = [];
             // Push listener into promise array, so they can run in parallel
@@ -52,7 +58,8 @@ var NotifyTools = class extends ExtensionCommon.ExtensionAPI {
               payload.resolve(results[0]);
             }
           } else {
-            // Just call the listener.
+            // Older version of NotifyTools, which is not sending a resolve function, deprecated.
+            console.log("Please update the notifyTools API and the notifyTools script to at least v1.5");
             for (let listener of Object.values(self.observerTracker)) {
               listener(payload.data);
             }
@@ -69,7 +76,7 @@ var NotifyTools = class extends ExtensionCommon.ExtensionAPI {
       "NotifyBackgroundObserver",
       false
     );
-    
+
     return {
       NotifyTools: {
 
@@ -99,7 +106,16 @@ var NotifyTools = class extends ExtensionCommon.ExtensionAPI {
     };
   }
 
+  // Force API to run at startup, otherwise event listeners might not be added at the requested time. Also needs
+  // "events": ["startup"] in the experiment manifest
+
+  onStartup() { }
+
   onShutdown(isAppShutdown) {
+    if (isAppShutdown) {
+      return; // the application gets unloaded anyway
+    }
+
     // Remove observer for notifyTools.js
     Services.obs.removeObserver(
       this.onNotifyBackgroundObserver,
