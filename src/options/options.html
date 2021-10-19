@@ -1,70 +1,73 @@
 <!DOCTYPE html>
 
 <html>
-  <head>
-    <title>__MSG_preferences__</title>
-    <script src="options.js" type="module"></script>
-  </head>
-  <body>
 
-    <fieldset>
+<head>
+  <title>__MSG_preferences__</title>
+  <script src="options.js" type="module"></script>
+</head>
+
+<body>
+
+  <fieldset>
     <legend>__MSG_Window.defaults__</legend>
-      <p>
-        <label for="default.width">__MSG_Width__:</label>
-        <input id="default.width" type="number" min="50" size="5" data-preference="width"/> &nbsp;&nbsp;
-        <label for="default.height">__MSG_Height__:</label>
-        <input id="default.height" type="number" min="50" size="5" data-preference="height"/>
-      </p>
-    </fieldset>
+    <p>
+      <label for="default.width">__MSG_Width__:</label>
+      <input id="default.width" type="number" min="50" size="5" data-preference="width" /> &nbsp;&nbsp;
+      <label for="default.height">__MSG_Height__:</label>
+      <input id="default.height" type="number" min="50" size="5" data-preference="height" />
+    </p>
+  </fieldset>
 
-    <fieldset>
-      <legend>__MSG_Window.defPosition__</legend>
-        <p>
-          <label>__MSG_Window.horPos__:</label>
-          <input id="horPos" type="number" size="5" data-preference="horPos"/>  &nbsp;&nbsp;
-          <label>__MSG_Window.vertPos__:</label>
-          <input id="vertPos" type="number" size="5" data-preference="vertPos"/>
-        </p>
-      </legend>
-    </fieldset>
+  <fieldset>
+    <legend>__MSG_Window.defPosition__</legend>
+    <p>
+      <label>__MSG_Window.horPos__:</label>
+      <input id="horPos" type="number" size="5" data-preference="horPos" /> &nbsp;&nbsp;
+      <label>__MSG_Window.vertPos__:</label>
+      <input id="vertPos" type="number" size="5" data-preference="vertPos" />
+    </p>
+    </legend>
+  </fieldset>
 
-    <fieldset>
-      <legend>__MSG_Message.tag__</legend>
-      <p>
-        <input id="use.tag" type="checkbox" data-preference="usetag"/>
-        <label for="use.tag" style="line-height: 2.2;">__MSG_use.tag__</label>
-        <br/>
-        <label for="tag.name">__MSG_Name__:</label>
-        <input id="tag.name" data-preference="tag.name" type="text" size="15" /> &nbsp;&nbsp;
-        <label for="tag.color">__MSG_Color__:</label>
-        <input id="tag.color" data-preference="tag.color" type="color" />
-      </p>
-    </fieldset>
+  <fieldset>
+    <legend>__MSG_Message.tag__</legend>
+    <p>
+      <input id="use.tag" type="checkbox" data-preference="usetag" />
+      <label for="use.tag" style="line-height: 2.2;">__MSG_use.tag__</label>
+      <br />
+      <label for="tag.name">__MSG_Name__:</label>
+      <input id="tag.name" data-preference="tag.name" type="text" size="15" /> &nbsp;&nbsp;
+      <label for="tag.color">__MSG_Color__:</label>
+      <input id="tag.color" data-preference="tag.color" type="color" />
+    </p>
+  </fieldset>
 
-    <fieldset>
-      <legend>__MSG_Behavior__</legend>
-      <p>
-        <input id="show.on.select" type="checkbox" data-preference="show_on_select"/>
-        <label for="show.on.select">__MSG_show.on.select__</label>
-      </p>
-      <p>
-        <input id="show.in.messageDisplay" type="checkbox" data-preference="show_in_messageDisplay"/>
-        <label for="show.in.messageDisplay">__MSG_show.in.messageDisplay__</label>
-      </p>
-      <p>
-        <label for="colchars">__MSG_show.first.x.chars.in.col__:</label>
-        <input id="colchars" type="number" min="0" size="5" data-preference="show_first_x_chars_in_col"/>
-      </p>
-    </fieldset>
+  <fieldset>
+    <legend>__MSG_Behavior__</legend>
+    <p>
+      <input id="show.on.select" type="checkbox" data-preference="show_on_select" />
+      <label for="show.on.select">__MSG_show.on.select__</label>
+    </p>
+    <p>
+      <input id="show.in.messageDisplay" type="checkbox" data-preference="show_in_messageDisplay" />
+      <label for="show.in.messageDisplay">__MSG_show.in.messageDisplay__</label>
+    </p>
+    <p>
+      <label for="colchars">__MSG_show.first.x.chars.in.col__:</label>
+      <input id="colchars" type="number" min="0" size="5" data-preference="show_first_x_chars_in_col" />
+    </p>
+  </fieldset>
 
-    <fieldset>
-      <legend>__MSG_storage.path__</legend>
-      <p>
-        <input id="storage.path" type="text" disabled=true data-preference="storage_path"/>
-        <button type="button" id="btnSelectStoragePath">__MSG_btn.browse__</button>
-      </p>
-    </fieldset>
+  <fieldset>
+    <legend>__MSG_storage.path__</legend>
+    <p>
+      <input id="storage.path" type="text" disabled=true data-preference="storage_path" />
+      <button type="button" id="btnSelectStoragePath">__MSG_btn.browse__</button>
+    </p>
+  </fieldset>
 
-    <p><button type="button" id="btnSave">__MSG_btn.save__</button></p>
-  </body>
+  <p><button type="button" id="btnSave">__MSG_btn.save__</button></p>
+</body>
+
 </html>

@@ -66,8 +66,8 @@ function onLoad(activatedWhileWindowOpen) {
   
   `, ["chrome://xnote/locale/xnote-overlay.dtd"]);
 
- // console.log ("xnote",  window.xnote);
-  window.xnote.WL = WL;  
+  // console.log ("xnote",  window.xnote);
+  window.xnote.WL = WL;
   window.xnote.ns.Overlay.onLoad();
   window.xnote.ns.ColumnNote.onLoad();
 }
@@ -75,7 +75,7 @@ function onLoad(activatedWhileWindowOpen) {
 function onUnload(isAddOnShutDown) {
   window.xnote.ns.Overlay.onUnload();
   window.xnote.ns.ColumnNote.onUnload();
-  Services.obs.notifyObservers(null, "startupcache-invalidate", null);   
+  Services.obs.notifyObservers(null, "startupcache-invalidate", null);
 
 }
 

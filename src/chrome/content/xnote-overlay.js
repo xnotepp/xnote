@@ -84,7 +84,7 @@ xnote.ns.Overlay = function () {
         'chrome=yes,dependent=yes,resizable=yes,modal=no,left=' + (window.screenX + note.x) + ',top=' + (window.screenY + note.y) + ',width=' + note.width + ',height=' + note.height,
         note, (initSource == 'clicBouton' || event == 'clicBouton' ? 'clicBouton' : null)
       );
- 
+
     }
     initSource = '';
     //~ dump('\n<-initialise');
@@ -292,7 +292,7 @@ xnote.ns.Overlay = function () {
    */
   pub.checkInitialization = function () {
     if (xnote.ns.Commons.isNewInstallation) {
-  //     console.log("First time installation - add the XNote toolbar button.");
+      //     console.log("First time installation - add the XNote toolbar button.");
       let toolbox = document.getElementById("mail-toolbox");
 
       let xnoteButtonPresent = false;

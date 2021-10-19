@@ -1,15 +1,15 @@
 // encoding='UTF-8'
 
 /**
-	# File : xnote-classe.xul
-	# Author : Hugo Smadja, Lorenz Froihofer
-	# Description : classe Note permettant d'instancier des notes.
+  # File : xnote-classe.xul
+  # Author : Hugo Smadja, Lorenz Froihofer
+  # Description : classe Note permettant d'instancier des notes.
 */
 
 if (!ExtensionParent) var { ExtensionParent } = ChromeUtils.import("resource://gre/modules/ExtensionParent.jsm");
 if (!xnoteExtension) var xnoteExtension = ExtensionParent.GlobalManager.getExtension("xnote@froihofer.net");
-var {xnote} = ChromeUtils.import(xnoteExtension.rootURI.resolve("chrome/modules/xnote.jsm"));
-if (!xnote.ns) xnote.ns={};
+var { xnote } = ChromeUtils.import(xnoteExtension.rootURI.resolve("chrome/modules/xnote.jsm"));
+if (!xnote.ns) xnote.ns = {};
 ChromeUtils.import(xnoteExtension.rootURI.resolve("chrome/modules/commons.jsm"), xnote.ns);
 ChromeUtils.import(xnoteExtension.rootURI.resolve("chrome/modules/storage.jsm"), xnote.ns);
 
@@ -20,7 +20,7 @@ ChromeUtils.import(xnoteExtension.rootURI.resolve("chrome/modules/storage.jsm"),
  */
 
 
-xnote.WL = {}; 
+xnote.WL = {};
 xnote.ns.Note = function (messageId) {
   //~ dump('\n->Note');
 
@@ -29,7 +29,7 @@ xnote.ns.Note = function (messageId) {
   var _modified = false;
 
   //result
-  var pub = {                             
+  var pub = {
     //--- properties ----------------------------------------------------
     get modified() {
       return _modified;
@@ -42,8 +42,8 @@ xnote.ns.Note = function (messageId) {
   // Default values for a note window
   pub.DEFAULT_XNOTE_WIDTH = xnote.ns.Commons.xnotePrefs.width;
   pub.DEFAULT_XNOTE_HEIGHT = xnote.ns.Commons.xnotePrefs.height;
-  pub.DEFAULT_X_ORIG = (window.outerWidth-pub.DEFAULT_XNOTE_WIDTH)/2;
-  pub.DEFAULT_Y_ORIG =(window.outerHeight-pub.DEFAULT_XNOTE_HEIGHT)/2;
+  pub.DEFAULT_X_ORIG = (window.outerWidth - pub.DEFAULT_XNOTE_WIDTH) / 2;
+  pub.DEFAULT_Y_ORIG = (window.outerHeight - pub.DEFAULT_XNOTE_HEIGHT) / 2;
   pub.DEFAULT_X = xnote.ns.Commons.xnotePrefs.horPos;
   pub.DEFAULT_Y = xnote.ns.Commons.xnotePrefs.vertPos;
 
@@ -62,7 +62,7 @@ xnote.ns.Note = function (messageId) {
   else {
     var fileInStream = Components.classes['@mozilla.org/network/file-input-stream;1'].createInstance(Components.interfaces.nsIFileInputStream);
     var fileScriptableIO = Components.classes['@mozilla.org/scriptableinputstream;1'].createInstance(Components.interfaces.nsIScriptableInputStream);
-    fileInStream.init(_notesFile, 0x01, parseInt("0444", 8), null );
+    fileInStream.init(_notesFile, 0x01, parseInt("0444", 8), null);
     fileScriptableIO.init(fileInStream);
     pub.x = parseInt(fileScriptableIO.read(4));
     pub.y = parseInt(fileScriptableIO.read(4));
@@ -76,11 +76,11 @@ xnote.ns.Note = function (messageId) {
     //
     // this.text = fileScriptableIO.read(_notesFile.fileSize-16);
     pub.text = decodeURIComponent(
-    fileScriptableIO.read(_notesFile.fileSize-48 ));
+      fileScriptableIO.read(_notesFile.fileSize - 48));
 
     fileScriptableIO.close();
     fileInStream.close();
-    pub.text = pub.text.replace(/<BR>/g,'\n');
+    pub.text = pub.text.replace(/<BR>/g, '\n');
     //~ dump('\n<-note_charger');
   }
 
@@ -94,19 +94,19 @@ xnote.ns.Note = function (messageId) {
   pub.saveNote = function () {
     //~ dump('\n->saveNote');
 
-    if (pub.text=='') {
+    if (pub.text == '') {
       if (_notesFile.exists()) {
         _notesFile.remove(false);
       }
       return false;
     }
-    pub.text = pub.text.replace(/\n/g,'<BR>');
-    
+    pub.text = pub.text.replace(/\n/g, '<BR>');
+
     let tempFile = _notesFile.parent.clone();
-    tempFile.append("~"+_notesFile.leafName+".tmp");
+    tempFile.append("~" + _notesFile.leafName + ".tmp");
     // Using 0660 instead of 0600 so that sharing notes accross users
     // within the same group is possible on Linux.
-    tempFile.createUnique(tempFile.NORMAL_FILE_TYPE, parseInt("0660",8));
+    tempFile.createUnique(tempFile.NORMAL_FILE_TYPE, parseInt("0660", 8));
 
     let fileOutStream = Components.classes['@mozilla.org/network/file-output-stream;1'].createInstance(Components.interfaces.nsIFileOutputStream);
     with (fileOutStream) {
@@ -150,11 +150,11 @@ xnote.ns.Note = function (messageId) {
     }
   }
 
-  pub.toString = function() {
-    return ('\n'+this.x+' ; '+this.y+' ; '+this.width+' ; '+this.height+' ; '+this.text+' ; ')
+  pub.toString = function () {
+    return ('\n' + this.x + ' ; ' + this.y + ' ; ' + this.width + ' ; ' + this.height + ' ; ' + this.text + ' ; ')
   }
 
-  pub.exists = function() {
+  pub.exists = function () {
     return _notesFile.exists();
   }
 

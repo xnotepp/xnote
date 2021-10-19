@@ -1,11 +1,11 @@
 var { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCommon.jsm"),
-    { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm"),
-    { TagUtils } = ChromeUtils.import("resource:///modules/TagUtils.jsm"),
-    win = Services.wm.getMostRecentWindow("mail:3pane");
+  { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm"),
+  { TagUtils } = ChromeUtils.import("resource:///modules/TagUtils.jsm"),
+  win = Services.wm.getMostRecentWindow("mail:3pane");
 
 const { ExtensionParent } = ChromeUtils.import("resource://gre/modules/ExtensionParent.jsm");
 const xnoteExtension = ExtensionParent.GlobalManager.getExtension("xnote@froihofer.net");
-var {xnote} = ChromeUtils.import(xnoteExtension.rootURI.resolve("chrome/modules/xnote.jsm"));
+var { xnote } = ChromeUtils.import(xnoteExtension.rootURI.resolve("chrome/modules/xnote.jsm"));
 if (!xnote.ns) xnote.ns = {};
 ChromeUtils.import(xnoteExtension.rootURI.resolve("chrome/modules/commons.jsm"), xnote.ns);
 ChromeUtils.import(xnoteExtension.rootURI.resolve("chrome/modules/storage.jsm"), xnote.ns);
@@ -19,34 +19,34 @@ const XNOTE_BASE_PREF_NAME = "extensions.xnote.";
  */
 function prefType(name) {
   switch (name) {
-    case XNOTE_BASE_PREF_NAME+"usetag": {
+    case XNOTE_BASE_PREF_NAME + "usetag": {
       return "bool";
     }
-    case XNOTE_BASE_PREF_NAME+"dateformat": {
+    case XNOTE_BASE_PREF_NAME + "dateformat": {
       return "string";
     }
-    case XNOTE_BASE_PREF_NAME+"width": {
+    case XNOTE_BASE_PREF_NAME + "width": {
       return "int";
     }
-    case XNOTE_BASE_PREF_NAME+"height": {
+    case XNOTE_BASE_PREF_NAME + "height": {
       return "int";
     }
-    case XNOTE_BASE_PREF_NAME+"HorPos": {
+    case XNOTE_BASE_PREF_NAME + "HorPos": {
       return "int";
     }
-    case XNOTE_BASE_PREF_NAME+"VertPos": {
+    case XNOTE_BASE_PREF_NAME + "VertPos": {
       return "int";
     }
-    case XNOTE_BASE_PREF_NAME+"show_on_select": {
+    case XNOTE_BASE_PREF_NAME + "show_on_select": {
       return "bool";
     }
-    case XNOTE_BASE_PREF_NAME+"show_in_messageDisplay": {
+    case XNOTE_BASE_PREF_NAME + "show_in_messageDisplay": {
       return "bool";
     }
-    case XNOTE_BASE_PREF_NAME+"show_first_x_chars_in_col": {
+    case XNOTE_BASE_PREF_NAME + "show_first_x_chars_in_col": {
       return "int";
     }
-    case XNOTE_BASE_PREF_NAME+"storage_path": {
+    case XNOTE_BASE_PREF_NAME + "storage_path": {
       return "string";
     }
     case "mailnews.tags.xnote.tag": {
@@ -62,7 +62,7 @@ function prefType(name) {
 
 //console.log("xnote - experiments API");
 var xnoteapi = class extends ExtensionCommon.ExtensionAPI {
-  getAPI(context) {    
+  getAPI(context) {
     return {
       xnoteapi: {
         async init() {
@@ -71,20 +71,20 @@ var xnoteapi = class extends ExtensionCommon.ExtensionAPI {
           //TODO: Move the stored version to the browser storage or do the check 
           //for a previous installation before preferences are migrated
           let storedVersion = xnote.ns.Commons.xnoteLegacyPrefs.prefHasUserValue("version") ?
-                  xnote.ns.Commons.xnoteLegacyPrefs.getCharPref("version") : null
-              
-  //        console.log(`storedVersion: ${storedVersion}; comparison: `+ (storedVersion == null));
+            xnote.ns.Commons.xnoteLegacyPrefs.getCharPref("version") : null
+
+          //        console.log(`storedVersion: ${storedVersion}; comparison: `+ (storedVersion == null));
           xnote.ns.Commons.isNewInstallation = storedVersion == null;
           xnote.ns.Upgrades.checkUpgrades(storedVersion, xnote.ns.Commons.XNOTE_VERSION)
           xnote.ns.Commons.xnoteLegacyPrefs.setCharPref("version", xnote.ns.Commons.XNOTE_VERSION);
           xnote.ns.Commons.checkXNoteTag();
         },
-        
+
         async closeNoteWindow() {
           //console.log("now close window");
-          let  winNote = Services.wm.getMostRecentWindow("xnote:note");
+          let winNote = Services.wm.getMostRecentWindow("xnote:note");
           //debugger;
-          if (winNote)  winNote.close();
+          if (winNote) winNote.close();
         },
 
         async initNote() {
@@ -97,7 +97,7 @@ var xnoteapi = class extends ExtensionCommon.ExtensionAPI {
 
         async setPreferences(prefs) {
           xnote.ns.Commons.xnotePrefs = prefs;
- //         console.debug({"XnotePrefs" : xnote.ns.Commons.xnotePrefs});
+          //         console.debug({"XnotePrefs" : xnote.ns.Commons.xnotePrefs});
           xnote.ns.Storage.updateStoragePath();
           xnote.ns.Commons.checkXNoteTag();
         },
@@ -109,17 +109,17 @@ var xnoteapi = class extends ExtensionCommon.ExtensionAPI {
           try {
 
             let realMessage = context.extension.messageManager.get(id);
-   //         console.log("realmsg", realMessage.messageId );
+            //         console.log("realmsg", realMessage.messageId );
             note = new xnote.ns.Note(realMessage.messageId);
-   //         console.log("xnote", note);
- 
-                   } catch (ex) {
-            console.error(`Could not get TB mesg` );
+            //         console.log("xnote", note);
+
+          } catch (ex) {
+            console.error(`Could not get TB mesg`);
           }
-          return {text: note.text, date: note.modificationDate};
+          return { text: note.text, date: note.modificationDate };
         },
 
-  
+
         async getTbPref(name) {
           try {
             switch (prefType(name)) {
@@ -140,7 +140,7 @@ var xnoteapi = class extends ExtensionCommon.ExtensionAPI {
               }
             }
           } catch (ex) {
-            console.error(`Could not get TB pref ${name}` , ex);
+            console.error(`Could not get TB pref ${name}`, ex);
             return undefined;
           }
         },
@@ -172,7 +172,7 @@ var xnoteapi = class extends ExtensionCommon.ExtensionAPI {
                 console.error(`Unknown preference type: ${prefType(name)}`)
             }
           } catch (ex) {
-            console.error(`Could not set TB pref ${name}` , ex);
+            console.error(`Could not set TB pref ${name}`, ex);
           }
         }
       }
@@ -180,9 +180,9 @@ var xnoteapi = class extends ExtensionCommon.ExtensionAPI {
   }
 
   onShutdown(isAppShutdown) {
-//    console.debug(`onShutdown: isAppShutdown=${isAppShutdown}`);
+    //    console.debug(`onShutdown: isAppShutdown=${isAppShutdown}`);
     if (isAppShutdown) return;
-  
+
     Components.utils.unload(xnoteExtension.rootURI.resolve("chrome/modules/xnote-upgrades.jsm"));
     Components.utils.unload(xnoteExtension.rootURI.resolve("chrome/modules/storage.jsm"));
     Components.utils.unload(xnoteExtension.rootURI.resolve("chrome/modules/commons.jsm"));
@@ -191,6 +191,6 @@ var xnoteapi = class extends ExtensionCommon.ExtensionAPI {
     // invalidate the startup cache, such that after updating the addon the old
     // version is no longer cached
     Services.obs.notifyObservers(null, "startupcache-invalidate");
-    
+
   }
 }
