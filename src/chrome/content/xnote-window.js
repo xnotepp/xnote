@@ -170,7 +170,7 @@ xnote.ns.Window = function () {
 
   pub.bookmarkNote = function () {
     notifyTools.notifyBackground({ command: "setBookmark" });//.then((data) => {
-    console.log("set bookmark");
+  //  console.log("set bookmark");
   }
 
   pub.printNote = function () {

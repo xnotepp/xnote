@@ -223,14 +223,14 @@ async function main() {
   //  let testdata = await messenger.NotifyTools.notifyExperiment({command: "fromXNote"});//.then((data) => {
   /*
     messenger.runtime.onConnectExternal.addListener((port) => {
-      console.log(port);
+ //     console.log(port);
    
       if (port.sender.id === "bookmarks@opto.one") {
-        console.log("connection attempt from bookmarks");
+  //      console.log("connection attempt from bookmarks");
         portFromBookmarks = port;
         if (portFromBookmarks != null ) portFromBookmarks.postMessage({content: "Message from xnote"});
         portFromBookmarks.onMessage.addListener((message) => {
-          console.log(`From Hansel: ${message.content}`);
+  //        console.log(`From Hansel: ${message.content}`);
         });
       }
      
@@ -343,10 +343,10 @@ async function main() {
     )
     portXnote.onDisconnect.addListener((p) => {
       if (p.error) {
-        console.log(`Disconnected due to an error: ${p.error.message}`);
+ //       console.log(`Disconnected due to an error: ${p.error.message}`);
       }
     });
-    console.log("portXnote" ,portXnote);
+ //   console.log("portXnote" ,portXnote);
   
   
   */
@@ -354,7 +354,7 @@ async function main() {
     switch (info.command) {
 
       case "setBookmark":
-        console.log("setXNoteBookmark in bckgrd");
+ //       console.log("setXNoteBookmark in bckgrd");
         messenger.runtime.sendMessage("bookmarks@opto.one", { content: "addXnoteBookmark" }, {});
         //  portXnote.postMessage({content: "Message from xnote"});
         //   try {
@@ -367,7 +367,7 @@ async function main() {
                 );
                 portXnote.onDisconnect.addListener((p) => {
                   if (p.error) {
-                    console.log(`Disconnected due to an error: ${p.error.message}`);
+ //                   console.log(`Disconnected due to an error: ${p.error.message}`);
                     portXnote = null;
                   }
                 });
