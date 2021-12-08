@@ -1,3 +1,11 @@
+// encoding='UTF-8'
+
+/*
+  # File : xnote-window.xul
+  # Authors : Hugo Smadja, Lorenz Froihofer, Klaus Buecher
+  # Description : Functions associated with the XNote window (xnote-window.xul).
+*/
+
 if (!ExtensionParent) var { ExtensionParent } = ChromeUtils.import("resource://gre/modules/ExtensionParent.jsm");
 if (!xnoteExtension) var xnoteExtension = ExtensionParent.GlobalManager.getExtension("xnote@froihofer.net");
 var { xnote } = ChromeUtils.import(xnoteExtension.rootURI.resolve("chrome/modules/xnote.jsm"));

@@ -2,7 +2,7 @@
 
 /*
   # File : xnote-overlay.js
-  # Author : Hugo Smadja, Pierre-Andre Galmes, Lorenz Froihofer
+  # Author : Hugo Smadja, Pierre-Andre Galmes, Lorenz Froihofer, Klaus Buecher
   # Description : functions associated to the "xnote-overlay.xul" overlay file.
 */
 

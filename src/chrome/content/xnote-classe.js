@@ -2,7 +2,7 @@
 
 /**
   # File : xnote-classe.xul
-  # Author : Hugo Smadja, Lorenz Froihofer
+  # Author : Hugo Smadja, Lorenz Froihofer, Klaus Buecher
   # Description : classe Note permettant d'instancier des notes.
 */
 

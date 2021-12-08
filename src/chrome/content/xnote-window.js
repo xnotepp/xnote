@@ -2,7 +2,7 @@
 
 /*
   # File : xnote-window.xul
-  # Authors : Hugo Smadja, Lorenz Froihofer
+  # Authors : Hugo Smadja, Lorenz Froihofer, Klaus Buecher
   # Description : Functions associated with the XNote window (xnote-window.xul).
 */
 var { XPCOMUtils } = ChromeUtils.import("resource://gre/modules/XPCOMUtils.jsm");
