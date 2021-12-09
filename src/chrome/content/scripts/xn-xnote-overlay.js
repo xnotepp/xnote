@@ -67,9 +67,11 @@ function onLoad(activatedWhileWindowOpen) {
   `, ["chrome://xnote/locale/xnote-overlay.dtd"]);
 
   // console.log ("xnote",  window.xnote);
-  window.xnote.WL = WL;
+ window.setTimeout( () => { 
+   window.xnote.WL = WL;
   window.xnote.ns.Overlay.onLoad();
   window.xnote.ns.ColumnNote.onLoad();
+}, 450);
 }
 
 function onUnload(isAddOnShutDown) {
