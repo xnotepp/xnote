@@ -71,7 +71,7 @@ function onLoad(activatedWhileWindowOpen) {
    window.xnote.WL = WL;
   window.xnote.ns.Overlay.onLoad();
   window.xnote.ns.ColumnNote.onLoad();
-}, 450);
+}, 650);
 }
 
 function onUnload(isAddOnShutDown) {
