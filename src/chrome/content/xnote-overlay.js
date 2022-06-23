@@ -7,6 +7,12 @@
 */
 
 /* 
+ This overlay only deals with the context menu entries and should be replaced by
+ menus API in background entirely.
+
+ When a context menu entry closes a note window, it does not update xnote_displayed,
+ so when this moves into background it should be more simple
+ 
  Tag management principles and thoughts
  - When should labels be applied?
     - When a new post-it is saved.
@@ -22,16 +28,10 @@
   - Remove the XNote labels associated to messages? No
 */
 
+var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
+var { xnote } = ChromeUtils.import("resource://xnote/modules/xnote.jsm");
 
-if (!ExtensionParent) var { ExtensionParent } = ChromeUtils.import("resource://gre/modules/ExtensionParent.jsm");
-if (!xnoteExtension) var xnoteExtension = ExtensionParent.GlobalManager.getExtension("xnote@froihofer.net");
-var { xnote } = ChromeUtils.import(xnoteExtension.rootURI.resolve("chrome/modules/xnote.jsm"));
-if (!xnote.ns) xnote.ns = {};
-ChromeUtils.import(xnoteExtension.rootURI.resolve("chrome/modules/commons.jsm"), xnote.ns);
-ChromeUtils.import(xnoteExtension.rootURI.resolve("chrome/modules/storage.jsm"), xnote.ns);
-
-xnote.ns.Overlay = function () {
-  //result
+var xnoteOverlayObj = function () {
   var pub = {};
 
   // Variables related to the XNote context menu.
@@ -39,56 +39,14 @@ xnote.ns.Overlay = function () {
   var currentIndex;
 
   /** Contains the note for the current message */
+  // This state variable is used by the Experiment, if this file goes away, the state could move into
+  // a window map stored in the Experiment.
   var note;
 
   /** Contains the XNote window instance. */
+  // This state variable is used by the Experiment, if this file goes away, the state could move into
+  // a window map stored in the Experiment.
   var xnoteWindow;
-
-  /**
-   * Indicates whether the post-it has been opened at the request of the user or
-   * automatically when selecting an email.
-   */
-  var initSource;
-
-  /**
-   * CALLER XUL
-   * type	: event load element XUL <toolbarbutton>
-   * id	: button-xnote
-   * FUNCTION
-   * Executed to load the note before it is displayed on the screen.
-   * Here we can change the style of the window dynamically
-   */
-  pub.initialise = function (event) {
-    // ~ dump('\n->initialise, messageId='+pub.getMessageID());
-    //Closes the note (if any) of the old (deselected) message.
-    pub.closeNote();
-
-    //Initialize note for the newly selected message
-    note = new xnote.ns.Note(pub.getMessageID());
-    pub.updateTag(note.text);
-
-
-    let msgDisplaytext = note.modificationDate + "  " + note.text;
-
-    xnote.notifyTools.notifyBackground({ command: "addToMsgDisplay", text: note.text, date: note.modificationDate }).then((data) => {
-      //console.log(data);
-    });
-
-
-    let xnotePrefs = xnote.ns.Commons.xnotePrefs;
-    if ((xnotePrefs.show_on_select && note.text != '')
-      || initSource == 'clicBouton' || event == 'clicBouton') {
-      xnoteWindow = window.openDialog(
-        'chrome://xnote/content/xnote-window.xhtml',
-        'XNote',
-        'chrome=yes,dependent=yes,resizable=yes,modal=no,left=' + (window.screenX + note.x) + ',top=' + (window.screenY + note.y) + ',width=' + note.width + ',height=' + note.height,
-        note, (initSource == 'clicBouton' || event == 'clicBouton' ? 'clicBouton' : null)
-      );
-
-    }
-    initSource = '';
-    //~ dump('\n<-initialise');
-  }
 
   /**
    * CALLER XUL
@@ -108,11 +66,20 @@ xnote.ns.Overlay = function () {
    * FUNCTION
    */
   pub.context_modifyNote = function () {
-    initSource = 'clicBouton';	//specifies that the note is created by the user
-
     if (gDBView.selection.currentIndex == currentIndex) {
-      //if you right click on the mail stream (one selected)
-      pub.initialise();
+      //Closes the note (if any) of the old (deselected) message.
+      pub.closeNote();
+
+      //Initialize note for the newly selected message.
+      note = new xnote.ns.Note(pub.getMessageID());
+      pub.updateTag(note.text);
+
+      xnoteWindow = window.openDialog(
+        'chrome://xnote/content/xnote-window.xhtml',
+        'XNote',
+        'chrome=yes,dependent=yes,resizable=yes,modal=no,left=' + (window.screenX + note.x) + ',top=' + (window.screenY + note.y) + ',width=' + note.width + ',height=' + note.height,
+        note, true
+      );
     }
     else {
       gDBView.selection.select(currentIndex);
@@ -136,7 +103,7 @@ xnote.ns.Overlay = function () {
   pub.context_deleteNote = function () {
     noteForContextMenu.deleteNote();
     pub.updateTag("");
-    setTimeout(xnote.ns.Overlay.initialise);
+    pub.closeNote();
   }
 
   pub.context_resetNoteWindow = function () {
@@ -159,7 +126,6 @@ xnote.ns.Overlay = function () {
    * Closes the XNote window.
    */
   pub.closeNote = function () {
-    //   let xnoteWindow = xnote.ns.Overlay.xnoteWindow;
     if (xnoteWindow != null && xnoteWindow.document) {
       xnoteWindow.close();
     }
@@ -171,7 +137,6 @@ xnote.ns.Overlay = function () {
    * (Choice of tag in the preferences.)
    */
   pub.updateTag = function (noteText) {
-    // dump('\n->updateTag');
     if (xnote.ns.Commons.useTag) {
       // If the note isn't empty,
       if (noteText != '') {
@@ -183,12 +148,10 @@ xnote.ns.Overlay = function () {
         // Remove the XNote Tag.
         ToggleMessageTag("xnote", false);
       }
-      //~ dump('\n<-updateTag');
     }
   }
 
   function updateContextMenu() {
-    //debugger;
     noteForContextMenu = new xnote.ns.Note(pub.getMessageID());
     let noteExists = noteForContextMenu.exists();
     /* Commented until button will be re-enabled in manifest.json 
@@ -217,7 +180,6 @@ xnote.ns.Overlay = function () {
    *     menu, e.g., modify or delete a note for a message not containing a note.
    */
   pub.messageListClicked = function (e) {
-    //~ dump('\n->messageListClicked, messageID='+pub.getMessageID());
     if (e.button == 2) {
       updateContextMenu();
     }
@@ -226,28 +188,20 @@ xnote.ns.Overlay = function () {
       let tree = GetThreadTree();
       let treeCellInfo = tree.getCellAt(e.clientX, e.clientY);
       currentIndex = treeCellInfo.row;
-      //console.log(treeCellInfo.col.cycler);
-      //~ dump('\nclicked row = '+currentIndex);
     }
-    //~ dump('\n<-messageListClicked');
   }
 
   pub.getCurrentRow = function (e) {
-    //~ dump('\n->messageListClicked, messageID='+pub.getMessageID());
     let t = e.originalTarget;
     if (t.localName == 'treechildren') {
       let tree = GetThreadTree();
       let treeCellInfo = tree.getCellAt(e.clientX, e.clientY);
       currentIndex = treeCellInfo.row;
-      //console.log(treeCellInfo.col.cycler);
-      //~ dump('\nclicked row = '+currentIndex);
     }
-    //~ dump('\n<-messageListClicked');
   }
 
 
   pub.messagePaneClicked = function (e) {
-    //~ dump('\n->messagePaneClicked, messageID='+pub.getMessageID());
     if (e.button == 2) {
       updateContextMenu();
     }
@@ -264,106 +218,15 @@ xnote.ns.Overlay = function () {
   }
 
   /**
-   * Enable XNote button for a single selected message.
-   * Disable XNote button if no or several mails are selected.
-   */
-  pub.updateXNoteButton = function () {
-    let messageArray = gFolderDisplay.selectedMessages;
-    let xnoteButton = document.getElementById('xnote_froihofer_net-browserAction-toolbarbutton');
-    if (messageArray && messageArray.length == 1) {
-      if (xnoteButton) {
-        xnoteButton.setAttribute('disabled', false);
-      }
-      document.getElementById('xnote-mailContext-xNote').setAttribute('disabled', false);
-    }
-    else {
-      if (xnoteButton) {
-        xnoteButton.setAttribute('disabled', true);
-      }
-      document.getElementById('xnote-mailContext-xNote').setAttribute('disabled', true);
-      pub.closeNote();
-    }
-  }
-
-  /**
-   * This function checks whether updates are necessary.
-   * For example, it adds the XNote icon at the end of the toolbar if
-   * XNote has been newly installed.
-   */
-  pub.checkInitialization = function () {
-    if (xnote.ns.Commons.isNewInstallation) {
-      //     console.log("First time installation - add the XNote toolbar button.");
-      let toolbox = document.getElementById("mail-toolbox");
-
-      let xnoteButtonPresent = false;
-      let toolbars = document.evaluate(".//.[local-name()='toolbar' and @customizable='true']", toolbox, null, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null);
-      let toolbar = toolbars.iterateNext();
-      while (toolbar && !xnoteButtonPresent) {
-        //~dump("\n\nChecking toolbar '"+toolbar.id+"', currentSet="+toolbar.currentSet);
-        if (toolbar.currentSet.indexOf("xnote_froihofer_net-browserAction-toolbarbutton") > -1) {
-          xnoteButtonPresent = true;
-          //~dump("\nFound XNote button.");
-        }
-        toolbar = toolbars.iterateNext();
-      }
-
-      if (!xnoteButtonPresent) try {
-        toolbar = document.getElementById("mail-bar3");
-        if (!xnote.ns.Commons.isInThunderbird) {
-          toolbar = document.getElementById("msgToolbar");
-        }
-        let buttons = toolbar.currentSet.split(",");
-        let newSet = "";
-        for (let i = 0; i < buttons.length; i++) {
-          if (!xnoteButtonPresent && buttons[i] == "spring") {
-            newSet += "xnote_froihofer_net-browserAction-toolbarbutton,";
-            xnoteButtonPresent = true;
-          }
-          newSet += buttons[i] + ",";
-        }
-        if (xnoteButtonPresent) {
-          newSet = newSet.substring(0, newSet.length - 1);
-        }
-        else {
-          newSet = toolbar.currentSet + ",xnote_froihofer_net-browserAction-toolbarbutton";
-        }
-        toolbar.currentSet = newSet;
-
-        toolbar.setAttribute("currentset", newSet);
-        Services.xulStore.persist(toolbar, "currentset");
-      }
-        catch (e) {
-          console.error("Could not add XNote button.", e)
-        }
-    }
-  }
-
-  /**
    * At each boot of the extension, associate events such as selection of mails,
    * files, or right click on the list of messages. On selection show the associated
    * note.
    */
   pub.onLoad = function (e) {
-    //console.debug("xnote: overlay.onLoad: "+JSON.stringify(xnote, null, 2)+"\n");
-
-    if (String(EnsureSubjectValue).search('extensionDejaChargee') == -1) {
-      let oldEnsureSubjectValue = EnsureSubjectValue;
-      EnsureSubjectValue = function () {
-        //to prevent duplicate registrations:
-        var extensionDejaChargee;
-        oldEnsureSubjectValue();
-        setTimeout(xnote.ns.Overlay.initialise);
-      };
-    }
     try {
-      let tree = document.getElementById('folderTree');
-      tree.addEventListener('select', pub.closeNote, false);
-      tree.addEventListener('select', pub.updateXNoteButton, false);
-      tree = document.getElementById('threadTree');
+      let tree = document.getElementById('threadTree');
       tree.addEventListener('contextmenu', pub.messageListClicked, false);
-      tree.addEventListener('select', pub.updateXNoteButton, false);
       tree.addEventListener('mouseover', pub.getCurrentRow, false);
-      tree.addEventListener('select', xnote.ns.Overlay.initialise, false);
 
       let messagePane = document.getElementById("messagepane");
       messagePane.addEventListener("contextmenu", pub.messagePaneClicked, false);
@@ -377,26 +240,13 @@ xnote.ns.Overlay = function () {
     catch (e) {
       logException(e, false);
     }
-
-    //window.addEventListener('DOMAttrModified', xnote.ns.Commons.printEventDomAttrModified, false);
-
-    pub.checkInitialization();
   }
 
   pub.onUnload = function (e) {
-    //console.debug("xnote: overlay.onLoad: "+JSON.stringify(xnote, null, 2)+"\n");
-
-
     try {
-      let tree = document.getElementById('folderTree');
-      tree.removeEventListener('select', pub.closeNote);
-      tree.removeEventListener('select', pub.updateXNoteButton);
-      tree = document.getElementById('threadTree');
+      let tree = document.getElementById('threadTree');
       tree.removeEventListener('contextmenu', pub.messageListClicked);
-      tree.removeEventListener('select', pub.updateXNoteButton);
       tree.removeEventListener('mouseover', pub.getCurrentRow);
-      tree.removeEventListener('select', xnote.ns.Overlay.initialise);
-
 
       let messagePane = document.getElementById("messagepane");
       messagePane.removeEventListener("contextmenu", pub.messagePaneClicked);
@@ -405,27 +255,11 @@ xnote.ns.Overlay = function () {
         tree.removeEventListener('click', pub.getCurrentRow);
 
       }
-
     }
     catch (e) {
       logException(e, false);
     }
-
-
-
   }
-
 
   return pub;
 }();
-
-/*function toOpenWindowByType(inType, uri) {
-  var winopts = "chrome,extrachrome,menubar,resizable,scrollbars,status,toolbar";
-  window.open(uri, "_blank", winopts);
-}
-start_venkman();*/
-
-//addEventListener('load', xnote.ns.Overlay.onLoad, true);
-
-// dump("xnote: overlay - end: "+JSON.stringify(xnote, null, 2));
-

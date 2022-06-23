@@ -1,15 +1,7 @@
 var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 
-
-
-Services.scriptloader.loadSubScript("chrome://xnote/content/xnote-classe.js", window, "UTF-8");
+// Load xnoteOverlayObj into the window.
 Services.scriptloader.loadSubScript("chrome://xnote/content/xnote-overlay.js", window, "UTF-8");
-Services.scriptloader.loadSubScript("chrome://xnote/content/xnote-columnnote.js", window, "UTF-8");
-Services.scriptloader.loadSubScript("chrome://xnote/content/scripts/notifyTools.js", window.xnote, "UTF-8");
-//Services.scriptloader.loadSubScript("chrome://global/content/preferencesBindings.js", window, "UTF-8");
-//Services.scriptloader.loadSubScript("chrome://xnote/content/preferences.js", window, "UTF-8");
-
-//<script type='application/x-javascript' src='chrome://xnote/content/scripts/notifyTools.js' />
 
 function onLoad(activatedWhileWindowOpen) {
   //console.log (Services.appinfo.version);
@@ -27,13 +19,13 @@ function onLoad(activatedWhileWindowOpen) {
               insertbefore="mailContext-openInBrowser,mailContext-openNewWindow">
         <menupopup>
              <menuitem id="xnote-context-create" label="&ajout.label;" accesskey="&ajout.key;"
-                oncommand="xnote.ns.Overlay.context_createNote();">
+                oncommand="window.xnoteOverlayObj.context_createNote();">
             </menuitem>
             <menuitem id="xnote-context-modify" label="&modif.label;" accesskey="&modif.key;"
-                oncommand="xnote.ns.Overlay.context_modifyNote();">
+                oncommand="window.xnoteOverlayObj.context_modifyNote();">
             </menuitem>
             <menuitem id="xnote-context-delete" label="&suppr.label;" accesskey="&suppr.key;"
-                oncommand="goDoCommand('cmd_label0'); xnote.ns.Overlay.context_deleteNote();">
+                oncommand="goDoCommand('cmd_label0'); window.xnoteOverlayObj.context_deleteNote();">
       <!--
         It seems the observes element is no longer working as of TB 68.
         Disabling now via JavaScript.
@@ -46,7 +38,7 @@ function onLoad(activatedWhileWindowOpen) {
       <observes element="xnote-context-modify" attribute="hidden" />
     </menuseparator>
     <menuitem id="xnote-context-reset-note-window" label="&resetNoteWindow.label;"
-      oncommand="xnote.ns.Overlay.context_resetNoteWindow();">
+      oncommand="window.xnoteOverlayObj.context_resetNoteWindow();">
       <observes element="xnote-context-modify" attribute="hidden"/>
     </menuitem>
         </menupopup>
@@ -66,18 +58,11 @@ function onLoad(activatedWhileWindowOpen) {
   
   `, ["chrome://xnote/locale/xnote-overlay.dtd"]);
 
-  // console.log ("xnote",  window.xnote);
- window.setTimeout( () => { 
-   window.xnote.WL = WL;
-  window.xnote.ns.Overlay.onLoad();
-  window.xnote.ns.ColumnNote.onLoad();
-}, 650);
+  window.setTimeout(() => {
+    window.xnoteOverlayObj.onLoad();
+  }, 650);
 }
 
 function onUnload(isAddOnShutDown) {
-  window.xnote.ns.Overlay.onUnload();
-  window.xnote.ns.ColumnNote.onUnload();
-  Services.obs.notifyObservers(null, "startupcache-invalidate", null);
-
+  window.xnoteOverlayObj.onUnload();
 }
-

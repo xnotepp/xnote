@@ -8,18 +8,54 @@
         "async": true,
         "parameters": []
       },
+   
       {
-        "name": "initNote",
+        "name": "hasOpenNoteWindow",
         "type": "function",
         "async": true,
-        "parameters": []
+        "parameters": [
+          {
+            "name": "windowId",
+            "type": "integer",
+            "optional": true
+          }
+        ]
       },
-    
+      
       {
         "name": "closeNoteWindow",
         "type": "function",
         "async": true,
-        "parameters": []
+        "parameters": [
+          {
+            "name": "windowId",
+            "type": "integer",
+            "optional": true
+          }
+        ]
+      },
+
+      {
+        "name": "openNoteWindow",
+        "type": "function",
+        "async": true,
+        "parameters": [
+          {
+            "name": "windowId",
+            "type": "integer",
+            "optional": true
+          },
+          {
+            "name": "messageId",
+            "type": "integer",
+            "optional": true
+          },
+          {
+            "name": "focus",
+            "type": "boolean",
+            "optional": true
+          }
+        ]
       },
 
       {

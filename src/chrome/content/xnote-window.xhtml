@@ -4,96 +4,71 @@
 	# Authors : Hugo Smadja, Lorenz Froihofer
 	# Description : décrit les objets qui compose une XNote
 -->
-
-<!DOCTYPE window SYSTEM 'chrome://xnote/locale/xnote-window.dtd'>
-
 <?xml-stylesheet href='resource://xnote/skin/xnote-window.css' type='text/css'?>
 
-<window
-	xmlns='http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul'
+<!DOCTYPE window SYSTEM "chrome://xnote/locale/xnote-window.dtd">
+<window 
+  xmlns='http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul'
   xmlns:html='http://www.w3.org/1999/xhtml'
-	id='xnote-window'
-	hidechrome='true'
-	title = ""
+  id='xnote-window'
+  hidechrome='true'
+  title=""
+  onkeypress='if (event.keyCode==27) close();'
+  minwidth='58'
+  windowtype='xnote:note'
+  minheight='88'>
 
-	onkeypress='if (event.keyCode==27) close();'
-	minwidth='58'
-	windowtype='xnote:note'
+  <script src="chrome://xnote/content/xnote-window.js"></script>
 
-	minheight='88'>
-	<script  src="chrome://xnote/content/xnote-window.js" ></script>
-
-	<box id='xnote-note' orient='vertical' flex='1'>
-		<box id='xnote-barre'>
-			<titlebar flex='1' onmouseup='xnote.ns.Window.noteModified();'>
-				<label id='xnote-titre' value='&xnote;'/>
-				<label id='xnote-mdate' class="boite-de-texte" readonly="true"/>
-			</titlebar>
-			
-			<image
-				id='xnote-bouton-fermer'
-				tooltiptext="&close;"
-				class='custombutton-smaller'
-				onclick='if (event.button==0) { xnote.ns.Window.saveNote(); event.view.close(); }'/>
-		</box>
-
-		<html:textarea
-			id='xnote-texte'
-			class='boite-de-texte'
-			oninput='xnote.ns.Window.noteModified();'
-	/>
-
-		<box id='xnote-barre-bottom' flex="1">
-			<image
-				id='xnote-bouton-suppr'
-				class='custombutton-smaller'
-				tooltiptext='&amp;suppr;'
-				onclick='if (event.button==0 &amp;&amp; confirm("&xnote.ask.deletion;")) { xnote.ns.Window.deleteNote();event.view.close(); }'>
-			</image>
-
-			<image
-				id='xnote-button-print'
-				class='custombutton-smaller'
-				tooltiptext='&print;'
-				src = "chrome://messenger/skin/icons/print.svg"
-				onclick='if (event.button==0 ) { xnote.ns.Window.printNote(); }'>
-			</image>
-
-	
-
-			<html:a href="mailto:" id = 'xnote-button-forward'>
-			<image
-				id='xnote-button-forward-img'
-				class='custombutton-smaller'
-				tooltiptext='&forward;'
-				src = "chrome://messenger/skin/icons/forward.svg"
-				>
-			</image>
-	</html:a>
-
-	<image
-				id='xnote-button-copy'
-				class='custombutton-smaller'
-				tooltiptext='copy to clipboard'
-				src = "chrome://xnote/content/skin/iconmonstr-clipboard-13-16.png"
-				onclick='if (event.button==0 ) { xnote.ns.Window.copyNoteToClipboard(); }'>
-			</image>
-
-			<image
-			id='xnote-button-bookmark'
-			class='custombutton-smaller'
-			tooltiptext='Bookmark this XNote  ... Install bookmarks addon if not done.'
-			src = "chrome://xnote/content/skin/iconmonstr-bookmark-6-16.png"
-			onclick='if (event.button==0 ) { xnote.ns.Window.bookmarkNote(); }'>
-		</image>
-
-
-			<html:input
-				id='xnote-redim'
-				class='boite-de-texte'
-				onmousedown='xnote.ns.Window.startRedimensionnement(event);'
-				readonly='true'
-				context='false'/>
-		</box>
-	</box>
+  <box id='xnote-note' orient='vertical' flex='1'>
+    <box id='xnote-barre'>
+      <titlebar flex='1' onmouseup='window.xnoteWindowObj.noteModified();'>
+        <label id='xnote-titre' value='&xnote;' />
+        <label id='xnote-mdate' class="boite-de-texte" readonly="true" />
+      </titlebar>
+  
+      <image id='xnote-bouton-fermer' tooltiptext="&close;" class='custombutton-smaller'
+        onclick='if (event.button==0) { window.xnoteWindowObj.saveNote(); event.view.close(); }' />
+    </box>
+  
+    <html:textarea id='xnote-texte' class='boite-de-texte' oninput='window.xnoteWindowObj.noteModified();' />
+  
+    <box id='xnote-barre-bottom' flex="1">
+      <image 
+        id='xnote-bouton-suppr' 
+        class='custombutton-smaller' 
+        tooltiptext='&amp;suppr;'
+        onclick='if (event.button==0) { if (confirm("&xnote.ask.deletion;")) { window.xnoteWindowObj.deleteNote();event.view.close(); }}'
+      >
+      </image>
+  
+      <image id='xnote-button-print' class='custombutton-smaller' tooltiptext='&print;'
+        src="chrome://messenger/skin/icons/print.svg"
+        onclick='if (event.button==0 ) { window.xnoteWindowObj.printNote(); }'>
+      </image>
+  
+  
+  
+      <html:a href="mailto:" id='xnote-button-forward'>
+        <image id='xnote-button-forward-img' class='custombutton-smaller' tooltiptext='&forward;'
+          src="chrome://messenger/skin/icons/forward.svg">
+        </image>
+      </html:a>
+  
+      <image id='xnote-button-copy' class='custombutton-smaller' tooltiptext='copy to clipboard'
+        src="chrome://xnote/content/skin/iconmonstr-clipboard-13-16.png"
+        onclick='if (event.button==0 ) { window.xnoteWindowObj.copyNoteToClipboard(); }'>
+      </image>
+  
+      <image id='xnote-button-bookmark' class='custombutton-smaller'
+        tooltiptext='Bookmark this XNote  ... Install bookmarks addon if not done.'
+        src="chrome://xnote/content/skin/iconmonstr-bookmark-6-16.png"
+        onclick='if (event.button==0 ) { window.xnoteWindowObj.bookmarkNote(); }'>
+      </image>
+  
+  
+      <html:input id='xnote-redim' class='boite-de-texte'
+        onmousedown='window.xnoteWindowObj.startRedimensionnement(event);' readonly='true' context='false' />
+    </box>
+  </box>
 </window>
