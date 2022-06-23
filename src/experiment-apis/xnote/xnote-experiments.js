@@ -209,7 +209,6 @@ var xnoteapi = class extends ExtensionCommon.ExtensionAPI {
     //    console.debug(`onShutdown: isAppShutdown=${isAppShutdown}`);
     if (isAppShutdown) return;
     
-    xnote.ns.ColumnNote.onUnload();
     Components.utils.unload("resource://xnote/modules/dateformat.jsm");
     Components.utils.unload("resource://xnote/modules/commons.jsm");
     Components.utils.unload("resource://xnote/modules/xnote.jsm");

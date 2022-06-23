@@ -2,6 +2,7 @@ var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
 
 // Load xnoteOverlayObj into the window.
 Services.scriptloader.loadSubScript("chrome://xnote/content/xnote-overlay.js", window, "UTF-8");
+Services.scriptloader.loadSubScript("chrome://xnote/content/xnote-columnnote.js", window, "UTF-8");
 
 function onLoad(activatedWhileWindowOpen) {
   //console.log (Services.appinfo.version);
@@ -58,11 +59,19 @@ function onLoad(activatedWhileWindowOpen) {
   
   `, ["chrome://xnote/locale/xnote-overlay.dtd"]);
 
-  window.setTimeout(() => {
-    window.xnoteOverlayObj.onLoad();
-  }, 650);
+  window.xnoteColumnObj.onLoad();
+  window.xnoteOverlayObj.onLoad();
+
+  // Taken from full-address-column@lukasz.kosson.net / Full Address column
+  // Usually the column handler is added when the window loads.
+  // In our setup it's added later and we may miss the first notification.
+  // So we fire one ourserves.
+  if (window.gDBView && window.document.documentElement.getAttribute("windowtype") == "mail:3pane") {
+    Services.obs.notifyObservers(null, "MsgCreateDBView");
+  }
 }
 
 function onUnload(isAddOnShutDown) {
+  window.xnoteColumnObj.onUnload();
   window.xnoteOverlayObj.onUnload();
 }
