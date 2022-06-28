@@ -1,4 +1,3 @@
-
 //See https://developer.mozilla.org/en/Using_JavaScript_code_modules for explanation
 let EXPORTED_SYMBOLS = ["Commons"];
 
@@ -127,6 +126,3 @@ var Commons = function() {
   
   return pub;
 }();
-
-
-//console.debug("Initializing xnote commons.jsm");

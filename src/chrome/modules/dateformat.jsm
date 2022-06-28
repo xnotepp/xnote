@@ -51,4 +51,3 @@ DateFormat.format = function(mask) {
 		}
 	});
 };
- 

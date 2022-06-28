@@ -7,23 +7,18 @@
 */
 var { XPCOMUtils } = ChromeUtils.import("resource://gre/modules/XPCOMUtils.jsm");
 var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
-//var { PrintUtils } = ChromeUtils.import("chrome://messenger/content/printUtils.js");
-/**/
+
 XPCOMUtils.defineLazyScriptGetter(
   this,
   "PrintUtils",
   "chrome://messenger/content/printUtils.js"
 );
 
-const { ExtensionParent } = ChromeUtils.import("resource://gre/modules/ExtensionParent.jsm");
-const xnoteExtension = ExtensionParent.GlobalManager.getExtension("xnote@froihofer.net");
-var { xnote } = ChromeUtils.import(xnoteExtension.rootURI.resolve("chrome/modules/xnote.jsm"));
-if (!xnote.ns) xnote.ns = {};
-ChromeUtils.import(xnoteExtension.rootURI.resolve("chrome/modules/commons.jsm"), xnote.ns);
-ChromeUtils.import(xnoteExtension.rootURI.resolve("chrome/modules/dateformat.jsm"), xnote.ns);
-Services.scriptloader.loadSubScript("chrome://xnote/content/scripts/notifyTools.js", window, "UTF-8");
+var { xnote } = ChromeUtils.import("resource://xnote/modules/xnote.jsm");
 
-xnote.ns.Window = function () {
+// This object lives inside the xnote window. This is the old 
+// xnote.ns.Window object, which was falsly placed in the global xnode module.
+window.xnoteWindowObj = function () {
   // Variables for window movement
   var xBeforeMove, yBeforeMove;
   // Variables for window resizing.
@@ -53,18 +48,19 @@ xnote.ns.Window = function () {
       self.document.getElementById('xnote-note').style.setProperty('-moz-opacity', pref.getIntPref('xnote.transparence')/10, '');
     }
     catch(e) {}*/
-
+    
+    Services.scriptloader.loadSubScript("chrome://xnote/content/scripts/notifyTools.js", pub, "UTF-8");
 
     // Capture the Window focus lost event to update the XNote tag.
-    addEventListener('blur', xnote.ns.Window.updateTag, true);
-    addEventListener('unload', xnote.ns.Window.onUnload, false);
+    addEventListener('blur', window.xnoteWindowObj.updateTag, true);
+    addEventListener('unload', window.xnoteWindowObj.onUnload, false);
 
     //Necessary for correct shutdown as we are otherwise unable to correctly
     //save a modified note
-    opener.addEventListener("unload", xnote.ns.Window.onOpenerUnload, false);
+    opener.addEventListener("unload", window.xnoteWindowObj.onOpenerUnload, false);
     //Unfortunately, there seems to be no better way to react on window
     //movement.
-    setInterval(xnote.ns.Window.checkOpenerMoved, 500);
+    setInterval(window.xnoteWindowObj.checkOpenerMoved, 500);
 
     note = self.arguments[0];
 
@@ -84,9 +80,9 @@ xnote.ns.Window = function () {
 
 
 
-    self.setTimeout(xnote.ns.Window.resizeWindow);
+    self.setTimeout(window.xnoteWindowObj.resizeWindow);
 
-    if (window.arguments[1] == 'clicBouton')
+    if (window.arguments[1])
       texte.focus();
     else
       self.setTimeout(window.opener.focus);
@@ -117,7 +113,7 @@ xnote.ns.Window = function () {
    */
   pub.updateTag = function () {
     //~ dump('\n->updateTag');
-    opener.xnote.ns.Overlay.updateTag(document.getElementById('xnote-texte').value);
+    opener.xnoteOverlayObj.updateTag(document.getElementById('xnote-texte').value);
     //~ dump('\n<-updateTag');
   }
 
@@ -169,8 +165,7 @@ xnote.ns.Window = function () {
   }
 
   pub.bookmarkNote = function () {
-    notifyTools.notifyBackground({ command: "setBookmark" });//.then((data) => {
-  //  console.log("set bookmark");
+    pub.notifyTools.notifyBackground({ command: "setBookmark" });
   }
 
   pub.printNote = function () {
@@ -321,8 +316,8 @@ xnote.ns.Window = function () {
       heightBeforeMove = window.innerHeight;
       //~ dump('\n xBeforeMove='+xBeforeMove+' ; yBeforeMove='+yBeforeMove);
       //~ dump('\n heightBeforeMove='+heightBeforeMove+' ; heightBeforeMove='+heightBeforeMove);
-      document.addEventListener('mousemove', xnote.ns.Window.redimenssionnement, true);
-      document.addEventListener('mouseup', xnote.ns.Window.stopRedimenssionnement, true);
+      document.addEventListener('mousemove', window.xnoteWindowObj.redimenssionnement, true);
+      document.addEventListener('mouseup', window.xnoteWindowObj.stopRedimenssionnement, true);
     }
   }
 
@@ -347,8 +342,8 @@ xnote.ns.Window = function () {
    * du déplacement de la souris.
    */
   pub.stopRedimenssionnement = function (e) {
-    document.removeEventListener('mousemove', xnote.ns.Window.redimenssionnement, true);
-    document.removeEventListener('mouseup', xnote.ns.Window.stopRedimenssionnement, true);
+    document.removeEventListener('mousemove', window.xnoteWindowObj.redimenssionnement, true);
+    document.removeEventListener('mouseup', window.xnoteWindowObj.stopRedimenssionnement, true);
     let texte = document.getElementById('xnote-texte');
     texte.focus();
   }
@@ -365,10 +360,10 @@ xnote.ns.Window = function () {
     //    ~dump("\n->onUnload");
     //console.log("note unLoad");
     pub.saveNote();
-    removeEventListener('blur', xnote.ns.Window.updateTag);
-    removeEventListener('load', xnote.ns.Window.onLoad);
-    removeEventListener('unload', xnote.ns.Window.onUnload);
-    opener.removeEventListener("unload", xnote.ns.Window.onOpenerUnload);
+    removeEventListener('blur', window.xnoteWindowObj.updateTag);
+    removeEventListener('load', window.xnoteWindowObj.onLoad);
+    removeEventListener('unload', window.xnoteWindowObj.onUnload);
+    opener.removeEventListener("unload", window.xnoteWindowObj.onOpenerUnload);
   }
 
   pub.onOpenerUnload = function (e) {
@@ -378,8 +373,4 @@ xnote.ns.Window = function () {
   return pub;
 }();
 
-addEventListener('load', xnote.ns.Window.onLoad, false);
-
-
-//For testing purposes
-//addEventListener('DOMAttrModified', xnote.ns.Commons.printEventDomAttrModified, false);
+addEventListener('load', window.xnoteWindowObj.onLoad, false);

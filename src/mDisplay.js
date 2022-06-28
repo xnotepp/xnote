@@ -6,9 +6,6 @@ var btnState = 0;//debugger;
 //console.log("loading mdisplay script");
 
 function notify(message) {
-  //  console.log("received in msgDisplay from background");
-  //  console.log("Msg:", message.XNoteText);
-  //debugger;
   try {
     let old = document.getElementById("xnote_msgDisplay");
     old.remove();
@@ -45,14 +42,8 @@ function notify(message) {
     document.documentElement.firstChild.insertAdjacentHTML("beforebegin", text3);
     let btn = document.getElementById("chgSize");
     btn.addEventListener("click", showAll, false);
-
-
   }
 }
-function handleResponse(message) {
-  //console.log(`note Message from the background script: `, message);
-}
-
 function showAll() {
   //console.log("all", xnoteOrig);
   let img = document.getElementById("aa");
@@ -83,12 +74,8 @@ function showAll() {
 }
 
 async function startup() {
-  await messenger.runtime.onMessage.addListener(notify);
   let message = await messenger.runtime.sendMessage({ command: "getXNote" });
-  //console.log(message);//  sending.then(handleResponse);//
-
   notify(message);
-
 }
 
 startup();

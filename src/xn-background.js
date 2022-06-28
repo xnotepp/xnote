@@ -13,61 +13,33 @@ upgrade, new pref
 
 'use strict';
 
-
 const debug = false;//"@@@DEBUGFLAG@@@";
 
 var lastTab = 0, lastWindow = 0;
 var openMsgs = [];
 
-var xnote_displayed = false;
-
-var _preferences;
+var preferenceCache;
 
 var xnote = {};
 xnote.text = "";
 xnote.date = "";
 xnote.inMsgDisplay = false;
-xnote.msgTab = -1;
 
+// Register the chrome url, so any code running after this can access them.
+messenger.WindowListener.registerChromeUrl([
+  ["content", "xnote", "chrome/content/"],
+  ["resource", "xnote", "chrome/"],
 
-messenger.tabs.onRemoved.addListener(tabRemoved);
-
-async function tabRemoved(tabId) {
-  //console.log("tab gone", tabId);
-};
-
-browser.runtime.onMessage.addListener(notifyMsgDisplay);
-
-async function notifyMsgDisplay(message, sender, sendResponse) {
-  //console.log("received from msgDisplay");
-  //console.log("Msg:", message.command, "tabid", sender.tab.id);
-  if (message.command == "getXNote") {
-    let msg = await messenger.messageDisplay.getDisplayedMessage(sender.tab.id);
-    //console.log("msg", msg);
-    let xnote = await messenger.xnoteapi.getXNote(msg.id);
-    //openMsgs[msg.id] = sender.tab.id;
-    //console.log("bcknote", xnote);
-    // let data = await messenger.NotifyTools.notifyExperiment({command: "getNote"});//.then((data) => {
-    //    console.log(data)
-    //  });
-    sendResponse({ note: "xnote" });
-    if (_preferences["show_in_messageDisplay"] == false) xnote.text = "";
-    return xnote;
-    //messenger.runtime.sendMessage({"toMsgDisplay": xnote.text});
-
-    /*
-      browser.notifications.create({
-        "type": "basic",
-        "iconUrl": browser.extension.getURL("link.png"),
-        "title": "You clicked a link!",
-        "message": message.url
-      });
-      */
-  };
-}
-
-
-
+  ["locale", "xnote", "en-US", "chrome/locale/en-US/"],
+  ["locale", "xnote", "de", "chrome/locale/de/"],
+  ["locale", "xnote", "fr-FR", "chrome/locale/fr-FR/"],
+  ["locale", "xnote", "gl", "chrome/locale/gl/"],
+  ["locale", "xnote", "it-IT", "chrome/locale/it-IT/"],
+  ["locale", "xnote", "ja-JP", "chrome/locale/ja-JP/"],
+  ["locale", "xnote", "nl-NL", "chrome/locale/nl-NL/"],
+  ["locale", "xnote", "pl-PL", "chrome/locale/pl-PL/"],
+  ["locale", "xnote", "pt-BR", "chrome/locale/pt-BR/"],
+]);
 
 // This is the current "migration" version for preferences. You can increase it later
 // if you happen to need to do more pref (or maybe other migrations) only once
@@ -141,12 +113,13 @@ async function setTbPref(name, value) {
 }
 
 function getPreferences() {
-  return _preferences;
+  // Why would you want to work with the cached values?
+  return preferenceCache;
 }
 
 async function setPreferences(preferences) {
-  _preferences = preferences;
-  browser.storage.local.set({ "preferences": _preferences });
+  preferenceCache = preferences;
+  browser.storage.local.set({ preferences });
   browser.xnoteapi.setPreferences(preferences);
 }
 
@@ -164,6 +137,10 @@ async function appendRelativePath(basePath, extension) {
   return await browser.xnotefiles.appendRelativePath(basePath, extension);
 }
 
+async function wait(t) {
+  //	let t = 5000;
+  await new Promise(resolve => window.setTimeout(resolve, t));
+}
 
 // landing windows.
 messenger.runtime.onInstalled.addListener(async ({ reason, temporary }) => {
@@ -200,226 +177,71 @@ messenger.runtime.onInstalled.addListener(async ({ reason, temporary }) => {
 });
 
 
-async function msgDisplayListener(tab, msg) {
-  //console.log("tab", tab.id, tab.mailTab);
-  xnote.msgTab = tab.id;
-  /*
-  await messenger.tabs.executeScript(tab.id, {
-    file:  "mDisplay.js"
-  }); 
-  */
-}
-
-async function wait(t) {
-  //	let t = 5000;
-  await new Promise(resolve => window.setTimeout(resolve, t));
-
-}
-
 //var portFromBookmarks = null;
-var portXnote = null;
 async function main() {
-
-  //  let testdata = await messenger.NotifyTools.notifyExperiment({command: "fromXNote"});//.then((data) => {
-  /*
-    messenger.runtime.onConnectExternal.addListener((port) => {
- //     console.log(port);
-   
-      if (port.sender.id === "bookmarks@opto.one") {
-  //      console.log("connection attempt from bookmarks");
-        portFromBookmarks = port;
-        if (portFromBookmarks != null ) portFromBookmarks.postMessage({content: "Message from xnote"});
-        portFromBookmarks.onMessage.addListener((message) => {
-  //        console.log(`From Hansel: ${message.content}`);
-        });
-      }
-     
-    });    
-  
-  */
   await migratePrefs();
-  //  await messenger.clipboard.writeText("info.text");
 
-  _preferences = (await browser.storage.local.get("preferences")).preferences;
-  if (debug) {
-    //console.debug({ "Preferences": _preferences });
-  }
-  await browser.xnoteapi.setPreferences(_preferences);
+  preferenceCache = (await browser.storage.local.get("preferences")).preferences;
+  await browser.xnoteapi.setPreferences(preferenceCache);
   await browser.xnoteapi.init();
 
-  /* //does not solve timing at install*/
+  messenger.tabs.onActivated.addListener(async (activeInfo) => {
+    lastTab = activeInfo.tabId;
+    lastWindow = activeInfo.windowId;
+    let tabInfo = await messenger.tabs.get(activeInfo.tabId);
+    if (!tabInfo.mailTab) {
+      messenger.xnoteapi.closeNoteWindow(activeInfo.windowId);
+      xnote.text = "";
+    };
+  });
+
+
+  browser.browserAction.onClicked.addListener(async (tab, info) => {
+    let xnote_displayed = await messenger.xnoteapi.hasOpenNoteWindow(tab.windowId);
+    if (!xnote_displayed) {
+      let message = await browser.messageDisplay.getDisplayedMessage(tab.id)
+      await messenger.xnoteapi.openNoteWindow(tab.windowId, message.id, true);
+    } else {
+      messenger.xnoteapi.closeNoteWindow(tab.windowId);
+    }
+  });
+  messenger.messageDisplay.onMessageDisplayed.addListener(async (tab, message) => {
+    messenger.xnoteapi.closeNoteWindow(tab.windowId);
+    await messenger.xnoteapi.openNoteWindow(tab.windowId, message.id, false);
+  });
+
+
+
+  messenger.NotifyTools.onNotifyBackground.addListener(async (info) => {
+    switch (info.command) {
+      case "setBookmark":
+        messenger.runtime.sendMessage("bookmarks@opto.one", { content: "addXnoteBookmark" }, {});
+        break;
+    }
+  });
+
+
+
+  /*
+   * Show note info in message display
+   */
+  browser.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
+    //console.log({message, sender});
+    if (message.command == "getXNote") {
+      let msg = await messenger.messageDisplay.getDisplayedMessage(sender.tab.id);
+      let xnote = await messenger.xnoteapi.getXNote(msg.id);
+      if (preferenceCache["show_in_messageDisplay"] == false) xnote.text = "";
+      return xnote;
+    };
+  });
+
+  // Only loads into new messages, so on install, it will not load into the
+  // already open message.
   await messenger.messageDisplayScripts.register({
     js: [{ file: "mDisplay.js" }]
     //,
     //css: [{ file: "/src/message-content-styles.css" }],
   });
-
-
-  /*  nope, needs to be loaded repeatedly into each messageDisplay
-    let TBwindows = await messenger.windows.getAll({populate:true} );
-//    console.log("msgDisplays", TBwindows);
-   
-    for (let TBwindow of TBwindows ) {
-      //console.log("tabs", msgDisplay.tabs);
-      if (TBwindow.type == "messageDisplay") {
- //       console.log("messageDisplay", TBwindow.tabs[0].id);
-        await messenger.tabs.executeScript(TBwindow.tabs[0].id, {
-          file:  "mDisplay.js"
-        });  
-      }    
-      else {
-        for (let tab of TBwindow.tabs) {
-          if (tab.mailTab) {
- //           console.log("mailTab", tab.id);
-            await messenger.tabs.executeScript(tab.id, {
-              file:  "mDisplay.js"
-            });  
-          }        
-        };
-  
-      };
-    
-    
-    
-    };
-  */
-
-  //console.log("msgDisplays", msgDisplays);
-  messenger.messageDisplay.onMessageDisplayed.addListener((tab, message) => {
-    //console.log(`Message displayed in tab ${tab.id}: ${message.subject}`);
-    xnote_displayed = false;  // for the case that no autodisplay, to be able to manually toggle the display
-  });
-
-  //    messenger.messageDisplayAction.disable();
-  //    messenger.messageDisplayAction.setBadgeText({text:"test"});
-
-  messenger.tabs.onActivated.addListener(async (activeInfo) => {
-    //console.log("tab activated "+ activeInfo.tabId + " window: " + activeInfo.windowId);
-    lastTab = activeInfo.tabId;
-    lastWindow = activeInfo.windowId;
-    let tabInfo = await messenger.tabs.get(activeInfo.tabId);
-    if (!tabInfo.mailTab) {
-      messenger.xnoteapi.closeNoteWindow();
-      xnote.text = "";
-    };
-  });
-
-  messenger.WindowListener.registerChromeUrl([
-    ["content", "xnote", "chrome/content/"],
-    ["resource", "xnote", "chrome/"],
-
-    ["locale", "xnote", "en-US", "chrome/locale/en-US/"],
-    ["locale", "xnote", "de", "chrome/locale/de/"],
-    ["locale", "xnote", "fr-FR", "chrome/locale/fr-FR/"],
-    ["locale", "xnote", "gl", "chrome/locale/gl/"],
-    ["locale", "xnote", "it-IT", "chrome/locale/it-IT/"],
-    ["locale", "xnote", "ja-JP", "chrome/locale/ja-JP/"],
-    ["locale", "xnote", "nl-NL", "chrome/locale/nl-NL/"],
-    ["locale", "xnote", "pl-PL", "chrome/locale/pl-PL/"],
-    ["locale", "xnote", "pt-BR", "chrome/locale/pt-BR/"],
-  ]);
-
-  messenger.WindowListener.registerWindow("chrome://messenger/content/messenger.xhtml", "chrome/content/scripts/xn-xnote-overlay.js");
-
-  browser.browserAction.onClicked.addListener(async (tab, info) => {
-    if (!xnote_displayed) {
-      messenger.xnoteapi.initNote();
-      xnote_displayed = true;
-    }
-    else {
-      messenger.xnoteapi.closeNoteWindow();
-      xnote_displayed = false;
-    }
-  });
-
-  browser.browserAction.disable();
-
-
-  /*
-    
-    portXnote = browser.runtime.connect(
-      "bookmarks@opto.one", // optional string
-      {name: "xnote2bookmarks"}  // optional object
-    )
-    portXnote.onDisconnect.addListener((p) => {
-      if (p.error) {
- //       console.log(`Disconnected due to an error: ${p.error.message}`);
-      }
-    });
- //   console.log("portXnote" ,portXnote);
-  
-  
-  */
-  messenger.NotifyTools.onNotifyBackground.addListener(async (info) => {
-    switch (info.command) {
-
-      case "setBookmark":
- //       console.log("setXNoteBookmark in bckgrd");
-        messenger.runtime.sendMessage("bookmarks@opto.one", { content: "addXnoteBookmark" }, {});
-        //  portXnote.postMessage({content: "Message from xnote"});
-        //   try {
-        /*
-                if (true) { //portXnote == null) {
-      
-                portXnote = browser.runtime.connect(
-                  "bookmarks@opto.one", // optional string
-                  {name: "xnote2bookmarks"}  // optional object
-                );
-                portXnote.onDisconnect.addListener((p) => {
-                  if (p.error) {
- //                   console.log(`Disconnected due to an error: ${p.error.message}`);
-                    portXnote = null;
-                  }
-                });
-              
-      
-              };
-              */
-        //    console.log(portXnote);
-
-        //    if (portXnote.sender != undefined ) portXnote.postMessage({content: "Message from xnote"}); else console.log("cannot contact bookmarks");
-        //  }
-        //   catch (e) {};
-        //return;
-        break;
-      case "addToMsgDisplay":
-        if (true) {
-          xnote.text = info.text;
-          xnote.date = info.date;
-          //        console.log("msgDisplay");
-          //        console.log(xnote.text);
-          //          let activeTab = await messenger.tabs.query({windowType: "messageDisplay"});
-          let activeTab = await messenger.tabs.query({ active: true, currentWindow: true });
-          //        console.log(activeTab);
-          //          await wait (5000);
-          /*
-          await messenger.tabs.executeScript(activeTab[0].id, {
-            file:  "mDisplay.js"
-          });  
-          
-          //debugger;
-                  if (info.text.length>0)  await messenger.tabs.sendMessage(activeTab[0].id,{XNoteText: info.text, XNoteDate: info.date}, null)  ;
-          */
-        };
-        //        console.log(msgtab?"")
-
-        // console.log("msgtab?", xnote.msgTab);
-        let rv = "received from background";
-        return rv;
-        break;
-      case "copyToClipboard":
-        //        messenger.clipboard.writeText(info.text);
-        let rvc = "copied to clipboard";
-        return rvc;
-
-        break;
-    }
-  });
-
-
-  messenger.messageDisplay.onMessageDisplayed.addListener(msgDisplayListener);
-
-
 
   /*
    * Start listening for opened windows. Whenever a window is opened, the registered
@@ -427,6 +249,12 @@ async function main() {
    * an object inside the global window. The name of that object can be specified via
    * the parameter of startListening(). This object also contains an extension member.
    */
+  
+  // WE USE THIS ONLY FOR THE MENU ENTRIES - GET RID OF IT - USE MENUS API
+  messenger.WindowListener.registerWindow(
+    "chrome://messenger/content/messenger.xhtml", 
+    "chrome/content/scripts/xn-xnote-overlay.js"
+  );
   messenger.WindowListener.startListening();
 }
 

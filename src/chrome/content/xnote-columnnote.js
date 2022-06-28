@@ -6,13 +6,10 @@
   # Description : Functions associated with the XNote window (xnote-window.xul).
 */
 
-if (!ExtensionParent) var { ExtensionParent } = ChromeUtils.import("resource://gre/modules/ExtensionParent.jsm");
-if (!xnoteExtension) var xnoteExtension = ExtensionParent.GlobalManager.getExtension("xnote@froihofer.net");
-var { xnote } = ChromeUtils.import(xnoteExtension.rootURI.resolve("chrome/modules/xnote.jsm"));
-if (!xnote.ns) xnote.ns = {};
-ChromeUtils.import(xnoteExtension.rootURI.resolve("chrome/modules/commons.jsm"), xnote.ns);
+var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
+var { xnote } = ChromeUtils.import("resource://xnote/modules/xnote.jsm");
 
-xnote.ns.ColumnNote = function () {
+var xnoteColumnObj = function () {
 
   function getHeaderForRow(row) {
     return gDBView.getFolderForViewIndex(row).
@@ -104,6 +101,3 @@ xnote.ns.ColumnNote = function () {
 
   return pub;
 }();
-
-//window.addEventListener("load", xnote.ns.ColumnNote.doOnceLoaded, false);
-//dump("xnote: xnote-columnnote - end: "+JSON.stringify(xnote, null, 2));

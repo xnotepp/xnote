@@ -2,14 +2,14 @@
   "manifest_version": 2,
   "name": "__MSG_extensionName__",
   "description": "__MSG_extensionDescription__",
-  "version": "3.2.10",
+  "version": "3.3.1",
   "author": "Lorenz Froihofer: support for TB >= 3.0, since Dec. 2009, Klaus Bücher since TB 78",
   "homepage_url": "https://github.com/xnotepp/xnote/wiki",
   "applications": {
     "gecko": {
       "id": "xnote@froihofer.net",
       "strict_min_version": "91.0",
-      "strict_max_version": "91.*"
+      "strict_max_version": "102.*"
     }
   },
   "default_locale" : "en_US",
@@ -52,16 +52,6 @@
       }
     },
 
- 
-    "xnoteUtilities": {
-      "schema": "experiment-apis/Utilities/utilities.json",
-      "parent": {
-        "scopes": ["addon_parent"],
-        "paths": [["xnoteUtilities"]],
-        "script": "experiment-apis/Utilities/utilities.js"
-      
-       }
-    },
     "xnoteapi": {
       "schema": "experiment-apis/xnote/xnote-experiments.json",
       "parent": {
@@ -70,6 +60,7 @@
         "script": "experiment-apis/xnote/xnote-experiments.js"
        }
     },
+    
     "xnotefiles": {
       "schema": "experiment-apis/files/files-api.json",
       "parent": {

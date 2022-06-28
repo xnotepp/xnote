@@ -3,13 +3,7 @@ var { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCo
   { TagUtils } = ChromeUtils.import("resource:///modules/TagUtils.jsm"),
   win = Services.wm.getMostRecentWindow("mail:3pane");
 
-const { ExtensionParent } = ChromeUtils.import("resource://gre/modules/ExtensionParent.jsm");
-const xnoteExtension = ExtensionParent.GlobalManager.getExtension("xnote@froihofer.net");
-var { xnote } = ChromeUtils.import(xnoteExtension.rootURI.resolve("chrome/modules/xnote.jsm"));
-if (!xnote.ns) xnote.ns = {};
-ChromeUtils.import(xnoteExtension.rootURI.resolve("chrome/modules/commons.jsm"), xnote.ns);
-ChromeUtils.import(xnoteExtension.rootURI.resolve("chrome/modules/storage.jsm"), xnote.ns);
-ChromeUtils.import(xnoteExtension.rootURI.resolve("chrome/modules/xnote-upgrades.jsm"), xnote.ns);
+var { xnote } = ChromeUtils.import("resource://xnote/modules/xnote.jsm");
 
 const XNOTE_BASE_PREF_NAME = "extensions.xnote.";
 
@@ -80,15 +74,65 @@ var xnoteapi = class extends ExtensionCommon.ExtensionAPI {
           xnote.ns.Commons.checkXNoteTag();
         },
 
-        async closeNoteWindow() {
-          //console.log("now close window");
-          let winNote = Services.wm.getMostRecentWindow("xnote:note");
-          //debugger;
-          if (winNote) winNote.close();
+        async hasOpenNoteWindow(windowId) {
+          let window = context.extension.windowManager.get(windowId).window;
+          // There may be a better property to know wether the window still exists, top works.
+          return !!(window?.xnoteOverlayObj?.xnoteWindow?.top);
         },
 
-        async initNote() {
-          xnote.ns.Overlay.initialise('clicBouton');
+        async openNoteWindow(windowId, messageId, focus) {
+          let window = context.extension.windowManager.get(windowId).window;
+          let msgHdr = context.extension.messageManager.get(messageId);
+          window.xnoteOverlayObj.closeNote();
+          window.xnoteOverlayObj.note = new xnote.ns.Note(msgHdr.messageId); // we could pass in the headerMessageId directly
+          let note = window.xnoteOverlayObj.note;
+          
+          // This uses a core function to update the currently selected message, bad, get rid of it
+          // and explicitly set the tag on the message. Directly in the background caller using WebExt API.
+          window.xnoteOverlayObj.updateTag(note.text);
+
+          let xnotePrefs = xnote.ns.Commons.xnotePrefs;
+          if (
+            (xnotePrefs.show_on_select && note.text != '') || 
+            focus
+          ) {
+            window.xnoteOverlayObj.xnoteWindow = window.openDialog(
+                "chrome://xnote/content/xnote-window.xhtml",
+                "XNote",
+                `chrome=yes,dependent=yes,resizable=yes,modal=no,left=${window.screenX + note.x},top=${window.screenY + note.y},width=${note.width},height=${note.height}`,
+                note,
+                focus
+              );
+              return true;
+            }
+            return false;
+        },
+
+        async closeNoteWindow(windowId) {
+          let window = context.extension.windowManager.get(windowId).window;
+          let xnoteWindow = window?.xnoteOverlayObj?.xnoteWindow;
+          if (xnoteWindow) xnoteWindow.close();
+        },
+
+
+
+        async getXNote(id) {
+          let note = {};
+          try {
+
+            let realMessage = context.extension.messageManager.get(id);
+            // TODO: The constructor of xnote.ns.Note accepts a window as second
+            //       parameter and falls back to the most recent one, if none is
+            //       given. This should probably become multi window aware and
+            //       the API should pass in a windowId and calculate the actuall
+            //       window and specify that explicitly as second parameter here.
+            note = new xnote.ns.Note(realMessage.messageId);
+            //         console.log("xnote", note);
+
+          } catch (ex) {
+            console.error(`Could not get TB mesg`);
+          }
+          return { text: note.text, date: note.modificationDate };
         },
 
         async getPref(name) {
@@ -101,24 +145,6 @@ var xnoteapi = class extends ExtensionCommon.ExtensionAPI {
           xnote.ns.Storage.updateStoragePath();
           xnote.ns.Commons.checkXNoteTag();
         },
-
-
-
-        async getXNote(id) {
-          let note = {};
-          try {
-
-            let realMessage = context.extension.messageManager.get(id);
-            //         console.log("realmsg", realMessage.messageId );
-            note = new xnote.ns.Note(realMessage.messageId);
-            //         console.log("xnote", note);
-
-          } catch (ex) {
-            console.error(`Could not get TB mesg`);
-          }
-          return { text: note.text, date: note.modificationDate };
-        },
-
 
         async getTbPref(name) {
           try {
@@ -182,11 +208,10 @@ var xnoteapi = class extends ExtensionCommon.ExtensionAPI {
   onShutdown(isAppShutdown) {
     //    console.debug(`onShutdown: isAppShutdown=${isAppShutdown}`);
     if (isAppShutdown) return;
-
-    Components.utils.unload(xnoteExtension.rootURI.resolve("chrome/modules/xnote-upgrades.jsm"));
-    Components.utils.unload(xnoteExtension.rootURI.resolve("chrome/modules/storage.jsm"));
-    Components.utils.unload(xnoteExtension.rootURI.resolve("chrome/modules/commons.jsm"));
-    Components.utils.unload(xnoteExtension.rootURI.resolve("chrome/modules/xnote.jsm"));
+    
+    Components.utils.unload("resource://xnote/modules/dateformat.jsm");
+    Components.utils.unload("resource://xnote/modules/commons.jsm");
+    Components.utils.unload("resource://xnote/modules/xnote.jsm");
 
     // invalidate the startup cache, such that after updating the addon the old
     // version is no longer cached
