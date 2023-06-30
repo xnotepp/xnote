@@ -28,7 +28,9 @@
   - Remove the XNote labels associated to messages? No
 */
 
-var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
+var Services = globalThis.Services || ChromeUtils.import(
+  "resource://gre/modules/Services.jsm"
+).Services;
 var { xnote } = ChromeUtils.import("resource://xnote/modules/xnote.jsm");
 
 var xnoteOverlayObj = function () {
