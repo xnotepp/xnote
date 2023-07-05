@@ -6,7 +6,9 @@
   # Description : Functions associated with the XNote window (xnote-window.xul).
 */
 var { XPCOMUtils } = ChromeUtils.import("resource://gre/modules/XPCOMUtils.jsm");
-var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
+var Services = globalThis.Services || ChromeUtils.import(
+  "resource://gre/modules/Services.jsm"
+).Services;
 
 XPCOMUtils.defineLazyScriptGetter(
   this,

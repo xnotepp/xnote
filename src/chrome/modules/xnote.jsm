@@ -1,6 +1,8 @@
 //See https://developer.mozilla.org/en/Using_JavaScript_code_modules for explanation
 var EXPORTED_SYMBOLS = ["xnote"];
-var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
+var Services = globalThis.Services || ChromeUtils.import(
+  "resource://gre/modules/Services.jsm"
+).Services;
 
 var xnote = {
   ns: {}

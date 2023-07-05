@@ -1,5 +1,4 @@
 var { ExtensionCommon } = ChromeUtils.import("resource://gre/modules/ExtensionCommon.jsm"),
-  { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm"),
   win = Services.wm.getMostRecentWindow("mail:3pane");
 
 

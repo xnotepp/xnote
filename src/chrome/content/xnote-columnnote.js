@@ -6,7 +6,9 @@
   # Description : Functions associated with the XNote window (xnote-window.xul).
 */
 
-var { Services } = ChromeUtils.import("resource://gre/modules/Services.jsm");
+var Services = globalThis.Services || ChromeUtils.import(
+  "resource://gre/modules/Services.jsm"
+).Services;
 var { xnote } = ChromeUtils.import("resource://xnote/modules/xnote.jsm");
 
 var xnoteColumnObj = function () {
