@@ -1,12 +1,12 @@
 {
   "extensionName": {
     "message": "XNote++",
-    "description": "Name of the extension."
+    "description": "Nom de l'extension."
   },
 
   "extensionDescription": {
-    "message": "Add Post-It to your mails.",
-    "description": "Description of the extension."
+    "message": "Ajouter des Post-It à vos mails.",
+    "description": "Description de l'extension."
   },
   
   "preferences": { "message": "Préférences"},
@@ -17,7 +17,7 @@
   "Height": {"message": "Hauteur"},
   "Window.defPosition" : {"message": "Position par défaut d'une nouvelle note"},
   "Window.horPos" : {"message": "Horizontal"},
-  "Window.vertPos" : {"message": "Vertikal"},
+  "Window.vertPos" : {"message": "Vertical"},
   "storage.path": {"message": "Chemin de stockage des notes"},
   "Message.tag": {"message": "Étiquette de message"},
   "Name": {"message": "Nom"},
@@ -27,6 +27,6 @@
   "show.on.select": {"message": "Afficher la note du message sélectionné"},
   "show.first.x.chars.in.col": {"message": "Montrer les n premiers caractères de la note dans la colonne XNote"},
   "Select.storage.dir": {"message": "Veuillez sélectionner le dossier d'enregistrement des notes."},
-  "show.in.messageDisplay": {"message": "Show XNote summary in messsage display"}
+  "show.in.messageDisplay": {"message": "Afficher le résumé de la note en haut du mail"}
   
 }
