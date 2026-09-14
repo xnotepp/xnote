@@ -5,5 +5,5 @@
 <!ENTITY close 'Sauver et quitter'>
 <!ENTITY suppr 'Suppression de la note'>
 <!ENTITY xnote.ask.deletion 'Etes-vous sûr de vouloir supprimer cette note?'>
-<!ENTITY print 'Print note'>
-<!ENTITY forward 'Forward note by email'>
+<!ENTITY print 'Imprimer la note'>
+<!ENTITY forward 'Transférer la note par email'>
